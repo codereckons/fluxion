@@ -1,6 +1,3 @@
-# Prerequisites
-*.d
-
 # Compiled Object files
 *.slo
 *.lo
@@ -18,7 +15,6 @@
 
 # Fortran module files
 *.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -30,3 +26,21 @@
 *.exe
 *.out
 *.app
+
+# Backup
+*~
+*_
+*#
+
+# Setup
+.idea/
+*.sublime-*
+.vscode/*
+compile_commands.json
+
+# Potential local build repository
+*build*/
+Testing/*
+*.vscode/*
+doc/docs/*
+.cache/
