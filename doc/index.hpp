@@ -1,19 +1,16 @@
 #error DO NOT INCLUDE - DOCUMENTATION PURPOSE ONLY
 
 //==================================================================================================
-//! \mainpage The C++20 Compact Tuple Tools
+//! \mainpage Post-Modern Automatic Derivation
 //!
-//! **Fluxion** is C++20 implementation of a tuple-like class. It tries to be as close to
-//! `std::tuple` as possible but also wants to compile faster, uses a better C++20 oriented interface,
-//! and new features like:
+//! **Fluxion** is C++20 implementation of various numeric and automatic derivation:
 //!
-//!   -  a fast to compile tuple implementation
-//!   -  quality of life improvement over the standard tuple implementation
-//!   -  a protocol to adapt user-defined type to act as tuples
-//!   -  algorithm on tuples
+//!   - A generic customization point for declaring functions and their derivatives
+//!   - Integration with the [EVE](https://jfalcou.github.io/eve/) SIMD library
+//!   - Value-based automatic, forward derivation
+//!   - Expression-based analytical formula derivation
 //!
 //! # A Short Example
-//!
 //!
 //! # Licence
 //!
