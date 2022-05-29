@@ -45,7 +45,7 @@ include(${CPM_DOWNLOAD_LOCATION})
 ## Retrieve dependencies
 ##==================================================================================================
 CPMAddPackage ( NAME eve   GITHUB_REPOSITORY jfalcou/eve
-                GIT_TAG develop DOWNLOAD_ONLY TRUE
+                GIT_TAG main DOWNLOAD_ONLY TRUE
                 OPTIONS "EVE_BUILD_TEST OFF"
               )
 
@@ -69,6 +69,39 @@ target_compile_features(fluxion_lib INTERFACE cxx_std_20)
 add_library(fluxion::fluxion ALIAS fluxion_lib)
 
 ##==================================================================================================
-## Tests
+## Options
 ##==================================================================================================
-add_subdirectory(${PROJECT_SOURCE_DIR}/test/)
+option( FLUXION_BUILD_TEST  "Build tests for Fluxion" ON  )
+option( FLUXION_BUILD_DOCS  "Build docs  for Fluxion" OFF )
+
+##==================================================================================================
+## Test target
+##==================================================================================================
+if( FLUXION_BUILD_TEST )
+  include(CTest)
+  add_subdirectory(${PROJECT_SOURCE_DIR}/test/)
+endif()
+
+##==================================================================================================
+## Add Doxygen building target
+##==================================================================================================
+if( FLUXION_BUILD_DOCS )
+  find_package(Doxygen QUIET)
+
+  if (DOXYGEN_FOUND)
+    message( STATUS "[fluxion] Doxygen available")
+  else (DOXYGEN_FOUND)
+    message( STATUS "[fluxion] Doxygen need to be installed to generate the doxygen documentation")
+  endif (DOXYGEN_FOUND)
+
+
+  if (DOXYGEN_FOUND)
+    set(DOXYGEN_CONFIG ${PROJECT_SOURCE_DIR}/doc/Doxyfile)
+    add_custom_target ( fluxion-doxygen
+      COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CONFIG}
+      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doc
+      COMMENT "[fluxion] Generating API documentation with Doxygen"
+      VERBATIM
+    )
+  endif (DOXYGEN_FOUND)
+endif()
