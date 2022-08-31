@@ -1,21 +1,19 @@
 //==================================================================================================
-/*
-  EVE - Expressive Vector Engine
-  Copyright : EVE Project Contributors
-  SPDX-License-Identifier: BSL-1.0
-*/
+// Fluxion - Post-Modern Automatic Derivation
+// Copyright : Fluxion Project Contributors
+// SPDX-License-Identifier: BSL-1.0
 //==================================================================================================
 #pragma once
 #include <array>
 
-namespace eve::test
+namespace flx::test
 {
   template<typename T, typename Indexes> struct to_wide;
 
   template<typename T, std::size_t... N>
   struct to_wide<T, std::index_sequence<N...>>
   {
-    using type = ::tts::types<as_wide_t<T,eve::fixed<1ULL << N>>...>;
+    using type = ::tts::types<eve::as_wide_t<T,eve::fixed<1ULL << N>>...>;
   };
 
   template<typename T, typename I>
@@ -76,7 +74,7 @@ namespace eve::test
                               >;
 }
 
-namespace eve::test::scalar
+namespace flx::test::scalar
 {
   using ieee_reals        = ::tts::real_types;
   using signed_integers   = ::tts::int_types;
@@ -87,13 +85,13 @@ namespace eve::test::scalar
   using all_types         = ::tts::arithmetic_types;
 }
 
-namespace eve::test::simd
+namespace flx::test::simd
 {
-  using ieee_reals        = eve::test::wides<::tts::real_types>::type;
-  using signed_integers   = eve::test::wides<::tts::int_types>::type;
-  using signed_types      = eve::test::wides<::tts::signed_types>::type;
-  using signed_integers   = eve::test::wides<::tts::int_types>::type;
-  using unsigned_integers = eve::test::wides<::tts::uint_types>::type;
-  using integers          = eve::test::wides<::tts::integral_types>::type;
-  using all_types         = eve::test::wides<::tts::arithmetic_types>::type;
+  using ieee_reals        = flx::test::wides<::tts::real_types>::type;
+  using signed_integers   = flx::test::wides<::tts::int_types>::type;
+  using signed_types      = flx::test::wides<::tts::signed_types>::type;
+  using signed_integers   = flx::test::wides<::tts::int_types>::type;
+  using unsigned_integers = flx::test::wides<::tts::uint_types>::type;
+  using integers          = flx::test::wides<::tts::integral_types>::type;
+  using all_types         = flx::test::wides<::tts::arithmetic_types>::type;
 }

@@ -1,9 +1,7 @@
 //==================================================================================================
-/*
-  EVE - Expressive Vector Engine
-  Copyright : EVE Project Contributors
-  SPDX-License-Identifier: BSL-1.0
-*/
+// Fluxion - Post-Modern Automatic Derivation
+// Copyright : Fluxion Project Contributors
+// SPDX-License-Identifier: BSL-1.0
 //==================================================================================================
 #pragma once
 #define TTS_MAIN

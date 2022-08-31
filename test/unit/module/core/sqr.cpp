@@ -10,7 +10,7 @@
 //==================================================================================================
 // Types tests
 //==================================================================================================
-TTS_CASE_TPL("Check return types of eve::sqr", eve::test::simd::ieee_reals)
+TTS_CASE_TPL("Check return types of eve::sqr", flx::test::simd::ieee_reals)
 <typename T>(tts::type<T>)
 {
   using v_t = eve::element_type_t<T>;
@@ -22,7 +22,7 @@ TTS_CASE_TPL("Check return types of eve::sqr", eve::test::simd::ieee_reals)
 // Tests for eve::sqr
 //==================================================================================================
 TTS_CASE_WITH("Check behavior of eve::sqr(eve::wide)",
-              eve::test::simd::ieee_reals,
+              flx::test::simd::ieee_reals,
               tts::generate(tts::randoms(eve::valmin, eve::valmax)))
 <typename T>(T const& a0)
 {

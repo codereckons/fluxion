@@ -1,7 +1,7 @@
 ##==================================================================================================
-##  Fluxion - Post-Modern Automatic Derivation
-##  Copyright : Fluxion Contributors & Maintainers
-##  SPDX-License-Identifier: MIT
+## Fluxion - Post-Modern Automatic Derivation
+## Copyright : Fluxion Project Contributors
+## SPDX-License-Identifier: BSL-1.0
 ##==================================================================================================
 
 ##==================================================================================================
@@ -21,7 +21,7 @@ target_include_directories( fluxion_test INTERFACE
                             ${PROJECT_SOURCE_DIR}/include
                           )
 
-target_link_libraries(fluxion_test INTERFACE nucog_lib eve_lib)
+target_link_libraries(fluxion_test INTERFACE eve::eve)
 
 ##==================================================================================================
 ## Make test
