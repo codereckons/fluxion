@@ -47,6 +47,8 @@ include(${CPM_DOWNLOAD_LOCATION})
 CPMAddPackage ( NAME eve   GITHUB_REPOSITORY jfalcou/eve
                 GIT_TAG main
                 OPTIONS "EVE_BUILD_TEST OFF"
+                        "EVE_BUILD_BENCHMARKS OFF"
+                        "EVE_BUILD_DOCUMENTATION OFF"
               )
 
 # CPMAddPackage ( NAME nucog GITHUB_REPOSITORY jfalcou/nucog
