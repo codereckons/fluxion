@@ -9,25 +9,25 @@
 //==================================================================================================
 // Types tests
 //==================================================================================================
-TTS_CASE_TPL("Check return types of eve::sqr", flx::test::simd::ieee_reals)
+TTS_CASE_TPL("Check return types of eve::fanm", flx::test::simd::ieee_reals)
 <typename T>(tts::type<T>)
 {
   using v_t = eve::element_type_t<T>;
-  TTS_EXPR_IS( flx::diff(eve::sqr)(T())  , T  );
-  TTS_EXPR_IS( flx::diff(eve::sqr)(v_t()), v_t);
+  TTS_EXPR_IS( flx::diff(eve::fanm)(T())  , T  );
+  TTS_EXPR_IS( flx::diff(eve::fanm)(v_t()), v_t);
 };
 
 //==================================================================================================
-// Tests for eve::sqr
+// Tests for eve::fanm
 //==================================================================================================
-TTS_CASE_WITH("Check behavior of eve::sqr(eve::wide)",
+TTS_CASE_WITH("Check behavior of eve::fanm(eve::wide)",
               flx::test::simd::ieee_reals,
               tts::generate(tts::randoms(eve::valmin, eve::valmax)))
 <typename T>(T const& a0)
 {
-  using eve::sqr;
+  using eve::fanm;
   using eve::detail::map;
 
-  auto dsqr=[&](auto e) { return 2*e; };
-  TTS_ULP_EQUAL( flx::diff(eve::sqr)(a0), map(dsqr, a0), 0.5);
+  auto dfanm=[&](auto e) { return !!; }
+  TTS_ULP_EQUAL( flx::diff(eve::fanm)(a0), map(dfanm, a0), 0.5);
 };
