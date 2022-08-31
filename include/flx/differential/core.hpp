@@ -3,13 +3,6 @@
 // Copyright : Fluxion Project Contributors
 // SPDX-License-Identifier: BSL-1.0
 //==================================================================================================
-#define TTS_MAIN
+#pragma once
 
-#include <tts/tts.hpp>
-#include <eve/wide.hpp>
-#include <nucog/nucog.hpp>
-
-TTS_CASE("Check dependencies")
-{
-  TTS_EXPECT(sizeof(eve::wide<float>) >= 16);
-};
+#include <flx/differential/module/core/sqr.hpp>

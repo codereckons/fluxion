@@ -30,7 +30,7 @@ function(generate_test file)
   string(REPLACE ".cpp" ".exe" base ${file})
   string(REPLACE "/"    "." base ${base})
   string(REPLACE "\\"   "." base ${base})
-  set(test "fluxion-${base}")
+  set(test "flx-${base}")
 
   add_executable( ${test}  "${file}")
   target_link_libraries(${test} PUBLIC fluxion_test)
@@ -58,10 +58,10 @@ function(generate_test file)
                               ${PROJECT_SOURCE_DIR}/include
                             )
 
-  add_dependencies(fluxion-unit ${test})
+  add_dependencies(flx-unit ${test})
 endfunction()
 
-add_custom_target(fluxion-unit)
+add_custom_target(flx-unit)
 
 ##==================================================================================================
 ## Actual tests
