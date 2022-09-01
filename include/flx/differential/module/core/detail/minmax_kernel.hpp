@@ -1,10 +1,8 @@
-//==================================================================================================
-/*
-  EVE - Expressive Vector Engine
-  Copyright : EVE Contributors & Maintainers
-  SPDX-License-Identifier: MIT
-*/
-//==================================================================================================
+//================================================================================================== //!
+// Fluxion - Post-Modern Automatic Derivation                                                        //!
+// Copyright : Fluxion Project Contributors                                                          //!
+// SPDX-License-Identifier: BSL-1.0                                                                  //!
+//================================================================================================== //!
 #pragma once
 
 #include <eve/module/core.hpp>
