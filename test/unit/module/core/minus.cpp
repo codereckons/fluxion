@@ -28,6 +28,6 @@ TTS_CASE_WITH("Check behavior of eve::minus(eve::wide)",
   using eve::minus;
   using eve::detail::map;
 
-  auto dminus=[&](auto e) { return !!; }
+  auto dminus=[&](auto e) { return eve::mone(eve::as(e)); };
   TTS_ULP_EQUAL( flx::diff(eve::minus)(a0), map(dminus, a0), 0.5);
 };

@@ -28,6 +28,6 @@ TTS_CASE_WITH("Check behavior of eve::sqrt(eve::wide)",
   using eve::sqrt;
   using eve::detail::map;
 
-  auto dsqrt=[&](auto e) { return !!; }
-  TTS_ULP_EQUAL( flx::diff(eve::sqrt)(a0), map(dsqrt, a0), 0.5);
+  auto dsqrt=[&](auto e) { return eve::half(eve::as(e))*eve::rsqrt(e);  };
+  TTS_ULP_EQUAL( flx::diff(eve::sqrt)(a0), map(dsqrt, a0), 1.0);
 };

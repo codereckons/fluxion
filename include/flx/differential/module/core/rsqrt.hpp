@@ -15,7 +15,7 @@ namespace eve::detail
                                     , T x) noexcept
   {
     if constexpr( has_native_abi_v<T> )
-      return 3*mhalf(as(x))*rec(sqrt(x)*x);
+      return mhalf(as(x))*rec(sqrt(x)*x);
     else
       return apply_over(flx::diff_1st(rsqrt), x);
 

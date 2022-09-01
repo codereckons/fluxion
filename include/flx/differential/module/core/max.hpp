@@ -6,6 +6,7 @@
 #pragma once
 #include <flx/differential/diff.hpp>
 #include <eve/module/core.hpp>
+#include <flx/differential/module/core/detail/minmax_kernel.hpp>
 
 namespace eve::detail
 {

@@ -31,8 +31,8 @@ TTS_CASE_WITH("Check behavior of eve::sub(eve::wide)",
   using eve::sub;
   using eve::detail::map;
 
-  auto dsub1=[&](auto e, auto) { return eve::one(eve::as(e)); };
-  auto dsub2=[&](auto e, auto) { return eve::mone(eve::as(e)); };
+  auto dsub1=[&](auto e, auto ) { return eve::one(eve::as(e)); };
+  auto dsub2=[&](auto , auto f) { return eve::mone(eve::as(f)); };
   TTS_ULP_EQUAL( flx::diff_1st(eve::sub)(a0, a1), map(dsub1, a0, a1), 0.5);
   TTS_ULP_EQUAL( flx::diff_2nd(eve::sub)(a0, a1), map(dsub2, a0, a1), 0.5);
 };

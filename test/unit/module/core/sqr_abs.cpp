@@ -28,6 +28,6 @@ TTS_CASE_WITH("Check behavior of eve::sqr_abs(eve::wide)",
   using eve::sqr_abs;
   using eve::detail::map;
 
-  auto dsqr_abs=[&](auto e) { return !!; }
+  auto dsqr_abs=[&](auto e) { return 2*e; };
   TTS_ULP_EQUAL( flx::diff(eve::sqr_abs)(a0), map(dsqr_abs, a0), 0.5);
 };

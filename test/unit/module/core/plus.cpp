@@ -28,6 +28,6 @@ TTS_CASE_WITH("Check behavior of eve::plus(eve::wide)",
   using eve::plus;
   using eve::detail::map;
 
-  auto dplus=[&](auto e) { return !!; }
+  auto dplus=[&](auto e) { return eve::one(eve::as(e)); };
   TTS_ULP_EQUAL( flx::diff(eve::plus)(a0), map(dplus, a0), 0.5);
 };

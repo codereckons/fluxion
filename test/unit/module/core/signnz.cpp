@@ -28,6 +28,6 @@ TTS_CASE_WITH("Check behavior of eve::signnz(eve::wide)",
   using eve::signnz;
   using eve::detail::map;
 
-  auto dsignnz=[&](auto e) { return !!; }
+  auto dsignnz=[&](auto e) { return eve::zero(eve::as(e)); };
   TTS_ULP_EQUAL( flx::diff(eve::signnz)(a0), map(dsignnz, a0), 0.5);
 };

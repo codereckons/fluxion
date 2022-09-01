@@ -28,6 +28,6 @@ TTS_CASE_WITH("Check behavior of eve::oneminus(eve::wide)",
   using eve::oneminus;
   using eve::detail::map;
 
-  auto doneminus=[&](auto e) { return !!; }
+  auto doneminus=[&](auto e) {return eve::mone(eve::as(e)); };
   TTS_ULP_EQUAL( flx::diff(eve::oneminus)(a0), map(doneminus, a0), 0.5);
 };

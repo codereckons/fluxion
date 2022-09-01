@@ -13,8 +13,8 @@ TTS_CASE_TPL("Check return types of eve::negabsmax", flx::test::simd::ieee_reals
 <typename T>(tts::type<T>)
 {
   using v_t = eve::element_type_t<T>;
-  TTS_EXPR_IS( flx::diff(eve::negabsmax)(T())  , T  );
-  TTS_EXPR_IS( flx::diff(eve::negabsmax)(v_t()), v_t);
+  TTS_EXPR_IS( flx::diff(eve::negabsmax)(T(), T())  , T  );
+  TTS_EXPR_IS( flx::diff(eve::negabsmax)(v_t(), v_t()), v_t);
 };
 
 //==================================================================================================
@@ -22,12 +22,17 @@ TTS_CASE_TPL("Check return types of eve::negabsmax", flx::test::simd::ieee_reals
 //==================================================================================================
 TTS_CASE_WITH("Check behavior of eve::negabsmax(eve::wide)",
               flx::test::simd::ieee_reals,
-              tts::generate(tts::randoms(eve::valmin, eve::valmax)))
-<typename T>(T const& a0)
+              tts::generate(tts::randoms(eve::valmin, eve::valmax),
+                            tts::randoms(eve::valmin, eve::valmax)
+                           )
+             )
+<typename T>(T const& a0, T const& a1)
 {
   using eve::negabsmax;
   using eve::detail::map;
 
-  auto dnegabsmax=[&](auto e) { return !!; }
-  TTS_ULP_EQUAL( flx::diff(eve::negabsmax)(a0), map(dnegabsmax, a0), 0.5);
+  auto dnegabsmax1=[&](auto e, auto f) { return -flx::diff_1st(eve::max)(e, f)*eve::sign(e); };
+  auto dnegabsmax2=[&](auto e, auto f) { return -flx::diff_2nd(eve::max)(e, f)*eve::sign(f); };
+  TTS_ULP_EQUAL( flx::diff_1st(eve::negabsmax)(a0, a1), map(dnegabsmax1, a0, a1), 0.5);
+  TTS_ULP_EQUAL( flx::diff_2nd(eve::negabsmax)(a0, a1), map(dnegabsmax2, a0, a1), 0.5);
 };
