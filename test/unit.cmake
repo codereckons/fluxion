@@ -57,3 +57,7 @@ generate_test("unit/module/core/sqr.cpp"                    )
 generate_test("unit/module/core/sqrt.cpp"                   )
 generate_test("unit/module/core/sub.cpp"                    )
 generate_test("unit/module/core/trunc.cpp"                  )
+
+##==================================================================================================
+## module/math tests
+##==================================================================================================
