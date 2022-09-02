@@ -1,7 +1,7 @@
 ##==================================================================================================
-##  Fluxion - Post-Modern Automatic Derivation
-##  Copyright : Fluxion Contributors & Maintainers
-##  SPDX-License-Identifier: MIT
+## Fluxion - Post-Modern Automatic Derivation
+## Copyright : Fluxion Project Contributors
+## SPDX-License-Identifier: BSL-1.0
 ##==================================================================================================
 cmake_minimum_required(VERSION 3.2)
 
@@ -45,14 +45,16 @@ include(${CPM_DOWNLOAD_LOCATION})
 ## Retrieve dependencies
 ##==================================================================================================
 CPMAddPackage ( NAME eve   GITHUB_REPOSITORY jfalcou/eve
-                GIT_TAG main DOWNLOAD_ONLY TRUE
+                GIT_TAG main
                 OPTIONS "EVE_BUILD_TEST OFF"
+                        "EVE_BUILD_BENCHMARKS OFF"
+                        "EVE_BUILD_DOCUMENTATION OFF"
               )
 
-CPMAddPackage ( NAME nucog GITHUB_REPOSITORY jfalcou/nucog
-                GIT_TAG main    DOWNLOAD_ONLY TRUE
-                OPTIONS "NUCOG_BUILD_TEST OFF"
-              )
+# CPMAddPackage ( NAME nucog GITHUB_REPOSITORY jfalcou/nucog
+#                 GIT_TAG main    DOWNLOAD_ONLY TRUE
+#                 OPTIONS "NUCOG_BUILD_TEST OFF"
+#               )
 
 ## =================================================================================================
 ## Install target

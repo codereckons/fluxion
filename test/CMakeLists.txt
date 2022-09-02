@@ -1,7 +1,7 @@
 ##==================================================================================================
-##  Fluxion - Post-Modern Automatic Derivation
-##  Copyright : Fluxion Contributors & Maintainers
-##  SPDX-License-Identifier: MIT
+## Fluxion - Post-Modern Automatic Derivation
+## Copyright : Fluxion Project Contributors
+## SPDX-License-Identifier: BSL-1.0
 ##==================================================================================================
 
 ##==================================================================================================
@@ -21,7 +21,7 @@ target_include_directories( fluxion_test INTERFACE
                             ${PROJECT_SOURCE_DIR}/include
                           )
 
-target_link_libraries(fluxion_test INTERFACE nucog_lib eve_lib)
+target_link_libraries(fluxion_test INTERFACE eve::eve)
 
 ##==================================================================================================
 ## Make test
@@ -30,7 +30,7 @@ function(generate_test file)
   string(REPLACE ".cpp" ".exe" base ${file})
   string(REPLACE "/"    "." base ${base})
   string(REPLACE "\\"   "." base ${base})
-  set(test "fluxion-${base}")
+  set(test "flx-${base}")
 
   add_executable( ${test}  "${file}")
   target_link_libraries(${test} PUBLIC fluxion_test)
@@ -58,10 +58,10 @@ function(generate_test file)
                               ${PROJECT_SOURCE_DIR}/include
                             )
 
-  add_dependencies(fluxion-unit ${test})
+  add_dependencies(flx-unit ${test})
 endfunction()
 
-add_custom_target(fluxion-unit)
+add_custom_target(flx-unit)
 
 ##==================================================================================================
 ## Actual tests
