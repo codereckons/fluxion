@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::atand(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto datand = [&](auto e) { return eve::radindeg(eve::imag(eve::atan(c_t(e,eps)))/eps); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::atand)(a0), map(datand, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::atand)(a0), map(datand, a0), 2.0);
 };

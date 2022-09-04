@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::asecd(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto dasecd = [&](auto e) { return eve::radindeg(eve::imag(eve::acos(eve::rec(c_t(e,eps))))/eps); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::asecd)(a0), map(dasecd, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::asecd)(a0), map(dasecd, a0), 2.0);
 };

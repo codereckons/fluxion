@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::asinh(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto dasinh = [&](auto e) { return eve::imag(asinh(c_t(e,eps)))/eps; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::asinh)(a0), map(dasinh, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::asinh)(a0), map(dasinh, a0), 2.0);
 };

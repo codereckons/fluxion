@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::sinpi(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto dsinpi = [&](auto e) { return eve::imag(sinpi(c_t(e,eps)))/eps; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::sinpi)(a0), map(dsinpi, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::sinpi)(a0), map(dsinpi, a0), 2.0);
 };

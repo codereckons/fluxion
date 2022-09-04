@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::acospi(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto dacospi = [&](auto e) { return eve::radinpi(eve::imag(eve::acos(c_t(e,eps))))/eps; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::acospi)(a0), map(dacospi, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::acospi)(a0), map(dacospi, a0), 2.0);
 };

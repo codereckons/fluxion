@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::exp2(eve::wide)",
   using eve::detail::map;
 
   auto dexp2 = [&](auto e) { return eve::exp2(e)*eve::log_2(eve::as(e)); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::exp2)(a0), map(dexp2, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::exp2)(a0), map(dexp2, a0), 2.0);
 };

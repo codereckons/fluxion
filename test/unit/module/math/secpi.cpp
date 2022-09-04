@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::secpi(eve::wide)",
   using eve::detail::map;
 
   auto dsecpi = [&](auto e) { return eve::pi(eve::as(e))*(eve::secpi(e)*eve::tanpi(e)); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::secpi)(a0), map(dsecpi, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::secpi)(a0), map(dsecpi, a0), 2.0);
 };

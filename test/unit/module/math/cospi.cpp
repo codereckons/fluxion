@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::cospi(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto dcospi = [&](auto e) { return eve::imag(cospi(c_t(e,eps)))/eps; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::cospi)(a0), map(dcospi, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::cospi)(a0), map(dcospi, a0), 2.0);
 };

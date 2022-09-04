@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::log2(eve::wide)",
   using eve::detail::map;
 
   auto dlog2 = [&](auto e) { return eve::rec(e)/eve::log_2(eve::as(e)); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::log2)(a0), map(dlog2, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::log2)(a0), map(dlog2, a0), 2.0);
 };

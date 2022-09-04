@@ -32,6 +32,6 @@ TTS_CASE_WITH("Check behavior of eve::sincos(eve::wide)",
   using eve::detail::map;
 
   auto [ds, dc] = flx::diff_1st(eve::sincos)(a0);
-  TTS_ULP_EQUAL(ds, eve::cos(a0), 1.0);
-  TTS_ULP_EQUAL(dc, -eve::sin(a0), 1.0);
+  TTS_ULP_EQUAL(ds, eve::cos(a0), 2.0);
+  TTS_ULP_EQUAL(dc, -eve::sin(a0), 2.0);
 };

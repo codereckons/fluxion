@@ -34,6 +34,6 @@ TTS_CASE_WITH("Check behavior of eve::logspace_add(eve::wide)",
 
   auto dlogspace_add1 = [&](auto x, auto y) { return eve::rec(eve::inc(eve::exp(y-x))); };
   auto dlogspace_add2 = [&](auto x, auto y) { return eve::rec(eve::inc(eve::exp(x-y))); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::logspace_add)(a0, a1), map(dlogspace_add1, a0, a1), 1.0);
-  TTS_ULP_EQUAL(flx::diff_2nd(eve::logspace_add)(a0, a1), map(dlogspace_add2, a0, a1), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::logspace_add)(a0, a1), map(dlogspace_add1, a0, a1), 2.0);
+  TTS_ULP_EQUAL(flx::diff_2nd(eve::logspace_add)(a0, a1), map(dlogspace_add2, a0, a1), 2.0);
 };

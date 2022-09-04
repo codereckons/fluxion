@@ -35,6 +35,6 @@ TTS_CASE_WITH("Check behavior of eve::lpnorm(eve::wide)",
 
   auto dlpnorm1 = [&](auto p, auto x, auto y) { auto h = eve::pow_abs(eve::lpnorm(p, x, y), eve::oneminus(p)); return eve::pow_abs(x, eve::dec(p))*h; };
   auto dlpnorm2 = [&](auto p, auto x, auto y) { auto h = eve::pow_abs(eve::lpnorm(p, x, y), eve::oneminus(p)); return eve::pow_abs(y, eve::dec(p))*h; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::lpnorm)(rp, a0, a1), map(dlpnorm1, rp, a0, a1), 15.0);
-  TTS_ULP_EQUAL(flx::diff_2nd(eve::lpnorm)(rp, a0, a1), map(dlpnorm2, rp, a0, a1), 15.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::lpnorm)(rp, a0, a1), map(dlpnorm1, rp, a0, a1), 20.0);
+  TTS_ULP_EQUAL(flx::diff_2nd(eve::lpnorm)(rp, a0, a1), map(dlpnorm2, rp, a0, a1), 20.0);
 };

@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::sinc(eve::wide)",
   using eve::detail::map;
 
   auto dsinc = [&](auto x) { return eve::cos(x)/x - eve::sin(x)/eve::sqr(x); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::sinc)(a0), map(dsinc, a0), 30.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::sinc)(a0), map(dsinc, a0), 70.0);
 };

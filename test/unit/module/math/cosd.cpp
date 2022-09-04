@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::cosd(eve::wide)",
   using eve::detail::map;
 
   auto dcosd = [&](auto e) { return  -eve::deginrad(eve::sind(e)); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::cosd)(a0), map(dcosd, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::cosd)(a0), map(dcosd, a0), 2.0);
 };

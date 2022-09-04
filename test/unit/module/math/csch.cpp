@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::csch(eve::wide)",
   using eve::detail::map;
 
   auto dcsch = [&](auto e) { return -eve::csch(e)*eve::coth(e); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::csch)(a0), map(dcsch, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::csch)(a0), map(dcsch, a0), 2.0);
 };

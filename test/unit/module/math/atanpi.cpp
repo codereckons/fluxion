@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::atanpi(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto datanpi = [&](auto e) { return eve::radinpi(eve::imag(eve::atan(c_t(e,eps)))/eps); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::atanpi)(a0), map(datanpi, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::atanpi)(a0), map(datanpi, a0), 2.0);
 };

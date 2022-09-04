@@ -35,7 +35,7 @@ TTS_CASE_WITH("Check behavior of eve::atan2(eve::wide)",
 
   auto datan21 = [&](auto x, auto y) { return eve::rec(eve::sqr(x)+eve::sqr(y))*y; };
   auto datan22 = [&](auto x, auto y) { return eve::rec(eve::sqr(x)+eve::sqr(y))*x; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::atan2)(a0, a1), map(datan21, a0, a1), 1.0);
-  TTS_ULP_EQUAL(flx::diff_2nd(eve::atan2)(a0, a1), map(datan22, a0, a1), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::atan2)(a0, a1), map(datan21, a0, a1), 2.0);
+  TTS_ULP_EQUAL(flx::diff_2nd(eve::atan2)(a0, a1), map(datan22, a0, a1), 2.0);
 
 };

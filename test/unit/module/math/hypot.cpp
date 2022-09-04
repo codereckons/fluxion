@@ -35,6 +35,6 @@ TTS_CASE_WITH("Check behavior of eve::hypot(eve::wide)",
 
   auto dhypot1 = [&](auto e, auto f) { auto x = eve::sqr(e)+eve::sqr(f); return eve::half(eve::as(x))*eve::rsqrt(x)*2*e; };
   auto dhypot2 = [&](auto e, auto f) { auto x = eve::sqr(e)+eve::sqr(f); return eve::half(eve::as(x))*eve::rsqrt(x)*2*f; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::hypot)(a0, a1), map(dhypot1, a0, a1), 1.0);
-  TTS_ULP_EQUAL(flx::diff_2nd(eve::hypot)(a0, a1), map(dhypot2, a0, a1), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::hypot)(a0, a1), map(dhypot1, a0, a1), 2.0);
+  TTS_ULP_EQUAL(flx::diff_2nd(eve::hypot)(a0, a1), map(dhypot2, a0, a1), 2.0);
 };

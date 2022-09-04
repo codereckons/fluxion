@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::secd(eve::wide)",
   using eve::detail::map;
 
   auto dsecd = [&](auto e) { return eve::deginrad(eve::secd(e)*eve::tand(e)); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::secd)(a0), map(dsecd, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::secd)(a0), map(dsecd, a0), 2.0);
 };

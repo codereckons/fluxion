@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::csc(eve::wide)",
   using eve::detail::map;
 
   auto dcsc = [&](auto e) { return -eve::csc(e)*eve::cot(e); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::csc)(a0), map(dcsc, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::csc)(a0), map(dcsc, a0), 2.0);
 };

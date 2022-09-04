@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::coth(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto dcoth = [&](auto e) { return eve::imag(coth(c_t(e,eps)))/eps; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::coth)(a0), map(dcoth, a0), 2.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::coth)(a0), map(dcoth, a0), 3.0);
 };

@@ -30,10 +30,7 @@ TTS_CASE_WITH("Check behavior of eve::tan(eve::wide)",
 {
   using eve::tan;
   using eve::detail::map;
-  using e_t = eve::element_type_t<T>;
-  using c_t = eve::complex<e_t>;
 
-  auto eps = eve::eps(eve::as<e_t>());
-  auto dtan = [&](auto e) { return eve::imag(tan(c_t(e,eps)))/eps; };
+  auto dtan = [&](auto e) {  return eve::sqr(eve::sec(e)); };
   TTS_ULP_EQUAL(flx::diff_1st(eve::tan)(a0), map(dtan, a0), 20.0);
 };

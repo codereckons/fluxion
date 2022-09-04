@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::arg(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto darg = [&](auto e) { return eve::imag(arg(c_t(e,eps)))/eps; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::arg)(a0), map(darg, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::arg)(a0), map(darg, a0), 2.0);
 };

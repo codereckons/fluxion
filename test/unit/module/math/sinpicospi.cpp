@@ -32,6 +32,6 @@ TTS_CASE_WITH("Check behavior of eve::sinpicospi(eve::wide)",
   using eve::detail::map;
 
   auto [ds, dc] = flx::diff_1st(eve::sinpicospi)(a0);
-  TTS_ULP_EQUAL(ds, flx::diff(eve::sinpi)(a0), 1.0);
-  TTS_ULP_EQUAL(dc, flx::diff(eve::cospi)(a0), 1.0);
+  TTS_ULP_EQUAL(ds, flx::diff(eve::sinpi)(a0), 2.0);
+  TTS_ULP_EQUAL(dc, flx::diff(eve::cospi)(a0), 2.0);
 };

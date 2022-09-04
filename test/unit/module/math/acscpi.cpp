@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::acscpi(eve::wide)",
   using eve::detail::map;
 
   auto dacscpi = [&](auto e) { return eve::radinpi(flx::diff(eve::acsc)(e)); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::acscpi)(a0), map(dacscpi, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::acscpi)(a0), map(dacscpi, a0), 2.0);
 };

@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::atanh(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto datanh = [&](auto e) { return eve::imag(atanh(c_t(e,eps)))/eps; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::atanh)(a0), map(datanh, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::atanh)(a0), map(datanh, a0), 2.0);
 };

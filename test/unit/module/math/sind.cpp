@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::sind(eve::wide)",
   using eve::detail::map;
 
   auto dsind = [&](auto e) { return  eve::deginrad(eve::cosd(e)); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::sind)(a0), map(dsind, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::sind)(a0), map(dsind, a0), 2.0);
 };

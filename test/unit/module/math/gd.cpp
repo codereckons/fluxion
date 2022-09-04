@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::gd(eve::wide)",
   using eve::detail::map;
 
   auto dgd = [&](auto e) { return eve::sech(e); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::gd)(a0), map(dgd, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::gd)(a0), map(dgd, a0), 2.0);
 };

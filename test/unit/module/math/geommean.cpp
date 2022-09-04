@@ -35,6 +35,6 @@ TTS_CASE_WITH("Check behavior of eve::geommean(eve::wide)",
 
   auto dgeommean1 = [&](auto e, auto f) { return flx::diff(eve::sqrt)(e*f)*f; };
   auto dgeommean2 = [&](auto e, auto f) { return flx::diff(eve::sqrt)(e*f)*e; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::geommean)(a0, a1), map(dgeommean1, a0, a1), 1.0);
-  TTS_ULP_EQUAL(flx::diff_2nd(eve::geommean)(a0, a1), map(dgeommean2, a0, a1), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::geommean)(a0, a1), map(dgeommean1, a0, a1), 2.0);
+  TTS_ULP_EQUAL(flx::diff_2nd(eve::geommean)(a0, a1), map(dgeommean2, a0, a1), 2.0);
 };

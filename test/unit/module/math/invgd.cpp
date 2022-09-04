@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::invgd(eve::wide)",
   using eve::detail::map;
 
   auto dinvgd = [&](auto e) { return eve::sec(e); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::invgd)(a0), map(dinvgd, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::invgd)(a0), map(dinvgd, a0), 2.0);
 };

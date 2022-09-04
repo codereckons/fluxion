@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::asech(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto dasech = [&](auto e) { return eve::imag(eve::acosh(eve::rec(c_t(e,eps))))/eps; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::asech)(a0), map(dasech, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::asech)(a0), map(dasech, a0), 2.0);
 };

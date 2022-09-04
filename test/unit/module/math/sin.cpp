@@ -35,5 +35,5 @@ TTS_CASE_WITH("Check behavior of eve::sin(eve::wide)",
 
   auto eps = eve::eps(eve::as<e_t>());
   auto dsin = [&](auto e) { return eve::imag(sin(c_t(e,eps)))/eps; };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::sin)(a0), map(dsin, a0), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::sin)(a0), map(dsin, a0), 2.0);
 };

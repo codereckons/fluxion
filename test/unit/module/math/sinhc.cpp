@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::sinhc(eve::wide)",
   using eve::detail::map;
 
   auto dsinhc = [&](auto x) { return eve::cosh(x)/x - eve::sinh(x)/eve::sqr(x); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::sinhc)(a0), map(dsinhc, a0), 30.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::sinhc)(a0), map(dsinhc, a0), 70.0);
 };

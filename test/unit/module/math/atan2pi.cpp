@@ -34,7 +34,7 @@ TTS_CASE_WITH("Check behavior of eve::atan2pi(eve::wide)",
 
   auto datan2pi1 = [&](auto x, auto y) { return eve::radinpi(eve::rec(eve::sqr(x)+eve::sqr(y))*y); };
   auto datan2pi2 = [&](auto x, auto y) { return eve::radinpi(eve::rec(eve::sqr(x)+eve::sqr(y))*x); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::atan2pi)(a0, a1), map(datan2pi1, a0, a1), 1.0);
-  TTS_ULP_EQUAL(flx::diff_2nd(eve::atan2pi)(a0, a1), map(datan2pi2, a0, a1), 1.0);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::atan2pi)(a0, a1), map(datan2pi1, a0, a1), 2.0);
+  TTS_ULP_EQUAL(flx::diff_2nd(eve::atan2pi)(a0, a1), map(datan2pi2, a0, a1), 2.0);
 
 };
