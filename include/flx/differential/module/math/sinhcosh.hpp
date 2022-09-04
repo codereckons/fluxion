@@ -21,7 +21,7 @@ namespace eve::detail
     }
     else
     {
-      return apply_over2(sinhcosh, x);
+      return apply_over2(flx::diff(sinhcosh), x);
     }
   }
 

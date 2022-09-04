@@ -21,7 +21,7 @@ namespace eve::detail
     }
     else
     {
-      return apply_over2(sinpicospi, x);
+      return apply_over2(flx::diff(sinpicospi), x);
     }
   }
 
