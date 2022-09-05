@@ -44,10 +44,10 @@ namespace eve::detail
   {
     using r_t = common_compatible_t<T0, T1, T2, Ts...>;
     auto n = sizeof...(args)+1;
-    r_t that(fma(n*x, a, (n-1)*b));
+     r_t that(fma(n*x, a, (n-1)*b));
     --n;
     auto next = [x, &n](auto that, auto arg){
-      return fma(x, that, --n*arg);
+      return --n ? fma(x, that, n*arg) : that;
     };
     ((that = next(that, args)),...);
     return that;
