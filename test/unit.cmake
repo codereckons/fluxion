@@ -143,3 +143,14 @@ generate_test("unit/module/math/tan.cpp"                   )
 generate_test("unit/module/math/tand.cpp"                  )
 generate_test("unit/module/math/tanh.cpp"                  )
 generate_test("unit/module/math/tanpi.cpp"                 )
+##==================================================================================================
+## module/polynomial tests
+##==================================================================================================
+generate_test("unit/module/polynomial/gegenbauer.cpp"       )
+generate_test("unit/module/polynomial/hermite.cpp"          )
+generate_test("unit/module/polynomial/horner.cpp"           )
+generate_test("unit/module/polynomial/jacobi.cpp"           )
+generate_test("unit/module/polynomial/laguerre.cpp"         )
+generate_test("unit/module/polynomial/legendre.cpp"         )
+generate_test("unit/module/polynomial/reverse_horner.cpp"   )
+generate_test("unit/module/polynomial/tchebytchev.cpp"      )
