@@ -5,6 +5,7 @@
 //================================================================================================== //!
 #pragma once
 #include <flx/differential/diff.hpp>
+#include <eve/module/polynomial.hpp>
 #include <boost/math/special_functions/gegenbauer.hpp>
 
 namespace eve::detail
