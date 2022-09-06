@@ -6,6 +6,7 @@
 #pragma once
 #include <flx/differential/diff.hpp>
 #include <eve/module/math.hpp>
+#include <eve/algo.hpp>
 
 namespace eve::detail
 {
@@ -36,20 +37,15 @@ namespace eve::detail
 
   template<value T0,
            value T1,
-           value T2,
            value ...Ts>
-           EVE_FORCEINLINE constexpr auto reverse_horner_(EVE_SUPPORTS(cpu_)
-                                                         , flx::diff_type<1> const &
-                                                         , T0 x, T1 a, T2 b, Ts... args) noexcept
+  EVE_FORCEINLINE constexpr auto reverse_horner_(EVE_SUPPORTS(cpu_)
+                                                , flx::diff_type<1> const &
+                                                , T0 xx, T1 , Ts... cs) noexcept
   {
-    using r_t = common_compatible_t<T0, T1, T2, Ts...>;
-    auto preverse_horner = pedantic(reverse_horner);
-    auto n = sizeof...(args)+1;
-    r_t that(preverse_horner(n*x, a, b));
-    auto next = [&x, &n,  &preverse_horner](auto that, auto arg){
-      return preverse_horner(--n*x, that, arg);
-    };
-    ((that = next(that, args)),...);
-    return that;
+    using r_t = common_compatible_t<T0, Ts...>;
+    auto x = r_t(xx);
+    auto n = 0;
+    std::array<r_t, sizeof...(cs)> c {(r_t(cs)*++n)...};
+    return reverse_horner(x, c);
   }
 }
