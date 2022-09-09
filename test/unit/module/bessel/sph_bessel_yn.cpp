@@ -21,7 +21,6 @@ TTS_CASE_TPL("Check return types of eve::sph_bessel_yn", flx::test::simd::ieee_r
   TTS_EXPR_IS(flx::diff(eve::sph_bessel_yn)(i_t(), T()), T);
   TTS_EXPR_IS(flx::diff(eve::sph_bessel_yn)(I_t(), T()), T);
   TTS_EXPR_IS(flx::diff(eve::sph_bessel_yn)(i_t(), v_t()), v_t);
-  TTS_EXPR_IS(flx::diff(eve::sph_bessel_yn)(I_t(), v_t()), T);
 };
 
 //==================================================================================================
@@ -30,14 +29,16 @@ TTS_CASE_TPL("Check return types of eve::sph_bessel_yn", flx::test::simd::ieee_r
 TTS_CASE_WITH("Check behavior of eve::sph_bessel_yn(eve::wide)",
               flx::test::simd::ieee_reals,
               tts::generate(tts::ramp(0)
-                          , tts::randoms(0.0,10.0)
+                          , tts::randoms(5.0,10.0)
                            )
               )
-<typename I,typename T>(I const & i,T const& a0, T const & a1)
+<typename I,typename T>(I  i,T const& a0)
 {
-  using eve::sph_bessel_yn;
+
+ using v_t = eve::element_type_t<T>;
+ using eve::sph_bessel_yn;
   using eve::detail::map;
 
-  auto dsph_bessel_yn = [&](auto i, auto e, auto f) { return boost::math::sph_bessel_yn_prime(i, e, f); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::sph_bessel_yn)(i, a0, a1), map(dsph_bessel_yn, a0, a1), 0.5);
+  auto dsph_bessel_yn = [&](auto i, auto e)->v_t{ return boost::math::sph_neumann_prime(i, double(e)); };
+  TTS_RELATIVE_EQUAL(flx::diff_1st(eve::sph_bessel_yn)(i, a0), map(dsph_bessel_yn, i, a0), 1.0e-3);
 };

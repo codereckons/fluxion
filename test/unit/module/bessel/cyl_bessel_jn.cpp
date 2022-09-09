@@ -21,7 +21,6 @@ TTS_CASE_TPL("Check return types of eve::cyl_bessel_jn", flx::test::simd::ieee_r
   TTS_EXPR_IS(flx::diff(eve::cyl_bessel_jn)(i_t(), T()), T);
   TTS_EXPR_IS(flx::diff(eve::cyl_bessel_jn)(I_t(), T()), T);
   TTS_EXPR_IS(flx::diff(eve::cyl_bessel_jn)(i_t(), v_t()), v_t);
-  TTS_EXPR_IS(flx::diff(eve::cyl_bessel_jn)(I_t(), v_t()), T);
 };
 
 //==================================================================================================
@@ -33,11 +32,11 @@ TTS_CASE_WITH("Check behavior of eve::cyl_bessel_jn(eve::wide)",
                           , tts::randoms(0.0,10.0)
                            )
               )
-<typename I,typename T>(I const & i,T const& a0, T const & a1)
+<typename I,typename T>(I const & i0,T const& a0)
 {
   using eve::cyl_bessel_jn;
   using eve::detail::map;
 
-  auto dcyl_bessel_jn = [&](auto i, auto e, auto f) { return boost::math::cyl_bessel_jn_prime(i, e, f); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::cyl_bessel_jn)(i, a0, a1), map(dcyl_bessel_jn, a0, a1), 0.5);
+  auto dcyl_bessel_jn = [&](auto i, auto e) { return boost::math::cyl_bessel_j_prime(i, e); };
+  TTS_RELATIVE_EQUAL(flx::diff_1st(eve::cyl_bessel_jn)(i0, a0), map(dcyl_bessel_jn, i0, a0), 1.0e-4);
 };

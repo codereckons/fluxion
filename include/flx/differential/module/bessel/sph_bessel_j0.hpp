@@ -5,7 +5,9 @@
 //================================================================================================== //!
 #pragma once
 #include <flx/differential/diff.hpp>
+#include <flx/differential/math.hpp>
 #include <eve/module/bessel.hpp>
+#include <eve/module/math.hpp>
 
 namespace eve::detail
 {
@@ -15,6 +17,6 @@ namespace eve::detail
                                             , flx::diff_type<1> const &
                                             , T const &x) noexcept
   {
-    return flx::diff(sinc)(x);
+    return flx::diff(eve::sinc)(x);
   }
 }
