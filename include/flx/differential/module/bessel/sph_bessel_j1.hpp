@@ -10,6 +10,7 @@
 namespace eve::detail
 {
 
+
   template<floating_real_value T>
   EVE_FORCEINLINE constexpr T sph_bessel_j1_(EVE_SUPPORTS(cpu_)
                                   , flx::diff_type<1> const &
