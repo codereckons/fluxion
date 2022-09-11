@@ -25,7 +25,7 @@ TTS_CASE_TPL("Check return types of eve::sph_bessel_j1", flx::test::simd::ieee_r
 //==================================================================================================
 TTS_CASE_WITH("Check behavior of eve::sph_bessel_j1(eve::wide)",
               flx::test::simd::ieee_reals,
-              tts::generate(tts::randoms(0.1,10.0)
+              tts::generate(tts::randoms(0.0,10.0)
                            )
               )
 <typename T>(T const& a0)
@@ -35,7 +35,7 @@ TTS_CASE_WITH("Check behavior of eve::sph_bessel_j1(eve::wide)",
   using v_t = eve::element_type_t<T>;
 
   auto dsph_bessel_j1 = [&](auto e) ->v_t{ return boost::math::sph_bessel_prime(1, double(e)); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::sph_bessel_j1)(a0), map(dsph_bessel_j1, a0), 50)
+  TTS_ULP_EQUAL(flx::diff_1st(eve::sph_bessel_j1)(a0), map(dsph_bessel_j1, a0), 80.0)
     << "-> " << std::setprecision(15) << a0 << '\n'
     << "-> " << "flx   " << flx::diff_1st(eve::sph_bessel_j1)(a0)<< '\n'
     << "-> " << "boost " << map(dsph_bessel_j1, a0)<< '\n';
