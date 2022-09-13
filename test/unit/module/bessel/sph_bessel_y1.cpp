@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::sph_bessel_y1(eve::wide)",
   using eve::detail::map;
 
   auto dsph_bessel_y1 = [&](auto e) { return boost::math::sph_neumann_prime(1u, e); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::sph_bessel_y1)(a0), map(dsph_bessel_y1, a0), 10);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::sph_bessel_y1)(a0), map(dsph_bessel_y1, a0), 200);
 };

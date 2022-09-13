@@ -33,6 +33,6 @@ TTS_CASE_WITH("Check behavior of eve::airy_bi(eve::wide)",
   using eve::detail::map;
 
   auto dairy_bi = [&](auto e) { return boost::math::airy_bi_prime(e); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::airy_bi)(a0), map(dairy_bi, a0), 50);
-  TTS_ULP_EQUAL(flx::diff_1st(eve::airy_bi)(a1), map(dairy_bi, a1), 50);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::airy_bi)(a0), map(dairy_bi, a0), 100);
+  TTS_ULP_EQUAL(flx::diff_1st(eve::airy_bi)(a1), map(dairy_bi, a1), 100);
 };
