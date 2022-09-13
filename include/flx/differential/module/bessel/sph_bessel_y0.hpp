@@ -5,6 +5,7 @@
 //================================================================================================== //!
 #pragma once
 #include <flx/differential/diff.hpp>
+#include <flx/differential/module/bessel/sph_bessel_yn.hpp>
 #include <eve/module/bessel.hpp>
 
 namespace eve::detail
@@ -15,7 +16,6 @@ namespace eve::detail
                                   , flx::diff_type<1> const &
                                   , T const &x) noexcept
   {
-    auto [s, c] = sincos(x);
-    return if_else(x == inf(as(x)), zero, fma(s, x, c)/sqr(x));
+    return flx::diff(sph_bessel_yn)(0u, x);
   }
 }

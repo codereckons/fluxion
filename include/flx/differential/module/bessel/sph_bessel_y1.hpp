@@ -15,8 +15,6 @@ namespace eve::detail
                                   , flx::diff_type<1> const &
                                   , T const &x) noexcept
   {
-    auto sq = sqr(x);
-    auto [s, c] = sincos(x);
-    return if_else(x == inf(as(x)), zero, (-sq*c+2*x*s+2*c)/(x*sq));
+    return flx::diff(sph_bessel_yn)(1u, x);
   }
 }
