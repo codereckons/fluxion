@@ -5,7 +5,6 @@
 //================================================================================================== //!
 #include "test.hpp"
 #include <flx/differential/special.hpp>
-#include <boost/math/special_functions/special_prime.hpp>
 
 //==================================================================================================
 // Types tests
@@ -14,8 +13,8 @@ TTS_CASE_TPL("Check return types of eve::betainc_inv", flx::test::simd::ieee_rea
 <typename T>(tts::type<T>)
 {
   using v_t = eve::element_type_t<T>;
-  TTS_EXPR_IS(flx::diff(eve::betainc_inv)(T()), T);
-  TTS_EXPR_IS(flx::diff(eve::betainc_inv)(v_t()), v_t);
+  TTS_EXPR_IS(flx::diff(eve::betainc_inv)(T(), T(), T()), T);
+  TTS_EXPR_IS(flx::diff(eve::betainc_inv)(v_t(), v_t(), v_t()), v_t);
 };
 
 //==================================================================================================
@@ -23,14 +22,16 @@ TTS_CASE_TPL("Check return types of eve::betainc_inv", flx::test::simd::ieee_rea
 //==================================================================================================
 TTS_CASE_WITH("Check behavior of eve::betainc_inv(eve::wide)",
               flx::test::simd::ieee_reals,
-              tts::generate( tts::randoms(0.0,10.0)
+              tts::generate( tts::randoms(0.1,1.0)
+                           , tts::randoms(0.1,1.0)
+                           , tts::randoms(0.1,1.0)
                            )
               )
-<typename T>(T const& a0)
+<typename T>(T const& a0, T const& a1, T const& a2)
 {
   using eve::betainc_inv;
   using eve::detail::map;
 
-  auto dbetainc_inv = [&]( auto e) { return boost::math::betainc_inv_prime(e); };
-  TTS_ULP_EQUAL(flx::diff_1st(eve::betainc_inv)(a0), map(dbetainc_inv, a), 0.5);
+  auto dbetainc_inv = [&]( auto e, auto f, auto g) { return eve::rec(flx::diff(eve::betainc)(eve::betainc_inv(e, f, g), f, g)); };
+  TTS_ULP_EQUAL(flx::diff_1st(eve::betainc_inv)(a0, a1, a2), map(dbetainc_inv, a0, a1, a2), 50.0);
 };

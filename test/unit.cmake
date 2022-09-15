@@ -182,7 +182,7 @@ generate_test("unit/module/bessel/sph_bessel_yn.cpp"          )
 ##==================================================================================================
 generate_test("unit/module/special/beta.cpp"                   )
 generate_test("unit/module/special/betainc.cpp"                )
-#generate_test("unit/module/special/betainc_inv.cpp"            )
+generate_test("unit/module/special/betainc_inv.cpp"            )
 generate_test("unit/module/special/dawson.cpp"                 )
 generate_test("unit/module/special/erfc.cpp"                   )
 generate_test("unit/module/special/erfc_inv.cpp"               )
