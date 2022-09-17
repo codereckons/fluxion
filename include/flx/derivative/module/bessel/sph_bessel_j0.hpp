@@ -6,7 +6,7 @@
 #pragma once
 #include <flx/derivative/derivative.hpp>
 #include <eve/module/bessel.hpp>
-#include <flx/differential/module/bessel/sph_bessel_jn.hpp>
+#include <flx/derivative/module/bessel/sph_bessel_jn.hpp>
 
 namespace eve::detail
 {
