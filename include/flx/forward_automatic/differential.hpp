@@ -8,14 +8,7 @@
 #pragma once
 
 //==================================================================================================
-//! @namespace flx
-//! @brief Main fluxion namespace
+//! @defgroup derivatives Value-based Derivation
+//! @brief Types and functions for value-based forward derivation
 //==================================================================================================
-namespace flx
-{
 
-}
-
-#include <flx/analytic/analytic.hpp>
-#include <flx/derivative/derivative.hpp>
-#include <flx/differential/forward_automatic.hpp>
