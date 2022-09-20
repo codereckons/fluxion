@@ -8,17 +8,16 @@
 #pragma once
 
 #include <eve/detail/overload.hpp>
-#include <flx/forward_automatic/var.hpp>
-#include <flx/forward_automatic/valder.hpp>
+#include <flx/forward_automatic/traits.hpp>
 
-namespace eve
+namespace flx
 {
   //================================================================================================
   //! @addtogroup complex
   //! @{
   //! @var imag
   //!
-  //! @brief Callable object computing imaginary part of differentialues.
+  //! @brief Callable object computing imaginary part of values.
   //!
   //! **Required header:** `#include <eve/module/complex.hpp>`
   //!
@@ -26,41 +25,41 @@ namespace eve
   //!
   //! | Member       | Effect                                                     |
   //! |:-------------|:-----------------------------------------------------------|
-  //! | `operator()` | the  computation of the differential                         |
+  //! | `operator()` | the  computation of imaginary part                         |
   //!
   //! ---
   //!
   //!  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
-  //!  auto operator()(maybe<valder> auto x...) const noexcept;
+  //!  auto operator()(value auto x) const noexcept;
   //!  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //!
   //! **Parameters**
   //!
-  //!`f`:   callable t differentiate.
-  //!`x`:   [maybe<valder>](@ref eve::maybe<valder>).
+  //!`x`:   [value](@ref eve::value).
   //!
-  //! **Return the value of the differential of f at x :\$f \sum_0^n \frac{\partial{f}}{\partial{x}}dx \$f
-  //!
+  //! **Return value** x
   //!
   //! #### Example
   //!
-  //! @godbolt{doc/ad/differential.cpp}
+  //! @godbolt{doc/ad/val.cpp}
   //!
   //!  @}
   //================================================================================================
 
-//   namespace tag { struct differential_; }
-//   template<> struct supports_conditional<tag::differential_> : std::false_type {};
-
-  EVE_MAKE_CALLABLE(differential_, differential);
-
-  namespace detail
+  struct val_
   {
-
-    template < typename Func>
-    EVE_FORCEINLINE auto differential_( EVE_SUPPORTS(cpu_), Func f, auto const & ...x) noexcept
+    constexpr decltype(auto) operator()(eve::floating_value auto && v) const
     {
-      return [f, x...](auto ...dx){return der(f(var(x, dx)...)); };
+      return EVE_FWD(v);
     }
-  }
+
+    template<typename V>
+    requires( flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )
+      constexpr auto operator()(V && v) const
+    {
+      return get<0>(EVE_FWD(v));
+    }
+  };
+
+  constexpr inline auto val =  val_{};
 }
