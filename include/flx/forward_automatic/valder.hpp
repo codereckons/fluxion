@@ -479,8 +479,8 @@ namespace flx
      EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::rec_, Z const& z ) noexcept
      {
        auto [v, d] = z;
-       auto inv = rec(v);
-       return Z{inv, -sqr(inv)*d};
+       auto inv = eve::rec(v);
+       return Z{inv, -eve::sqr(inv)*d};
      }
 
      template<eve::like<valder> Z, eve::floating_real_value O>
@@ -488,7 +488,7 @@ namespace flx
                                           , O const & a1
                                           ) noexcept
      {
-       return div(a0, a1);
+       return eve::div(a0, a1);
      }
 
      template<eve::like<valder> Z, eve::floating_real_value O>
@@ -496,7 +496,7 @@ namespace flx
                                            , Z const & a1
                                            ) noexcept
      {
-       return div(a0, a1);
+       return eve::div(a0, a1);
      }
 
      //==============================================================================================
@@ -797,7 +797,7 @@ namespace flx
      {
        auto [v, d] = z;
        auto rs = eve::rsqrt(v);
-       return Z{rs, d*mhalf(as(v))*rs*eve::rec(v)};
+       return Z{rs, d*eve::mhalf(eve::as(v))*rs*eve::rec(v)};
      }
 
      template<eve::like<valder> Z>
