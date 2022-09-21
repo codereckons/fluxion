@@ -7,24 +7,24 @@
 //==================================================================================================
 #include "test.hpp"
 #include <eve/module/core.hpp>
-#include <eve/module/ad.hpp>
+#include <flx/flx.hpp>
 
 //==================================================================================================
-// Tests for eve::acosh
+// Tests for flx::acosh
 //==================================================================================================
-EVE_TEST( "Check behavior of eve::acosh(eve::wide)"
-        , eve::test::simd::ieee_reals
-        , eve::test::generate ( eve::test::randoms(1, +10)
+TTS_CASE_WITH( "Check behavior of flx::acosh(eve::wide)"
+        , flx::test::simd::ieee_reals
+        , tts::generate ( tts::randoms(1, +10)
                               )
         )
 <typename T>(T const& a0)
 {
-  using eve::var;
-  using eve::val;
-  using eve::der;
-  using eve::diff;
+  using flx::var;
+  using flx::val;
+  using flx::der;
+  using flx::derivative;
 
   auto vda0 = var(a0);
   TTS_EQUAL(val(eve::acosh(vda0))      , eve::acosh(a0));
-  TTS_EQUAL(der(eve::acosh(vda0))      , diff(eve::acosh)(a0));
+  TTS_EQUAL(der(eve::acosh(vda0))      , derivative(eve::acosh)(a0));
 };

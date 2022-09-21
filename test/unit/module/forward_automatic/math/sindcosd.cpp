@@ -7,29 +7,29 @@
 //==================================================================================================
 #include "test.hpp"
 #include <eve/module/core.hpp>
-#include <eve/module/ad.hpp>
+#include <flx/flx.hpp>
 
 //==================================================================================================
-// Tests for eve::frac
+// Tests for flx::frac
 //==================================================================================================
-EVE_TEST( "Check behavior of eve::frac(eve::wide)"
-        , eve::test::simd::ieee_reals
-        , eve::test::generate ( eve::test::randoms(-10, +10)
+TTS_CASE_WITH( "Check behavior of flx::frac(eve::wide)"
+        , flx::test::simd::ieee_reals
+        , tts::generate ( tts::randoms(-10, +10)
                               )
         )
 <typename T>(T const& a0)
 {
   using eve::detail::map;
-  using eve::var;
-  using eve::val;
-  using eve::der;
-  using eve::diff;
+  using flx::var;
+  using flx::val;
+  using flx::der;
+  using flx::derivative;
 
   auto vda0 = var(a0);
   auto [f, t] = eve::sindcosd(vda0);
 
   TTS_ULP_EQUAL(val(f)      , eve::sind(a0), 0.5);
   TTS_ULP_EQUAL(val(t)      , eve::cosd(a0), 0.5);
-  TTS_ULP_EQUAL(der(f)      , diff(eve::sind)(a0), 0.5);
-  TTS_ULP_EQUAL(der(t)      , diff(eve::cosd)(a0), 0.5);
+  TTS_ULP_EQUAL(der(f)      , derivative(eve::sind)(a0), 0.5);
+  TTS_ULP_EQUAL(der(t)      , derivative(eve::cosd)(a0), 0.5);
 };

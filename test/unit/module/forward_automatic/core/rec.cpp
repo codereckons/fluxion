@@ -30,5 +30,5 @@ TTS_CASE_WITH( "Check behavior of flx::rec(eve::wide)"
   TTS_EQUAL(val(eve::rec(vda0))      , eve::rec(a0));
   TTS_EQUAL(val(eve::rec[mask](vda0)), eve::rec[mask](a0));
   TTS_ULP_EQUAL(der(eve::rec(vda0))      , derivative(eve::rec)(a0), 1.0);
-  TTS_EQUAL(der(eve::rec[mask](vda0)), eve::if_else(mask, derivative(eve::rec)(a0), eve::one));
+  TTS_ULP_EQUAL(der(eve::rec[mask](vda0)), eve::if_else(mask, derivative(eve::rec)(a0), eve::one), 1.0);
 };

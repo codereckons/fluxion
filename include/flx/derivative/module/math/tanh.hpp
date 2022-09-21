@@ -15,6 +15,6 @@ namespace eve::detail
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept
   {
-    return sqr(sech(x));
+    return eve::oneminus(eve::sqr(tanh(x)));
   }
 }

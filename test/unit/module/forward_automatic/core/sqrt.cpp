@@ -14,7 +14,7 @@
 //==================================================================================================
 TTS_CASE_WITH( "Check behavior of flx::sqrt(eve::wide)"
         , flx::test::simd::ieee_reals
-        , tts::generate ( tts::randoms(-10, +10)
+        , tts::generate ( tts::randoms(0, +10)
                               , tts::logicals(0,3)
                               )
         )

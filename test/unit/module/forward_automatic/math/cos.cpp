@@ -10,9 +10,9 @@
 #include <flx/flx.hpp>
 
 //==================================================================================================
-// Tests for eve::cos
+// Tests for flx::cos
 //==================================================================================================
-TTS_CASE_WITH( "Check behavior of eve::cos(eve::wide)"
+TTS_CASE_WITH( "Check behavior of flx::cos(eve::wide)"
         , flx::test::simd::ieee_reals
         , tts::generate ( tts::randoms(-10, +10)
                               )

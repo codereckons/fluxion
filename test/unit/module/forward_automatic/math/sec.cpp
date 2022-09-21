@@ -7,24 +7,24 @@
 //==================================================================================================
 #include "test.hpp"
 #include <eve/module/core.hpp>
-#include <eve/module/ad.hpp>
+#include <flx/flx.hpp>
 
 //==================================================================================================
-// Tests for eve::sec
+// Tests for flx::sec
 //==================================================================================================
-EVE_TEST( "Check behavior of eve::sec(eve::wide)"
-        , eve::test::simd::ieee_reals
-        , eve::test::generate ( eve::test::randoms(-10, +10)
+TTS_CASE_WITH( "Check behavior of flx::sec(eve::wide)"
+        , flx::test::simd::ieee_reals
+        , tts::generate ( tts::randoms(-10, +10)
                               )
         )
 <typename T>(T const& a0)
 {
-  using eve::var;
-  using eve::val;
-  using eve::der;
-  using eve::diff;
+  using flx::var;
+  using flx::val;
+  using flx::der;
+  using flx::derivative;
 
   auto vda0 = var(a0);
   TTS_EQUAL(val(eve::sec(vda0))      , eve::sec(a0));
-  TTS_EQUAL(der(eve::sec(vda0))      , diff(eve::sec)(a0));
+  TTS_EQUAL(der(eve::sec(vda0))      , derivative(eve::sec)(a0));
 };

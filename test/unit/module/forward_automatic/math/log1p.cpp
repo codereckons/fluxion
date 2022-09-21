@@ -7,24 +7,24 @@
 //==================================================================================================
 #include "test.hpp"
 #include <eve/module/core.hpp>
-#include <eve/module/ad.hpp>
+#include <flx/flx.hpp>
 
 //==================================================================================================
-// Tests for eve::log1p
+// Tests for flx::log1p
 //==================================================================================================
-EVE_TEST( "Check behavior of eve::log1p(eve::wide)"
-        , eve::test::simd::ieee_reals
-        , eve::test::generate ( eve::test::randoms(0, +100)
+TTS_CASE_WITH( "Check behavior of flx::log1p(eve::wide)"
+        , flx::test::simd::ieee_reals
+        , tts::generate ( tts::randoms(0, +100)
                               )
         )
 <typename T>(T const& a0)
 {
-  using eve::var;
-  using eve::val;
-  using eve::der;
-  using eve::diff;
+  using flx::var;
+  using flx::val;
+  using flx::der;
+  using flx::derivative;
 
   auto vda0 = var(a0);
   TTS_EQUAL(val(eve::log1p(vda0))      , eve::log1p(a0));
-  TTS_EQUAL(der(eve::log1p(vda0))      , diff(eve::log1p)(a0));
+  TTS_EQUAL(der(eve::log1p(vda0))      , derivative(eve::log1p)(a0));
 };
