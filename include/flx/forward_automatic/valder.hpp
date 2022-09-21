@@ -14,6 +14,8 @@
 #include <flx/forward_automatic/traits.hpp>
 #include <flx/forward_automatic/is_derivable.hpp>
 #include <flx/derivative/derivative.hpp>
+#include <flx/forward_automatic/val.hpp>
+#include <flx/forward_automatic/der.hpp>
 #include <eve/concept/generator.hpp>
 #include <eve/detail/abi.hpp>
 #include <iostream>
@@ -63,35 +65,35 @@ namespace flx
       return os << std::setprecision(20) << "(" << val(z) << ", "<< der(z) << ")" << std::noshowpos;
     }
 
-    //==============================================================================================
-    //  val/der parts as functions
-    //==============================================================================================
+//     //==============================================================================================
+//     //  val/der parts as functions
+//     //==============================================================================================
 
-    /// Retrieve the value part of the current valder number
-    EVE_FORCEINLINE friend
-    decltype(auto) tagged_dispatch( flx::val_, eve::like<valder> auto&& z ) noexcept
-    {
-      return get<0>(EVE_FWD(z));
-    }
+//     /// Retrieve the value part of the current valder number
+//     EVE_FORCEINLINE friend
+//     decltype(auto) tagged_dispatch( flx::val_, eve::like<valder> auto&& z ) noexcept
+//     {
+//       return get<0>(EVE_FWD(z));
+//     }
 
-    EVE_FORCEINLINE friend
-    decltype(auto) tagged_dispatch( flx::val_, eve::like<valder> auto const&& z ) noexcept
-    {
-      return get<0>(EVE_FWD(z));
-   }
+//     EVE_FORCEINLINE friend
+//     decltype(auto) tagged_dispatch( flx::val_, eve::like<valder> auto const&& z ) noexcept
+//     {
+//       return get<0>(EVE_FWD(z));
+//    }
 
-    /// Retrieve the derivative part of the current valder number
-    EVE_FORCEINLINE friend
-    decltype(auto) tagged_dispatch( flx::der_, eve::like<valder> auto&& z ) noexcept
-    {
-      return get<1>(EVE_FWD(z));
-    }
+//     /// Retrieve the derivative part of the current valder number
+//     EVE_FORCEINLINE friend
+//     decltype(auto) tagged_dispatch( flx::der_, eve::like<valder> auto&& z ) noexcept
+//     {
+//       return get<1>(EVE_FWD(z));
+//     }
 
-    EVE_FORCEINLINE friend
-    decltype(auto) tagged_dispatch( flx::der_, eve::like<valder> auto const&& z ) noexcept
-    {
-      return get<1>(EVE_FWD(z));
-    }
+//     EVE_FORCEINLINE friend
+//     decltype(auto) tagged_dispatch( flx::der_, eve::like<valder> auto const&& z ) noexcept
+//     {
+//       return get<1>(EVE_FWD(z));
+//     }
 
     //==============================================================================================
     // helpers
@@ -147,7 +149,6 @@ namespace flx
     {
       auto [v, d] = z;
       return Z{f[cond](v), flx::derivative(f[if_else_1(cond)])(v)*d};
-      //        return Z{f[cond](v), derivative(f[          cond ])(v)*d};
     }
 
     template<typename Func, eve::conditional_expr C, eve::decorator D, eve::like<valder> Z>
@@ -175,13 +176,13 @@ namespace flx
       auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...);
       auto ds = kumi::make_tuple(v_t(der(zs))...);
 
-      v_t d = sum_of_prod ( kumi::apply(deriv_1st(f[if_else_1(cond)]),vs), v_t(der(z0))
-                          , kumi::apply(deriv_2nd(f[if_else_0(cond)]),vs), v_t(der(z1))
+      v_t d = eve::sum_of_prod ( kumi::apply(derivative_1st(f[if_else_1(cond)]),vs), v_t(der(z0))
+                          , kumi::apply(derivative_2nd(f[if_else_0(cond)]),vs), v_t(der(z1))
                           );
 
       [&]<std::size_t... I>(std::index_sequence<I...>)
       {
-        ((d = fam(d, kumi::apply(deriv_nth<I+3>(f[if_else_0(cond)]),vs), get<I>(ds))),...);
+        ((d = fam(d, kumi::apply(derivative_nth<I+3>(f[if_else_0(cond)]),vs), get<I>(ds))),...);
       }(std::index_sequence_for<Vs...>{});
 
       return r_t{ kumi::apply(f[cond],vs), d};
@@ -196,13 +197,13 @@ namespace flx
       auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...);
       auto ds = kumi::make_tuple(v_t(der(zs))...);
 
-      v_t d = sum_of_prod ( kumi::apply(deriv_1st(D()(f)[if_else_1(cond)]),vs), v_t(der(z0))
-                          , kumi::apply(deriv_2nd(D()(f)[if_else_0(cond)]),vs), v_t(der(z1))
+      v_t d = eve::sum_of_prod ( kumi::apply(derivative_1st(D()(f)[if_else_1(cond)]),vs), v_t(der(z0))
+                          , kumi::apply(derivative_2nd(D()(f)[if_else_0(cond)]),vs), v_t(der(z1))
                           );
 
       [&]<std::size_t... I>(std::index_sequence<I...>)
       {
-        ((d = fam(d, kumi::apply(deriv_nth<I+3>(D()(f)[if_else_0(cond)]),vs), get<I>(ds))),...);
+        ((d = fam(d, kumi::apply(derivative_nth<I+3>(D()(f)[if_else_0(cond)]),vs), get<I>(ds))),...);
       }(std::index_sequence_for<Vs...>{});
 
       return r_t{ kumi::apply(D(f)[cond],vs), d};
@@ -217,13 +218,13 @@ namespace flx
       auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...);
       auto ds = kumi::make_tuple(v_t(der(zs))...);
 
-      v_t d = sum_of_prod ( kumi::apply(deriv_1st(f),vs), v_t(der(z0))
-                          , kumi::apply(deriv_2nd(f),vs), v_t(der(z1))
+      v_t d = eve::sum_of_prod ( kumi::apply(derivative_1st(f),vs), v_t(der(z0))
+                          , kumi::apply(derivative_2nd(f),vs), v_t(der(z1))
                           );
 
       [&]<std::size_t... I>(std::index_sequence<I...>)
       {
-        ((d = fam(d, kumi::apply(deriv_nth<I+3>(f),vs), get<I>(ds))),...);
+        ((d = fam(d, kumi::apply(derivative_nth<I+3>(f),vs), get<I>(ds))),...);
       }(std::index_sequence_for<Vs...>{});
 
       return r_t{ kumi::apply(f,vs), d};
@@ -236,8 +237,8 @@ namespace flx
       using v_t = decltype(f(val(z0),val(z1)));
       using r_t = flx::as_valder_t<v_t>;
 
-      v_t d = sum_of_prod ( deriv_1st(f)(val(z0), val(z1)), v_t(der(z0))
-                          , deriv_2nd(f)(val(z0), val(z1)), v_t(der(z1))
+      v_t d = eve::sum_of_prod ( derivative_1st(f)(val(z0), val(z1)), v_t(der(z0))
+                          , derivative_2nd(f)(val(z0), val(z1)), v_t(der(z1))
                           );
       return r_t{ f(val(z0), val(z1)), d};
     }
@@ -350,7 +351,7 @@ namespace flx
        using r_t = std::remove_reference_t<decltype(self)>;
        auto [v1, d1] = self;
        auto [v2, d2] = other;
-       auto dr = sum_of_prod(v1, d2, v2, d1);
+       auto dr = eve::sum_of_prod(v1, d2, v2, d1);
        auto vr = v1*v2;
        return self = r_t(vr, dr);
      }
@@ -360,11 +361,11 @@ namespace flx
                                                  , eve::like<valder> auto const & z2
                                                  ) noexcept
      {
-       using v_t = decltype(mul(val(z1), val(z2)));
+       using v_t = decltype(eve::mul(val(z1), val(z2)));
        using r_t = flx::as_valder_t<v_t>;
        auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
        auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-       auto dr = sum_of_prod(v1, d2, v2, d1);
+       auto dr = eve::sum_of_prod(v1, d2, v2, d1);
        auto vr = v1*v2;
        return r_t(vr, dr);
      }
@@ -403,7 +404,7 @@ namespace flx
                                           , O const & a1
                                           ) noexcept
      {
-       return mul(a0, a1);
+       return eve::mul(a0, a1);
      }
 
      template<eve::like<valder> Z, eve::floating_value O>
@@ -411,7 +412,7 @@ namespace flx
                                            , Z const & a1
                                            ) noexcept
      {
-       return mul(a1, a0);
+       return eve::mul(a1, a0);
      }
 
      //==============================================================================================
@@ -426,7 +427,7 @@ namespace flx
        using r_t = std::remove_reference_t<decltype(self)>;
        auto [v1, d1] = self;
        auto [v2, d2] = other;
-       auto dr = deriv_of_prod(v2, d1, v1, d2)/sqr(v2);
+       auto dr = eve::diff_of_prod(v2, d1, v1, d2)/eve::sqr(v2);
        auto vr = v1/v2;
        return self = r_t(vr, dr);
      }
@@ -992,7 +993,7 @@ namespace flx
  //       using elt_t = element_type_t<v_t>;
  //       auto fn = eve::rec(eve::convert(n, eve::as<elt_t>()));
  //       using r_t = as_valder_t<v_t>;
- //       return r_t{rn, rn*fn*sum_of_prod(d1, eve::rec(v1), eve::minus(d2), eve::log(v1)*fn)};
+ //       return r_t{rn, rn*fn*eve::sum_of_prod(d1, eve::rec(v1), eve::minus(d2), eve::log(v1)*fn)};
  //     }
 
   };
