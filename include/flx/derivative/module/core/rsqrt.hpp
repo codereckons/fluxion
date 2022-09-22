@@ -20,4 +20,15 @@ namespace eve::detail
       return apply_over(flx::derivative_1st(rsqrt), x);
 
   }
+
+// HAVE WE DO DEFINE THIS ?
+// ALL THE WAY IT DOES NOT WORK
+//   template<eve::decorator D, floating_real_value T>
+//   EVE_FORCEINLINE constexpr T rsqrt_(EVE_SUPPORTS(cpu_)
+//                                     , flx::derivative_type<1> const &
+//                                    ,  D const &
+//                                     , T x) noexcept
+//   {
+//     return flx::derivative(eve::rsqrt)(x);
+//   }
 }

@@ -121,6 +121,12 @@ namespace flx
       return f(val(z1), val(zs)...);
     }
 
+    template<typename Func, eve::conditional_expr C, typename Z1, typename... Zs>
+    static EVE_FORCEINLINE auto compute(Func f, C const & c , Z1 const& z1, Zs const& ... zs)
+    {
+      return f[c](val(z1), val(zs)...);
+    }
+
     template<typename Func, eve::decorator D, typename Z1, typename... Zs>
     static EVE_FORCEINLINE auto compute(Func f, D const & , Z1 const& z1, Zs const& ... zs)
     {
@@ -519,21 +525,68 @@ namespace flx
     EVE_FORCEINLINE friend auto tagged_dispatch(Tag, eve::like<valder> auto const& v) noexcept
     requires( has_derivation_v<Tag> )
     {
+      std::cout <<  "icitte" << std::endl;
       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v);
       else                              return compute( eve::detail::callable_object<Tag>{}, v);
     }
 
+    template<typename Tag, eve::conditional_expr C>
+    EVE_FORCEINLINE friend auto tagged_dispatch(Tag
+                                               , C const & c
+                                               , eve::like<valder> auto const& v) noexcept
+    requires( has_derivation_v<Tag> )
+    {
+       std::cout <<  "latte" << std::endl;
+       if constexpr(is_derivable_v<Tag>)
+         return eve::detail::mask_op(c, eve::detail::callable_object<Tag>{}, v);
+       else
+         return compute( eve::detail::callable_object<Tag>{}, c, v);
+    }
+
+//     template<typename Tag, eve::decorator D>
+//     EVE_FORCEINLINE friend auto tagged_dispatch(Tag
+//                                                , D const & d
+//                                                , eve::like<valder> auto const& v) noexcept
+//     requires( has_derivation_v<Tag> )
+//     {
+//       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, d, v);
+//       else                              return compute( eve::detail::callable_object<Tag>{}, d, v);
+//     }
+
      //==============================================================================================
      // n-ary functions
-     template<typename Tag>
-     EVE_FORCEINLINE friend auto tagged_dispatch (Tag, eve::like<valder> auto const&... v) noexcept
-     requires( has_derivation_v<Tag> )
-     {
-       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v...);
-       else                              return compute( eve::detail::callable_object<Tag>{}, v...);
-     }
+//      template<typename Tag>
+//      EVE_FORCEINLINE friend auto tagged_dispatch (Tag, eve::like<valder> auto const&... v) noexcept
+//      requires( has_derivation_v<Tag> )
+//      {
+//        if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v...);
+//        else                              return compute( eve::detail::callable_object<Tag>{}, v...);
+//      }
 
-     // lpnorm
+//      template<typename Tag, typename ... Vs>
+//      EVE_FORCEINLINE friend auto tagged_dispatch (Tag, Vs const&... v) noexcept
+//      requires( has_derivation_v<Tag> && (eve::like < Vs, valder > ||  ...))
+//      {
+//        if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v...);
+//        else                              return compute( eve::detail::callable_object<Tag>{}, v...);
+//      }
+
+//      template<typename Tag, typename V0,  typename V1, typename ... Vs>
+//      EVE_FORCEINLINE friend auto tagged_dispatch (Tag, V0 const& v0, V1 const& v1, Vs const&... v) noexcept
+//      requires( has_derivation_v<Tag> && (eve::like < V0, valder > || eve::like < V1, valder > ||( eve::like < Vs, valder > ||  ...)))
+//      {
+//        if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v0, v1, v...);
+//        else                              return compute( eve::detail::callable_object<Tag>{}, v0, v1, v...);
+//      }
+
+//      template<typename Tag, ece::conditional_expr C,  typename V1, typename ... Vs>
+//      EVE_FORCEINLINE friend auto tagged_dispatch (Tag, C const& v0, V1 const& v1, Vs const&... v) noexcept
+//      requires( has_derivation_v<Tag> && (eve::like < V0, valder > || eve::like < V1, valder > ||( eve::like < Vs, valder > ||  ...)))
+//      {
+//        if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v0, v1, v...);
+//        else                              return compute( eve::detail::callable_object<Tag>{}, v0, v1, v...);
+//      }
+    // lpnorm
 
      // specials cases
      template<eve::like<valder> Z>

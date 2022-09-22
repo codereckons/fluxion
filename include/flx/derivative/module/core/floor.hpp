@@ -10,11 +10,24 @@
 namespace eve::detail
 {
 
-  template<floating_real_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T floor_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<1> const &
                                    , T x) noexcept
   {
     return zero(as(x));
   }
+
+// HAVE WE DO DEFINE THIS ?
+// ALL THE WAY IT DOES NOT WORK
+//   template<eve::conditional_expr C, value T>
+//   EVE_FORCEINLINE constexpr T floor_(EVE_SUPPORTS(cpu_)
+//                                    , flx::derivative_type<1> const & d
+//                                    , C cond
+//                                    , T x) noexcept
+//   {
+//     return  mask_op(cond, d(eve::floor), x);
+//   }
+
+
 }

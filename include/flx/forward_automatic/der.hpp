@@ -49,9 +49,9 @@ namespace flx
 
   struct der_
   {
-    constexpr decltype(auto)operator()(eve::floating_value auto && v) const
+    constexpr auto operator()( auto && v) const
     {
-      return EVE_FWD(zero(eve::as(v)));
+      return EVE_FWD(eve::zero(eve::as(v)));
     }
 
     template<typename V>

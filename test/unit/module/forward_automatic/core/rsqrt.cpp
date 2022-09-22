@@ -29,6 +29,9 @@ TTS_CASE_WITH( "Check behavior of flx::rsqrt(eve::wide)"
   auto vda0 = var(a0);
   TTS_ULP_EQUAL(val(eve::rsqrt(vda0))      , eve::rsqrt(a0), 1.0);
   TTS_ULP_EQUAL(val(eve::rsqrt[mask](vda0)), eve::rsqrt[mask](a0), 1.0);
+//  TTS_ULP_EQUAL(val(eve::pedantic(eve::rsqrt)(vda0)), eve::pedantic(eve::rsqrt)(a0), 1.0);
   TTS_ULP_EQUAL(der(eve::rsqrt(vda0))      , derivative(eve::rsqrt)(a0), 1.0);
   TTS_ULP_EQUAL(der(eve::rsqrt[mask](vda0)), eve::if_else(mask, derivative(eve::rsqrt)(a0), eve::one), 1.0);
+
+
 };

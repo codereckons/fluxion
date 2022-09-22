@@ -36,7 +36,7 @@ generate_test("unit/module/forward_automatic/core/inc.cpp"                    )
 ##generate_test("unit/module/forward_automatic/core/minabs.cpp"                 )
 ##generate_test("unit/module/forward_automatic/core/min.cpp"                    )
 ##generate_test("unit/module/forward_automatic/core/minmag.cpp"                 )
-generate_test("unit/module/forward_automatic/core/minus.cpp"                  )
+##generate_test("unit/module/forward_automatic/core/minus.cpp"                  )
 ##generate_test("unit/module/forward_automatic/core/mul.cpp"                    )
 generate_test("unit/module/forward_automatic/core/nearest.cpp"                )
 ##generate_test("unit/module/forward_automatic/core/negabsmax.cpp"              )
@@ -46,7 +46,7 @@ generate_test("unit/module/forward_automatic/core/nearest.cpp"                )
 ##generate_test("unit/module/forward_automatic/core/negmaxabs.cpp"              )
 ##generate_test("unit/module/forward_automatic/core/negminabs.cpp"              )
 ##generate_test("unit/module/forward_automatic/core/oneminus.cpp"               )
-generate_test("unit/module/forward_automatic/core/plus.cpp"                   )
+##generate_test("unit/module/forward_automatic/core/plus.cpp"                   )
 generate_test("unit/module/forward_automatic/core/rec.cpp"                    )
 ####generate_test("unit/module/forward_automatic/core/round.cpp"                  )
 generate_test("unit/module/forward_automatic/core/rsqrt.cpp"                  )
@@ -143,6 +143,8 @@ generate_test("unit/module/forward_automatic/math/tan.cpp"                   )
 generate_test("unit/module/forward_automatic/math/tand.cpp"                  )
 generate_test("unit/module/forward_automatic/math/tanh.cpp"                  )
 generate_test("unit/module/forward_automatic/math/tanpi.cpp"                 )
+
+
 ##==================================================================================================
 ## module/forward_automatic/polynomial tests
 ##==================================================================================================
