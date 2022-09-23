@@ -10,15 +10,15 @@
 #include <flx/flx.hpp>
 
 //==================================================================================================
-// Tests for flx::plus
+// Tests for flx::round
 //==================================================================================================
-TTS_CASE_WITH( "Check behavior of flx::plus(eve::wide)"
+TTS_CASE_WITH( "Check behavior of flx::round(eve::wide)"
         , flx::test::simd::ieee_reals
         , tts::generate ( tts::randoms(-10, +10)
                               , tts::logicals(0,3)
                               )
         )
-<typename T, typename M>(T const& a0, M const& )
+<typename T, typename M>(T const& a0, M const& mask)
 {
   using eve::detail::map;
   using flx::var;
@@ -27,9 +27,8 @@ TTS_CASE_WITH( "Check behavior of flx::plus(eve::wide)"
   using flx::derivative;
 
   auto vda0 = var(a0);
-  TTS_EQUAL(val(eve::plus(vda0))      , eve::plus(a0));
-  TTS_EQUAL(der(eve::plus(vda0))      , derivative(eve::plus)(a0));
-
-//   TTS_EQUAL(val(eve::plus[mask](vda0)), eve::plus[mask](a0));
-//   TTS_EQUAL(der(eve::plus[mask](vda0)), eve::if_else(mask, derivative(eve::plus)(a0), eve::one));
+  TTS_EQUAL(val(eve::round(vda0))      , eve::round(a0));
+  TTS_EQUAL(val(eve::round[mask](vda0)), eve::round[mask](a0));
+  TTS_EQUAL(der(eve::round(vda0))      , derivative(eve::round)(a0));
+  TTS_EQUAL(der(eve::round[mask](vda0)), eve::if_else(mask, derivative(eve::round)(a0), eve::one));
 };
