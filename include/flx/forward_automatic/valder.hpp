@@ -138,36 +138,36 @@ namespace flx
     //==============================================================================================
     //  n_ary functions
     //==============================================================================================
-    template<typename Func, eve::decorator D, typename V0, typename V1, typename... Vs>
-    static EVE_FORCEINLINE auto deriv(Func f, D const &, V0 const& z0, V1 const& z1, Vs const&... zs )
-    {
-      return deriv(D()(f), z0, z1, zs...);
-    }
+//     template<typename Func, eve::decorator D, typename V0, typename V1, typename... Vs>
+//     static EVE_FORCEINLINE auto deriv(Func f, D const &, V0 const& z0, V1 const& z1, Vs const&... zs )
+//     {
+//       return deriv(D()(f), z0, z1, zs...);
+//     }
 
-    template<typename Func, eve::conditional_expr C, typename V0, typename V1, typename... Vs>
-    static EVE_FORCEINLINE auto deriv(Func f, C const & cond, V0 const& z0, V1 const& z1, Vs const&... zs )
-    {
-      using v_t = decltype(f(val(z0),val(z1),val(zs)...));
-      using r_t = flx::as_valder_t<v_t>;
+//     template<typename Func, eve::conditional_expr C, typename V0, typename V1, typename... Vs>
+//     static EVE_FORCEINLINE auto deriv(Func f, C const & cond, V0 const& z0, V1 const& z1, Vs const&... zs )
+//     {
+//       using v_t = decltype(f(val(z0),val(z1),val(zs)...));
+//       using r_t = flx::as_valder_t<v_t>;
 
-      auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...);
-      auto ds = kumi::make_tuple(v_t(der(zs))...);
-       std::cout << vs << std::endl;
-       std::cout << ds << std::endl;
+//       auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...);
+//       auto ds = kumi::make_tuple(v_t(der(zs))...);
+//        std::cout << vs << std::endl;
+//        std::cout << ds << std::endl;
 
-      v_t d = eve::sum_of_prod ( kumi::apply(derivative_1st(f[if_else_1(cond)]),vs), v_t(der(z0))
-                          , kumi::apply(derivative_2nd(f[if_else_0(cond)]),vs), v_t(der(z1))
-                          );
-      std::cout << d << std::endl;
-      //     return r_t{ d, d};
+//       v_t d = eve::sum_of_prod ( kumi::apply(derivative_1st(f[if_else_1(cond)]),vs), v_t(der(z0))
+//                           , kumi::apply(derivative_2nd(f[if_else_0(cond)]),vs), v_t(der(z1))
+//                           );
+//       std::cout << d << std::endl;
+//       //     return r_t{ d, d};
 
-      [&]<std::size_t... I>(std::index_sequence<I...>)
-      {
-        ((d = eve::fam(d, kumi::apply(derivative_nth<I+3>(f[if_else_0(cond)]),vs), get<I>(ds))),...);
-      }(std::index_sequence_for<Vs...>{});
+//       [&]<std::size_t... I>(std::index_sequence<I...>)
+//       {
+//         ((d = eve::fam(d, kumi::apply(derivative_nth<I+3>(f[if_else_0(cond)]),vs), get<I>(ds))),...);
+//       }(std::index_sequence_for<Vs...>{});
 
-      return r_t{ kumi::apply(f[cond],vs), d};
-    }
+//       return r_t{ kumi::apply(f[cond],vs), d};
+//     }
 
 //     template<typename Func, eve::conditional_expr C, eve::decorator D, typename V0, typename V1, typename... Vs>
 //     static EVE_FORCEINLINE auto deriv(Func f, C const & cond, D const &, V0 const& z0, V1 const& z1, Vs const&... zs )
@@ -540,20 +540,20 @@ namespace flx
     }
 
     template<typename Tag, eve::conditional_expr C, typename V0, typename ... Vs>
-    EVE_FORCEINLINE friend auto tagged_dispatch (Tag const & tag, C const& c, V0 const& v0, Vs const&... vs ) noexcept
+    EVE_FORCEINLINE friend auto tagged_dispatch (Tag const &, C const& c, V0 const& v0, Vs const&... vs ) noexcept
     requires( has_derivation_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
     {
-//      auto co = eve::detail::callable_object<Tag>{};
+      auto co = eve::detail::callable_object<Tag>{};
       if constexpr(is_derivable_v<Tag>)
       {
-        auto deri = [&](auto tag, auto ...vs){return deriv(tag, vs ...); };
-        return eve::detail::mask_op(c, deri, tag, v0, vs ...);
+        auto deri = [&](auto co, auto ...vs){return deriv(co, vs ...); };
+        return eve::detail::mask_op(c, deri, co, v0, vs ...);
         std::cout << "cnanicitte der" << std::endl;
       }
       else
       {
-        auto compu = [&](auto tag, auto ...vs){return compute(tag, vs ...); };
-        return eve::detail::mask_op(c, compu, tag, v0, vs ...);
+        auto compu = [&](auto co, auto ...vs){return compute(co, vs ...); };
+        return eve::detail::mask_op(c, compu, co, v0, vs ...);
         std::cout << "cnanicitte comp" << std::endl;
       }
     }
