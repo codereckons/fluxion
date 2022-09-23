@@ -606,8 +606,8 @@ namespace flx
      EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::cbrt_, Z const& z) noexcept
      {
        auto [v, d] = z;
-       auto cb = cbrt(v);
-       return Z{cb, eve::rec(3*sqr(cb))*d};
+       auto cb = eve::cbrt(v);
+       return Z{cb, eve::rec(3*eve::sqr(cb))*d};
      }
 
      template<eve::like<valder> Z>
@@ -1021,20 +1021,19 @@ namespace flx
 
 
 
- //     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::nthroot_
- //                                                 , eve::like<valder> auto  const& z
- //                                                 , eve::like<valder> auto  const& n) noexcept
- //     {
- //       EVE_ASSERT(eve::all(is_flint(n)),  "n is not flint");
- //       auto v1 = val(z); auto d1 = der(z);
- //       auto v2 = val(n); auto d2 = der(n);
- //       auto rn = eve::nthroot(v1, v2);
- //       using v_t =  decltype(rn);
- //       using elt_t = element_type_t<v_t>;
- //       auto fn = eve::rec(eve::convert(n, eve::as<elt_t>()));
- //       using r_t = as_valder_t<v_t>;
- //       return r_t{rn, rn*fn*eve::sum_of_prod(d1, eve::rec(v1), eve::minus(d2), eve::log(v1)*fn)};
- //     }
+    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::nthroot_
+                                                , eve::like<valder> auto  const& z
+                                                , eve::value auto const& n) noexcept
+    {
+      EVE_ASSERT(eve::all(is_flint(n)),  "n is not flint");
+      auto v1 = val(z); auto d1 = der(z);
+      auto rn = eve::nthroot(v1, n);
+      using v_t =  decltype(rn);
+      using elt_t = eve::element_type_t<v_t>;
+      auto fn = eve::rec(eve::convert(n, eve::as<elt_t>())*v1);
+      using r_t = as_valder_t<v_t>;
+      return r_t{rn, rn*fn*d1};
+    }
 
   };
   //================================================================================================

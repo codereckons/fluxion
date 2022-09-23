@@ -1,3 +1,4 @@
+//==================================================================================================
 /**
   EVE - Expressive Vector Engine
   Copyright : EVE Contributors & Maintainers
@@ -5,29 +6,25 @@
 **/
 //==================================================================================================
 #include "test.hpp"
-#include <algorithm>
 #include <eve/module/core.hpp>
 #include <flx/flx.hpp>
 
 //==================================================================================================
-// Tests for flx::nthroot
+// Tests for flx::log_abs
 //==================================================================================================
-TTS_CASE_WITH( "Check behavior of flx::nthroot(eve::wide)"
+TTS_CASE_WITH( "Check behavior of flx::log_abs(eve::wide)"
         , flx::test::simd::ieee_reals
-        , tts::generate ( tts::randoms(0, +10)
-                        , tts::ramp(1, 1)
-                        )
+        , tts::generate ( tts::randoms(0, +100)
+                              )
         )
-<typename T>(T const& a0, T const& a1)
+<typename T>(T const& a0)
 {
-  using eve::detail::map;
   using flx::var;
   using flx::val;
   using flx::der;
-  using flx::derivative_1st;
-  using flx::derivative_2nd;
+  using flx::derivative;
 
   auto vda0 = var(a0);
-  TTS_ULP_EQUAL(val(eve::nthroot(vda0, a1))  , eve::nthroot(a0, a1), 0.5);
-  TTS_ULP_EQUAL(der(eve::nthroot(vda0, a1))  , derivative_1st(eve::nthroot)(a0, a1), 0.5);
+  TTS_EQUAL(val(eve::log_abs(vda0))      , eve::log_abs(a0));
+  TTS_EQUAL(der(eve::log_abs(vda0))      , derivative(eve::log_abs)(a0));
 };

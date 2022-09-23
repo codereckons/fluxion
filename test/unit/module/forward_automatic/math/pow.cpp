@@ -30,7 +30,7 @@ TTS_CASE_WITH( "Check behavior of flx::pow(eve::wide)"
   auto vda0 = var(a0);
   auto vda1 = var(a1);
   TTS_ULP_EQUAL(val(eve::pow(vda0, a1))      , eve::pow(a0, a1), 0.5);
-  TTS_ULP_EQUAL(der(eve::pow(vda0, a1))      , derivative_1st(eve::pow)(a0, a1), 10);
+  TTS_ULP_EQUAL(der(eve::pow(vda0, a1))      , derivative_1st(eve::pow)(a0, a1), 30);
   TTS_ULP_EQUAL(val(eve::pow(a0, vda1))      , eve::pow(a0, a1), 0.5);
-  TTS_ULP_EQUAL(der(eve::pow(a0, vda1))      , derivative_2nd(eve::pow)(a0, a1), 10);
+  TTS_ULP_EQUAL(der(eve::pow(a0, vda1))      , derivative_2nd(eve::pow)(a0, a1), 30);
 };
