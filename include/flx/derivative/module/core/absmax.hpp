@@ -6,6 +6,7 @@
 #pragma once
 #include <flx/derivative/derivative.hpp>
 #include <eve/module/core.hpp>
+#include <flx/derivative/module/core/detail/minmax_kernel.hpp>
 
 namespace eve::detail
 {

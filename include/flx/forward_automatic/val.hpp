@@ -48,7 +48,7 @@ namespace flx
 
   struct val_
   {
-    constexpr decltype(auto) operator()(eve::floating_value auto && v) const
+    constexpr decltype(auto) operator()(auto && v) const
     {
       return EVE_FWD(v);
     }

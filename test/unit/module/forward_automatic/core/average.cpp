@@ -20,7 +20,7 @@ TTS_CASE_WITH( "Check behavior of flx::average(eve::wide)"
                               , tts::logicals(0,3)
                               )
         )
-  <typename T, typename M>(T const& a0, T const& a1, T const& /*a2*/, M const& /*mask*/)
+  <typename T, typename M>(T const& a0, T const& a1, T const& a2, M const& )
 {
   using eve::detail::map;
   using flx::var;
@@ -31,15 +31,15 @@ TTS_CASE_WITH( "Check behavior of flx::average(eve::wide)"
   using flx::derivative_3rd;
 
   auto vda0 = var(a0);
-//   auto vda1 = var(a1);
-//   auto vda2 = var(a2);
-  TTS_EQUAL(val(eve::average(vda0, a1))      , eve::average(a0, a1));
-//   TTS_EQUAL(val(eve::average(vda0, a1, a2))      , eve::average(a0, a1, a2));
-//   TTS_EQUAL(der(eve::average(vda0, a1, a2))      , derivative_1st(eve::average)(a0, a1, a2));
-//   TTS_EQUAL(val(eve::average(a0, vda1, a2))      , eve::average(a0, a1, a2));
-//   TTS_EQUAL(der(eve::average(a0, vda1, a2))      , derivative_2nd(eve::average)(a0, a1, a2));
-//   TTS_EQUAL(val(eve::average(a0, a1, vda2))      , eve::average(a0, a1, a2));
-//   TTS_EQUAL(der(eve::average(a0, a1, vda2))      , derivative_3rd(eve::average)(a0, a1, a2));
+  auto vda1 = var(a1);
+  auto vda2 = var(a2);
+  TTS_EQUAL(val(eve::average(vda0, a1))          , eve::average(a0, a1));
+  TTS_EQUAL(val(eve::average(vda0, a1, a2))      , eve::average(a0, a1, a2));
+  TTS_EQUAL(der(eve::average(vda0, a1, a2))      , derivative_1st(eve::average)(a0, a1, a2));
+  TTS_EQUAL(val(eve::average(a0, vda1, a2))      , eve::average(a0, a1, a2));
+  TTS_EQUAL(der(eve::average(a0, vda1, a2))      , derivative_2nd(eve::average)(a0, a1, a2));
+  TTS_EQUAL(val(eve::average(a0, a1, vda2))      , eve::average(a0, a1, a2));
+  TTS_EQUAL(der(eve::average(a0, a1, vda2))      , derivative_3rd(eve::average)(a0, a1, a2));
 
 //   TTS_EQUAL(val(eve::average[mask](vda0, a1, a2)), eve::average[mask](a0, a1, a2));
 //   TTS_EQUAL(der(eve::average[mask](vda0, a1, a2)), eve::if_else(mask, derivative_1st(eve::average)(a0, a1, a2), eve::one));
