@@ -41,6 +41,8 @@ TTS_CASE_WITH( "Check behavior of flx::add(eve::wide)"
   TTS_EQUAL(der(eve::add(a0, vda1, a2))      , derivative_2nd(eve::add)(a0, a1, a2));
   TTS_EQUAL(val(eve::add(a0, a1, vda2))      , eve::add(a0, a1, a2));
   TTS_EQUAL(der(eve::add(a0, a1, vda2))      , derivative_3rd(eve::add)(a0, a1, a2));
+  der(vda2) = T(0.5);
+  TTS_EQUAL(der(eve::add(a0, vda1, vda2))      , derivative_2nd(eve::add)(a0, a1, a2)+der(vda2)*derivative_3rd(eve::add)(a0, a1, a2));
 
 //   TTS_EQUAL(val(eve::add[mask](vda0, a1)), eve::add[mask](a0, a1));
 //    TTS_EQUAL(val(eve::add[mask](vda0, a1, a2)), eve::add[mask](a0, a1, a2));
