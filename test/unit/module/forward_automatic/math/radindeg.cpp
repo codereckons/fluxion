@@ -7,23 +7,24 @@
 //==================================================================================================
 #include "test.hpp"
 #include <eve/module/core.hpp>
-#include <eve/module/ad.hpp>
-#include <cmath>
+#include <flx/flx.hpp>
 
 //==================================================================================================
-// Tests for eve::is_denormal
+// Tests for flx::radindeg
 //==================================================================================================
-
-EVE_TEST( "Check behavior of eve::is_nltz(simd)"
-        , eve::test::simd::ieee_reals
-        , eve::test::generate ( eve::test::randoms(-10, 10)
-                              , eve::test::logicals(0, 3))
+TTS_CASE_WITH( "Check behavior of flx::radindeg(eve::wide)"
+        , flx::test::simd::ieee_reals
+        , tts::generate ( tts::randoms(-1, +1)
+                              )
         )
-<typename T, typename M>(T const& a0, M const & t)
+<typename T>(T const& a0)
 {
-  using eve::detail::map;
-  auto vda0 = eve::var(a0);
+  using flx::var;
+  using flx::val;
+  using flx::der;
+  using flx::derivative;
 
-  TTS_EQUAL(eve::is_nltz(vda0), eve::is_nltz(a0));
-  TTS_EQUAL(eve::is_nltz[t](vda0), eve::if_else(t, eve::is_nltz(a0), eve::false_(eve::as(a0))));
+  auto vda0 = var(a0);
+  TTS_EQUAL(val(eve::radindeg(vda0))      , eve::radindeg(a0));
+  TTS_EQUAL(der(eve::radindeg(vda0))      , derivative(eve::radindeg)(a0));
 };

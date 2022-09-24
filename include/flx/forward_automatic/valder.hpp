@@ -1020,10 +1020,11 @@ namespace flx
       return kumi::tuple{frac(z), trunc(z)};
     }
 
-    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::if_else__
+    template<typename Z1,  typename Z2>
+    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::if_else_
                                                 , auto const & c
-                                                , Z1 const & z1
-                                                , Z2 const & z2
+                                                , Z1 const & a
+                                                , Z2 const & b
                                                 ) noexcept
     requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
     {
