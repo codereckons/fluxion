@@ -194,7 +194,6 @@ namespace flx
     static EVE_FORCEINLINE auto deriv(Func f, V0 const& z0, V1 const& z1 , Vs const&... zs)
       requires(!eve::conditional_expr<V0>)
     {
-      std::cout << "deriv0" << std::endl;
       using v_t = decltype(f(val(z0),val(z1),val(zs)...));
       using r_t = flx::as_valder_t<v_t>;
 
@@ -592,7 +591,6 @@ namespace flx
     EVE_FORCEINLINE friend auto tagged_dispatch (Tag, V0 const& v0, Vs const&... vs ) noexcept
     requires( has_derivation_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
     {
-      std::cout << "deriv1" << std::endl;
       if constexpr(is_derivable_v<Tag>)
       {
         return deriv( eve::detail::callable_object<Tag>{}, v0, vs ...);
