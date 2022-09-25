@@ -20,7 +20,7 @@ TTS_CASE_WITH( "Check behavior of flx::div(eve::wide)"
                               , tts::logicals(0,3)
                               )
         )
-  <typename T, typename M>(T const& a0, T const& a1, T const& a2, M const& )
+  <typename T, typename M>(T const& a0, T const& a1, T const& , M const& )
 {
   using eve::detail::map;
   using flx::var;
@@ -28,24 +28,29 @@ TTS_CASE_WITH( "Check behavior of flx::div(eve::wide)"
   using flx::der;
   using flx::derivative_1st;
   using flx::derivative_2nd;
-  using flx::derivative_3rd;
+//  using flx::derivative_3rd;
 
   auto vda0 = var(a0);
   auto vda1 = var(a1);
-  auto vda2 = var(a2);
-  TTS_EQUAL(val(eve::div(vda0, a1, a2))      , eve::div(a0, a1, a2));
-  TTS_EQUAL(der(eve::div(vda0, a1, a2))      , derivative_1st(eve::div)(a0, a1, a2));
-  TTS_EQUAL(val(eve::div(a0, vda1, a2))      , eve::div(a0, a1, a2));
-  TTS_EQUAL(der(eve::div(a0, vda1, a2))      , derivative_2nd(eve::div)(a0, a1, a2));
-  TTS_EQUAL(val(eve::div(a0, a1, vda2))      , eve::div(a0, a1, a2));
-  TTS_EQUAL(der(eve::div(a0, a1, vda2))      , derivative_3rd(eve::div)(a0, a1, a2));
+  TTS_ULP_EQUAL(val(eve::div(vda0, a1))      , eve::div(a0, a1),0.5);
+  TTS_ULP_EQUAL(der(eve::div(vda0, a1))      , derivative_1st(eve::div)(a0, a1),0.5);
+  TTS_ULP_EQUAL(val(eve::div(a0, vda1))      , eve::div(a0, a1),0.5);
+  TTS_ULP_EQUAL(der(eve::div(a0, vda1))      , derivative_2nd(eve::div)(a0, a1),0.5);
 
-//   TTS_EQUAL(val(eve::div[mask](vda0, a1, a2)), eve::div[mask](a0, a1, a2));
-//   TTS_EQUAL(der(eve::div[mask](vda0, a1, a2)), eve::if_else(mask, derivative_1st(eve::div)(a0, a1, a2), eve::one));
-//   TTS_EQUAL(val(eve::div[mask](a0, vda1, a2)), eve::div[mask](a0, a1, a2));
-//   TTS_EQUAL(der(eve::div[mask](a0, vda1, a2)), eve::if_else(mask, derivative_2nd(eve::div)(a0, a1, a2), eve::zero));
-//   TTS_EQUAL(val(eve::div[mask](a0, a1, vda2)), eve::div[mask](a0, a1, a2));
-//   TTS_EQUAL(der(eve::div[mask](a0, a1, vda2)), eve::if_else(mask, derivative_3rd(eve::div)(a0, a1, a2), eve::zero));
+//    auto vda2 = var(a2);
+//   TTS_ULP_EQUAL(val(eve::div(vda0, a1, a2))      , eve::div(a0, a1, a2),0.5);
+//   TTS_ULP_EQUAL(der(eve::div(vda0, a1, a2))      , derivative_1st(eve::div)(a0, a1, a2),0.5);
+//   TTS_ULP_EQUAL(val(eve::div(a0, vda1, a2))      , eve::div(a0, a1, a2),0.5);
+//   TTS_ULP_EQUAL(der(eve::div(a0, vda1, a2))      , derivative_2nd(eve::div)(a0, a1, a2),0.5);
+//   TTS_ULP_EQUAL(val(eve::div(a0, a1, vda2))      , eve::div(a0, a1, a2),0.5);
+//   TTS_ULP_EQUAL(der(eve::div(a0, a1, vda2))      , derivative_3rd(eve::div)(a0, a1, a2),0.5);
+
+//   TTS_ULP_EQUAL(val(eve::div[mask](vda0, a1, a2)), eve::div[mask](a0, a1, a2),0.5);
+//   TTS_ULP_EQUAL(der(eve::div[mask](vda0, a1, a2)), eve::if_else(mask, derivative_1st(eve::div)(a0, a1, a2), eve::one),0.5);
+//   TTS_ULP_EQUAL(val(eve::div[mask](a0, vda1, a2)), eve::div[mask](a0, a1, a2));
+//   TTS_ULP_EQUAL(der(eve::div[mask](a0, vda1, a2)), eve::if_else(mask, derivative_2nd(eve::div)(a0, a1, a2), eve::zero),0.5);
+//   TTS_ULP_EQUAL(val(eve::div[mask](a0, a1, vda2)), eve::div[mask](a0, a1, a2));
+//   TTS_ULP_EQUAL(der(eve::div[mask](a0, a1, vda2)), eve::if_else(mask, derivative_3rd(eve::div)(a0, a1, a2), eve::zero),0.5);
 
 
 };

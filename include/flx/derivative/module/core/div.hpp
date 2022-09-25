@@ -9,29 +9,23 @@
 
 namespace eve::detail
 {
-  template<int N, real_value T, real_value U>
-  EVE_FORCEINLINE auto
-  div_(EVE_SUPPORTS(cpu_), flx::derivative_type<N> const &, T const &a, U const &b) noexcept
-      requires compatible_values<T, U>
-  {
-    return arithmetic_call(flx::derivative_type<N>()(div), a, b);
-  }
 
-  template<floating_real_value T>
+  template<floating_value T, floating_value U>
   EVE_FORCEINLINE constexpr T div_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<1> const &
-                                    , T , T y ) noexcept
+                                    , T , U y ) noexcept
   {
-    return rec(y);
+    using r_t = common_compatible_t<T, U>;
+    return rec(r_t(y));
   }
 
-  template<floating_real_value T>
+  template<floating_value T, floating_value U>
   EVE_FORCEINLINE constexpr T div_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<2> const &
-                                    , T x, T y ) noexcept
+                                    , T x, U y ) noexcept
   {
-
-    return -rec(sqr(y))*x;
+    using r_t = common_compatible_t<T, U>;
+    return -rec(sqr(r_t(y)))*r_t(x);
   }
 
   template<int N, typename T0, typename T1, typename... Ts>
