@@ -1080,7 +1080,16 @@ namespace flx
       return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
     }
 
-
+    template< typename Z1,  typename Z2>
+    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::ifnot_else_
+                                                , auto const & c
+                                                , Z1 const & a
+                                                , Z2 const & b
+                                                ) noexcept
+    requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
+    {
+      return eve::if_else(c, b, a);
+    }
 
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::nthroot_
                                                 , eve::like<valder> auto  const& z
