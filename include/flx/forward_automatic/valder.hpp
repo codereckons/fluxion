@@ -656,7 +656,8 @@ namespace flx
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::ldexp_
                                                 , Z const& z,  N const& n) noexcept
     {
-      return Z{ldexp(val(z), val(n)), ldexp(one(eve::as(val(z))), val(n))*der(z)};
+      auto nn = eve::convert(n, eve::as<eve::element_type_t<decltype(val(z))>>());
+      return Z{eve::ldexp(val(z), nn), eve::ldexp(eve::one(eve::as(val(z))), nn)*der(z)};
     }
 
 
