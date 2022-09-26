@@ -363,7 +363,7 @@ namespace flx
       }
     }
 
-    // CA NE COMPILE PAS et eb son absence ça compile et ca passe par un endroit foireux
+    // CA NE COMPILE PAS et eb son absence ï¿½a compile et ca passe par un endroit foireux
 //     template < typename Z1, typename Z2,  typename ... Zs>
 //     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::mul_
 //                                                 , Z1 const & z1
@@ -606,16 +606,25 @@ namespace flx
     requires( has_derivation_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
     {
       std::cout << "deriv2" << std::endl;
-      auto co = eve::detail::callable_object<Tag>{};
       if constexpr(is_derivable_v<Tag>)
       {
-        auto deri = [&](auto co, auto ...vs){return deriv(co, vs ...); };
-        return eve::detail::mask_op(c, deri, co, v0, vs ...);
+        auto deri = [&](auto p0, auto ...ps)
+        {
+          eve::detail::callable_object<Tag> co{};
+          return deriv(co, p0, ps ...);
+        }
+;
+        return eve::detail::mask_op(c, deri, v0, vs ...);
       }
       else
       {
-        auto compu = [&](auto co, auto ...vs){return compute(co, vs ...); };
-        return eve::detail::mask_op(c, compu, co, v0, vs ...);
+        auto compu = [&](auto p0, auto ...ps)
+        {
+          eve::detail::callable_object<Tag> co{};
+          return compute(co, p0, ps ...);
+        };
+
+        return eve::detail::mask_op(c, compu, v0, vs ...);
       }
     }
 
