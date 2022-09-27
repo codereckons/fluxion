@@ -39,11 +39,4 @@ TTS_CASE_WITH( "Check behavior of flx::geommean(eve::wide)"
   TTS_IEEE_EQUAL(der(eve::geommean(a0, vda1, a2))      , derivative_2nd(eve::geommean)(a0, a1, a2));
   TTS_IEEE_EQUAL(val(eve::geommean(a0, a1, vda2))      , eve::geommean(a0, a1, a2));
   TTS_IEEE_EQUAL(der(eve::geommean(a0, a1, vda2))      , derivative_3rd(eve::geommean)(a0, a1, a2));
-
-//   TTS_IEEE_EQUAL(val(eve::geommean[mask](vda0, a1, a2)), eve::geommean[mask](a0, a1, a2));
-//   TTS_IEEE_EQUAL(der(eve::geommean[mask](vda0, a1, a2)), eve::if_else(mask, derivative_1st(eve::geommean)(a0, a1, a2), eve::one));
-//   TTS_IEEE_EQUAL(val(eve::geommean[mask](a0, vda1, a2)), eve::geommean[mask](a0, a1, a2));
-//   TTS_IEEE_EQUAL(der(eve::geommean[mask](a0, vda1, a2)), eve::if_else(mask, derivative_2nd(eve::geommean)(a0, a1, a2), eve::zero));
-//   TTS_IEEE_EQUAL(val(eve::geommean[mask](a0, a1, vda2)), eve::geommean[mask](a0, a1, a2));
-//   TTS_IEEE_EQUAL(der(eve::geommean[mask](a0, a1, vda2)), eve::if_else(mask, derivative_3rd(eve::geommean)(a0, a1, a2), eve::zero));
 };

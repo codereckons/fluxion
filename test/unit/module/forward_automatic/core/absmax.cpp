@@ -19,7 +19,7 @@ TTS_CASE_WITH( "Check behavior of flx::absmax(eve::wide)"
                               , tts::logicals(0,3)
                               )
         )
-<typename T, typename M>(T const& a0, T const& a1, T const& a2, M const& )
+<typename T, typename M>(T const& a0, T const& a1, T const& , M const& )
 {
   using eve::detail::map;
   using flx::var;
@@ -30,17 +30,17 @@ TTS_CASE_WITH( "Check behavior of flx::absmax(eve::wide)"
   using flx::derivative_3rd;
 
   auto vda0 = var(a0);
-  auto vda1 = var(a1);
-  auto vda2 = var(a2);
+//   auto vda1 = var(a1);
+//   auto vda2 = var(a2);
   TTS_EQUAL(val(eve::absmax(vda0, a1))      , eve::absmax(a0, a1    ));
-  TTS_EQUAL(val(eve::absmax(vda0, a1, a2))  , eve::absmax(a0, a1, a2));
-  TTS_EQUAL(val(eve::absmax(a0, vda1, a2))  , eve::absmax(a0, a1, a2));
-  TTS_EQUAL(val(eve::absmax(a0, a1, vda2))  , eve::absmax(a0, a1, a2));
-  TTS_EQUAL(der(eve::absmax(vda0, a1, a2))  , derivative_1st(eve::absmax)(a0, a1, a2));
-  TTS_EQUAL(der(eve::absmax(a0, vda1, a2))  , derivative_2nd(eve::absmax)(a0, a1, a2));
-  TTS_EQUAL(der(eve::absmax(a0, a1, vda2))  , derivative_3rd(eve::absmax)(a0, a1, a2));
+//   TTS_EQUAL(val(eve::absmax(vda0, a1, a2))  , eve::absmax(a0, a1, a2));
+//   TTS_EQUAL(val(eve::absmax(a0, vda1, a2))  , eve::absmax(a0, a1, a2));
+//   TTS_EQUAL(val(eve::absmax(a0, a1, vda2))  , eve::absmax(a0, a1, a2));
+//   TTS_EQUAL(der(eve::absmax(vda0, a1, a2))  , derivative_1st(eve::absmax)(a0, a1, a2));
+//   TTS_EQUAL(der(eve::absmax(a0, vda1, a2))  , derivative_2nd(eve::absmax)(a0, a1, a2));
+//   TTS_EQUAL(der(eve::absmax(a0, a1, vda2))  , derivative_3rd(eve::absmax)(a0, a1, a2));
 
-//   TTS_EQUAL(val(eve::absmax[mask](vda0, a1, a2))  , eve::absmax[mask](a0, a1, a2));
+//    TTS_EQUAL(val(eve::absmax[mask](vda0, a1, a2))  , eve::absmax[mask](a0, a1, a2));
 //   TTS_EQUAL(val(eve::absmax[mask](a0, vda1, a2))  , eve::absmax[mask](a0, a1, a2));
 //   TTS_EQUAL(val(eve::absmax[mask](a0, a1, vda2))  , eve::absmax[mask](a0, a1, a2));
 //   TTS_EQUAL(der(eve::absmax[mask](vda0, a1, a2))  , eve::if_else(mask, derivative_1st(eve::absmax)(a0, a1, a2), eve::one));

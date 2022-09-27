@@ -9,14 +9,14 @@
 
 namespace eve::detail
 {
-  template<auto N, floating_real_value T, floating_real_value... Ts>
-  EVE_FORCEINLINE constexpr auto average_(EVE_SUPPORTS(cpu_)
-                                    , flx::derivative_type<N> const &
-                                    , T , Ts ... ys ) noexcept
+  template< typename C, value U, value V, auto N>
+  EVE_FORCEINLINE  auto binarize_not_(EVE_SUPPORTS(cpu_)
+                                     , flx::derivative_type<N> const &
+                                     , C const &
+                                     , U const &
+                                     , V const &) noexcept
   {
-    using r_t = common_compatible_t<T,Ts...>;
-    using elt_t = element_type_t<r_t>;
-    return (N > sizeof...(Ts)+1) ? zero(as < r_t>()) : r_t(rec(elt_t(sizeof...(ys)+1)));
+    using r_t =  eve::common_compatible_t<U, V>;
+    return eve::zero(eve::as<r_t>());
   }
-
 }

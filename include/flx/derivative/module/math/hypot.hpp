@@ -9,9 +9,33 @@
 
 namespace eve::detail
 {
-  template<int N, typename T0, typename T1, typename... Ts>
-  auto hypot_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
-             , T0 arg0, T1 arg1, Ts... args) noexcept
+//   template < size_t N, typename ...Ts>
+//   auto getNth(std::integral_constant<std::size_t,N>, auto ...xs){
+//     using r_t = common_compatible_t<Ts...>;
+//     if constexpr(N > sizeof...(Ts)+2)
+//     {
+//       return zero(as<r_t >());
+//     }
+//     else
+//     {
+//       auto gn = []<std::size_t... I>(std::index_sequence<I...>, auto& that, auto... vs){
+//         auto iff = [&that]<std::size_t J>(auto val, std::integral_constant<std::size_t,J>)
+//         {
+//           if constexpr(J==N) that = val;
+//         };
+
+//         ((iff(vs, std::integral_constant<std::size_t,I+3>{})),...);
+//       };
+//       r_t that(0);
+//       gn(std::make_index_sequence<sizeof...(xs)>{},that,r_t(xs)...);
+//       return that;
+//     }
+//   }
+
+  template<int N, floating_real_value T0, floating_real_value T1, floating_real_value... Ts>
+  EVE_FORCEINLINE constexpr auto hypot_(EVE_SUPPORTS(cpu_)
+                                       , flx::derivative_type<N> const &
+                                       , T0 arg0, T1 arg1, Ts... args) noexcept
   {
     using r_t = common_compatible_t<T0,T1, Ts...>;
     if constexpr(N > sizeof...(Ts)+2)
@@ -35,7 +59,7 @@ namespace eve::detail
             ((iff(vs, std::integral_constant<std::size_t,I+3>{})),...);
           };
         r_t that(0);
-        getNth(std::make_index_sequence<sizeof...(args)>{},that,args...);
+        getNth(std::make_index_sequence<sizeof...(args)>{},that,r_t(args)...);
         return that/h;
       }
     }
@@ -70,7 +94,7 @@ namespace eve::detail
               ((iff(vs, std::integral_constant<std::size_t,I+3>{})),...);
             };
           r_t that(0);
-          getNth(std::make_index_sequence<sizeof...(args)>{},that,args...);
+          getNth(std::make_index_sequence<sizeof...(args)>{},that,r_t(args)...);
           return that/h;
         }
       }

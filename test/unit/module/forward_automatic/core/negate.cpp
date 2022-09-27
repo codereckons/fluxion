@@ -19,7 +19,7 @@ TTS_CASE_WITH( "Check behavior of flx::negate(eve::wide)"
                               , tts::logicals(0,3)
                               )
         )
-<typename T, typename M>(T const& a0, T const& a1, M const&  )
+<typename T, typename M>(T const& a0, T const& a1, M const& mask )
 {
   using eve::detail::map;
   using flx::var;
@@ -35,9 +35,8 @@ TTS_CASE_WITH( "Check behavior of flx::negate(eve::wide)"
   TTS_EQUAL(der(eve::negate(vda0, a1))  , derivative_1st(eve::negate)(a0, a1));
   TTS_EQUAL(der(eve::negate(a0, vda1))  , derivative_2nd(eve::negate)(a0, a1));
 
-
-//   TTS_EQUAL(val(eve::negate[mask](vda0, a1))  , eve::negate[mask](a0, a1));
-//   TTS_EQUAL(val(eve::negate[mask](a0, vda1))  , eve::negate[mask](a0, a1));
-//   TTS_EQUAL(der(eve::negate[mask](vda0, a1))  , eve::if_else(mask, derivative_1st(eve::negate)(a0, a1), eve::one));
-//   TTS_EQUAL(der(eve::negate[mask](a0, vda1))  , eve::if_else(mask, derivative_2nd(eve::negate)(a0, a1), eve::zero));
+  TTS_EQUAL(val(eve::negate[mask](vda0, a1))  , eve::negate[mask](a0, a1));
+  TTS_EQUAL(val(eve::negate[mask](a0, vda1))  , eve::negate[mask](a0, a1));
+  TTS_EQUAL(der(eve::negate[mask](vda0, a1))  , eve::if_else(mask, derivative_1st(eve::negate)(a0, a1), eve::one));
+  TTS_EQUAL(der(eve::negate[mask](a0, vda1))  , eve::if_else(mask, derivative_2nd(eve::negate)(a0, a1), eve::zero));
 };

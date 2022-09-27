@@ -192,7 +192,7 @@ namespace flx
 
     template<typename Func, typename V0, typename V1, typename... Vs>
     static EVE_FORCEINLINE auto deriv(Func f, V0 const& z0, V1 const& z1 , Vs const&... zs)
-      requires(!eve::conditional_expr<V0>)
+      requires(!eve::conditional_expr<V0> && !eve::decorator<V0>)
     {
       using v_t = decltype(f(val(z0),val(z1),val(zs)...));
       using r_t = flx::as_valder_t<v_t>;

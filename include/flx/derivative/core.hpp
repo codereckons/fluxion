@@ -10,6 +10,7 @@
 #include <flx/derivative/module/core/absmin.hpp>
 #include <flx/derivative/module/core/add.hpp>
 #include <flx/derivative/module/core/average.hpp>
+#include <flx/derivative/module/core/binarize.hpp>
 #include <flx/derivative/module/core/ceil.hpp>
 #include <flx/derivative/module/core/clamp.hpp>
 #include <flx/derivative/module/core/copysign.hpp>

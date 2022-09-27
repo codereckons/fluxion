@@ -18,10 +18,9 @@ TTS_CASE_WITH( "Check behavior of flx::dist(eve::wide)"
                               , tts::randoms(-10, +10)
                               , tts::randoms(-10, +10)
                               , tts::randoms(-10, +10)
-                              , tts::logicals(0,3)
                               )
         )
-<typename T, typename M>(T const& a0, T const& a1, T const& a2, T const& a3, M const& )
+<typename T>(T const& a0, T const& a1, T const& a2, T const& a3)
 {
   using eve::detail::map;
   using flx::var;
@@ -41,9 +40,4 @@ TTS_CASE_WITH( "Check behavior of flx::dist(eve::wide)"
   auto vdba0 = flx::as_valder_t<T>(a0, a2);
   auto vdba1 = flx::as_valder_t<T>(a1, a3);
   TTS_ULP_EQUAL(der(eve::dist(vdba0, vdba1))    , eve::sum_of_prod(derivative_2nd(eve::dist)(a0, a1), a3, derivative_1st(eve::dist)(a0, a1), a2), 0.5);
-
-//   TTS_EQUAL(val(eve::dist[mask](vda0, a1))  , eve::dist[mask](a0, a1));
-//   TTS_EQUAL(val(eve::dist[mask](a0, vda1))  , eve::dist[mask](a0, a1));
-//   TTS_EQUAL(der(eve::dist[mask](vda0, a1))  , eve::if_else(mask, derivative_1st(eve::dist)(a0, a1), eve::one));
-//   TTS_EQUAL(der(eve::dist[mask](a0, vda1))  , eve::if_else(mask, derivative_2nd(eve::dist)(a0, a1), eve::zero));
 };
