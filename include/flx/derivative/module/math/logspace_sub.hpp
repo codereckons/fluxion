@@ -53,12 +53,7 @@ namespace eve::detail
           ((iff(vs, std::integral_constant<std::size_t,I+3>{})),...);
         };
       r_t that(0);
-      if constexpr(N == 1) that = arg0;
-      else if constexpr(N == 2) that = arg1;
-      else
-      {
-        getNth(std::make_index_sequence<sizeof...(args)>{},that,args...);
-      }
+      getNth(std::make_index_sequence<sizeof...(args)>{},that,args...);
       auto z = exp(arg0-that)-exp(arg1-that);
       z = eve::rec(z-(...+exp(args-that)));
       return (N == 1) ? z : -z;

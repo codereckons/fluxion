@@ -10,20 +10,20 @@
 namespace eve::detail
 {
 
-  template<floating_real_value T>
-  EVE_FORCEINLINE constexpr T logspace_add_(EVE_SUPPORTS(cpu_)
+  template<floating_real_value T, floating_real_value U>
+  EVE_FORCEINLINE constexpr auto logspace_add_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<1> const &
                                    , T const &x
-                                   , T const &y) noexcept
+                                   , U const &y) noexcept
   {
     return rec(inc(exp(y-x)));
   }
 
-   template<floating_real_value T>
-  EVE_FORCEINLINE constexpr T logspace_add_(EVE_SUPPORTS(cpu_)
+   template<floating_real_value T, floating_real_value U>
+  EVE_FORCEINLINE constexpr auto logspace_add_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<2> const &
                                    , T const &x
-                                   , T const &y) noexcept
+                                   , U const &y) noexcept
   {
     return  rec(inc(exp(x-y)));
   }
@@ -52,12 +52,7 @@ namespace eve::detail
           ((iff(vs, std::integral_constant<std::size_t,I+3>{})),...);
         };
       r_t that(0);
-      if constexpr(N == 1) that = arg0;
-      else if constexpr(N == 2) that = arg1;
-      else
-      {
-        getNth(std::make_index_sequence<sizeof...(args)>{},that,args...);
-      }
+      getNth(std::make_index_sequence<sizeof...(args)>{},that,args...);
       auto z = exp(arg0-that)+exp(arg1-that);
       return eve::rec(z+(...+exp(args-that)));
     }
