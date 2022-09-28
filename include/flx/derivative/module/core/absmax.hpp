@@ -14,6 +14,7 @@ namespace eve::detail
   auto absmax_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
            , T0 arg0, T1 arg1, Ts... args) noexcept
   {
-    return minmax_kernel<N>(eve::max, eve::sign, arg0, arg1, args...);
+    using v_t =  eve::common_compatible_t<T0, T1, Ts...>;
+    return minmax_kernel<N>(eve::max, eve::sign, v_t(arg0), v_t(arg1), v_t(args)...);
   }
 }

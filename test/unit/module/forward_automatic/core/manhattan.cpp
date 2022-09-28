@@ -13,14 +13,14 @@
 // Tests for flx::manhattan
 //==================================================================================================
 TTS_CASE_WITH( "Check behavior of flx::manhattan(eve::wide)"
-        , flx::test::simd::ieee_reals
-        , tts::generate ( tts::randoms(-10, +10)
-                              , tts::randoms(-10, +10)
-                              , tts::randoms(-10, +10)
-                              , tts::logicals(0,3)
-                              )
-        )
-<typename T, typename M>(T const& a0, T const& a1, T const& a2, M const& mask)
+             , flx::test::simd::ieee_reals
+             , tts::generate ( tts::randoms(-10, +10)
+                             , tts::randoms(-10, +10)
+                             , tts::randoms(-10, +10)
+                             , tts::logicals(0,3)
+                             )
+             )
+  <typename T, typename M>(T const& a0, T const& a1, T const& a2, M const& mask)
 {
   using eve::detail::map;
   using flx::var;
