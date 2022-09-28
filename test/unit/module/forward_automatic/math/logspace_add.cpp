@@ -20,7 +20,7 @@ TTS_CASE_WITH( "Check behavior of flx::logspace_add(eve::wide)"
                               , tts::logicals(0,3)
                               )
         )
-  <typename T, typename M>(T const& a0, T const& a1, T const& , M const& )
+  <typename T, typename M>(T const& a0, T const& a1, T const& , M const& mask)
 {
   using eve::detail::map;
   using flx::var;
@@ -37,6 +37,11 @@ TTS_CASE_WITH( "Check behavior of flx::logspace_add(eve::wide)"
   TTS_EQUAL(der(eve::logspace_add(vda0, a1))      , derivative_1st(eve::logspace_add)(a0, a1));
   TTS_EQUAL(val(eve::logspace_add(a0, vda1))      , eve::logspace_add(a0, a1));
   TTS_EQUAL(der(eve::logspace_add(a0, vda1))      , derivative_2nd(eve::logspace_add)(a0, a1));
+
+  TTS_EQUAL(val(eve::logspace_add[mask](vda0, a1))      , eve::if_else(mask, eve::logspace_add(a0, a1), a0) );
+  TTS_EQUAL(der(eve::logspace_add[mask](vda0, a1))      , eve::if_else(mask, derivative_1st(eve::logspace_add)(a0, a1), der(vda0)));
+  TTS_EQUAL(val(eve::logspace_add[mask](a0, vda1))      , eve::if_else(mask, eve::logspace_add(a0, a1), a0));
+  TTS_EQUAL(der(eve::logspace_add[mask](a0, vda1))      , eve::if_else(mask, derivative_2nd(eve::logspace_add)(a0, a1), eve::zero));
 
 
 //   TTS_EQUAL(val(eve::logspace_add(vda0, a1, a2))      , eve::logspace_add(a0, a1, a2));
