@@ -10,20 +10,20 @@
 namespace eve::detail
 {
 
-  template<floating_real_value T>
+  template<floating_real_value T, floating_real_value U>
   EVE_FORCEINLINE constexpr T logspace_sub_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<1> const &
                                    , T const &x
-                                   , T const &y) noexcept
+                                   , U const &y) noexcept
   {
     return rec(oneminus(exp(y-x)));
   }
 
-   template<floating_real_value T>
+   template<floating_real_value T, floating_real_value U>
   EVE_FORCEINLINE constexpr T logspace_sub_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<2> const &
                                    , T const &x
-                                   , T const &y) noexcept
+                                   , U const &y) noexcept
   {
     return  rec(oneminus(exp(x-y)));
   }
@@ -32,7 +32,7 @@ namespace eve::detail
   //===============================================================================================
   // Multi case
   //================================================================================================
-  template<int N, typename T0, typename T1, typename... Ts>
+  template<auto N, typename T0, typename T1, typename... Ts>
   auto logspace_sub_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
                     , T0 arg0, T1 arg1, Ts... args) noexcept
   {

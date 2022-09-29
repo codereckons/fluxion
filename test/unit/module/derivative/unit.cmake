@@ -8,7 +8,7 @@
 ## module/derivative/core tests
 ##==================================================================================================
 generate_test("unit/module/derivative/core/abs.cpp"                    )
-generate_test("unit/module/derivative/core/absmax.cpp"                 )
+generate_test("unit/module/derivative/core/absmax.cpp"                  )
 generate_test("unit/module/derivative/core/absmin.cpp"                 )
 generate_test("unit/module/derivative/core/add.cpp"                    )
 generate_test("unit/module/derivative/core/average.cpp"                )

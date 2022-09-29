@@ -20,7 +20,7 @@ TTS_CASE_WITH( "Check behavior of flx::logspace_add(eve::wide)"
                               , tts::logicals(0,3)
                               )
         )
-  <typename T, typename M>(T const& a0, T const& a1, T const&  , M const& mask)
+  <typename T, typename M>(T const& a0, T const& a1, T const& a2, M const& mask)
 {
   using eve::detail::map;
   using flx::var;
@@ -32,7 +32,7 @@ TTS_CASE_WITH( "Check behavior of flx::logspace_add(eve::wide)"
 
   auto vda0 = var(a0);
   auto vda1 = var(a1);
-//  auto vda2 = var(a2);
+  auto vda2 = var(a2);
   TTS_EQUAL(val(eve::logspace_add(vda0, a1))      , eve::logspace_add(a0, a1));
   TTS_EQUAL(der(eve::logspace_add(vda0, a1))      , derivative_1st(eve::logspace_add)(a0, a1));
   TTS_EQUAL(val(eve::logspace_add(a0, vda1))      , eve::logspace_add(a0, a1));
@@ -44,12 +44,12 @@ TTS_CASE_WITH( "Check behavior of flx::logspace_add(eve::wide)"
   TTS_EQUAL(der(eve::logspace_add[mask](a0, vda1))      , eve::if_else(mask, derivative_2nd(eve::logspace_add)(a0, a1), eve::zero));
 
 
-//   TTS_EQUAL(val(eve::logspace_add(vda0, a1, a2))      , eve::logspace_add(a0, a1, a2));
-//   TTS_EQUAL(der(eve::logspace_add(vda0, a1, a2))      , derivative_1st(eve::logspace_add)(a0, a1, a2));
-//   TTS_EQUAL(val(eve::logspace_add(a0, vda1, a2))      , eve::logspace_add(a0, a1, a2));
-//   TTS_EQUAL(der(eve::logspace_add(a0, vda1, a2))      , derivative_2nd(eve::logspace_add)(a0, a1, a2));
-//   TTS_EQUAL(val(eve::logspace_add(a0, a1, vda2))      , eve::logspace_add(a0, a1, a2));
-//   TTS_EQUAL(der(eve::logspace_add(a0, a1, vda2))      , derivative_3rd(eve::logspace_add)(a0, a1, a2));
+  TTS_EQUAL(val(eve::logspace_add(vda0, a1, a2))      , eve::logspace_add(a0, a1, a2));
+  TTS_EQUAL(der(eve::logspace_add(vda0, a1, a2))      , derivative_1st(eve::logspace_add)(a0, a1, a2));
+  TTS_EQUAL(val(eve::logspace_add(a0, vda1, a2))      , eve::logspace_add(a0, a1, a2));
+  TTS_EQUAL(der(eve::logspace_add(a0, vda1, a2))      , derivative_2nd(eve::logspace_add)(a0, a1, a2));
+  TTS_EQUAL(val(eve::logspace_add(a0, a1, vda2))      , eve::logspace_add(a0, a1, a2));
+  TTS_EQUAL(der(eve::logspace_add(a0, a1, vda2))      , derivative_3rd(eve::logspace_add)(a0, a1, a2));
 
 //   TTS_EQUAL(val(eve::logspace_add[mask](vda0, a1, a2)), eve::logspace_add[mask](a0, a1, a2));
 //   TTS_EQUAL(der(eve::logspace_add[mask](vda0, a1, a2)), eve::if_else(mask, derivative_1st(eve::logspace_add)(a0, a1, a2), eve::one));

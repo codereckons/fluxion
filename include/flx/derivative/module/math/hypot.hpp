@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-//   template < size_t N, typename ...Ts>
+//   template < auto N, typename ...Ts>
 //   auto getNth(std::integral_constant<std::size_t,N>, auto ...xs){
 //     using r_t = common_compatible_t<Ts...>;
 //     if constexpr(N > sizeof...(Ts)+2)
@@ -32,7 +32,7 @@ namespace eve::detail
 //     }
 //   }
 
-  template<int N, floating_real_value T0, floating_real_value T1, floating_real_value... Ts>
+  template<auto N, floating_real_value T0, floating_real_value T1, floating_real_value... Ts>
   EVE_FORCEINLINE constexpr auto hypot_(EVE_SUPPORTS(cpu_)
                                        , flx::derivative_type<N> const &
                                        , T0 arg0, T1 arg1, Ts... args) noexcept

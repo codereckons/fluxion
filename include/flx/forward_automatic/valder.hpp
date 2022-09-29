@@ -177,6 +177,26 @@ namespace flx
        return r_t{ kumi::apply(f,vs), d};
     }
 
+ //    template<typename Func, typename V0, typename V1, typename V2>
+//     static EVE_FORCEINLINE auto deriv(Func f, V0 const& z0, V1 const& z1 , V2 const& z2)
+//       requires(!eve::conditional_expr<V0> && !eve::decorator<V0>)
+//     {
+//       using v_t = decltype(f(val(z0),val(z1),val(z2)));
+
+//       using r_t = flx::as_valder_t<v_t>;
+
+//       auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(z2)));
+//       auto de2 = [&](auto , auto , auto ){
+//         if constexpr(eve::floating_value<V1>&&eve::floating_value<V2>) return kumi::apply(derivative_2nd(f),vs);
+//                       else return eve::zero(eve::as<v_t>());
+//                     };
+//       v_t d = eve::sum_of_prod ( kumi::apply(derivative_1st(f),vs), v_t(der(z0))
+//                                , de2(z0, z1, z2), v_t(der(z1))
+//                                );
+//       d+= derivative_3rd(f)(val(z0), val(z1), val(z2))*v_t(der(z2));
+//       return r_t{f(val(z0), val(z1), val(z2)), d};
+//     }
+
     //==============================================================================================
     //  Operators
     //==============================================================================================

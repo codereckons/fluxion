@@ -28,7 +28,7 @@ namespace eve::detail
     return -rec(sqr(r_t(y)))*r_t(x);
   }
 
-  template<int N, typename T0, typename T1, typename... Ts>
+  template<auto N, typename T0, typename T1, typename... Ts>
   EVE_FORCEINLINE auto div_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
                            , T0 arg0, T1 arg1, Ts... args) noexcept
   {

@@ -34,5 +34,5 @@ TTS_CASE_WITH("Check behavior of eve::exp_int(eve::wide)",
 
   std::cout << eve::exp_int(n, a0) << std::endl;
   auto dexp_int = [&](auto n, auto e) { return -boost::math::expint((unsigned int)(n-1), e); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::exp_int)(n, a0), map(dexp_int, n, a0), 5.0);
+  TTS_ULP_EQUAL(flx::derivative_2nd(eve::exp_int)(n, a0), map(dexp_int, n, a0), 5.0);
 };

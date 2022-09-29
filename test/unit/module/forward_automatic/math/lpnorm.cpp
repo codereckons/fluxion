@@ -14,11 +14,11 @@
 //==================================================================================================
 TTS_CASE_WITH( "Check behavior of flx::lpnorm(eve::wide)"
         , flx::test::simd::ieee_reals
-        , tts::generate ( tts::randoms(0, 5)
-                              , tts::randoms(-10, +10)
-                              , tts::randoms(-10, +10)
-                              , tts::randoms(-10, +10)
-                              , tts::logicals(0,3)
+             , tts::generate ( tts::randoms(2, 5)
+                             , tts::randoms(1, +10)
+                             , tts::randoms(1, +10)
+                             , tts::randoms(1, +10)
+                             , tts::logicals(0,3)
                               )
         )
   <typename T, typename M>(T const& p,  T const& a0, T const& a1, T const& a2, M const & mask)

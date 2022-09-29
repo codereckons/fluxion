@@ -20,14 +20,15 @@ namespace eve::detail
     return arithmetic_call(flx::derivative_type<N>{}(betainc), s, a, b);
   }
 
-  template<floating_real_value T>
+  template<floating_real_value T, auto N>
   EVE_FORCEINLINE constexpr T betainc_(EVE_SUPPORTS(cpu_)
-                                   , flx::derivative_type<1> const &
+                                   , flx::derivative_type<N> const &
                                    , T const &s
                                    , T const &x
                                    , T const &y) noexcept
   requires(has_native_abi_v<T>)
   {
-    return pow(s, dec(x))*pow(oneminus(s), dec(y))/beta(x, y);
+    if constexpr(N != 1) return zero(eve::as<T>());
+    else return pow(s, dec(x))*pow(oneminus(s), dec(y))/beta(x, y);
   }
 }
