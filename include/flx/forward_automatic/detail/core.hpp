@@ -16,6 +16,7 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
+    std::cout << "subadd" << std::endl;
     using v_t = decltype(eve::add(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
@@ -45,6 +46,8 @@ namespace flx::detail
       return r_t(z, dr);
     }
   }
+
+
 
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::mul_
@@ -96,12 +99,24 @@ namespace flx::detail
     }
   }
 
+  //// rsqrt
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::rsqrt_
+                                              , Z const& z) noexcept
+  {
+    std::cout << "rsqrt" << std::endl;
+    auto [v, d] = z;
+    auto rs = eve::rsqrt(v);
+    return Z{rs, d*eve::mhalf(eve::as(v))*rs*eve::rec(v)};
+  }
+
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::sub_
                                               , Z1 const & z1
                                               , Z2 const & z2
                                               ) noexcept
   {
+    std::cout << "sub" << std::endl;
     using v_t = decltype(eve::sub(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
