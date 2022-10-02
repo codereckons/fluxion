@@ -46,21 +46,25 @@ namespace flx
   //!
   //!  @}
   //================================================================================================
+  namespace tag { struct der_; }
 
   struct der_
   {
-    constexpr auto operator()( auto && v) const
+    template<typename V>
+    auto operator()( V const& v) const noexcept
+    requires (flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )//!eve::floating_value<V>)
     {
-      return EVE_FWD(eve::zero(eve::as(v)));
+      return get<1>(EVE_FWD(v));;
     }
 
     template<typename V>
-    requires( flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )
-      constexpr decltype(auto) operator()(V && v) const
+    V operator()(V const &) const noexcept
+    requires (!flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )//!eve::floating_value<V>)
     {
-      return get<1>(EVE_FWD(v));
+      return V(0);
     }
   };
 
   constexpr inline auto der =  der_{};
+
 }

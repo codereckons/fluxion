@@ -48,18 +48,21 @@ namespace flx
 
   struct val_
   {
-    constexpr decltype(auto) operator()(auto && v) const
+    template<typename V>
+    auto operator()( V const& v) const noexcept
+    requires (flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )//!eve::floating_value<V>)
     {
-      return EVE_FWD(v);
+      return get<0>(EVE_FWD(v));;
     }
 
     template<typename V>
-    requires( flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )
-      constexpr auto operator()(V && v) const
-    {
-      return get<0>(EVE_FWD(v));
+    V operator()( V const& v) const noexcept
+     requires (!flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )//!eve::floating_value<V>)
+   {
+      return v;
     }
   };
 
   constexpr inline auto val =  val_{};
+
 }

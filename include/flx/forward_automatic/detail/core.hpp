@@ -10,13 +10,14 @@
 namespace flx::detail
 {
 
+  //// add
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::add_
                                               , Z1 const & z1
                                               , Z2 const & z2
                                               ) noexcept
   {
-    std::cout << "subadd" << std::endl;
+    std::cout << "add" << std::endl;
     using v_t = decltype(eve::add(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
@@ -26,19 +27,36 @@ namespace flx::detail
     else                                             return r_t(z, v_t(der(z1))+v_t(der(z2)));
   }
 
+  //// dist
+  template < typename Z1,  typename Z2>
+  EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::dist_
+                                              , Z1 const & z1
+                                              , Z2 const & z2
+                                              ) noexcept
+  {
+    using v_t = decltype(eve::dist(val(z1), val(z2)));
+    using r_t = flx::as_valder_t<v_t>;
+    auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
+    auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
+    auto  s = eve::sign(v1-v2);
+    return r_t{eve::dist(v1, v2), s*(d1-d2)};
+  }
+  
+  //// div
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::div_
                                               , Z1 const & z1
                                               , Z2 const & z2
                                               ) noexcept
   {
-    using v_t = decltype(eve::sub(val(z1), val(z2)));
+    std::cout << "div" << std::endl;
+    using v_t = decltype(eve::div(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
     auto z = val(z1)/val(z2);
     auto invvz2 = eve::rec(eve::sqr(val(z2)));
     if constexpr(!eve::like < Z1, valder<e_t>>)      return r_t(z, -v_t(z1)*v_t(der(z2))*invvz2);
-    else if constexpr(!eve::like < Z2, valder<e_t>>) return r_t(z, v_t(z2)*v_t(der(z1))*invvz2);
+    else if constexpr(!eve::like < Z2, valder<e_t>>) return r_t(z, v_t(der(z1)/val(z2)));
     else {
       auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
       auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
@@ -47,8 +65,32 @@ namespace flx::detail
     }
   }
 
+  //// expxxx
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::exp_, Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto e = eve::exp(v);
+    return Z{e, e*d};
+  }
 
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::exp2_, Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto e = eve::exp2(v);
+    return Z{e, e*eve::log_2(eve::as(v))*d};
+  }
 
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::exp10_, Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto e = eve::exp10(v);
+    return Z{e, e*eve::log_10(eve::as(v))*d};
+  }
+
+  //// mul
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::mul_
                                               , Z1 const & z1
@@ -110,6 +152,7 @@ namespace flx::detail
     return Z{rs, d*eve::mhalf(eve::as(v))*rs*eve::rec(v)};
   }
 
+  //// sub
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::sub_
                                               , Z1 const & z1
@@ -126,6 +169,14 @@ namespace flx::detail
     else                                             return r_t(z, v_t(der(z1))-v_t(der(z2)));
   }
 
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sqrt_
+                                              , Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto sqrtv = eve::sqrt(v);
+    return Z{sqrtv, d/(2*sqrtv)};
+  }
 
 
 }

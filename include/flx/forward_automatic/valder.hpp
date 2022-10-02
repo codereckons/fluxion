@@ -91,23 +91,17 @@ namespace flx
     template<typename Func, typename Z1, typename... Zs>
     static EVE_FORCEINLINE auto compute(Func f, Z1 const& z1, Zs const& ... zs)
     {
-      return f(val(z1), val(zs)...);
+      if constexpr(eve::decorator<Z1>)
+        return compute(z1(f), val(zs)...);
+      else if constexpr(eve::conditional_expr<Z1>)
+        return compute(f[z1], val(zs)...);
+      else
+        return f(val(z1), val(zs)...);
     }
 
-    template<typename Func, eve::conditional_expr C, typename Z1, typename... Zs>
-    static EVE_FORCEINLINE auto compute(Func f, C const & c , Z1 const& z1, Zs const& ... zs)
-    {
-      return f[c](val(z1), val(zs)...);
-    }
-
-    template<typename Func, eve::decorator D, typename Z1, typename... Zs>
-    static EVE_FORCEINLINE auto compute(Func f, D const & , Z1 const& z1, Zs const& ... zs)
-    {
-      return D()(f)(val(z1), val(zs)...);
-    }
 
     //==============================================================================================
-    //  Unary functions
+    //  Unary derivable functions
     //==============================================================================================
     template<typename Func, eve::like<valder> Z>
     static EVE_FORCEINLINE auto deriv(Func f, Z const & z)
@@ -140,8 +134,6 @@ namespace flx
     //==============================================================================================
     //  n_ary functions
     //==============================================================================================
-//    template < auto I >  static auto ap(auto vd, auto f){return kumi::apply(derivative_nth<I>(f, val(vd)))*get<I>(der(vd)); };
-
     template<typename Func, eve::decorator D, typename V0, typename V1, typename... Vs>
     static EVE_FORCEINLINE auto deriv(Func f, D const &, V0 const& z0, V1 const& z1, Vs const&... zs )
     {
@@ -159,74 +151,48 @@ namespace flx
       requires(!eve::conditional_expr<V0> && !eve::decorator<V0>)
     {
       using v_t = decltype(f(val(z0),val(z1),val(zs)...));
-//      using vv_t= decltype(f(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...));
-
       using r_t = flx::as_valder_t<v_t>;
 
       auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...);
-      auto ds = kumi::make_tuple(v_t(der(zs))...);
+      auto tzs = kumi::make_tuple(zs...);
       v_t d = eve::sum_of_prod ( kumi::apply(derivative_1st(f),vs), v_t(der(z0))
                                , kumi::apply(derivative_2nd(f),vs), v_t(der(z1))
                                );
       [&]<std::size_t... I>(std::index_sequence<I...>)
       {
-        ((d += kumi::apply(derivative_nth<I+3>(f),vs)*get<I>(ds)),...);
+        auto ifam = [](auto a,  auto b, auto c){
+          if constexpr(eve::floating_value<decltype(c)>) return a;
+          else return eve::fam(a, b, v_t(der(c)));
+        };
+        ((d = ifam(d, kumi::apply(derivative_nth<I+3>(f),vs), get<I>(tzs))),...);
       }(std::index_sequence_for<Vs...>{});
-//       [&]<std::size_t... I>(std::index_sequence<I...>)
-//       {
-//         ((d = eve::fam(d, kumi::apply(derivative_nth<I+3>(f),vs), get<I>(ds))),...);
-//       }(std::index_sequence_for<Vs...>{});
        return r_t{ kumi::apply(f,vs), d};
     }
-
- //    template<typename Func, typename V0, typename V1, typename V2>
-//     static EVE_FORCEINLINE auto deriv(Func f, V0 const& z0, V1 const& z1 , V2 const& z2)
-//       requires(!eve::conditional_expr<V0> && !eve::decorator<V0>)
-//     {
-//       using v_t = decltype(f(val(z0),val(z1),val(z2)));
-
-//       using r_t = flx::as_valder_t<v_t>;
-
-//       auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(z2)));
-//       auto de2 = [&](auto , auto , auto ){
-//         if constexpr(eve::floating_value<V1>&&eve::floating_value<V2>) return kumi::apply(derivative_2nd(f),vs);
-//                       else return eve::zero(eve::as<v_t>());
-//                     };
-//       v_t d = eve::sum_of_prod ( kumi::apply(derivative_1st(f),vs), v_t(der(z0))
-//                                , de2(z0, z1, z2), v_t(der(z1))
-//                                );
-//       d+= derivative_3rd(f)(val(z0), val(z1), val(z2))*v_t(der(z2));
-//       return r_t{f(val(z0), val(z1), val(z2)), d};
-//     }
 
     //==============================================================================================
     //  Operators
     //==============================================================================================
-
     //==============================================================================================
-    // add/sub
+    // +
     //==============================================================================================
+    template < typename Z>
     EVE_FORCEINLINE friend auto& operator+= ( eve::like<valder> auto& self
-                                            , eve::like<valder> auto const& other
+                                            , Z const& other
                                             ) noexcept
     {
-      val(self) += val(other);
-      der(self) += der(other);
+      auto& [v, d] = self;
+      v += val(other);
+      if constexpr(flx::is_valder<eve::element_type_t<std::decay_t<Z>>>::value) d += der(other);
       return self;
     }
 
-    EVE_FORCEINLINE friend auto& operator-= ( eve::like<valder> auto& self
-                                            , eve::like<valder> auto const& other
-                                            ) noexcept
+    template < typename Z1, typename Z2>
+    EVE_FORCEINLINE friend auto operator+(  Z1 z1
+                                          , Z2 z2
+                                          ) noexcept
+    requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
     {
-      val(self) -= val(other);
-      der(self) -= der(other);
-      return self;
-    }
-
-    template<eve::like<valder> Z> EVE_FORCEINLINE friend auto operator-(Z const & z) noexcept
-    {
-      return Z{-val(z), -der(z)};
+      return eve::add(z1, z2);
     }
 
     template<eve::like<valder> Z> EVE_FORCEINLINE friend auto operator+(Z const &z) noexcept
@@ -235,87 +201,71 @@ namespace flx
     }
 
     //==============================================================================================
-    // multiplies
+    // -
     //==============================================================================================
-    EVE_FORCEINLINE friend auto& operator*= ( eve::like<valder> auto  & self
-                                            , eve::like<valder> auto  const & other
+    template < typename Z>
+    EVE_FORCEINLINE friend auto& operator-= ( eve::like<valder> auto& self
+                                            , Z const& other
                                             ) noexcept
     {
-      using r_t = std::remove_reference_t<decltype(self)>;
-      auto [v1, d1] = self;
-      auto [v2, d2] = other;
-      auto dr = eve::sum_of_prod(v1, d2, v2, d1);
-      auto vr = v1*v2;
-      return self = r_t(vr, dr);
+      auto& [v, d] = self;
+      v -= val(other);
+      if constexpr(flx::is_valder<eve::element_type_t<std::decay_t<Z>>>::value) d -= der(other);
+      return self;
     }
 
-
-    template<eve::like<valder> Z, eve::floating_value O>
-    EVE_FORCEINLINE friend auto& operator *= ( Z & self
-                                             , O const & other
-                                             ) noexcept
-    {
-      auto [a, b] = self;
-      return self = Z{ a*other, b*other};
-    }
-
-    template<eve::like<valder> Z, eve::floating_value O>
-    EVE_FORCEINLINE friend auto operator*( Z const & a0
-                                         , O const & a1
-                                         ) noexcept
-    {
-      return eve::mul(a0, a1);
-    }
-
-    template<eve::like<valder> Z, eve::floating_value O>
-    EVE_FORCEINLINE friend auto  operator*( O const & a0
-                                          , Z const & a1
+    template < typename Z1, typename Z2>
+    EVE_FORCEINLINE friend auto operator-(  Z1 z1
+                                          , Z2 z2
                                           ) noexcept
+    requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
     {
-      return eve::mul(a1, a0);
+      return eve::sub(z1, z2);
     }
 
+    template<eve::like<valder> Z> EVE_FORCEINLINE friend auto operator-(Z const & z) noexcept
+    {
+      return Z{-val(z), -der(z)};
+    }
+
+    //==============================================================================================
+    // multiplies
+    //==============================================================================================
+    template < typename Z>
+    EVE_FORCEINLINE friend auto& operator*= ( eve::like<valder> auto  & self
+                                            , Z const & other
+                                            ) noexcept
+    {
+      return self =  eve::mul(self, other);
+    }
+
+    template < typename Z1, typename Z2>
+    EVE_FORCEINLINE friend auto operator*(  Z1 z1
+                                          , Z2 z2
+                                          ) noexcept
+    requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
+    {
+      return eve::mul(z1, z2);
+    }
 
     //==============================================================================================
     // divide
     //==============================================================================================
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto operator/= ( Z & self
-                                           , eve::like<valder> auto const& other
-                                           ) noexcept
+    template < typename Z>
+    EVE_FORCEINLINE friend auto& operator/= ( eve::like<valder> auto  & self
+                                            , Z const & other
+                                            ) noexcept
     {
-      using r_t = std::remove_reference_t<decltype(self)>;
-      auto [v1, d1] = self;
-      auto [v2, d2] = other;
-      auto dr = eve::diff_of_prod(v2, d1, v1, d2)/eve::sqr(v2);
-      auto vr = v1/v2;
-      return self = r_t(vr, dr);
+      return self =  eve::div(self, other);
     }
 
-    template<eve::like<valder> Z, eve::floating_value O>
-    EVE_FORCEINLINE friend auto operator/= ( Z & self
-                                           , O const& other
-
-                                           ) noexcept
-    {
-      auto [a, b] = self;
-      return self = Z{ a/other, b/other};
-    }
-
-    template<eve::like<valder> Z, eve::floating_value O>
-    EVE_FORCEINLINE friend auto operator/( Z const & a0
-                                         , O const & a1
-                                         ) noexcept
-    {
-      return eve::div(a0, a1);
-    }
-
-    template<eve::like<valder> Z, eve::floating_value O>
-    EVE_FORCEINLINE friend auto  operator/( O const & a0
-                                          , Z const & a1
+    template < typename Z1, typename Z2>
+    EVE_FORCEINLINE friend auto operator/(  Z1 z1
+                                          , Z2 z2
                                           ) noexcept
+    requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
     {
-      return eve::div(a0, a1);
+      return eve::div(z1, z2);
     }
 
     //==============================================================================================
@@ -348,7 +298,8 @@ namespace flx
     //==============================================================================================
     // unary functions
     template<typename Tag>
-    EVE_FORCEINLINE friend auto tagged_dispatch(Tag, eve::like<valder> auto const& v) noexcept
+    EVE_FORCEINLINE friend auto tagged_dispatch(Tag
+                                               , eve::like<valder> auto const& v) noexcept
     requires( has_derivation_v<Tag> )
     {
       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v);
@@ -365,6 +316,16 @@ namespace flx
         return eve::detail::mask_op(c, eve::detail::callable_object<Tag>{}, v);
       else
         return compute( eve::detail::callable_object<Tag>{}, c, v);
+    }
+
+    template<typename Tag, eve::decorator D>
+    EVE_FORCEINLINE friend auto tagged_dispatch(Tag
+                                               , D const & d
+                                               , eve::like<valder> auto const& v) noexcept
+    requires( has_derivation_v<Tag> )
+    {
+      if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, d, v);
+      else                              return compute( eve::detail::callable_object<Tag>{}, d, v);
     }
 
     template<typename Tag, typename Z1>
@@ -389,28 +350,8 @@ namespace flx
       return detail::valder_binary_dispatch(tag, z1, z2);
     }
 
-
-
-//     template<typename Tag, eve::decorator D>
-//     EVE_FORCEINLINE friend auto tagged_dispatch(Tag
-//                                                , D const & d
-//                                                , eve::like<valder> auto const& v) noexcept
-//     requires( has_derivation_v<Tag> )
-//     {
-//       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, d, v);
-//       else                              return compute( eve::detail::callable_object<Tag>{}, d, v);
-//     }
-
     //==============================================================================================
     // n-ary functions
-//      template<typename Tag>
-//      EVE_FORCEINLINE friend auto tagged_dispatch (Tag, eve::like<valder> auto const&... v) noexcept
-//      requires( has_derivation_v<Tag> )
-//      {
-//        if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v...);
-//        else                              return compute( eve::detail::callable_object<Tag>{}, v...);
-//      }
-
     template<typename Tag, typename V0, typename ... Vs>
     EVE_FORCEINLINE friend auto tagged_dispatch (Tag, V0 const& v0, Vs const&... vs ) noexcept
     requires( has_derivation_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
@@ -452,7 +393,9 @@ namespace flx
       }
     }
 
-    // specials cases
+    //==============================================================================================/////////////////////////
+    //==  peculiar cases
+    //==============================================================================================/////////////////////////
     template<eve::like<valder> Z>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::exponent_, Z const& z) noexcept
     {
@@ -465,9 +408,6 @@ namespace flx
       return Z{mantissa(val(z)), der(z)};
     }
 
-    //==============================================================================================/////////////////////////
-    //==  peculiar cases
-    //==============================================================================================/////////////////////////
     template<eve::like<valder> Z, eve::value N>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::ldexp_
                                                 , Z const& z,  N const& n) noexcept
@@ -476,132 +416,23 @@ namespace flx
       return Z{eve::ldexp(val(z), nn), eve::ldexp(eve::one(eve::as(val(z))), nn)*der(z)};
     }
 
-
-    //==============================================================================================/////////////////////////
-    //==  optimizations
-    //==============================================================================================/////////////////////////
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::cbrt_, Z const& z) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto cb = eve::cbrt(v);
-//       return Z{cb, eve::rec(3*eve::sqr(cb))*d};
-//     }
-
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::cos_
-                                               , Z const& z ) noexcept
-    {
-      auto [v, d] = z;
-      auto [s, c]= eve::sincos(v);
-      return Z{c, -d*s};
-    }
-
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::cosh_
-                                               , Z const& z ) noexcept
-    {
-      auto [v, d] = z;
-      auto [s, c]= eve::sinhcosh(v);
-      return Z{c, d*s};
-    }
-
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sqrt_
-                                               , Z const& z ) noexcept
-    {
-      auto [v, d] = z;
-      auto sqrtv = eve::sqrt(v);
-      return Z{sqrtv, d/(2*sqrtv)};
-    }
-
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::exp_, Z const& z ) noexcept
-    {
-      auto [v, d] = z;
-      auto e = eve::exp(v);
-      return Z{e, e*d};
-    }
-
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::exp2_, Z const& z ) noexcept
-    {
-      auto [v, d] = z;
-      auto e = eve::exp2(v);
-      return Z{e, e*eve::log_2(eve::as(v))*d};
-    }
-
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::exp10_, Z const& z ) noexcept
-    {
-      auto [v, d] = z;
-      auto e = eve::exp10(v);
-      return Z{e, e*eve::log_10(eve::as(v))*d};
-    }
-
     //==============================================================================================
     //  Binary functions
     //==============================================================================================
-
-    template < typename Z1,  typename Z2>
-    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::atan2_
-                                                , Z1 const & z1
-                                                , Z2 const & z2
-                                                ) noexcept
-    requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-    {
-      using v_t = decltype(eve::atan2(val(z1), val(z2)));
-      using r_t = flx::as_valder_t<v_t>;
-      auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
-      auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-      auto  invden = eve::rec(eve::sum_of_prod(v1, v1, v2, v2));
-      return r_t{eve::atan2(v1, v2), invden*eve::sum_of_prod(v1, d2, v2, d1)};
-    }
-
-    template < typename Z1,  typename Z2>
-    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::atan2d_
-                                                , Z1 const & z1
-                                                , Z2 const & z2
-                                                ) noexcept
-    requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-    {
-      using v_t = decltype(eve::atan2d(val(z1), val(z2)));
-      using r_t = flx::as_valder_t<v_t>;
-      auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
-      auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-      auto  invden = eve::rec(eve::sum_of_prod(v1, v1, v2, v2));
-      return r_t{eve::atan2d(v1, v2), eve::radindeg(invden*eve::sum_of_prod(v1, d2, v2, d1))};
-    }
-
-    template < typename Z1,  typename Z2>
-    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::atan2pi_
-                                                , Z1 const & z1
-                                                , Z2 const & z2
-                                                ) noexcept
-    requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-    {
-      using v_t = decltype(eve::atan2pi(val(z1), val(z2)));
-      using r_t = flx::as_valder_t<v_t>;
-      auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
-      auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-      auto  invden = eve::rec(eve::sum_of_prod(v1, v1, v2, v2));
-      return r_t{eve::atan2pi(v1, v2), eve::radinpi(invden*eve::sum_of_prod(v1, d2, v2, d1))};
-    }
-
-    template < typename Z1,  typename Z2>
-    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::dist_
-                                                , Z1 const & z1
-                                                , Z2 const & z2
-                                                ) noexcept
-    requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-    {
-      using v_t = decltype(eve::dist(val(z1), val(z2)));
-      using r_t = flx::as_valder_t<v_t>;
-      auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
-      auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-      auto  s = eve::sign(v1-v2);
-      return r_t{eve::dist(v1, v2), s*(d1-d2)};
-    }
+//     template < typename Z1,  typename Z2>
+//     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::dist_
+//                                                 , Z1 const & z1
+//                                                 , Z2 const & z2
+//                                                 ) noexcept
+//     requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
+//     {
+//       using v_t = decltype(eve::dist(val(z1), val(z2)));
+//       using r_t = flx::as_valder_t<v_t>;
+//       auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
+//       auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
+//       auto  s = eve::sign(v1-v2);
+//       return r_t{eve::dist(v1, v2), s*(d1-d2)};
+//     }
 
     template < typename Z1,  typename Z2>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::ulpdist_
@@ -614,248 +445,49 @@ namespace flx
                      , eve::ulpdist(der(z1), der(z2)));
     }
 
-    template < typename Z1,  typename Z2>
-    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::pow_
-                                                , Z1 const & z1
-                                                , Z2 const & z2
-                                                ) noexcept
-    requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-    {
-      using v_t = decltype(eve::pow(val(z1), val(z2)));
-      using r_t = as_valder_t<v_t>;
-      if constexpr(! eve::like<Z1, valder>)
-      {
-        auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-        auto p = eve::pow(z1, v2);
-        return r_t{p, eve::log(z1)*p*d2};
-      }
-      else if constexpr(! eve::like<Z2, valder>)
-      {
-        auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
-        auto  p = eve::pow(v1, z2);
-        return r_t{p, p*(z2/v1)*d1};
-      }
-      else
-      {
-        auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
-        auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-        auto  puv = eve::pow(v1, v2);
-        return r_t{puv, puv*eve::sum_of_prod(v2/v1, d1, eve::log(v1), d2)};
-      }
-    }
-
     template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::cosd_
+    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sincos_
                                                , Z const& z ) noexcept
     {
+      std::cout << " sincos friend" << std::endl;
       auto [v, d] = z;
-      auto [s, c]= eve::sindcosd(v);
-      return Z{c, -d*eve::deginrad(s)};
+      auto [s, c]= eve::sincos(v);
+      return kumi::tuple{Z{s, d*c}, Z{c, -d*s}};
     }
 
     template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::cospi_
+    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sinpicospi_
                                                , Z const& z ) noexcept
     {
       auto [v, d] = z;
       auto [s, c]= eve::sinpicospi(v);
-      return Z{c, -d*s*eve::pi(eve::as(v))};
+      auto fac = eve::pi(eve::as(v));
+      return kumi::tuple{Z{s, d*c*fac}, Z{c, -d*s*fac}};
     }
 
     template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::csc_
+    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sindcosd_
                                                , Z const& z ) noexcept
     {
       auto [v, d] = z;
-      auto cs = eve::csc(v);
-      return Z{cs, -d*cs*eve::cot(v)};
+      auto [s, c]= eve::sindcosd(v);
+      auto fac = eve::deginrad(d);
+      return kumi::tuple{Z{s, c*fac}, Z{c, -s*fac}};
     }
 
     template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::cscd_
+    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sinhcosh_
                                                , Z const& z ) noexcept
     {
       auto [v, d] = z;
-      auto cs = eve::cscd(v);
-      return Z{cs, -d*eve::deginrad(cs)*eve::cotd(v)};
+      auto [s, c]= eve::sinhcosh(v);
+      return kumi::tuple{Z{s, d*c}, Z{c, d*s}};
     }
 
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::csch_
-                                               , Z const& z ) noexcept
-    {
-      auto [v, d] = z;
-      auto cs = eve::csch(v);
-      return Z{cs, -d*cs*eve::coth(v)};
-    }
-
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::cscpi_
-                                               , Z const& z ) noexcept
-    {
-      auto [v, d] = z;
-      auto cs = eve::cscpi(v);
-      return Z{cs, -d*cs*eve::cotpi(v)*eve::pi(eve::as(v))};
-    }
-
-    template<eve::like<valder> Z>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::rsqrt_
-                                               , Z const& z ) noexcept
-    {
-      auto [v, d] = z;
-      auto rs = eve::rsqrt(v);
-      return Z{rs, d*eve::mhalf(eve::as(v))*rs*eve::rec(v)};
-    }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sec_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto se = eve::sec(v);
-//       return Z{se, d*se*eve::tan(v)};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::secd_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto se = eve::secd(v);
-//       return Z{se, d*eve::deginrad(se)*eve::tand(v)};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sech_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto se = eve::sech(v);
-//       return Z{se, -d*se*eve::tanh(v)};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::secpi_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto se = eve::secpi(v);
-//       return Z{se, d*se*eve::tanpi(v)*eve::pi(eve::as(v))};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sin_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto [s, c]= eve::sincos(v);
-//       return Z{s, d*c};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sincos_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto [s, c]= eve::sincos(v);
-//       return kumi::tuple{Z{s, d*c}, Z{c, -d*s}};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sinpicospi_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto [s, c]= eve::sinpicospi(v);
-//       auto fac = eve::pi(eve::as(v));
-//       return kumi::tuple{Z{s, d*c*fac}, Z{c, -d*s*fac}};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sinpi_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto [s, c]= eve::sinpicospi(v);
-//       return Z{s, d*c*eve::pi(eve::as(v))};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sindcosd_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto [s, c]= eve::sindcosd(v);
-//       auto fac = eve::deginrad(d);
-//       return kumi::tuple{Z{s, c*fac}, Z{c, -s*fac}};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sind_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto [s, c]= eve::sindcosd(v);
-//       return Z{s, d*eve::deginrad(c)};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sinhcosh_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto [s, c]= eve::sinhcosh(v);
-//       return kumi::tuple{Z{s, d*c}, Z{c, d*s}};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sinh_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto [s, c]= eve::sinhcosh(v);
-//       return Z{s, d*c};
-//     }
-
- //    template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::tan_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto t = eve::tan(v);
-//       return Z{t, d*eve::inc(eve::sqr(t))};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::tanpi_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto t = eve::tanpi(v);
-//       return Z{t, d*eve::inc(eve::sqr(t))*eve::pi(eve::as(v))};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::tand_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto t = eve::tand(v);
-//       return Z{t, eve::deginrad(d)*eve::inc(eve::sqr(t))};
-//     }
-
-//     template<eve::like<valder> Z>
-//     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::tanh_
-//                                                , Z const& z ) noexcept
-//     {
-//       auto [v, d] = z;
-//       auto t = eve::tanh(v);
-//       return Z{t, eve::oneminus(eve::sqr(t))*d};
-//     }
-
+    //// if_else
     template<typename Z1,  typename Z2>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::if_else_
-                                                , auto const & c
+                                                , auto const & vc
                                                 , Z1 const & a
                                                 , Z2 const & b
                                                 ) noexcept
@@ -863,7 +495,6 @@ namespace flx
     {
       auto va = val(a); auto da = der(a);
       auto vb = val(b); auto db = der(b);
-      auto vc = val(c);
       using v_t = decltype(eve::if_else(vc, va, vb));
       using r_t = as_valder_t<v_t>;
       return r_t{eve::if_else(vc, va, vb), eve::if_else(vc, da, db)};
@@ -871,12 +502,11 @@ namespace flx
 
     template < eve::like < valder> Z2, eve::generator < typename Z2::value_type> Constant>
     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::if_else_
-                                               , auto const & c
+                                               , auto const & vc
                                                , Constant const& a
                                                , Z2 const& b ) noexcept
     {
       auto vb = val(b); auto db = der(b);
-      auto vc = c; //val(c);
       using v_t = decltype(eve::if_else(vc, a, vb));
       using r_t = as_valder_t<v_t>;
       return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
@@ -884,19 +514,19 @@ namespace flx
 
     template < eve::like < valder> Z1, eve::generator < typename Z1::value_type> Constant>
     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::if_else_
-                                               , auto const & c
+                                               , auto const & vc
                                                , Z1 const& b
                                                , Constant const& a
 
                                                ) noexcept
     {
       auto vb = val(b); auto db = der(b);
-      auto vc = c; //val(c);
       using v_t = decltype(eve::if_else(vc, a, vb));
       using r_t = as_valder_t<v_t>;
       return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
     }
 
+    //// ifnot_else
     template< typename Z1,  typename Z2>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::ifnot_else_
                                                 , auto const & c
@@ -908,6 +538,7 @@ namespace flx
       return eve::if_else(c, b, a);
     }
 
+    //// modf
     template<eve::like<valder> Z>
     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::modf_
                                                , Z const& z ) noexcept
