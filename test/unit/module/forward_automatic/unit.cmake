@@ -157,6 +157,7 @@ generate_test("unit/module/forward_automatic/math/tan.cpp"                   )
 generate_test("unit/module/forward_automatic/math/tand.cpp"                  )
 generate_test("unit/module/forward_automatic/math/tanh.cpp"                  )
 generate_test("unit/module/forward_automatic/math/tanpi.cpp"                 )
+generate_test("unit/module/forward_automatic/math/pi.cpp"                 )
 
 
 ##==================================================================================================
