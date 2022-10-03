@@ -155,18 +155,30 @@ namespace flx
 
       auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...);
       auto tzs = kumi::make_tuple(zs...);
-      v_t d = eve::sum_of_prod ( kumi::apply(derivative_1st(f),vs), v_t(der(z0))
-                               , kumi::apply(derivative_2nd(f),vs), v_t(der(z1))
+
+      auto snd0 = [&](auto z0){
+        if constexpr(eve::floating_value<decltype(z0)>) return eve::zero(eve::as(z0));
+        else return kumi::apply(derivative_1st(f),vs);
+      };
+      auto snd1 = [&](auto z1){
+        if constexpr(eve::floating_value<decltype(z1)>) return eve::zero(eve::as(z1));
+        else return kumi::apply(derivative_2nd(f),vs);
+      };
+
+      v_t d = eve::sum_of_prod ( snd0(z0), v_t(der(z0)), snd1(z1), v_t(der(z1))
                                );
-      [&]<std::size_t... I>(std::index_sequence<I...>)
+      if constexpr(sizeof...(zs)!= 0)
       {
-        auto ifam = [](auto a,  auto b, auto c){
-          if constexpr(eve::floating_value<decltype(c)>) return a;
-          else return eve::fam(a, b, v_t(der(c)));
-        };
-        ((d = ifam(d, kumi::apply(derivative_nth<I+3>(f),vs), get<I>(tzs))),...);
-      }(std::index_sequence_for<Vs...>{});
-       return r_t{ kumi::apply(f,vs), d};
+        [&]<std::size_t... I>(std::index_sequence<I...>)
+        {
+          auto ifam = [](auto a,  auto b, auto c){
+            if constexpr(eve::floating_value<decltype(c)>) return a;
+            else return eve::fam(a, b, v_t(der(c)));
+          };
+          ((d = ifam(d, kumi::apply(derivative_nth<I+3>(f),vs), get<I>(tzs))),...);
+        }(std::index_sequence_for<Vs...>{});
+      }
+      return r_t{ kumi::apply(f,vs), d};
     }
 
     //==============================================================================================
@@ -261,6 +273,26 @@ namespace flx
 
     template < typename Z1, typename Z2>
     EVE_FORCEINLINE friend auto operator/(  Z1 z1
+                                          , Z2 z2
+                                          ) noexcept
+    requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
+    {
+      return eve::div(z1, z2);
+    }
+
+    //==============================================================================================
+    // remainder
+    //==============================================================================================
+    template < typename Z>
+    EVE_FORCEINLINE friend auto& operator%= ( eve::like<valder> auto  & self
+                                            , Z const & other
+                                            ) noexcept
+    {
+      return self =  eve::div(self, other);
+    }
+
+    template < typename Z1, typename Z2>
+    EVE_FORCEINLINE friend auto operator%(  Z1 z1
                                           , Z2 z2
                                           ) noexcept
     requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
@@ -419,21 +451,6 @@ namespace flx
     //==============================================================================================
     //  Binary functions
     //==============================================================================================
-//     template < typename Z1,  typename Z2>
-//     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::dist_
-//                                                 , Z1 const & z1
-//                                                 , Z2 const & z2
-//                                                 ) noexcept
-//     requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-//     {
-//       using v_t = decltype(eve::dist(val(z1), val(z2)));
-//       using r_t = flx::as_valder_t<v_t>;
-//       auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
-//       auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-//       auto  s = eve::sign(v1-v2);
-//       return r_t{eve::dist(v1, v2), s*(d1-d2)};
-//     }
-
     template < typename Z1,  typename Z2>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::ulpdist_
                                                 , Z1 const & z1
@@ -445,6 +462,9 @@ namespace flx
                      , eve::ulpdist(der(z1), der(z2)));
     }
 
+    //==============================================================================================
+    //  returning tuples
+    //==============================================================================================
     template<eve::like<valder> Z>
     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sincos_
                                                , Z const& z ) noexcept
