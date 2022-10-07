@@ -16,10 +16,10 @@ TTS_CASE_TPL("Check return types of eve::gegenbauer", flx::test::simd::ieee_real
   using v_t = eve::element_type_t<T>;
   using wi_t = eve::as_integer_t<T>;
   using i_t  = eve::as_integer_t<v_t>;
-  TTS_EXPR_IS( flx::derivative(eve::gegenbauer)(i_t(), T(), T())  , T);
-  TTS_EXPR_IS( flx::derivative(eve::gegenbauer)(wi_t(), T(), T())  , T);
-  TTS_EXPR_IS( flx::derivative(eve::gegenbauer)(i_t(), T(), v_t())  , T);
-  TTS_EXPR_IS( flx::derivative( eve::gegenbauer)(wi_t(), T(), v_t())  , T);
+  TTS_EXPR_IS( flx::derivative_3rd(eve::gegenbauer)(i_t(), T(), T())  , T);
+  TTS_EXPR_IS( flx::derivative_3rd(eve::gegenbauer)(wi_t(), T(), T())  , T);
+  TTS_EXPR_IS( flx::derivative_3rd(eve::gegenbauer)(i_t(), T(), v_t())  , T);
+  TTS_EXPR_IS( flx::derivative_3rd( eve::gegenbauer)(wi_t(), T(), v_t())  , T);
 };
 
 //==================================================================================================
@@ -35,7 +35,7 @@ TTS_CASE_WITH( "Check behavior of gegenbauer diff on wide"
 {
    using v_t = eve::element_type_t<T>;
   v_t l = v_t(-3)/v_t(8);
-   auto flx__gegenbauerv  =  [l](auto n, auto x) { return flx::derivative( eve::gegenbauer)(n, l, x); };
+   auto flx__gegenbauerv  =  [l](auto n, auto x) { return flx::derivative_3rd( eve::gegenbauer)(n, l, x); };
   for(unsigned int n=0; n < 5; ++n)
   {
     auto boost_gegenbauer =  [&](auto i, auto) { return boost::math::gegenbauer_derivative(n, l, a0.get(i), 1u); };

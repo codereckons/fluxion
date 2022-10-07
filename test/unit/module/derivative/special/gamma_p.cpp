@@ -32,5 +32,5 @@ TTS_CASE_WITH("Check behavior of eve::gamma_p(eve::wide)",
   using eve::detail::map;
 
   auto dgamma_p = [&]( auto x, auto k) { return eve::exp(eve::dec(k) * eve::log(x) - x - eve::log_gamma(k)); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::gamma_p)(a0, a1), map(dgamma_p, a0, a1), 2.0);
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::gamma_p)(a0, a1), map(dgamma_p, a0, a1), 14.0);
 };

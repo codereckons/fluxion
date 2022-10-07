@@ -31,10 +31,7 @@ TTS_CASE_WITH("Check behavior of eve::erfc(eve::wide)",
   using eve::erfc;
   using eve::detail::map;
   using e_t = eve::element_type_t<T>;
-  using c_t = eve::complex<e_t>;
 
-  auto eps = eve::eps(eve::as<e_t>());
-
-  auto derfc = [&](auto e) -> e_t{ return eve::imag(-eve::erf(c_t(e,eps)))/eps; };
+  auto derfc = [&](auto e){ return e_t(-.564189583547756286948)*2*eve::exp(-eve::sqr(e)); };
   TTS_ULP_EQUAL(flx::derivative_1st(eve::erfc)(a0), map(derfc, a0), 50);
 };

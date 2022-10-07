@@ -41,7 +41,7 @@ TTS_CASE_WITH( "Check behavior of legendre diff on wide"
     TTS_ULP_EQUAL(flx__legendrev(n, a0), T(boost_legendre), 100);
   }
   auto boost_legendrev =  [&](auto i, auto) { return boost::math::legendre_p(i0.get(i), a0.get(i)); };
-  TTS_ULP_EQUAL(flx__legendrev(i0    , a0), T(boost_legendrev), 100);
+  TTS_ULP_EQUAL(flx__legendrev(i0    , a0), T(boost_legendrev), 110);
   for(unsigned int j=0; j < eve::cardinal_v<T>; ++j)
   {
     auto boost_legendre2 =  [&](auto i, auto) { return boost::math::legendre_p(i0.get(i), a0.get(j)); };
