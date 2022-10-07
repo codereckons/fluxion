@@ -11,25 +11,38 @@ namespace eve::detail
 {
 
 
-  template<integral_real_value M, integral_real_value N, floating_value T>
+  template<auto I, value M, value N, floating_value T>
   EVE_FORCEINLINE constexpr T laguerre_(EVE_SUPPORTS(cpu_)
-                                       , flx::derivative_type<1> const &
+                                       , flx::derivative_type<I> const &
                                        , M const & m
                                        , N const & n
                                        , T const &x) noexcept
-  //  requires index_compatible_values<N, T> && index_compatible_values<M, T>
   {
-    return if_else(is_eqz(n), zero, sign_alternate(m)*eve::laguerre(inc(m), saturated(dec)(n), x));
+    EVE_ASSERT(eve::all(eve:is_flint(m)), "some m are not flint");
+    EVE_ASSERT(eve::all(eve:is_flint(n)), "some n are not flint");
+
+    return if_else(is_eqz(n), zero, sign_alternate(m)*laguerre(inc(m), saturated(dec)(n), x));
   }
 
-  template<integral_real_value N, floating_value T>
+  template<auto I, value N, floating_value T>
   EVE_FORCEINLINE constexpr T laguerre_(EVE_SUPPORTS(cpu_)
-                                       , flx::derivative_type<1> const &
+                                       , flx::derivative_type<I> const &
                                        , N const & n
                                        , T const &x) noexcept
-  //  requires index_compatible_values<N, T>
   {
-    return -eve::laguerre(one(as(n)), n, x);
+    using e_t = element_type_t<T>;
+    if constexpr(I == 2)
+    {
+      auto nn = int_(n);
+      EVE_ASSERT(eve::all(eve:is_flint(n)), "some n are not flint");
+      return -laguerre(one(as(nn)), nn, x);
+    }
+    else
+    {
+      EVE_ASSERT( I == 2, "laguerre derivative is only implemented relative to second parameter");
+      using r_t = common_compatible_t<T, decltype(convert(n, as<e_t>()))>;
+      return eve::nan(eve::as<r_t>());
+    }
   }
 
 }

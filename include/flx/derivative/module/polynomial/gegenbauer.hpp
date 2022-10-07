@@ -11,9 +11,9 @@
 namespace eve::detail
 {
 
-  template<auto N, value M, floating_real_value T, floating_real_value U>
+  template<auto I, value M, floating_real_value T, floating_real_value U>
   EVE_FORCEINLINE constexpr auto gegenbauer_(EVE_SUPPORTS(cpu_)
-                                            , flx::derivative_type<N> const &
+                                            , flx::derivative_type<I> const &
                                             , M const &m
                                             , T const &l
                                             , U const &x) noexcept
@@ -22,14 +22,14 @@ namespace eve::detail
     using r_t = common_compatible_t<T, U>;
     using e_t = eve::element_type_t<r_t>;
     auto mm = convert(m, eve::as<e_t>());
-    if constexpr(N == 3)
+    if constexpr(I == 3)
     {
       auto iseqzmm = is_eqz(mm);
       return if_else(iseqzmm, zero, 2*l*gegenbauer(dec[!iseqzmm](m), inc(l), x));
     }
     else
     {
-      EVE_ASSERT( N == 3, "gegenbauer derivative is only implemented relative to third parameter");
+      EVE_ASSERT( I == 3, "gegenbauer derivative is only implemented relative to third parameter");
       return nan(as<r_t>());
     }
   }

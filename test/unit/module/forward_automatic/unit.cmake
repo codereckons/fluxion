@@ -164,13 +164,14 @@ generate_test("unit/module/forward_automatic/math/pi.cpp"                 )
 ## module/forward_automatic/polynomial tests
 ##==================================================================================================
 generate_test("unit/module/forward_automatic/polynomial/gegenbauer.cpp"       )
-####generate_test("unit/module/forward_automatic/polynomial/hermite.cpp"          )
+generate_test("unit/module/forward_automatic/polynomial/hermite.cpp"          )
 generate_test("unit/module/forward_automatic/polynomial/horner.cpp"           )
-####generate_test("unit/module/forward_automatic/polynomial/jacobi.cpp"           )
+generate_test("unit/module/forward_automatic/polynomial/jacobi.cpp"           )
 ####generate_test("unit/module/forward_automatic/polynomial/laguerre.cpp"         )
 ####generate_test("unit/module/forward_automatic/polynomial/legendre.cpp"         )
 generate_test("unit/module/forward_automatic/polynomial/reverse_horner.cpp"   )
 ####generate_test("unit/module/forward_automatic/polynomial/tchebytchev.cpp"      )
+
 ##==================================================================================================
 ## module/forward_automatic/bessel tests
 ##==================================================================================================

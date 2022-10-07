@@ -30,7 +30,7 @@ TTS_CASE_WITH( "Check behavior of diff laguerre on wide"
              )
   <typename T, typename I>(T const& a0, I const & i0)
 {
-  auto dt = flx::derivative(eve::laguerre)(i0, a0);
+  auto dt = flx::derivative_2nd(eve::laguerre)(i0, a0);
   auto bdt1 = [&](auto i, auto e){ return -eve::laguerre(1, i, e); };
   TTS_ULP_EQUAL(dt, eve::detail::map(bdt1, i0, a0), 1000);
 };

@@ -30,7 +30,7 @@ TTS_CASE_WITH( "Check behavior of diff hermite on wide"
              )
   <typename T, typename I>(T const& a0, I const & i0)
 {
-  auto dt = flx::derivative(eve::hermite)(i0, a0);
+  auto dt = flx::derivative_2nd(eve::hermite)(i0, a0);
   auto bdt1 = [&](auto i, auto e){return eve::fms(2*e, eve::hermite(i, e), eve::hermite(i+1, e)); };
   TTS_ULP_EQUAL(dt, eve::detail::map(bdt1, i0, a0), 1000);
 };
