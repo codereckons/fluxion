@@ -504,6 +504,16 @@ namespace flx
       return kumi::tuple{Z{s, d*c}, Z{c, d*s}};
     }
 
+    template<eve::like<valder> Z>
+    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::lambert_
+                                               , Z const& z ) noexcept
+    {
+      auto [v, d] = z;
+      auto [s, c]= eve::lambert(v);
+    auto [ds, dc]= flx::derivative(eve::lambert)(v);
+      return kumi::tuple{Z{s, d*ds}, Z{c, d*dc}};
+    }
+
     //// if_else
     template<typename Z1,  typename Z2>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::if_else_

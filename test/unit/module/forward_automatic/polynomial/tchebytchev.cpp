@@ -10,28 +10,22 @@
 #include <flx/flx.hpp>
 
 //==================================================================================================
-// Tests for flx::frac
+// Tests for flx::tchebytchev
 //==================================================================================================
-TTS_CASE_WITH( "Check behavior of flx::lambert(eve::wide)"
-        , flx::test::simd::ieee_reals
-             , tts::generate ( tts::randoms(-0.5, +10)
-                              )
-        )
-<typename T>(T const& a0)
+TTS_CASE_WITH( "Check behavior of flx::tchebytchev(eve::wide)"
+             , flx::test::simd::ieee_reals
+             , tts::generate ( tts::randoms(-10, +10)
+                             )
+             )
+<typename T>(T const& a1)
 {
-  using eve::detail::map;
   using flx::var;
   using flx::val;
   using flx::der;
-  using flx::derivative;
+  using flx::derivative_2nd;
 
-  auto vda0 = var(a0);
-  auto [f, t] = eve::lambert(vda0);
-  auto [fv, tv]= eve::lambert(a0);
-  auto [fd, td]= flx::derivative(eve::lambert)(a0);
+  auto vda1 = var(a1);
 
-  TTS_ULP_EQUAL(val(f)      , fv, 0.5);
-  TTS_ULP_EQUAL(val(t)      , tv, 0.5);
-  TTS_ULP_EQUAL(der(f)      , fd, 0.5);
-  TTS_ULP_EQUAL(der(t)      , td, 0.5);
+  TTS_ULP_EQUAL(val(eve::tchebytchev(T(3), vda1))      , eve::tchebytchev(T(3), a1), 0.5);
+  TTS_ULP_EQUAL(der(eve::tchebytchev(T(3), vda1))      , derivative_2nd(eve::tchebytchev)(T(3), a1), 0.5);
 };

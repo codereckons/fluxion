@@ -31,7 +31,7 @@ TTS_CASE_WITH( "Check behavior of diff tchebytchev on wide"
 
  for(int i=1; i < 10 ; ++i)
  {
-   auto dt = flx::derivative(eve::tchebytchev)(i, a0);
+   auto dt = flx::derivative_2nd(eve::tchebytchev)(i, a0);
    auto u =  eve::kind_2(eve::tchebytchev)(i-1, a0);
    auto bdt1 = [&i](auto e){return boost::math::chebyshev_t_prime(i, e); };
    TTS_ULP_EQUAL(dt, u*i, 10);
