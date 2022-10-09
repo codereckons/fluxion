@@ -41,7 +41,7 @@ namespace flx::detail
     auto  s = eve::sign(v1-v2);
     return r_t{eve::dist(v1, v2), s*(d1-d2)};
   }
-  
+
   //// div
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::div_
@@ -125,10 +125,34 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
+    std::cout << "rem" << std::endl;
     using v_t = decltype(eve::rem(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
     auto z = eve::rem(val(z1), val(z2));
+    if constexpr(!eve::like < Z1, valder<e_t>>)      return r_t(z, -eve::trunc(v_t(val(z1))/v_t(val(z2))*v_t(der(z2))));
+    else if constexpr(!eve::like < Z2, valder<e_t>>) return r_t(z, v_t(der(z1)));
+    else
+    {
+      return r_t(z, eve::fsm( v_t(der(z1))
+                            , eve::trunc( v_t(val(z1))/v_t(val(z2)))
+                            , v_t(der(z2))
+                            )
+                );
+    }
+  }
+
+  template < typename Z1,  typename Z2>
+  EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::fmod_
+                                              , Z1 const & z1
+                                              , Z2 const & z2
+                                              ) noexcept
+  {
+    std::cout << "fmod" << std::endl;
+    using v_t = decltype(eve::rem(val(z1), val(z2)));
+    using e_t = eve::element_type_t<v_t>;
+    using r_t = flx::as_valder_t<v_t>;
+    auto z = eve::pedantic(eve::rem)(val(z1), val(z2));
     if constexpr(!eve::like < Z1, valder<e_t>>)      return r_t(z, -eve::trunc(v_t(val(z1))/v_t(val(z2))*v_t(der(z2))));
     else if constexpr(!eve::like < Z2, valder<e_t>>) return r_t(z, v_t(der(z1)));
     else

@@ -304,6 +304,7 @@ namespace flx
     // fmod
     //==============================================================================================
 
+    template < typename Z1, typename Z2>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::fmod_
                                                 , Z1 const & z1
                                                 , Z2 const & z2
