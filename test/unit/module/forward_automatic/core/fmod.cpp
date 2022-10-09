@@ -15,7 +15,6 @@ TTS_CASE_WITH( "Check behavior of flx::fmod(eve::wide)"
         , flx::test::simd::ieee_reals
         , tts::generate ( tts::randoms(-10, +10)
                               , tts::randoms(-10, +10)
-                              , tts::logicals(0,3)
                               )
         )
   <typename T, typename M>(T const& a0, T const& a1 )

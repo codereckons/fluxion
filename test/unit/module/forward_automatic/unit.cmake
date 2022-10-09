@@ -25,7 +25,7 @@ generate_test("unit/module/forward_automatic/core/fanm.cpp"                   )
 generate_test("unit/module/forward_automatic/core/fdim.cpp"                   )
 generate_test("unit/module/forward_automatic/core/floor.cpp"                  )
 generate_test("unit/module/forward_automatic/core/fma.cpp"                    )
-####generate_test("unit/module/forward_automatic/core/fmod.cpp"                   )
+generate_test("unit/module/forward_automatic/core/fmod.cpp"                   )
 generate_test("unit/module/forward_automatic/core/fms.cpp"                    )
 generate_test("unit/module/forward_automatic/core/fnma.cpp"                   )
 generate_test("unit/module/forward_automatic/core/fnms.cpp"                   )
@@ -66,7 +66,7 @@ generate_test("unit/module/forward_automatic/core/sqr_abs.cpp"                )
 generate_test("unit/module/forward_automatic/core/sqr.cpp"                    )
 generate_test("unit/module/forward_automatic/core/sqrt.cpp"                   )
 generate_test("unit/module/forward_automatic/core/sub.cpp"                    )
-generate_test("unit/module/forward_automatic/core/subop.cpp"                 )
+generate_test("unit/module/forward_automatic/core/subop.cpp"                  )
 generate_test("unit/module/forward_automatic/core/trunc.cpp"                  )
 
 ##==================================================================================================
@@ -157,7 +157,7 @@ generate_test("unit/module/forward_automatic/math/tan.cpp"                   )
 generate_test("unit/module/forward_automatic/math/tand.cpp"                  )
 generate_test("unit/module/forward_automatic/math/tanh.cpp"                  )
 generate_test("unit/module/forward_automatic/math/tanpi.cpp"                 )
-generate_test("unit/module/forward_automatic/math/pi.cpp"                 )
+generate_test("unit/module/forward_automatic/math/pi.cpp"                    )
 
 
 ##==================================================================================================

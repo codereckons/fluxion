@@ -304,15 +304,14 @@ namespace flx
     // fmod
     //==============================================================================================
 
-    // PB fmod is an alias of pedantic(rem) ->  no tag
-//     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::fmod_
-//                                                 , Z1 const & z1
-//                                                 , Z2 const & z2
-//                                                 ) noexcept
-//     requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-//     {
-//       return eve::rem(z1, z2);
-//     }
+    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::fmod_
+                                                , Z1 const & z1
+                                                , Z2 const & z2
+                                                ) noexcept
+    requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
+    {
+      return eve::rem(z1, z2);
+    }
 
     //==============================================================================================
     // functions & constants

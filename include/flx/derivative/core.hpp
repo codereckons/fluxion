@@ -22,6 +22,7 @@
 #include <flx/derivative/module/core/fdim.hpp>
 #include <flx/derivative/module/core/floor.hpp>
 #include <flx/derivative/module/core/fma.hpp>
+#include <flx/derivative/module/core/fmod.hpp>
 #include <flx/derivative/module/core/fms.hpp>
 #include <flx/derivative/module/core/fnma.hpp>
 #include <flx/derivative/module/core/fnms.hpp>
