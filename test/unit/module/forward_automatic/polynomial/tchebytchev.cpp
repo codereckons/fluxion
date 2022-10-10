@@ -14,10 +14,11 @@
 //==================================================================================================
 TTS_CASE_WITH( "Check behavior of flx::tchebytchev(eve::wide)"
              , flx::test::simd::ieee_reals
-             , tts::generate ( tts::randoms(-10, +10)
+             , tts::generate ( tts::randoms(-1, +1)
+                             , tts::as_integer(tts::ramp(1))
                              )
              )
-<typename T>(T const& a1)
+  <typename T, typename N>(T const& a1, N const & n)
 {
   using flx::var;
   using flx::val;
@@ -26,6 +27,8 @@ TTS_CASE_WITH( "Check behavior of flx::tchebytchev(eve::wide)"
 
   auto vda1 = var(a1);
 
-  TTS_ULP_EQUAL(val(eve::tchebytchev(T(3), vda1))      , eve::tchebytchev(T(3), a1), 0.5);
-  TTS_ULP_EQUAL(der(eve::tchebytchev(T(3), vda1))      , derivative_2nd(eve::tchebytchev)(T(3), a1), 0.5);
+   TTS_ULP_EQUAL(val(eve::tchebytchev(n, vda1))      , eve::tchebytchev(n, a1), 0.5);
+   TTS_ULP_EQUAL(der(eve::tchebytchev(n, vda1))      , derivative_2nd(eve::tchebytchev)(n, a1), 0.5);
+   TTS_ULP_EQUAL(val(eve::kind_2(eve::tchebytchev)(n, vda1))      , eve::kind_2(eve::tchebytchev)(n, a1), 0.5);
+   TTS_ULP_EQUAL(der(eve::kind_2(eve::tchebytchev)(n, vda1))      , eve::tchebytchev(eve::decorated<flx::derivative_<2>(eve::kind_2_type)>(), n, a1), 0.5);
 };

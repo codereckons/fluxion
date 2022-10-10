@@ -28,7 +28,7 @@ TTS_CASE_WITH( "Check behavior of flx::betainc_inv(eve::wide)"
   using flx::derivative_1st;
 
   auto vda0 = var(a0);
-  TTS_ULP_EQUAL(val(eve::betainc_invç(vda0, a1, a2))     , eve::betainc_inv(a0, a1, a2), 2.0);
+  TTS_ULP_EQUAL(val(eve::betainc_inv(vda0, a1, a2))     , eve::betainc_inv(a0, a1, a2), 2.0);
   TTS_ULP_EQUAL(der(eve::betainc_inv(vda0, a1, a2))      , derivative_1st(eve::betainc_inv)(a0, a1, a2), 2.0);
 
 };

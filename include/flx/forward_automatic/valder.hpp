@@ -10,6 +10,7 @@
 #include <eve/concept/vectorizable.hpp>
 #include <eve/module/core.hpp>
 #include <eve/module/math.hpp>
+#include <eve/module/polynomial.hpp>
 #include <eve/product_type.hpp>
 #include <flx/forward_automatic/traits.hpp>
 #include <flx/forward_automatic/is_derivable.hpp>
@@ -576,6 +577,36 @@ namespace flx
       return kumi::tuple{eve::modf(val(z)), Z{{zero(as(val(z))),zero(as(val(z)))}}};
     }
 
+    //// tchebytchev
+    template<typename N, eve::like<valder> Z>
+    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::tchebytchev_
+                                               , N const& n
+                                               , Z const& z ) noexcept
+    {
+      using v_t = decltype(eve::tchebytchev(n, val(z)));
+      using r_t = as_valder_t<v_t>;
+      return r_t{eve::tchebytchev(n, val(z)), flx::derivative_2nd(eve::tchebytchev)(n, val(z))*der(z)};
+    }
+
+    template<typename N, eve::like<valder> Z>
+    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::tchebytchev_
+                                               , eve::kind_1_type const &
+                                               , N const& n
+                                               , Z const& z ) noexcept
+    {
+      return tchebytchev(n, z);
+    }
+    template<typename N, eve::like<valder> Z>
+    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::tchebytchev_
+                                               , eve::kind_2_type const &
+                                               , N const& n
+                                               , Z const& z ) noexcept
+    {
+      using v_t = decltype(eve::tchebytchev(n, val(z)));
+      using r_t = as_valder_t<v_t>;
+      return r_t{eve::kind_2_type()(eve::tchebytchev)(n, val(z))
+          , eve::tchebytchev(eve::decorated<flx::derivative_<2>(eve::kind_2_type)>(), n, val(z))*der(z)};
+    }
   };
 
   //! @}
