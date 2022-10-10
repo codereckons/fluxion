@@ -34,6 +34,6 @@ TTS_CASE_WITH( "Check behavior of diff jacobi on wide"
 {
   auto bdt1 = [&](auto i, auto e, auto f,  auto g){return boost::math::jacobi_prime(i, e, f, g); };
   auto z = eve::detail::map(bdt1, i0, a0, a1, a2);
-  auto dt = flx::derivative(eve::jacobi)(i0, a0, a1, a2);
+  auto dt = flx::derivative_4th(eve::jacobi)(i0, a0, a1, a2);
   TTS_RELATIVE_EQUAL(dt, z, 5.0e-3);
 };
