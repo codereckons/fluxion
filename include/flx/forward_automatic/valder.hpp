@@ -158,16 +158,17 @@ namespace flx
       auto tzs = kumi::make_tuple(zs...);
 
       auto snd0 = [&](auto z0){
-        if constexpr(eve::floating_value<decltype(z0)>) return eve::zero(eve::as(z0));
+        if constexpr(!eve::like<decltype(z0), valder>) return eve::zero(eve::as(val(z0)));
         else return kumi::apply(derivative_1st(f),vs);
       };
       auto snd1 = [&](auto z1){
-        if constexpr(eve::floating_value<decltype(z1)>) return eve::zero(eve::as(z1));
+        if constexpr(!eve::like<decltype(z1), valder>) return eve::zero(eve::as(val(z1)));
         else return kumi::apply(derivative_2nd(f),vs);
       };
 
-      v_t d = eve::sum_of_prod ( snd0(z0), v_t(der(z0)), snd1(z1), v_t(der(z1))
-                               );
+      v_t d = eve::sum_of_prod ( v_t(snd0(z0)), v_t(der(z0)), v_t(snd1(z1)), v_t(der(z1))   );
+//      v_t d =                    snd0(z0)* v_t(der(z0))+ snd1(z1)* v_t(der(z1));
+
       if constexpr(sizeof...(zs)!= 0)
       {
         [&]<std::size_t... I>(std::index_sequence<I...>)
@@ -368,7 +369,6 @@ namespace flx
                                                   ) noexcept
                             ->    decltype(detail::valder_unary_dispatch(tag, z1))
     {
-      std::cout << "tagged_dispatch unary" << std::endl;
       return detail::valder_unary_dispatch(tag, z1);
     }
 
@@ -379,7 +379,6 @@ namespace flx
                                                   ) noexcept
                             ->    decltype(detail::valder_binary_dispatch(tag, z1, z2))
     {
-       std::cout << "tagged_dispatch binary" << std::endl;
       return detail::valder_binary_dispatch(tag, z1, z2);
     }
 
@@ -403,7 +402,6 @@ namespace flx
     EVE_FORCEINLINE friend auto tagged_dispatch (Tag const &, C const& c, V0 const& v0, Vs const&... vs ) noexcept
     requires( has_derivation_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
     {
-      std::cout << "deriv2" << std::endl;
       if constexpr(is_derivable_v<Tag>)
       {
         auto deri = [&](auto p0, auto ...ps)
@@ -470,7 +468,6 @@ namespace flx
     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sincos_
                                                , Z const& z ) noexcept
     {
-      std::cout << " sincos friend" << std::endl;
       auto [v, d] = z;
       auto [s, c]= eve::sincos(v);
       return kumi::tuple{Z{s, d*c}, Z{c, -d*s}};

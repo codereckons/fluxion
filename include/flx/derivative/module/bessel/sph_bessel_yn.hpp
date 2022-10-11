@@ -11,18 +11,28 @@
 namespace eve::detail
 {
 
-  template<real_value I, floating_real_value T>
+  template<auto N, real_value I, floating_real_value T>
   EVE_FORCEINLINE constexpr T sph_bessel_yn_(EVE_SUPPORTS(cpu_)
-                                            , flx::derivative_type<1> const &
+                                            , flx::derivative_type<N> const &
                                             , I nn
                                             , T x) noexcept
   {
-    if constexpr(has_native_abi_v<T>)
+    if constexpr(N == 2)
     {
-      auto n = eve::convert(nn, as<element_type_t<T>>());
-      auto r = (n/x)*sph_bessel_yn(n, x) - sph_bessel_yn(inc(n), x);
-      return if_else(is_not_nan(x) && is_nan(r), inf(as(r)), r);
+      EVE_ASSERT(eve::all(eve:is_flint(n)), "some n are not flint");
+      auto n = eve::convert(nn, eve::as<eve::element_type_t<T>>()) ;
+      if constexpr(has_native_abi_v<T>)
+      {
+        auto r = (n/x)*sph_bessel_yn(n, x) - sph_bessel_yn(inc(n), x);
+        return if_else(is_not_nan(x) && is_nan(r), inf(as(r)), r);
+      }
+      else return apply_over(flx::derivative_2nd(sph_bessel_yn), nn, x);
+     }
+    else
+    {
+      EVE_ASSERT( N == 2, "sph_bessel_yn derivative is only implemented relative to second parameter");
+      using r_t = decltype(eve::sph_bessel_yn(nn, x));
+      return eve::nan(eve::as<r_t>());
     }
-    else return apply_over(flx::derivative(sph_bessel_yn), nn, x);
   }
 }

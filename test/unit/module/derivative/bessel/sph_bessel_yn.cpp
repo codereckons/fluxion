@@ -16,11 +16,10 @@ TTS_CASE_TPL("Check return types of eve::sph_bessel_yn", flx::test::simd::ieee_r
   using v_t = eve::element_type_t<T>;
   using i_t = eve::as_integer_t<v_t>;
   using I_t = eve::wide<i_t, eve::cardinal_t<T>>;
-  TTS_EXPR_IS(flx::derivative(eve::sph_bessel_yn)(T(), T()), T);
-  TTS_EXPR_IS(flx::derivative(eve::sph_bessel_yn)(v_t(), v_t()), v_t);
-//   TTS_EXPR_IS(flx::derivative(eve::sph_bessel_yn)(i_t(), T()), T);
-   TTS_EXPR_IS(flx::derivative(eve::sph_bessel_yn)(I_t(), T()), T);
-   TTS_EXPR_IS(flx::derivative(eve::sph_bessel_yn)(i_t(), v_t()), v_t);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::sph_bessel_yn)(T(), T()), T);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::sph_bessel_yn)(v_t(), v_t()), v_t);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::sph_bessel_yn)(I_t(), T()), T);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::sph_bessel_yn)(i_t(), v_t()), v_t);
 };
 
 //==================================================================================================
@@ -39,5 +38,5 @@ TTS_CASE_WITH("Check behavior of eve::sph_bessel_yn(eve::wide)",
   using v_t = eve::element_type_t<T>;
 
   auto dsph_bessel_yn = [&](auto i, auto e) -> v_t{ return boost::math::sph_neumann_prime(i, double(e)); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::sph_bessel_yn)(i, a0), map(dsph_bessel_yn, i, a0), 1300);
+  TTS_ULP_EQUAL(flx::derivative_2nd(eve::sph_bessel_yn)(i, a0), map(dsph_bessel_yn, i, a0), 1300);
 };

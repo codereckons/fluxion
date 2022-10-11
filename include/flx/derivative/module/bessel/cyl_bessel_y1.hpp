@@ -15,6 +15,6 @@ namespace eve::detail
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept
   {
-    return average(-cyl_bessel_yn(T(2), x), cyl_bessel_y0(x));
+    return average(-cyl_bessel_yn(2, x), cyl_bessel_y0(x));
   }
 }

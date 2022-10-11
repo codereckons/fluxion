@@ -50,14 +50,14 @@ namespace flx
   {
     template<typename V>
     auto operator()( V const& v) const noexcept
-    requires (flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )//!eve::floating_value<V>)
+    requires (flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )
     {
       return get<0>(EVE_FWD(v));;
     }
 
     template<typename V>
-    V operator()( V const& v) const noexcept
-     requires (!flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )//!eve::floating_value<V>)
+    auto operator()( V const& v) const noexcept
+     requires (!flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )
    {
       return v;
     }
