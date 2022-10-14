@@ -6,6 +6,7 @@
 **/
 //==================================================================================================
 #pragma once
+#include <eve/module/core.hpp>
 
 namespace flx::detail
 {
@@ -97,7 +98,7 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
-    using v_t = decltype(eve::sub(val(z1), val(z2)));
+    using v_t = decltype(eve::mul(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
     auto z = val(z1)*val(z2);

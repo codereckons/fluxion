@@ -18,3 +18,4 @@
 #include <flx/forward_automatic/traits.hpp>
 #include <flx/forward_automatic/differential.hpp>
 #include <flx/forward_automatic/gradient.hpp>
+#include <flx/forward_automatic/d.hpp>

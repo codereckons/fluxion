@@ -10,7 +10,7 @@
 #include <eve/detail/overload.hpp>
 #include <flx/forward_automatic/forward_automatic.hpp>
 
-namespace eve
+namespace flx
 {
   //================================================================================================
   //! @addtogroup complex
@@ -48,19 +48,12 @@ namespace eve
   //!  @}
   //================================================================================================
 
-  namespace tag { struct gradient_; }
-  template<> struct supports_conditional<tag::gradient_> : std::false_type {};
-
-  EVE_MAKE_CALLABLE(gradient_, gradient);
-
-  namespace detail
-  {
+  struct gradient_{
 
     template < typename Func, typename ... Xs>
-    EVE_FORCEINLINE auto gradient_( EVE_SUPPORTS(cpu_)
-                                  , Func f, Xs const & ...xs) noexcept
+    EVE_FORCEINLINE auto operator()(Func f, Xs const & ...xs) noexcept
     {
-      using v_t = decltype(f(val(xs)...));
+      using v_t = decltype(f(flx::val(xs)...));
       constexpr size_t S =  sizeof...(Xs);
       std::array<v_t, S> that;
 
@@ -86,6 +79,8 @@ namespace eve
       }(std::index_sequence_for<Xs...>{});
 
     }
+  };
+  gradient_ gradient{};
 
     /// TODO
 //     template < typename Func, typename X0, typename X1>
@@ -116,5 +111,5 @@ namespace eve
 //       g[2] *= rinv*csc(theta);
 //       return g;
 //     }
-  }
+//  }
 }

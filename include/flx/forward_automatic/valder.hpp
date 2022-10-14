@@ -430,13 +430,13 @@ namespace flx
     template<eve::like<valder> Z>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::exponent_, Z const& z) noexcept
     {
-      return exponent(val(z));
+      return eve::exponent(val(z));
     }
 
     template<eve::like<valder> Z>
     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::mantissa_, Z const& z) noexcept
     {
-      return Z{mantissa(val(z)), der(z)};
+      return Z{eve::mantissa(val(z)), der(z)};
     }
 
     template<eve::like<valder> Z, eve::value N>

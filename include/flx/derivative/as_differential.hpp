@@ -25,7 +25,7 @@ namespace flx
     template<auto N, typename F>
     constexpr auto make_differential(F f) noexcept
     {
-      return [=](flx::diff_type<N> const&, auto... var) { return f(var...); };
+      return [=](flx::derivative_type<N> const&, auto... var) { return f(var...); };
     }
   }
 
@@ -40,7 +40,7 @@ namespace flx
     {
       return detail::differential { f
                                   , detail::make_differential<1+N>(ds)...
-                                  , []<auto I>(flx::diff_type<I> const&, auto... ) { return 0; }
+                                  , []<auto I>(flx::derivative_type<I> const&, auto... ) { return 0; }
                                   };
     }( std::make_integer_sequence<int, sizeof...(Ds)>{});
   }
