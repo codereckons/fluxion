@@ -1,12 +1,8 @@
-#include <eve/module/core.hpp>
-#include <eve/module/math.hpp>
-#include <eve/module/ad.hpp>
+#include <flx/flx.hpp>
 #include <eve/wide.hpp>
 #include <iostream>
 
 using wide_ft = eve::wide<float, eve::fixed<4>>;
-using wide_vdt = eve::wide<eve::valder<float>, eve::fixed<4>>;
-using vd_t     = eve::valder<float>;
 
 int main()
 {
@@ -17,7 +13,7 @@ int main()
   std::cout << "---- scalar" << '\n'
             << "<- x                  = " << x << '\n'
             << "<- f(x)               = " << f(x) << '\n'
-            << "-> val(f(var(x)))     = " << eve::val(f(eve::var(x))) << '\n'
-            << "-> der(f(var(x)))     = " << eve::der(f(eve::var(x))) << '\n';
+            << "-> val(f(var(x)))     = " << flx::val(f(flx::var(x))) << '\n'
+            << "-> der(f(var(x)))     = " << flx::der(f(flx::var(x))) << '\n';
   return 0;
 }
