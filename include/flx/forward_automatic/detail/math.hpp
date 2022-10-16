@@ -17,7 +17,6 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
-    std::cout << "math atan2" << std::endl;
     using v_t = decltype(eve::atan2(val(z1), val(z2)));
     using elt_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
@@ -250,24 +249,6 @@ namespace flx::detail
     return Z{s, d*c};
   }
 
-//   template<typename Z>
-//   EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sincos_, Z const& z) noexcept
-//   {
-//     std::cout << "sincos math" << std::endl;
-//     auto [v, d] = z;
-//     auto [s, c]= eve::sincos(v);
-//     return kumi::tuple{Z{s, d*c}, Z{c, -d*s}};
-//   }
-
-//   template<typename Z>
-//   EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sinpicospi_, Z const& z) noexcept
-//   {
-//     auto [v, d] = z;
-//     auto [s, c]= eve::sinpicospi(v);
-//     auto fac = eve::pi(eve::as(v));
-//     return kumi::tuple{Z{s, d*c*fac}, Z{c, -d*s*fac}};
-//   }
-
   template<typename Z>
   EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sinpi_, Z const& z) noexcept
   {
@@ -292,14 +273,6 @@ namespace flx::detail
     auto [s, c]= eve::sindcosd(v);
     return Z{s, d*eve::deginrad(c)};
   }
-
-//   template<typename Z>
-//   EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sinhcosh_, Z const& z) noexcept
-//   {
-//     auto [v, d] = z;
-//     auto [s, c]= eve::sinhcosh(v);
-//     return kumi::tuple{Z{s, d*c}, Z{c, d*s}};
-//   }
 
   template<typename Z>
   EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sinh_, Z const& z) noexcept

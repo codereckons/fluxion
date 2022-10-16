@@ -48,10 +48,6 @@ namespace flx
   //!
   //!  @}
   //================================================================================================
-
-//   namespace tag { struct differential_; }
-//   template<> struct supports_conditional<tag::differential_> : std::false_type {};
-
   EVE_MAKE_CALLABLE(d_, d);
 
   namespace detail

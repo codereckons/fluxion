@@ -18,7 +18,6 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
-    std::cout << "add" << std::endl;
     using v_t = decltype(eve::add(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
@@ -50,7 +49,6 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
-    std::cout << "div" << std::endl;
     using v_t = decltype(eve::div(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
@@ -126,7 +124,6 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
-    std::cout << "rem" << std::endl;
     using v_t = decltype(eve::rem(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
@@ -149,7 +146,6 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
-    std::cout << "fmod" << std::endl;
     using v_t = decltype(eve::rem(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;
@@ -171,7 +167,6 @@ namespace flx::detail
   EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::rsqrt_
                                               , Z const& z) noexcept
   {
-    std::cout << "rsqrt" << std::endl;
     auto [v, d] = z;
     auto rs = eve::rsqrt(v);
     return Z{rs, d*eve::mhalf(eve::as(v))*rs*eve::rec(v)};
@@ -184,7 +179,6 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
-    std::cout << "sub" << std::endl;
     using v_t = decltype(eve::sub(val(z1), val(z2)));
     using e_t = eve::element_type_t<v_t>;
     using r_t = flx::as_valder_t<v_t>;

@@ -126,8 +126,6 @@ namespace flx
   template<> struct has_derivation<tag::der_>                 : std::false_type {};
   template<> struct has_derivation<tag::var_>                 : std::false_type {};
   template<> struct has_derivation<eve::tag::if_else_>             : std::false_type {};
-//  template<> struct has_derivation<eve::tag::horner_>              : std::false_type {};
-//  template<> struct has_derivation<eve::tag::newton_>              : std::false_type {};
   template<> struct has_derivation<eve::tag::agm_>                 : std::false_type {};
 
   template<> struct is_derivable<eve::tag::all_>                   : std::false_type {};
@@ -136,7 +134,6 @@ namespace flx
   template<> struct is_derivable<eve::tag::epsilon_>               : std::false_type {};
   template<> struct is_derivable<eve::tag::exponent_>              : std::false_type {};
   template<> struct is_derivable<eve::tag::gather_>                : std::false_type {};
-//  template<> struct is_derivable<eve::tag::has_single_bit_>        : std::false_type {};
   template<> struct is_derivable<eve::tag::hi_>                    : std::false_type {};
   template<> struct is_derivable<eve::tag::is_denormal_>           : std::false_type {};
   template<> struct is_derivable<eve::tag::is_equal_>              : std::false_type {};
@@ -195,7 +192,6 @@ namespace flx
   template<> struct is_derivable<eve::tag::bit_or_>                : std::false_type {};
   template<> struct is_derivable<eve::tag::bit_ornot_>             : std::false_type {};
   template<> struct is_derivable<eve::tag::bit_select_>            : std::false_type {};
-//  template<> struct is_derivable<eve::tag::bit_shl_>               : std::false_type {};
   template<> struct is_derivable<eve::tag::bit_shr_>               : std::false_type {};
   template<> struct is_derivable<eve::tag::bit_width_>             : std::false_type {};
   template<> struct is_derivable<eve::tag::bit_xor_>               : std::false_type {};

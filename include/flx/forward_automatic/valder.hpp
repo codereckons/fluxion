@@ -167,7 +167,6 @@ namespace flx
       };
 
       v_t d = eve::sum_of_prod ( v_t(snd0(z0)), v_t(der(z0)), v_t(snd1(z1)), v_t(der(z1))   );
-//      v_t d =                    snd0(z0)* v_t(der(z0))+ snd1(z1)* v_t(der(z1));
 
       if constexpr(sizeof...(zs)!= 0)
       {

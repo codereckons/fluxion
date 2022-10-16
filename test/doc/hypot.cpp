@@ -17,7 +17,6 @@ int main()
             << "-> hypot(vx, 1.0f)   = " << eve::hypot(vx, 1.0f) << '\n'
             << "-> hypot(x, y, y)    = " << eve::hypot(x, y, y) << '\n'
             << "-> hypot(vx, y, y)   = " << eve::hypot(vx, y, y) << '\n'
-//            << "-> pedantic(hypot)(vx, y, y)   = " << eve::pedantic(eve::hypot)(vx, y, y) << '\n'
     ;
 
   auto sx(flx::var(-2.5));
