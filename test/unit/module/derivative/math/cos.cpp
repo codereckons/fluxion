@@ -23,7 +23,7 @@ TTS_CASE_TPL("Check return types of eve::cos", flx::test::simd::ieee_reals)
 //==================================================================================================
 TTS_CASE_WITH("Check behavior of eve::cos(eve::wide)",
               flx::test::simd::ieee_reals,
-              tts::generate(tts::randoms(eve::valmin, eve::valmax)
+              tts::generate(tts::randoms(-10, 10)
                            )
               )
 <typename T>(T const& a0)
@@ -36,4 +36,11 @@ TTS_CASE_WITH("Check behavior of eve::cos(eve::wide)",
   auto eps = eve::eps(eve::as<e_t>());
   auto dcos = [&](auto e) { return eve::imag(cos(c_t(e,eps)))/eps; };
   TTS_ULP_EQUAL(flx::derivative_1st(eve::cos)(a0), map(dcos, a0), 2.0);
+
+  eve::as_complex_t<T> z(a0, a0);
+  std::cout << z << std::endl;
+  std::cout <<flx::derivative_1st(eve::cos)(z)<< std::endl;
+  std::cout << -eve::sin(z)<< std::endl<< std::endl;
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::cos)(z), -eve::sin(z), 2.0);
+
 };
