@@ -10,7 +10,7 @@
 namespace eve::detail
 {
 
-  template<floating_real_value T, auto N>
+  template<value T, auto N>
   EVE_FORCEINLINE constexpr T atan2pi_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<N> const &
                                    , T const &x

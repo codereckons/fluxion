@@ -10,7 +10,7 @@
 namespace eve::detail
 {
 
-  template<floating_real_value T, floating_real_value U>
+  template<value T, value U>
   EVE_FORCEINLINE constexpr auto logspace_add_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<1> const &
                                    , T const &x
@@ -19,7 +19,7 @@ namespace eve::detail
     return rec(inc(exp(y-x)));
   }
 
-   template<floating_real_value T, floating_real_value U>
+   template<value T, value U>
   EVE_FORCEINLINE constexpr auto logspace_add_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<2> const &
                                    , T const &x
