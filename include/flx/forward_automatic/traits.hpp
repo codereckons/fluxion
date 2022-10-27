@@ -11,21 +11,21 @@
 
 namespace flx
 {
-  template<eve::floating_scalar_value Type> struct valder;
+  template<eve::scalar_value Type> struct valder;
 
   template<typename T> struct as_valder;
 
-  template<eve::floating_scalar_value T> struct as_valder<T>
+  template<eve::scalar_value T> struct as_valder<T>
   {
     using type = valder<T>;
   };
 
-  template<eve::floating_scalar_value T> struct as_valder<valder<T>>
+  template<eve::scalar_value T> struct as_valder<valder<T>>
   {
     using type = valder<T>;
   };
 
-  template<eve::floating_simd_value T> struct as_valder<T>
+  template<eve::simd_value T> struct as_valder<T>
   {
     using type = eve::wide<valder<eve::element_type_t<T>>, eve::cardinal_t<T>>;
   };
@@ -35,8 +35,8 @@ namespace flx
 
   template<typename T>              struct as_val;
   template<eve::value T>                 struct as_val<T>          { using type = T; };
-  template<eve::floating_scalar_value T> struct as_val<valder<T>>  { using type = T; };
-  template<eve::floating_scalar_value T, typename N>
+  template<eve::scalar_value T> struct as_val<valder<T>>  { using type = T; };
+  template<eve::scalar_value T, typename N>
   struct as_val<eve::wide<valder<T>,N>>  { using type = eve::wide<T,N>; };
 
   template<typename T>

@@ -10,7 +10,7 @@
 namespace eve::detail
 {
 
-  template<floating_value T, floating_value U, auto N>
+  template<value T, value U, auto N>
   EVE_FORCEINLINE  auto copysign_(EVE_SUPPORTS(cpu_)
                             , flx::derivative_type<N> const &
                             , T const &a

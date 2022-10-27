@@ -250,6 +250,15 @@ namespace flx::detail
   }
 
   template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sincos_, Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto [s, c]= eve::sincos(v);
+
+    return kumi::tuple{Z{s, c}, Z{c, -s}};
+  }
+
+  template<typename Z>
   EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sinpi_, Z const& z) noexcept
   {
     auto [v, d] = z;
@@ -319,4 +328,12 @@ namespace flx::detail
     return Z{t, eve::oneminus(eve::sqr(t))*d};
   }
 
+//   template<typename Z>
+//   EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::log_
+//                                             , Z const& z ) noexcept
+//   {
+//     auto [v, d] = z;
+//     auto t = eve::log(v);
+//     return Z{t, eve::rec(v)*d};
+//  }
 }

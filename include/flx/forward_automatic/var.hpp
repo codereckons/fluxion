@@ -49,14 +49,14 @@ namespace flx
 
   struct var_
   {
-    template < eve::floating_value T >
+    template < eve::value T >
     constexpr auto operator()(T const & x) const
     {
       using vd_t = flx::as_valder_t<T>;
-      return vd_t{x, T(1)};
+      return vd_t{x, T{1}};
     }
 
-    template < eve::floating_value T >
+    template < eve::value T >
       constexpr auto operator()( const T & x, const T & dx) const
     {
       using vd_t = flx::as_valder_t<T>;

@@ -105,7 +105,7 @@ namespace flx::detail
     else {
       auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
       auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-      auto dr = eve::sum_of_prod(v1, d2, v2, d1);
+      auto dr = v1*d2+v2*d1; //eve::sum_of_prod(v1, d2, v2, d1);
       return r_t(z, dr);
     }
   }

@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<floating_value T, floating_value U>
+  template<value T, value U>
   EVE_FORCEINLINE constexpr auto fmod_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<1> const &
                                     , T , U  ) noexcept
@@ -18,7 +18,7 @@ namespace eve::detail
     return eve::one(as<r_t>());
   }
 
-  template<floating_value T, floating_value U>
+  template<value T, value U>
   EVE_FORCEINLINE constexpr auto fmod_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<2> const &
                                     , T x, U y ) noexcept

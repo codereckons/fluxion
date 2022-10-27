@@ -49,7 +49,7 @@ namespace flx
   //!
   //! @tparam Type  Underlying floating point type
   //================================================================================================
-  template<eve::floating_scalar_value Type>
+  template<eve::scalar_value Type>
   struct valder : eve::struct_support<valder<Type>, Type, Type>
   {
     //   using eve_disable_ordering = void;
@@ -59,7 +59,9 @@ namespace flx
     using value_type = Type;
 
     /// Default constructor
-    EVE_FORCEINLINE valder(Type val = 0, Type der = 0)  noexcept : parent{val, der} {}
+    EVE_FORCEINLINE valder()                   noexcept                        {}
+    EVE_FORCEINLINE valder(Type val)           noexcept : parent{val, Type{0}} {}
+    EVE_FORCEINLINE valder(Type val, Type der) noexcept : parent{val, der}     {}
 
 
     //==============================================================================================
@@ -173,7 +175,7 @@ namespace flx
         [&]<std::size_t... I>(std::index_sequence<I...>)
         {
           auto ifam = [](auto a,  auto b, auto c){
-            if constexpr(eve::floating_value<decltype(c)>) return a;
+            if constexpr(eve::value<decltype(c)>) return a;
             else return eve::fam(a, b, v_t(der(c)));
           };
           ((d = ifam(d, kumi::apply(derivative_nth<I+3>(f),vs), get<I>(tzs))),...);

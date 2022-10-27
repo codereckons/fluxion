@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<floating_value T, floating_value U, floating_value V, auto N>
+  template<value T, value U, value V, auto N>
   EVE_FORCEINLINE  auto clamp_(EVE_SUPPORTS(cpu_)
                             , flx::derivative_type<N> const &
                             , T const &a
@@ -20,7 +20,7 @@ namespace eve::detail
     return arithmetic_call(flx::derivative_type<N>()(clamp), a, b, c);
   }
 
-  template<floating_value T, auto N>
+  template<value T, auto N>
   EVE_FORCEINLINE  auto clamp_(EVE_SUPPORTS(cpu_)
                             , flx::derivative_type<N> const &
                             , T const &a
