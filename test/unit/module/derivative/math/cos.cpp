@@ -53,7 +53,7 @@ auto vz = flx::valder{z, eve::one(eve::as(z))};
    std::cout << "sqr(vz) " << eve::sqr(vz)<< std::endl;
    TTS_ULP_EQUAL(flx::derivative_1st(eve::sqr)(z), flx::der(eve::sqr(vz)), 2.0);
 
-    std::cout << "rec(vz) =  " << eve::rec(vz) << std::endl;
+//    std::cout << "rec(vz) =  " << eve::rec(vz) << std::endl;
 //    auto cx = []<typename U, typename V>(U x,  V y){
 //      auto yy = flx::valder(y, eve::zero(eve::as(y)));
 //      auto z =  flx::valder{x, yy};
