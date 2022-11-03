@@ -18,7 +18,7 @@ namespace eve::detail
                                             , T const &l
                                             , U const &x) noexcept
   {
-    EVE_ASSERT(eve::all(eve:is_flint(m)), "some m are not flint");
+    EVE_ASSERT(eve::all(eve::is_flint(m)), "some m are not flint");
     using r_t = common_compatible_t<T, U>;
     using e_t = eve::element_type_t<r_t>;
     auto mm = convert(m, eve::as<e_t>());

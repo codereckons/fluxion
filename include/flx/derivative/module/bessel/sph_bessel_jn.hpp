@@ -17,7 +17,7 @@ namespace eve::detail
                                             , I nn
                                             , T x) noexcept
   {
-    EVE_ASSERT(eve::all(eve:is_flint(n)), "some n are not flint");
+    EVE_ASSERT(eve::all(eve::is_flint(nn)), "some n are not flint");
     auto improper_n = is_ngez(nn) || is_not_flint(nn);
     auto improper_x = is_ngez(x);
     if constexpr(N == 2)

@@ -19,7 +19,7 @@ namespace eve::detail
   {
     if constexpr(N == 2)
     {
-      EVE_ASSERT(eve::all(eve:is_flint(n)), "some n are not flint");
+      EVE_ASSERT(eve::all(eve::is_flint(nn)), "some n are not flint");
       auto n = eve::convert(nn, eve::as<eve::element_type_t<T>>()) ;
       if constexpr(has_native_abi_v<T>)
       {

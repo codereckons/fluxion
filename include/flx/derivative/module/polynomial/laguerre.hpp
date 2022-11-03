@@ -18,8 +18,8 @@ namespace eve::detail
                                        , N const & n
                                        , T const &x) noexcept
   {
-    EVE_ASSERT(eve::all(eve:is_flint(m)), "some m are not flint");
-    EVE_ASSERT(eve::all(eve:is_flint(n)), "some n are not flint");
+    EVE_ASSERT(eve::all(eve::is_flint(m)), "some m are not flint");
+    EVE_ASSERT(eve::all(eve::is_flint(n)), "some n are not flint");
 
     return if_else(is_eqz(n), zero, sign_alternate(m)*laguerre(inc(m), saturated(dec)(n), x));
   }
@@ -34,7 +34,7 @@ namespace eve::detail
     if constexpr(I == 2)
     {
       auto nn = int_(n);
-      EVE_ASSERT(eve::all(eve:is_flint(n)), "some n are not flint");
+      EVE_ASSERT(eve::all(eve::is_flint(n)), "some n are not flint");
       return -laguerre(one(as(nn)), nn, x);
     }
     else

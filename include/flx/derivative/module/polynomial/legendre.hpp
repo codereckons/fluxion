@@ -16,7 +16,7 @@ namespace eve::detail
                                           , N const & l
                                           , T const &x) noexcept
   {
-    EVE_ASSERT(eve::all(eve:is_flint(l)), "some l are not flint");
+    EVE_ASSERT(eve::all(eve::is_flint(l)), "some l are not flint");
     if constexpr(I == 2)
     {
       if (is_eqz(l)) return T(0);
@@ -71,7 +71,7 @@ namespace eve::detail
                                        , N const & l
                                        , T const &x) noexcept
   {
-    EVE_ASSERT(eve::all(eve:is_flint(l)), "some l are not flint");
+    EVE_ASSERT(eve::all(eve::is_flint(l)), "some l are not flint");
     if constexpr(I == 2)
     {
       using elt_t = element_type_t<T>;

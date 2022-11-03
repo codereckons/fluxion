@@ -18,7 +18,7 @@ namespace eve::detail
   {
     if constexpr(N == 2)
     {
-      EVE_ASSERT(eve::all(eve:is_flint(n)), "some n are not flint");
+      EVE_ASSERT(eve::all(eve::is_flint(n)), "some n are not flint");
       auto nn = eve::convert(n, eve::as<eve::element_type_t<T>>()) ;
       if constexpr(has_native_abi_v<T>)
       {
@@ -28,7 +28,7 @@ namespace eve::detail
     }
     else
     {
-      EVE_ASSERT( I == 2, "cyl_bessel_jn derivative is only implemented relative to second parameter");
+      EVE_ASSERT( N == 2, "cyl_bessel_jn derivative is only implemented relative to second parameter");
       using r_t = decltype(eve::cyl_bessel_in(n, x));
       return eve::nan(eve::as<r_t>());
     }
