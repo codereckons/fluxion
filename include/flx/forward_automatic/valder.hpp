@@ -364,9 +364,8 @@ namespace flx
     }
 
     template<typename Tag, typename Z1>
-    requires(eve::like<Z1,valder>)
     EVE_FORCEINLINE friend  auto  tagged_dispatch ( Tag const& tag
-                                                  , Z1 const& z1
+                                                  , eve::like<valder> auto const& z1
                                                   ) noexcept
                             ->    decltype(detail::valder_unary_dispatch(tag, z1))
     {
