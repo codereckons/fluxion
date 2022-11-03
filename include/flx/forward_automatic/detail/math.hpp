@@ -7,9 +7,16 @@
 //==================================================================================================
 #pragma once
 
+namespace flx
+{
+  template<typename Tag> struct supports_explicit_derivative;
+
+  template<> struct supports_explicit_derivative<eve::tag::cos_>  : std::true_type {};
+  template<> struct supports_explicit_derivative<eve::tag::exp_>  : std::true_type {};
+}
+
 namespace flx::detail
 {
-
   /// atan2xxx
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::atan2_

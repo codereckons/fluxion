@@ -8,8 +8,54 @@
 #pragma once
 #include <eve/module/core.hpp>
 
+namespace flx
+{
+  template<typename Tag> struct supports_explicit_derivative;
+
+  template<> struct supports_explicit_derivative<eve::tag::if_else_>  : std::true_type  {};
+}
+
 namespace flx::detail
 {
+    //// if_else
+    template<typename Z1,  typename Z2>
+    EVE_FORCEINLINE auto valder_ternary_dispatch ( eve::tag::if_else_
+                                                , auto const & vc
+                                                , Z1 const & a
+                                                , Z2 const & b
+                                                ) noexcept
+    {
+      auto va = val(a); auto da = der(a);
+      auto vb = val(b); auto db = der(b);
+      using v_t = decltype(eve::if_else(vc, va, vb));
+      using r_t = as_valder_t<v_t>;
+      return r_t{eve::if_else(vc, va, vb), eve::if_else(vc, da, db)};
+    }
+
+    template<typename Z2, eve::generator<typename Z2::value_type> Constant>
+    EVE_FORCEINLINE auto valder_ternary_dispatch( eve::tag::if_else_
+                                               , auto const & vc
+                                               , Constant const& a
+                                               , Z2 const& b ) noexcept
+    {
+      auto vb = val(b); auto db = der(b);
+      using v_t = decltype(eve::if_else(vc, a, vb));
+      using r_t = as_valder_t<v_t>;
+      return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
+    }
+
+    template<typename Z1, eve::generator<typename Z1::value_type> Constant>
+    EVE_FORCEINLINE auto valder_ternary_dispatch( eve::tag::if_else_
+                                                , auto const & vc
+                                                , Z1 const& b
+                                                , Constant const& a
+                                                ) noexcept
+    {
+      auto vb = val(b); auto db = der(b);
+      using v_t = decltype(eve::if_else(vc, a, vb));
+      using r_t = as_valder_t<v_t>;
+      return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
+    }
 
   //// add
   template < typename Z1,  typename Z2>

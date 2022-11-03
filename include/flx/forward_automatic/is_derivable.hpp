@@ -11,13 +11,13 @@
 namespace flx
 {
   template<typename Tag> struct is_derivable    : std::true_type {};
-  template<typename Tag> struct has_derivation  : std::true_type {};
+  template<typename Tag> struct supports_explicit_derivative  : std::false_type {};
 
   template<typename Tag>
   inline constexpr auto is_derivable_v =  is_derivable<Tag>::value;
 
   template<typename Tag>
-  inline constexpr auto has_derivation_v =  has_derivation<Tag>::value;
+  inline constexpr auto supports_explicit_derivative_v =  supports_explicit_derivative<Tag>::value;
 
   // List of non-derivable functions
   namespace tag
@@ -116,17 +116,15 @@ namespace flx
     struct significants_;
   }
 
-  template<> struct is_derivable<tag::val_>                   : std::false_type {};
-  template<> struct is_derivable<tag::der_>                   : std::false_type {};
-  template<> struct is_derivable<tag::var_>                   : std::false_type {};
-  template<> struct is_derivable<eve::tag::if_else_>               : std::false_type {};
-  template<> struct is_derivable<tag::gradient_>              : std::false_type {};
-  template<> struct is_derivable<tag::differential_>          : std::false_type {};
-  template<> struct has_derivation<tag::val_>                 : std::false_type {};
-  template<> struct has_derivation<tag::der_>                 : std::false_type {};
-  template<> struct has_derivation<tag::var_>                 : std::false_type {};
-  template<> struct has_derivation<eve::tag::if_else_>             : std::false_type {};
-  template<> struct has_derivation<eve::tag::agm_>                 : std::false_type {};
+  template<> struct is_derivable<tag::val_>                           : std::false_type {};
+  template<> struct is_derivable<tag::der_>                           : std::false_type {};
+  template<> struct is_derivable<tag::var_>                           : std::false_type {};
+  template<> struct is_derivable<eve::tag::if_else_>                  : std::false_type {};
+  template<> struct is_derivable<tag::gradient_>                      : std::false_type {};
+  template<> struct is_derivable<tag::differential_>                  : std::false_type {};
+  template<> struct supports_explicit_derivative<tag::val_>           : std::true_type  {};
+  template<> struct supports_explicit_derivative<tag::der_>           : std::true_type  {};
+  template<> struct supports_explicit_derivative<tag::var_>           : std::true_type  {};
 
   template<> struct is_derivable<eve::tag::all_>                   : std::false_type {};
   template<> struct is_derivable<eve::tag::any_>                   : std::false_type {};

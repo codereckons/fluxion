@@ -7,7 +7,6 @@
 //==================================================================================================
 #pragma once
 
-#include "eve/module/core/regular/add.hpp"
 #include <eve/concept/vectorizable.hpp>
 #include <eve/module/core.hpp>
 #include <eve/module/math.hpp>
@@ -20,7 +19,7 @@
 #include <flx/forward_automatic/der.hpp>
 #include <eve/concept/generator.hpp>
 #include <eve/detail/abi.hpp>
-#include <iostream>
+#include <ostream>
 #include <iomanip>
 #include <flx/forward_automatic/detail/core.hpp>
 #include <flx/forward_automatic/detail/math.hpp>
@@ -102,7 +101,6 @@ namespace flx
       else
         return f(val(z1), val(zs)...);
     }
-
 
     //==============================================================================================
     //  Unary derivable functions
@@ -359,9 +357,9 @@ namespace flx
     //==============================================================================================
     // unary functions
     template<typename Tag>
-    EVE_FORCEINLINE friend auto tagged_dispatch(Tag
-                                               , eve::like<valder> auto const& v) noexcept
-    requires( has_derivation_v<Tag> )
+    EVE_FORCEINLINE friend auto tagged_dispatch ( Tag
+                                                , eve::like<valder> auto const& v) noexcept
+    requires( !supports_explicit_derivative_v<Tag> )
     {
       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v);
       else                              return compute( eve::detail::callable_object<Tag>{}, v);
@@ -371,7 +369,7 @@ namespace flx
     EVE_FORCEINLINE friend auto tagged_dispatch(Tag
                                                , C const & c
                                                , eve::like<valder> auto const& v) noexcept
-    requires( has_derivation_v<Tag> )
+    requires( !supports_explicit_derivative_v<Tag> )
     {
       if constexpr(is_derivable_v<Tag>)
         return eve::detail::mask_op(c, eve::detail::callable_object<Tag>{}, v);
@@ -383,13 +381,12 @@ namespace flx
     EVE_FORCEINLINE friend auto tagged_dispatch(Tag
                                                , D const & d
                                                , eve::like<valder> auto const& v) noexcept
-    requires( has_derivation_v<Tag> )
     {
       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, d, v);
       else                              return compute( eve::detail::callable_object<Tag>{}, d, v);
     }
 
-    template<typename Tag, typename Z1>
+    template<typename Tag>
     EVE_FORCEINLINE friend  auto  tagged_dispatch ( Tag const& tag
                                                   , eve::like<valder> auto const& z1
                                                   ) noexcept
@@ -408,11 +405,25 @@ namespace flx
       return detail::valder_binary_dispatch(tag, z1, z2);
     }
 
+    template<typename Tag, typename Z1, typename Z2, typename Z3>
+    requires(eve::like<Z1,valder> || eve::like<Z2,valder> || eve::like<Z3,valder>)
+    EVE_FORCEINLINE friend  auto  tagged_dispatch ( Tag const& tag
+                                                  , Z1 const& z1
+                                                  , Z2 const& z2
+                                                  , Z3 const& z3
+                                                  ) noexcept
+                            ->    decltype(detail::valder_ternary_dispatch(tag, z1, z2, z3))
+    {
+      return detail::valder_ternary_dispatch(tag, z1, z2, z3);
+    }
+
     //==============================================================================================
     // n-ary functions
     template<typename Tag, typename V0, typename ... Vs>
     EVE_FORCEINLINE friend auto tagged_dispatch (Tag, V0 const& v0, Vs const&... vs ) noexcept
-    requires( has_derivation_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
+    requires(   !supports_explicit_derivative_v<Tag>
+            && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...))
+            )
     {
       if constexpr(is_derivable_v<Tag>)
       {
@@ -426,7 +437,7 @@ namespace flx
 
     template<typename Tag, eve::conditional_expr C, typename V0, typename ... Vs>
     EVE_FORCEINLINE friend auto tagged_dispatch (Tag const &, C const& c, V0 const& v0, Vs const&... vs ) noexcept
-    requires( has_derivation_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
+    requires( supports_explicit_derivative_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
     {
       if constexpr(is_derivable_v<Tag>)
       {
@@ -536,48 +547,6 @@ namespace flx
       auto [s, c]= eve::lambert(v);
     auto [ds, dc]= flx::derivative(eve::lambert)(v);
       return kumi::tuple{Z{s, d*ds}, Z{c, d*dc}};
-    }
-
-    //// if_else
-    template<typename Z1,  typename Z2>
-    EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::if_else_
-                                                , auto const & vc
-                                                , Z1 const & a
-                                                , Z2 const & b
-                                                ) noexcept
-    requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-    {
-      auto va = val(a); auto da = der(a);
-      auto vb = val(b); auto db = der(b);
-      using v_t = decltype(eve::if_else(vc, va, vb));
-      using r_t = as_valder_t<v_t>;
-      return r_t{eve::if_else(vc, va, vb), eve::if_else(vc, da, db)};
-    }
-
-    template < eve::like < valder> Z2, eve::generator < typename Z2::value_type> Constant>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::if_else_
-                                               , auto const & vc
-                                               , Constant const& a
-                                               , Z2 const& b ) noexcept
-    {
-      auto vb = val(b); auto db = der(b);
-      using v_t = decltype(eve::if_else(vc, a, vb));
-      using r_t = as_valder_t<v_t>;
-      return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
-    }
-
-    template < eve::like < valder> Z1, eve::generator < typename Z1::value_type> Constant>
-    EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::if_else_
-                                               , auto const & vc
-                                               , Z1 const& b
-                                               , Constant const& a
-
-                                               ) noexcept
-    {
-      auto vb = val(b); auto db = der(b);
-      using v_t = decltype(eve::if_else(vc, a, vb));
-      using r_t = as_valder_t<v_t>;
-      return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
     }
 
     //// ifnot_else
