@@ -10,13 +10,13 @@ int main()
 
   std::cout << "---- simd" << '\n'
             << "<- pf              = " << pf << '\n'
-            << "-> diff(invgd)(pf) = " << eve::diff(eve::invgd)(pf) << '\n'
-            << "-> invgd(pf)       = " << eve::invgd(pf) << '\n';
+            << "-> diff(agd)(pf) = " << eve::diff(eve::agd)(pf) << '\n'
+            << "-> agd(pf)       = " << eve::agd(pf) << '\n';
 
   float xf = 3.0f;
 
   std::cout << "---- scalar" << '\n'
             << "<- xf        = " << xf << '\n'
-            << "-> invgd(xf) = " << eve::invgd(xf) << '\n';
+            << "-> agd(xf) = " << eve::agd(xf) << '\n';
   return 0;
 }

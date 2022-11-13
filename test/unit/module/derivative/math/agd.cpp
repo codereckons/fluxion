@@ -14,12 +14,12 @@ TTS_CASE_TPL("Check return types of eve::invgd", flx::test::simd::ieee_reals)
 <typename T>(tts::type<T>)
 {
   using v_t = eve::element_type_t<T>;
-  TTS_EXPR_IS( flx::derivative(eve::invgd)(T())  , T  );
-  TTS_EXPR_IS( flx::derivative(eve::invgd)(v_t()), v_t);
+  TTS_EXPR_IS( flx::derivative(eve::agd)(T())  , T  );
+  TTS_EXPR_IS( flx::derivative(eve::agd)(v_t()), v_t);
 };
 
 //==================================================================================================
-// Tests for eve::invgd
+// Tests for eve::agd
 //==================================================================================================
 TTS_CASE_WITH("Check behavior of eve::invgd(eve::wide)",
               flx::test::simd::ieee_reals,
@@ -28,9 +28,9 @@ TTS_CASE_WITH("Check behavior of eve::invgd(eve::wide)",
               )
 <typename T>(T const& a0)
 {
-  using eve::invgd;
+  using eve::agd;
   using eve::detail::map;
 
-  auto dinvgd = [&](auto e) { return eve::sec(e); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::invgd)(a0), map(dinvgd, a0), 2.0);
+  auto dagd = [&](auto e) { return eve::sec(e); };
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::agd)(a0), map(dagd, a0), 2.0);
 };

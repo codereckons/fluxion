@@ -6,15 +6,24 @@
 #pragma once
 #include <flx/derivative/derivative.hpp>
 #include <eve/module/math.hpp>
+#include <eve/module/complex.hpp>
 
 namespace eve::detail
 {
 
   template<floating_real_value T>
-  EVE_FORCEINLINE constexpr T invgd_(EVE_SUPPORTS(cpu_)
+  EVE_FORCEINLINE constexpr T agd_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept
   {
     return if_else(abs(x) <= pio_2(as(x)), sec(x), allbits);
+  }
+
+  template<value T>
+  EVE_FORCEINLINE constexpr T agd_(EVE_SUPPORTS(cpu_)
+                                  , flx::derivative_type<1> const &
+                                  , T const &x) noexcept
+  {
+    return sec(x);
   }
 }

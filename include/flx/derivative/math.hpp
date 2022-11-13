@@ -18,6 +18,7 @@
 #include <flx/derivative/module/math/acsch.hpp>
 #include <flx/derivative/module/math/acsc.hpp>
 #include <flx/derivative/module/math/acscpi.hpp>
+#include <flx/derivative/module/math/agd.hpp>
 #include <flx/derivative/module/math/arg.hpp>
 #include <flx/derivative/module/math/asecd.hpp>
 #include <flx/derivative/module/math/asech.hpp>
@@ -55,7 +56,6 @@
 #include <flx/derivative/module/math/gd.hpp>
 #include <flx/derivative/module/math/geommean.hpp>
 #include <flx/derivative/module/math/hypot.hpp>
-#include <flx/derivative/module/math/invgd.hpp>
 #include <flx/derivative/module/math/log10.hpp>
 #include <flx/derivative/module/math/log1p.hpp>
 #include <flx/derivative/module/math/log2.hpp>
