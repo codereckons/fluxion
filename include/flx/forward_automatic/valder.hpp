@@ -196,16 +196,10 @@ namespace flx
                                             , eve::like<valder> auto const & o
                                             ) noexcept
     {
-    using v_t = decltype(eve::add(val(self), val(o)));
-    using r_t = flx::as_valder_t<v_t>;
-//        std::cout << "+= like like " << std::endl;
-//       std::cout << "o            " << o << std::endl;
-//       std::cout << "self         " << self << std::endl;
+      using v_t = decltype(eve::add(val(self), val(o)));
+      using r_t = flx::as_valder_t<v_t>;
       auto [vs, ds] = self;
       auto [v, d] = o;
-//       val(self) = val(self) + val(o);
-//       der(self) = der(self) + der(o);
-//       std::cout << "self apres        " << self << std::endl;
       return self = r_t{vs+v, ds+d};
     }
 
@@ -215,8 +209,10 @@ namespace flx
                                             ) noexcept
         requires(like<Z,Type> || std::convertible_to<Z,Type>)
     {
-      using r_t = typename std::decay_t<decltype(self)>;
-      return self = r_t{val(self)+o, der(self)};
+      using v_t = decltype(eve::add(val(self), val(o)));
+      using r_t = flx::as_valder_t<v_t>;
+      auto [vs, ds] = self;
+      return self = r_t{vs+o, ds};
     }
 
 //     template < typename Z1, typename Z2>
