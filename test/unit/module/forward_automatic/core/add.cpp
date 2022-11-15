@@ -30,37 +30,37 @@ TTS_CASE_WITH( "Check behavior of flx::add(eve::wide)"
   using flx::derivative_1st;
   using flx::derivative_2nd;
   using flx::derivative_3rd;
-  using e_t = eve::element_type_t<T>;
+//  using e_t = eve::element_type_t<T>;
   auto vda0 = var(a0);
   auto vda1 = var(a1);
-// auto vda2 = var(a2);
-  TTS_EQUAL(val(eve::add(vda0, a1))   , eve::add(a0, a1));
-  TTS_EQUAL(der(eve::add(vda0, a1))   , eve::one(eve::as(a0)));
-  TTS_EQUAL(val(eve::add(a0, vda1))   , eve::add(a0, a1));
-  TTS_EQUAL(der(eve::add(a0, vda1))   , eve::one(eve::as(a1)));
-  TTS_EQUAL(val(eve::add(vda0, vda1)) , eve::add(a0, a1));
-  TTS_EQUAL(der(eve::add(vda0, vda1)) , T(2));
-//  mix with  scalars
-  e_t b0(1);
-  e_t b1(3);
-  auto vdb0 = var(b0);
-  TTS_EQUAL(val(eve::add(vdb0, a1))   , eve::add(b0, a1));
-  TTS_EQUAL(der(eve::add(vdb0, a1))   , eve::one(eve::as(a1)));
-  TTS_EQUAL(val(eve::add(vdb0, b1))   , eve::add(b0, b1));
-  TTS_EQUAL(der(eve::add(vdb0, b1))   , eve::one(eve::as(b1)));
+// // auto vda2 = var(a2);
+//   TTS_EQUAL(val(eve::add(vda0, a1))   , eve::add(a0, a1));
+//   TTS_EQUAL(der(eve::add(vda0, a1))   , eve::one(eve::as(a0)));
+//   TTS_EQUAL(val(eve::add(a0, vda1))   , eve::add(a0, a1));
+//   TTS_EQUAL(der(eve::add(a0, vda1))   , eve::one(eve::as(a1)));
+//   TTS_EQUAL(val(eve::add(vda0, vda1)) , eve::add(a0, a1));
+//   TTS_EQUAL(der(eve::add(vda0, vda1)) , T(2));
+// //  mix with  scalars
+//   e_t b0(1);
+//   e_t b1(3);
+//   auto vdb0 = var(b0);
+//   TTS_EQUAL(val(eve::add(vdb0, a1))   , eve::add(b0, a1));
+//   TTS_EQUAL(der(eve::add(vdb0, a1))   , eve::one(eve::as(a1)));
+//   TTS_EQUAL(val(eve::add(vdb0, b1))   , eve::add(b0, b1));
+//   TTS_EQUAL(der(eve::add(vdb0, b1))   , eve::one(eve::as(b1)));
 
-  TTS_EQUAL(val(eve::add(b0, vda1))   , eve::add(b0, a1));
-  TTS_EQUAL(val(eve::add(b0, vda1))   , eve::add(b0, a1));
-  TTS_EQUAL(der(eve::add(vdb0, vda1))   , T(2));
-  TTS_EQUAL(der(eve::add(vdb0, vda1))   , T(2));
-//  mix with  complex
-//  using z_t = eve::as_complex_t<T>;
-//   z_t za(a0, a1);
-//   z_t zb(a1, a2);
-//   auto vdza = var(za);
-//   auto vdzb = var(zb);
-//   TTS_EQUAL(val(eve::add(vdza, vdzb)) , eve::add(za, zb));
-//   TTS_EQUAL(der(eve::add(vdza, vdzb)) , z_t(2));
+//   TTS_EQUAL(val(eve::add(b0, vda1))   , eve::add(b0, a1));
+//   TTS_EQUAL(val(eve::add(b0, vda1))   , eve::add(b0, a1));
+//   TTS_EQUAL(der(eve::add(vdb0, vda1))   , T(2));
+//   TTS_EQUAL(der(eve::add(vdb0, vda1))   , T(2));
+// //  mix with  complex
+// //  using z_t = eve::as_complex_t<T>;
+// //   z_t za(a0, a1);
+// //   z_t zb(a1, a2);
+// //   auto vdza = var(za);
+// //   auto vdzb = var(zb);
+// //   TTS_EQUAL(val(eve::add(vdza, vdzb)) , eve::add(za, zb));
+// //   TTS_EQUAL(der(eve::add(vdza, vdzb)) , z_t(2));
 
 
 //   TTS_EQUAL(val(vda0+a1)              , eve::add(a0, a1));

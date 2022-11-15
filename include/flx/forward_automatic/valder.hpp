@@ -75,7 +75,7 @@ namespace flx
     /// Stream insertion operator
     friend std::ostream& operator<<(std::ostream& os, eve::like<valder> auto const& z)
     {
-      return os << std::setprecision(20) << "(" << val(z) << ", "<< der(z) << ")" << std::noshowpos;
+      return os << std::setprecision(20) << "(" << get<0>(z) << ", "<< get<1>(z) << ")" << std::noshowpos;
     }
 
     //==============================================================================================
@@ -104,15 +104,15 @@ namespace flx
       return detail::valder_unary_dispatch(tag, z1);
     }
 
-    template<typename Tag, typename Z1, typename Z2>
-    requires(eve::like<Z1,valder> || eve::like<Z2,valder>)
-      EVE_FORCEINLINE friend  auto  tagged_dispatch ( Tag const& tag
-                                                    , Z1 const& z1, Z2 const& z2
-                                                    ) noexcept
-    ->    decltype(detail::valder_binary_dispatch(tag, z1, z2))
-    {
-      return detail::valder_binary_dispatch(tag, z1, z2);
-    }
+//     template<typename Tag, typename Z1, typename Z2>
+//     requires(eve::like<Z1,valder> || eve::like<Z2,valder>)
+//       EVE_FORCEINLINE friend  auto  tagged_dispatch ( Tag const& tag
+//                                                     , Z1 const& z1, Z2 const& z2
+//                                                     ) noexcept
+//     ->    decltype(detail::valder_binary_dispatch(tag, z1, z2))
+//     {
+//       return detail::valder_binary_dispatch(tag, z1, z2);
+//     }
 
 
 //     template<typename Tag, typename Z1,  typename ...Zs>
@@ -196,11 +196,11 @@ namespace flx
                                             , eve::like<valder> auto const & o
                                             ) noexcept
     {
-      using v_t = decltype(eve::add(val(self), val(o)));
-      using r_t = flx::as_valder_t<v_t>;
-      auto [vs, ds] = self;
-      auto [v, d] = o;
-      return self = r_t{vs+v, ds+d};
+      get<0>(self) = get<0>(self)+get<0>(o);
+      get<1>(self) = get<1>(self)+get<1>(o);
+//      val(self) = val(self)+val(o);
+//      der(self) = der(self)+der(o);
+      return self;
     }
 
     template < typename Z>
@@ -209,10 +209,9 @@ namespace flx
                                             ) noexcept
         requires(like<Z,Type> || std::convertible_to<Z,Type>)
     {
-      using v_t = decltype(eve::add(val(self), val(o)));
-      using r_t = flx::as_valder_t<v_t>;
-      auto [vs, ds] = self;
-      return self = r_t{vs+o, ds};
+      get<0>(self) = get<0>(self)+o;
+//      val(self) = val(self)+val(o);
+      return self;
     }
 
 //     template < typename Z1, typename Z2>

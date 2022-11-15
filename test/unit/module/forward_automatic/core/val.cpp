@@ -28,8 +28,12 @@ TTS_CASE_WITH( "Check behavior of flx::val(eve::wide)"
   using flx::der;
   using flx::derivative;
 
+  std::cout << a0 << std::endl;
   auto vda0 = var(a0);
+  std::cout << vda0 << std::endl;
   TTS_EQUAL(val(vda0)      , a0);
+  val(vda0) = a0+a0;
+  std::cout << vda0 << std::endl;
   using z_t = eve::as_complex_t<T>;
   z_t z{a0, a1};
   std::cout << "z " << z << std::endl;
