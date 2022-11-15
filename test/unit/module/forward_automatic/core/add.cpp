@@ -101,4 +101,12 @@ TTS_CASE_WITH( "Check behavior of flx::add(eve::wide)"
 //   TTS_EQUAL(der(eve::add[mask](a0, a1, vda2)), eve::if_else(mask, derivative_3rd(eve::add)(a0, a1, a2), eve::zero));
 
 
+  eve::complex < double > z{1, 2};
+  double a(1);
+  z+= a;
+  std::cout << z << std::endl;
+  eve::as_complex_t < T > zz{1, 2};
+  T aa(1);
+  zz+= a;
+  std::cout << zz << std::endl;
 };
