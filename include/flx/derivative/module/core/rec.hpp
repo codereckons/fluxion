@@ -9,13 +9,13 @@
 
 namespace eve::detail
 {
-  template<floating_real_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr auto rec_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<1> const &
                                     , T x) noexcept
   {
     if constexpr( has_native_abi_v<T> )
-      return -rec(sqr(x));
+      return -sqr(rec(x));
     else
       return apply_over(flx::derivative(rec), x);
   }

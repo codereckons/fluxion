@@ -17,5 +17,5 @@ namespace flx
 }
 
 #include <flx/analytic/analytic.hpp>
-#include <flx/derivative/derivative.hpp>
-#include <flx/differential/differential.hpp>
+#include <flx/derivative/derivatives.hpp>
+#include <flx/forward_automatic/forward_automatic.hpp>
