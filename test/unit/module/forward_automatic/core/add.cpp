@@ -73,8 +73,10 @@ TTS_CASE_WITH( "Check behavior of flx::add(eve::wide)"
 //   std::cout << "vda0+vda1       " << vda0+vda1 << std::endl;
 //   TTS_EQUAL(val(vda0+vda1)            , eve::add(a0, a1));
 //   TTS_EQUAL(der(vda0+vda1)            , T(2));
-//   vda0+= vda1;
-//   std::cout << "vda0 += vda1    " << vda0 << std::endl;
+  vda0+= vda1;
+  std::cout << "vda0 += vda1    " << vda0 << std::endl;
+  vda0+= a1;
+  std::cout << "vda0 += vda1    " << vda0 << std::endl;
 
 
 //  TTS_EQUAL(val(eve::add(vda0, a1, a2))      , eve::add(a0, a1, a2));

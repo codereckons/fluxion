@@ -184,59 +184,57 @@ namespace flx
         return VD{ cst(eve::as<Type>{}), Type{0}};
     }
 
-//     //==============================================================================================
-//     //  Operators
-//     //==============================================================================================
-//     //==============================================================================================
-//     // +
-//     //==============================================================================================
-//     EVE_FORCEINLINE friend auto operator+(like<valder> auto const& z) noexcept { return z; }
+    //==============================================================================================
+    //  Operators
+    //==============================================================================================
+    //==============================================================================================
+    // +
+    //==============================================================================================
+    EVE_FORCEINLINE friend auto operator+(like<valder> auto const& z) noexcept { return z; }
 
-//     EVE_FORCEINLINE friend auto& operator+= ( eve::like<valder> auto & self
-//                                             , eve::like<valder> auto const & o
-//                                             ) noexcept
-//     {
-//     using v_t = decltype(eve::add(val(self), val(o)));
-//     using r_t = flx::as_valder_t<v_t>;
+    EVE_FORCEINLINE friend auto& operator+= ( eve::like<valder> auto & self
+                                            , eve::like<valder> auto const & o
+                                            ) noexcept
+    {
+    using v_t = decltype(eve::add(val(self), val(o)));
+    using r_t = flx::as_valder_t<v_t>;
 //        std::cout << "+= like like " << std::endl;
 //       std::cout << "o            " << o << std::endl;
 //       std::cout << "self         " << self << std::endl;
-//       auto [vs, ds] = self;
-//       auto [v, d] = o;
-// //       val(self) = val(self) + val(o);
-// //       der(self) = der(self) + der(o);
-// //       std::cout << "self apres        " << self << std::endl;
-//       return self = r_t{vs+v, ds+d};
-//     }
+      auto [vs, ds] = self;
+      auto [v, d] = o;
+//       val(self) = val(self) + val(o);
+//       der(self) = der(self) + der(o);
+//       std::cout << "self apres        " << self << std::endl;
+      return self = r_t{vs+v, ds+d};
+    }
 
-//     template < typename Z>
-//     EVE_FORCEINLINE friend auto& operator+= ( eve::like<valder> auto& self
-//                                             , Z const& o
-//                                             ) noexcept
-//         requires(like<Z,Type> || std::convertible_to<Z,Type>)
+    template < typename Z>
+    EVE_FORCEINLINE friend auto& operator+= ( eve::like<valder> auto& self
+                                            , Z const& o
+                                            ) noexcept
+        requires(like<Z,Type> || std::convertible_to<Z,Type>)
+    {
+      using r_t = typename std::decay_t<decltype(self)>;
+      return self = r_t{val(self)+o, der(self)};
+    }
+
+//     template < typename Z1, typename Z2>
+//     requires(like<Z1,valder> || like<Z2,valder>)
+//     EVE_FORCEINLINE friend auto operator+(  Z1 const & z1, Z2 const & z2
+//                                           ) noexcept
 //     {
-// //      using r_t = decltype(self);      std::cout << "+= like other " << std::endl;
-// //      val(self) = val(self)+val(o); //+=  doesnot work here
-// //      return self = r_t{val(self)+o, der(self)};
-//       return self = add(self, o);
+//       std::cout << "+++0" << std::endl;
+//       return eve::add(z1, z2);
 //     }
 
-// //     template < typename Z1, typename Z2>
-// //     requires(like<Z1,valder> || like<Z2,valder>)
-// //     EVE_FORCEINLINE friend auto operator+(  Z1 const & z1, Z2 const & z2
-// //                                           ) noexcept
-// //     {
-// //       std::cout << "+++0" << std::endl;
-// //       return eve::add(z1, z2);
-// //     }
-
-// //     EVE_FORCEINLINE friend auto operator+(  eve::like<valder> auto const & z1
-// //                                          ,  eve::like<valder> auto const & z2
-// //                                           ) noexcept
-// //     {
-// //       std::cout << "+++1" << std::endl;
-// //       return eve::add(z1, z2);
-// //     }
+//     EVE_FORCEINLINE friend auto operator+(  eve::like<valder> auto const & z1
+//                                          ,  eve::like<valder> auto const & z2
+//                                           ) noexcept
+//     {
+//       std::cout << "+++1" << std::endl;
+//       return eve::add(z1, z2);
+//     }
 
 //     //==============================================================================================
 //     // -
