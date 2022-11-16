@@ -10,6 +10,14 @@ inputs:
     description: 'CMake options'
     required: false
     default: ''
+  target:  # What to compile
+    description: 'target'
+    required: false
+    default: 'unit'
+  tests:  # What to test
+    description: 'tests'
+    required: false
+    default: '^unit.*.exe'
   cpu:  # How much CPU do we use
     description: 'CPU Count'
     required: false
@@ -21,3 +29,5 @@ runs:
     - ${{ inputs.options }}
     - ${{ inputs.cmake-options }}
     - ${{ inputs.cpu }}
+    - ${{ inputs.target }}
+    - ${{ inputs.tests }}

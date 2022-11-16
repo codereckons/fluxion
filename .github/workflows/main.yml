@@ -10,19 +10,19 @@ concurrency:
 
 jobs:
 
-  mainline:
+  derivative:
     runs-on: [ubuntu-latest]
     strategy:
       fail-fast: false
       matrix:
         cfg:
-        - { comp: clang_libcpp, arch: x86     , opts: -msse2    , status: 1 }
-        - { comp: gcc         , arch: aarch64 , opts: -Wno-psabi, status: 1 }
-        - { comp: clang       , arch: x86     , opts: -msse2    , status: 1 }
-        - { comp: clang       , arch: x86_asan, opts: -msse2    , status: 1 }
-        - { comp: gcc         , arch: x86     , opts: -msse2    , status: 1 }
-        - { comp: clang       , arch: x86     , opts: -mavx2    , status: 1 }
-        - { comp: gcc         , arch: x86     , opts: -mavx2    , status: 1 }
+        - { comp: clang_libcpp, arch: x86     , opts: -msse2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: gcc         , arch: aarch64 , opts: -Wno-psabi, target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: clang       , arch: x86     , opts: -msse2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: clang       , arch: x86_asan, opts: -msse2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: gcc         , arch: x86     , opts: -msse2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: clang       , arch: x86     , opts: -mavx2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: gcc         , arch: x86     , opts: -mavx2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v3
@@ -31,5 +31,31 @@ jobs:
         with:
           options:        '${{ matrix.cfg.opts }}'
           cmake-options:  '-DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake'
-          status:         '${{ matrix.cfg.status }}'
+          target:         '${{ matrix.cfg.target }}'
+          tests:          '${{ matrix.cfg.tests }}'
+          cpu:            3
+
+  forward_automatic:
+    runs-on: [ubuntu-latest]
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
+        - { comp: clang_libcpp, arch: x86     , opts: -msse2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: gcc         , arch: aarch64 , opts: -Wno-psabi, target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: clang       , arch: x86     , opts: -msse2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: clang       , arch: x86_asan, opts: -msse2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: gcc         , arch: x86     , opts: -msse2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: clang       , arch: x86     , opts: -mavx2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: gcc         , arch: x86     , opts: -mavx2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+    steps:
+      - name: Fetch current branch
+        uses: actions/checkout@v3
+      - name: Testing Fluxion with ${{ matrix.cfg.comp }} on ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
+        uses: ./.github/actions/run_docker
+        with:
+          options:        '${{ matrix.cfg.opts }}'
+          cmake-options:  '-DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake'
+          target:         '${{ matrix.cfg.target }}'
+          tests:          '${{ matrix.cfg.tests }}'
           cpu:            3

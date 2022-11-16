@@ -7,11 +7,11 @@ cmake .. -G Ninja -DFLUXION_OPTIONS="$1" $2
 echo "::endgroup::"
 
 echo "::group:: Compiling Unit Tests"
-ninja -v unit -j $3
+ninja -v $4 -j $3
 echo "::endgroup::"
 
 echo "::group:: Running Unit Tests"
-ctest --output-on-failure -j $3
+ctest --output-on-failure -j $3 -R $5
 echo "::endgroup::"
 
 exit 0
