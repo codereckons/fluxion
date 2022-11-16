@@ -371,7 +371,7 @@ namespace flx
     // unary functions
     template<typename Tag>
     EVE_FORCEINLINE friend auto tagged_dispatch(Tag, eve::like<valder> auto const& v) noexcept
-    requires( has_derivation_v<Tag> )
+    requires( !has_optimized_derivative_v<Tag> )
     {
       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v);
       else                              return compute( eve::detail::callable_object<Tag>{}, v);
