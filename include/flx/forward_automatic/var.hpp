@@ -1,7 +1,7 @@
 //==================================================================================================
 /*
-  EVE - Expressive Vector Engine
-  Copyright : EVE Contributors & Maintainers
+  Fluxion - Post-Modern Automatic Derivation
+  Copyright : Fluxion Contributors & Maintainers
   SPDX-License-Identifier: MIT
 */
 //==================================================================================================
@@ -46,12 +46,11 @@ namespace flx
   //!
   //!  @}
   //================================================================================================
-  namespace tag { struct var_; }
-
+  namespace tag { struct var_ {}; }
 
   struct var_
   {
-    template < eve::value T >
+    template<eve::value T >
     constexpr auto operator()(T const & x) const
     {
       using vd_t = flx::as_valder_t<T>;
@@ -59,14 +58,12 @@ namespace flx
     }
 
     template < eve::value T >
-      constexpr auto operator()( const T & x, const T & dx) const
+    constexpr auto operator()( const T & x, const T & dx) const
     {
       using vd_t = flx::as_valder_t<T>;
       return vd_t{x, dx};
     }
   };
-
-  namespace tag { struct var_ {}; }
 
   constexpr inline auto var =  var_{};
 }

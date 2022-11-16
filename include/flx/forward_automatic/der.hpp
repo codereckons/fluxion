@@ -1,7 +1,7 @@
 //==================================================================================================
 /*
-  EVE - Expressive Vector Engine
-  Copyright : EVE Contributors & Maintainers
+  Fluxion - Post-Modern Automatic Derivation
+  Copyright : Fluxion Contributors & Maintainers
   SPDX-License-Identifier: MIT
 */
 //==================================================================================================
@@ -46,27 +46,24 @@ namespace flx
   //!
   //!  @}
   //================================================================================================
-  namespace tag { struct der_; }
+  namespace tag { struct der_ {}; }
 
   struct der_
   {
     template<typename V>
-    auto operator()( V const& v) const noexcept
-    requires (flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )//!eve::floating_value<V>)
+    decltype(auto) operator()(V&& v) const noexcept
+    requires (flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )
     {
-      return get<1>(EVE_FWD(v));;
+      return get<1>(EVE_FWD(v));
     }
 
     template<typename V>
-    auto operator()(V const &) const noexcept
-    requires (!flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )//!eve::floating_value<V>)
+    auto operator()(V&&) const noexcept
+    requires (!flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )
     {
-      return V(0);
+      return V{0};
     }
   };
-  
-  namespace tag { struct der_ {}; }
-  
-  constexpr inline auto der =  der_{};
 
+  constexpr inline auto der =  der_{};
 }
