@@ -16,17 +16,13 @@
 // #include <flx/forward_automatic/traits.hpp>
 // #include <flx/forward_automatic/is_derivable.hpp>
 // #include <flx/derivative/derivative.hpp>
-// #include <flx/forward_automatic/val.hpp>
-// #include <flx/forward_automatic/der.hpp>
-// #include <eve/concept/generator.hpp>
-// #include <eve/detail/abi.hpp>
-#include <flx/forward_automatic/der.hpp>
 #include <flx/forward_automatic/detail/core.hpp>
-#include <flx/forward_automatic/val.hpp>
 #include <flx/forward_automatic/var.hpp>
 
 #include <ostream>
 
+#include <eve/concept/generator.hpp>
+#include <eve/detail/abi.hpp>
 #include <eve/product_type.hpp>
 // #include <flx/forward_automatic/detail/math.hpp>
 
@@ -87,15 +83,13 @@ struct valder : eve::struct_support<valder<Type>, Type, Type>
     return detail::valder_unary_dispatch(tag, z1);
   }
 
-  //     template<typename Tag, typename Z1, typename Z2>
-  //     requires(eve::like<Z1,valder> || eve::like<Z2,valder>)
-  //       EVE_FORCEINLINE friend  auto  tagged_dispatch ( Tag const& tag
-  //                                                     , Z1 const& z1, Z2 const& z2
-  //                                                     ) noexcept
-  //     ->    decltype(detail::valder_binary_dispatch(tag, z1, z2))
-  //     {
-  //       return detail::valder_binary_dispatch(tag, z1, z2);
-  //     }
+  template<typename Tag, typename Z1, typename Z2>
+  requires(eve::like<Z1, valder> || eve::like<Z2, valder>)
+  EVE_FORCEINLINE friend auto tagged_dispatch(Tag const& tag, Z1 const& z1, Z2 const& z2) noexcept
+      -> decltype(detail::valder_binary_dispatch(tag, z1, z2))
+  {
+    return detail::valder_binary_dispatch(tag, z1, z2);
+  }
 
   //     template<typename Tag, typename Z1,  typename ...Zs>
   //     requires(like<Z1,valder> || (... || like<Zs,valder>))
@@ -175,8 +169,8 @@ struct valder : eve::struct_support<valder<Type>, Type, Type>
   EVE_FORCEINLINE friend auto& operator+=(eve::like<valder> auto      & self,
                                           eve::like<valder> auto const& o) noexcept
   {
-    val(self) = val(self)+val(o);
-    der(self) = der(self)+der(o);
+    val(self) += val(o);
+    der(self) += der(o);
     return self;
   }
 
@@ -184,26 +178,16 @@ struct valder : eve::struct_support<valder<Type>, Type, Type>
   EVE_FORCEINLINE friend auto& operator+=(eve::like<valder> auto& self, Z const& o) noexcept
   requires(eve::like<Z, Type> || std::convertible_to<Z, Type>)
   {
-    val(self) = val(self)+val(o);
+    val(self) += val(o);
     return self;
   }
 
-  //     template < typename Z1, typename Z2>
-  //     requires(like<Z1,valder> || like<Z2,valder>)
-  //     EVE_FORCEINLINE friend auto operator+(  Z1 const & z1, Z2 const & z2
-  //                                           ) noexcept
-  //     {
-  //       std::cout << "+++0" << std::endl;
-  //       return eve::add(z1, z2);
-  //     }
-
-  //     EVE_FORCEINLINE friend auto operator+(  eve::like<valder> auto const & z1
-  //                                          ,  eve::like<valder> auto const & z2
-  //                                           ) noexcept
-  //     {
-  //       std::cout << "+++1" << std::endl;
-  //       return eve::add(z1, z2);
-  //     }
+  template<typename Z1, typename Z2>
+  EVE_FORCEINLINE friend auto operator+(Z1 const& x, Z2 const& y) noexcept
+  requires(eve::like<Z1,valder> || eve::like<Z2,valder>)
+  {
+    return eve::add(x, y);
+  }
 
   //     //==============================================================================================
   //     // -
@@ -386,10 +370,10 @@ struct valder : eve::struct_support<valder<Type>, Type, Type>
   //       return r_t{ kumi::apply(f,vs), d};
   //     }
 
-  //     //==============================================================================================
-  //     // Functions support
-  //     //==============================================================================================
-  //     //==============================================================================================
+  //==============================================================================================
+  // Functions support
+  //==============================================================================================
+  //==============================================================================================
   //     // unary functions
   //     template<typename Tag>
   //     EVE_FORCEINLINE friend auto tagged_dispatch(Tag

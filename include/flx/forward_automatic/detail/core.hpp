@@ -1,40 +1,42 @@
 //==================================================================================================
-/**
-  EVE - Expressive Vector Engine
-  Copyright : EVE Contributors & Maintainers
+/*
+  Fluxion - Post-Modern Automatic Derivation
+  Copyright : Fluxion Contributors & Maintainers
   SPDX-License-Identifier: MIT
-**/
+*/
 //==================================================================================================
 #pragma once
-#include <eve/module/core.hpp>
 #include <flx/derivative/derivatives.hpp>
+#include <flx/forward_automatic/der.hpp>
+#include <flx/forward_automatic/val.hpp>
+
+#include <eve/module/core.hpp>
 
 namespace flx::detail
 {
-  //// rec
-  template<typename Z>
-  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::rec_, Z const& z) noexcept
-  {
-    auto [v, d] = z;
-    auto inv = eve::rec(v);
-    return Z{inv, -eve::sqr(inv)*d};
-  }
+//// rec
+template<typename Z>
+EVE_FORCEINLINE auto
+valder_unary_dispatch(eve::tag::rec_, Z const& z) noexcept
+{
+  auto [v, d] = z;
+  auto inv    = eve::rec(v);
+  return Z {inv, -eve::sqr(inv) * d};
+}
 
-  //// add
-//   template < typename Z1,  typename Z2>
-//   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::add_
-//                                               , Z1 const & z1
-//                                               , Z2 const & z2
-//                                               ) noexcept
-//   {
-//     using v_t = decltype(val(z1)+ val(z2));
-//     using e_t = eve::element_type_t<v_t>;
-//     using r_t = flx::as_valder_t<v_t>;
-//     auto z = val(z1)+val(z2);
-//     if constexpr(!eve::like < Z1, valder<e_t>>)      return r_t(z, v_t(der(z2)));
-//     else if constexpr(!eve::like < Z2, valder<e_t>>) return r_t(z, v_t(der(z1)));
-//     else                                             return r_t(z, v_t(der(z1))+v_t(der(z2)));
-//   }
+//// add
+template<typename Z1, typename Z2>
+EVE_FORCEINLINE auto
+valder_binary_dispatch(eve::tag::add_, Z1 const& z1, Z2 const& z2) noexcept
+{
+  using v_t = decltype(val(z1) + val(z2));
+  using e_t = eve::element_type_t<v_t>;
+  using r_t = flx::as_valder_t<v_t>;
+  auto z    = val(z1) + val(z2);
+  if constexpr( !eve::like<Z1, valder<e_t>> ) return r_t(z, v_t(der(z2)));
+  else if constexpr( !eve::like<Z2, valder<e_t>> ) return r_t(z, v_t(der(z1)));
+  else return r_t(z, v_t(der(z1)) + v_t(der(z2)));
+}
 
 //   //// dist
 //   template < typename Z1,  typename Z2>
@@ -119,7 +121,6 @@ namespace flx::detail
 //     }
 //   }
 
-
 //   template < typename Z1,  typename Z2>
 //   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::rem_
 //                                               , Z1 const & z1
@@ -130,9 +131,9 @@ namespace flx::detail
 //     using e_t = eve::element_type_t<v_t>;
 //     using r_t = flx::as_valder_t<v_t>;
 //     auto z = eve::rem(val(z1), val(z2));
-//     if constexpr(!eve::like < Z1, valder<e_t>>)      return r_t(z, -eve::trunc(v_t(val(z1))/v_t(val(z2))*v_t(der(z2))));
-//     else if constexpr(!eve::like < Z2, valder<e_t>>) return r_t(z, v_t(der(z1)));
-//     else
+//     if constexpr(!eve::like < Z1, valder<e_t>>)      return r_t(z,
+//     -eve::trunc(v_t(val(z1))/v_t(val(z2))*v_t(der(z2)))); else if constexpr(!eve::like < Z2,
+//     valder<e_t>>) return r_t(z, v_t(der(z1))); else
 //     {
 //       return r_t(z, eve::fsm( v_t(der(z1))
 //                             , eve::trunc( v_t(val(z1))/v_t(val(z2)))
@@ -152,9 +153,9 @@ namespace flx::detail
 //     using e_t = eve::element_type_t<v_t>;
 //     using r_t = flx::as_valder_t<v_t>;
 //     auto z = eve::pedantic(eve::rem)(val(z1), val(z2));
-//     if constexpr(!eve::like < Z1, valder<e_t>>)      return r_t(z, -eve::trunc(v_t(val(z1))/v_t(val(z2))*v_t(der(z2))));
-//     else if constexpr(!eve::like < Z2, valder<e_t>>) return r_t(z, v_t(der(z1)));
-//     else
+//     if constexpr(!eve::like < Z1, valder<e_t>>)      return r_t(z,
+//     -eve::trunc(v_t(val(z1))/v_t(val(z2))*v_t(der(z2)))); else if constexpr(!eve::like < Z2,
+//     valder<e_t>>) return r_t(z, v_t(der(z1))); else
 //     {
 //       return r_t(z, eve::fsm( v_t(der(z1))
 //                             , eve::trunc( v_t(val(z1))/v_t(val(z2)))
@@ -198,6 +199,5 @@ namespace flx::detail
 //     auto sqrtv = eve::sqrt(v);
 //     return Z{sqrtv, d/(2*sqrtv)};
 //   }
-
 
 }
