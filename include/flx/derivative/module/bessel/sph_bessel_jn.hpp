@@ -19,11 +19,11 @@ namespace eve::detail
   {
     auto improper_n = is_ngez(nn) || is_not_flint(nn);
     auto improper_x = is_ngez(x);
-    EVE_ASSERT(eve::any(improper_n), "flx::derivative(sph_bessel_jn): some orders are non integral positive");
-    EVE_ASSERT(eve::any(improper_x), "flx::derivative(sph_bessel_jn): some x are negative");
+    EVE_ASSERT(eve::none(improper_n), "flx::derivative(sph_bessel_jn): some orders are non integral positive");
+    EVE_ASSERT(eve::none(improper_x), "flx::derivative(sph_bessel_jn): some x are negative");
     auto n = convert(nn, as<element_type_t<T>>());
     n = if_else(improper_n, allbits, n);
-    x = if_else(improper_x, allbits, x); 
+    x = if_else(improper_x, allbits, x);
     auto compute = [](auto n,  auto x){
       auto r = (n / x) * sph_bessel_jn(n, x) - sph_bessel_jn(n+1, x);
       return if_else(is_nan(r), zero, r);
