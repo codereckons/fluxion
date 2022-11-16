@@ -37,6 +37,7 @@ jobs:
 
   forward_automatic:
     runs-on: [ubuntu-latest]
+    needs: derivative
     strategy:
       fail-fast: false
       matrix:
