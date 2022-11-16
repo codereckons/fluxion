@@ -1,0 +1,35 @@
+name: Fluxion CI
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: environment-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  mainline:
+    runs-on: [ubuntu-latest]
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
+        - { comp: clang_libcpp, arch: x86     , opts: -msse2    , status: 1 }
+        - { comp: gcc         , arch: aarch64 , opts: -Wno-psabi, status: 1 }
+        - { comp: clang       , arch: x86     , opts: -msse2    , status: 1 }
+        - { comp: clang       , arch: x86_asan, opts: -msse2    , status: 1 }
+        - { comp: gcc         , arch: x86     , opts: -msse2    , status: 1 }
+        - { comp: clang       , arch: x86     , opts: -mavx2    , status: 1 }
+        - { comp: gcc         , arch: x86     , opts: -mavx2    , status: 1 }
+    steps:
+      - name: Fetch current branch
+        uses: actions/checkout@v3
+      - name: Testing Fluxion with ${{ matrix.cfg.comp }} on ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
+        uses: ./.github/actions/run_docker
+        with:
+          options:        '${{ matrix.cfg.opts }}'
+          cmake-options:  '-DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake'
+          status:         '${{ matrix.cfg.status }}'
+          cpu:            3
