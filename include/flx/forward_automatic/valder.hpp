@@ -189,106 +189,96 @@ struct valder : eve::struct_support<valder<Type>, Type, Type>
     return eve::add(x, y);
   }
 
-  //     //==============================================================================================
-  //     // -
-  //     //==============================================================================================
-  //     template< like<valder> Z>
-  //     EVE_FORCEINLINE friend auto operator-(Z const& z) noexcept
-  //     {
-  //       return Z{-val(z), -der(z)};
-  //     }
+  //==============================================================================================
+  // -
+  //==============================================================================================
+  EVE_FORCEINLINE friend auto operator-(eve::like<valder> auto const& z) noexcept { return z; }
 
-  //     template<like<valder> Z1, like<valder> Z2>
-  //     EVE_FORCEINLINE friend auto& operator-= ( eve::like<valder> auto & self
-  //                                             , eve::like<valder> auto const & o
-  //                                             ) noexcept
-  //     {
-  //       val(self) -= val(o);
-  //       der(self) -= der(o);
-  //       return self;
-  //     }
+  EVE_FORCEINLINE friend auto& operator-=(eve::like<valder> auto      & self,
+                                          eve::like<valder> auto const& o) noexcept
+  {
+    val(self) -= val(o);
+    der(self) -= der(o);
+    return self;
+  }
 
-  //     template < typename Z>
-  //     EVE_FORCEINLINE friend auto& operator-= ( eve::like<valder> auto& self
-  //                                             , Z const& o
-  //                                             ) noexcept
-  //     {
-  //       val(self) -= val(o);
-  //       return self;
-  //     }
+  template<typename Z>
+  EVE_FORCEINLINE friend auto& operator-=(eve::like<valder> auto& self, Z const& o) noexcept
+  requires(eve::like<Z, Type> || std::convertible_to<Z, Type>)
+  {
+    val(self) -= val(o);
+    return self;
+  }
 
-  //     template < typename Z1, typename Z2>
-  //     EVE_FORCEINLINE friend auto operator-(  const Z1 &z1
-  //                                           , const Z2 &z2
-  //                                           ) noexcept
-  //     requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
-  //     {
-  //       return eve::sub(z1, z2);
-  //     }
+  template<typename Z1, typename Z2>
+  EVE_FORCEINLINE friend auto operator-(Z1 const& x, Z2 const& y) noexcept
+  requires(eve::like<Z1,valder> || eve::like<Z2,valder>)
+  {
+    return eve::sub(x, y);
+  }
 
-  //     //==============================================================================================
-  //     // *
-  //     //==============================================================================================
-  //     template<like<valder> Z1, like<valder> Z2>
-  //     EVE_FORCEINLINE friend auto& operator*= (Z1& self, Z2 const& o) noexcept
-  //     {
-  //       auto [a, b] = self;
-  //       auto [c, d] = o;
-  //       der(self) = eve::sum_of_prod(a, d, b, c);
-  //       val(self) = val(self)*c;
-  //       return self;
-  //     }
+  //==============================================================================================
+  // *
+  //==============================================================================================
+  template<eve::like<valder> Z1, eve::like<valder> Z2>
+  EVE_FORCEINLINE friend auto& operator*= (Z1& self, Z2 const& o) noexcept
+  {
+    auto [a, b] = self;
+    auto [c, d] = o;
+    der(self) = eve::sum_of_prod(a, d, b, c);
+    val(self) *= c;
+    return self;
+  }
 
-  //     template<typename Z>
-  //     EVE_FORCEINLINE friend auto& operator*=(like<valder> auto& self, Z const & o) noexcept
-  //     requires(like<Z,Type> || std::convertible_to<Z,Type>)
-  //     {
-  //       val(self) *= o;
-  //       der(self) *= o;
-  //       return self;
-  //     }
+  template<typename Z>
+  EVE_FORCEINLINE friend auto& operator*=(eve::like<valder> auto& self, Z const & o) noexcept
+  requires(eve::like<Z,Type> || std::convertible_to<Z,Type>)
+  {
+    val(self) *= o;
+    der(self) *= o;
+    return self;
+  }
 
-  //     template < typename Z1, typename Z2>
-  //     EVE_FORCEINLINE friend auto operator*(  const Z1 & z1
-  //                                           , const Z2 & z2
-  //                                           ) noexcept
-  //     requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
-  //     {
-  //       return eve::mul(z1, z2);
-  //     }
+  template < typename Z1, typename Z2>
+  EVE_FORCEINLINE friend auto operator*( const Z1 & z1
+                                       , const Z2 & z2
+                                       ) noexcept
+  requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
+  {
+    return eve::mul(z1, z2);
+  }
 
-  //     //==============================================================================================
-  //     // /
-  //     //==============================================================================================
-  //     template<like<valder> Z1, like<valder> Z2>
-  //     EVE_FORCEINLINE friend auto& operator/= (Z1& self, Z2 const& o) noexcept
-  //     {
-  //       auto [a, b] = self;
-  //       auto [c, d] = o;
-  //       auto invo2 = eve::rec(eve::sqr(val(o)));
-  //       val(self) /= c;
-  //       der(self) = diff_of_prod(c, b, a, d)/invo2;
-  //       return self;
-  //     }
+  //==============================================================================================
+  // /
+  //==============================================================================================
+  template<eve::like<valder> Z1, eve::like<valder> Z2>
+  EVE_FORCEINLINE friend auto& operator/= (Z1& self, Z2 const& o) noexcept
+  {
+    auto [a, b] = self;
+    auto [c, d] = o;
+    auto invo2 = eve::rec(eve::sqr(val(o)));
+    val(self) /= c;
+    der(self) = eve::diff_of_prod(c, b, a, d)*invo2;
+    return self;
+  }
 
-  //     template<typename Z>
-  //     EVE_FORCEINLINE friend auto& operator/=(like<valder> auto& self, Z const & o) noexcept
-  //     requires(like<Z,Type> || std::convertible_to<Z,Type>)
-  //     {
-  //       auto invo2 = eve::rec(eve::sqr(val(o)));
-  //       val(self) /= o;
-  //       der(self) /= o;
-  //       return self;
-  //     }
+  template<typename Z>
+  EVE_FORCEINLINE friend auto& operator/=(eve::like<valder> auto& self, Z const & o) noexcept
+  requires(eve::like<Z,Type> || std::convertible_to<Z,Type>)
+  {
+    val(self) /= o;
+    der(self) /= o;
+    return self;
+  }
 
-  //     template < typename Z1, typename Z2>
-  //     EVE_FORCEINLINE friend auto operator/(  const Z1 & z1
-  //                                           , const Z2 & z2
-  //                                           ) noexcept
-  //     requires (eve::like<Z1, valder> && eve::like<Z2, valder>)
-  //     {
-  //       return eve::div(z1, z2);
-  //     }
+  template < typename Z1, typename Z2>
+  EVE_FORCEINLINE friend auto operator/( const Z1 & z1
+                                       , const Z2 & z2
+                                       ) noexcept
+  requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
+  {
+    return eve::div(z1, z2);
+  }
 
   //     template<typename Func, eve::like<valder> Z>
   //     static EVE_FORCEINLINE auto deriv(Func f, Z const & z)

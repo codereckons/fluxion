@@ -13,10 +13,13 @@ add_custom_target(unit.forward_automatic.core.exe )
 ## module/forward_automatic/core tests
 ##==================================================================================================
 make_unit("unit.forward_automatic.core" add.cpp)
+make_unit("unit.forward_automatic.core" der.cpp)
+make_unit("unit.forward_automatic.core" div.cpp)
+make_unit("unit.forward_automatic.core" mul.cpp)
 make_unit("unit.forward_automatic.core" rec.cpp)
+make_unit("unit.forward_automatic.core" sub.cpp)
 make_unit("unit.forward_automatic.core" val.cpp)
 make_unit("unit.forward_automatic.core" var.cpp)
-make_unit("unit.forward_automatic.core" der.cpp)
 
 ##make_unit("unit.forward_automatic.core" "mul.cpp        )
 ##make_unit("unit.forward_automatic.core" "sub.cpp        )

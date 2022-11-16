@@ -41,7 +41,22 @@ TTS_CASE_WITH( "Check behavior of flx::sub(eve::wide)"
   TTS_EQUAL(der(eve::sub(vda0, vda1))        , eve::zero(eve::as(a1)));;
 
 
-  
+  TTS_EQUAL(val(vda0-a1)              , eve::sub(a0, a1));
+  TTS_EQUAL(der(vda0-a1)              , eve::one(eve::as(a0)));
+  TTS_EQUAL(val(a0-vda1)              , eve::sub(a0, a1));
+  TTS_EQUAL(der(a0-vda1)              , eve::mone(eve::as(a0)));
+
+  vda0 -= vda1;
+  std::cout << "vda0 -= vda1    " << vda0 << std::endl;
+  TTS_EQUAL(val(vda0), a0 - a1);
+  TTS_EQUAL(der(vda0), T(0));
+  std::cout << "avant vda1 " << vda1 << std::endl;
+  vda1 -= a0;
+  std::cout << "apres vda1 " << vda1 << std::endl;
+  std::cout << "vda1 -= a0    " << vda1 << std::endl;
+  TTS_EQUAL(val(vda1), a1 - a0);
+  TTS_EQUAL(der(vda1), T(1));
+
 //   TTS_EQUAL(val(eve::sub(vda0, a1, a2))      , eve::sub(a0, a1, a2));
 //   TTS_EQUAL(der(eve::sub(vda0, a1, a2))      , derivative_1st(eve::sub)(a0, a1, a2));
 //   TTS_EQUAL(val(eve::sub(a0, vda1, a2))      , eve::sub(a0, a1, a2));

@@ -37,11 +37,23 @@ TTS_CASE_WITH( "Check behavior of flx::mul(eve::wide)"
   TTS_EQUAL(der(eve::mul(vda0, a1    ))      , a1);
   TTS_EQUAL(der(eve::mul(a0, vda1    ))      , a0);
   TTS_EQUAL(der(eve::mul(vda0, vda1  ))      , a0+a1);
+
   TTS_EQUAL(val(vda0*a1)                     , eve::mul(a0, a1    ));
   TTS_EQUAL(val(vda0*vda1)                   , eve::mul(a0, a1    ));
   TTS_EQUAL(der(vda0*a1)                     , a1);
   TTS_EQUAL(der(a0*vda1)                     , a0);
   TTS_EQUAL(der(vda0*vda1)                   , a0+a1);
+
+  vda0 *= vda1;
+  std::cout << "vda0 *= vda1    " << vda0 << std::endl;
+  TTS_EQUAL(val(vda0), a0 * a1);
+  TTS_EQUAL(der(vda0), a0 + a1);
+  std::cout << "avant vda1 " << vda1 << std::endl;
+  vda1 *= a0;
+  std::cout << "apres vda1 " << vda1 << std::endl;
+  std::cout << "vda1 *= a0    " << vda1 << std::endl;
+  TTS_EQUAL(val(vda1), a1 * a0);
+  TTS_EQUAL(der(vda1), a0);
 
 //  auto vda2 = var(a2);
 //   TTS_EQUAL(val(eve::mul(vda0, a1, a2))      , eve::mul(a0, a1, a2));
