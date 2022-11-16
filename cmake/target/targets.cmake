@@ -3,13 +3,15 @@
 ## Copyright : Fluxion Project Contributors
 ## SPDX-License-Identifier: BSL-1.0
 ##==================================================================================================
-include(${PROJECT_SOURCE_DIR}/cmake/config/compiler.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/config/pch.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/target/add_parent_target.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/target/targets.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/target/generate_test.cmake)
 
 ##==================================================================================================
-## Actual tests
+## Setup our tests main tests targets
 ##==================================================================================================
-add_subdirectory(unit/module)
+add_custom_target(tests)
+add_custom_target(unit)
+add_dependencies(tests unit)
+
+##==================================================================================================
+## Setup aggregation of tests
+##==================================================================================================
+add_custom_target(unit.exe )

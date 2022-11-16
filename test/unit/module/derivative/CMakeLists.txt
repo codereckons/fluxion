@@ -3,7 +3,8 @@
 ## Copyright : Fluxion Project Contributors
 ## SPDX-License-Identifier: BSL-1.0
 ##==================================================================================================
-
-include(unit/module/derivative/unit.cmake)
-include(unit/module/forward_automatic/unit.cmake)
-##include(unit/module/analytic/unit.cmake)
+add_subdirectory(bessel)
+add_subdirectory(core)
+add_subdirectory(math)
+add_subdirectory(polynomial)
+add_subdirectory(special)

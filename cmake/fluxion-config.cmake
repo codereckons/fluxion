@@ -3,13 +3,9 @@
 ## Copyright : Fluxion Project Contributors
 ## SPDX-License-Identifier: BSL-1.0
 ##==================================================================================================
-include(${PROJECT_SOURCE_DIR}/cmake/config/compiler.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/config/pch.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/target/add_parent_target.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/target/targets.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/target/generate_test.cmake)
 
 ##==================================================================================================
-## Actual tests
+## Reuse install.cmake to preapre package properly
 ##==================================================================================================
-add_subdirectory(unit/module)
+include("${CMAKE_CURRENT_LIST_DIR}/eve-install.cmake")
+set(FLUXION_LIBRARIES fluxion::fluxion)
