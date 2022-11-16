@@ -40,6 +40,6 @@ TTS_CASE_WITH("Check behavior of eve::lbeta(eve::wide)",
   auto dlbeta1 = [&](auto e, auto f) -> e_t{ return eve::imag(eve::lbeta(c_t(e,eps), c_t(f, zer)))/eps; };
   auto dlbeta2 = [&](auto e, auto f) { return eve::imag(eve::lbeta(c_t(e, zer), c_t(f,eps)))/eps; };
 
-  TTS_RELATIVE_EQUAL(flx::derivative_1st(eve::lbeta)(a0, a1), map(dlbeta1, a0, a1), 1.0e-4);
-  TTS_RELATIVE_EQUAL(flx::derivative_2nd(eve::lbeta)(a0, a1), map(dlbeta2, a0, a1), 1.0e-4);
+  TTS_RELATIVE_EQUAL(flx::derivative_1st(eve::lbeta)(a0, a1), map(dlbeta1, a0, a1), 2.0e-4);
+  TTS_RELATIVE_EQUAL(flx::derivative_2nd(eve::lbeta)(a0, a1), map(dlbeta2, a0, a1), 2.0e-4);
 };
