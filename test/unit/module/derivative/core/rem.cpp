@@ -31,7 +31,7 @@ TTS_CASE_WITH("Check behavior of eve::rem(eve::wide)",
   using eve::rem;
   using eve::detail::map;
 
-  auto drem1=[&](auto , auto f) {return  eve::one((eve::as(f); };
+  auto drem1=[&](auto , auto f) {return  eve::one(eve::as(f)); };
   auto drem2=[&](auto e, auto f) {return -eve::trunc(e/f); };
   TTS_ULP_EQUAL( flx::derivative_1st(eve::rem)(a0, a1), map(drem1, a0, a1), 0.5);
   TTS_ULP_EQUAL( flx::derivative_2nd(eve::rem)(a0, a1), map(drem2, a0, a1), 0.5);
