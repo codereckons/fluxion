@@ -17,7 +17,7 @@
 #include <flx/forward_automatic/is_derivable.hpp>
 // #include <flx/derivative/derivative.hpp>
 #include <flx/forward_automatic/detail/core.hpp>
-#include <flx/forward_automatic/detail/math.hpp>
+//#include <flx/forward_automatic/detail/math.hpp>
 #include <flx/forward_automatic/var.hpp>
 
 #include <ostream>
@@ -85,10 +85,23 @@ namespace flx
 
     template<typename Tag, typename Z1, typename Z2>
     requires(eve::like<Z1, valder> || eve::like<Z2, valder>)
-      EVE_FORCEINLINE friend auto tagged_dispatch(Tag const& tag, Z1 const& z1, Z2 const& z2) noexcept
+      EVE_FORCEINLINE friend auto tagged_dispatch(Tag const& tag
+                                                 , Z1 const& z1
+                                                 , Z2 const& z2) noexcept
     -> decltype(detail::valder_binary_dispatch(tag, z1, z2))
     {
       return detail::valder_binary_dispatch(tag, z1, z2);
+    }
+
+    template<typename Tag, typename Z1, typename Z2, typename Z3>
+    requires(eve::like<Z1, valder> || eve::like<Z2, valder> || eve::like<Z3, valder>)
+      EVE_FORCEINLINE friend auto tagged_dispatch(Tag const& tag
+                                                 , Z1 const& z1
+                                                 , Z2 const& z2
+                                                 , Z3 const& z3) noexcept
+    -> decltype(detail::valder_ternary_dispatch(tag, z1, z2, z3))
+    {
+      return detail::valder_ternary_dispatch(tag, z1, z2, z3);
     }
 
     //     template<typename Tag, typename Z1,  typename ...Zs>
@@ -134,18 +147,6 @@ namespace flx
         return f(val(z1), val(zs)...);
     }
 
-    //==============================================================================================
-    //  nary  functions support
-    //==============================================================================================
-    //     template<typename Tag, typename Z1,  typename ...Zs>
-    //     requires(like<Z1,valder> || (... || like<Zs,valder>))
-    //     EVE_FORCEINLINE friend  auto  tagged_dispatch ( Tag const& tag
-    //                                                   , Z1 const& z1, Zs const&... zs
-    //                                                   ) noexcept
-    //                             ->    decltype(detail::valder_nary_dispatch(tag, z1, zs...))
-    //     {
-    //       return detail::valder_nary_dispatch(tag, z1, zs...);
-    //     }
 
     //==============================================================================================
     // Constants support
@@ -450,83 +451,7 @@ namespace flx
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //     //==============================================================================================/////////////////////////
-    //     //==  peculiar cases
-    //     //==============================================================================================/////////////////////////
-    //     template<eve::like<valder> Z>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::exponent_, Z const& z) noexcept
-    //     {
-    //       return eve::exponent(val(z));
-    //     }
 
-    //     template<eve::like<valder> Z>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::mantissa_, Z const& z) noexcept
-    //     {
-    //       return Z{eve::mantissa(val(z)), der(z)};
-    //     }
-
-    //     template<eve::like<valder> Z, eve::value N>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::ldexp_
-    //                                                 , Z const& z,  N const& n) noexcept
-    //     {
-    //       auto nn = eve::convert(n, eve::as<eve::element_type_t<decltype(val(z))>>());
-    //       return Z{eve::ldexp(val(z), nn), eve::ldexp(eve::one(eve::as(val(z))), nn)*der(z)};
-    //     }
-
-    //     //==============================================================================================
-    //     //  Binary functions
-    //     //==============================================================================================
-    //     template < typename Z1,  typename Z2>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::ulpdist_
-    //                                                 , Z1 const & z1
-    //                                                 , Z2 const & z2
-    //                                                 ) noexcept
-    //     requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-    //     {
-    //       return eve::max( eve::ulpdist(val(z1), val(z2))
-    //                      , eve::ulpdist(der(z1), der(z2)));
-    //     }
-
-    //     //==============================================================================================
-    //     //  returning tuples
-    //     //==============================================================================================
-    //     template<eve::like<valder> Z>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sincos_
-    //                                                , Z const& z ) noexcept
-    //     {
-    //       auto [v, d] = z;
-    //       auto [s, c]= eve::sincos(v);
-    //       return kumi::tuple{Z{s, d*c}, Z{c, -d*s}};
-    //     }
-
-    //     template<eve::like<valder> Z>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sinpicospi_
-    //                                                , Z const& z ) noexcept
-    //     {
-    //       auto [v, d] = z;
-    //       auto [s, c]= eve::sinpicospi(v);
-    //       auto fac = eve::pi(eve::as(v));
-    //       return kumi::tuple{Z{s, d*c*fac}, Z{c, -d*s*fac}};
-    //     }
-
-    //     template<eve::like<valder> Z>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sindcosd_
-    //                                                , Z const& z ) noexcept
-    //     {
-    //       auto [v, d] = z;
-    //       auto [s, c]= eve::sindcosd(v);
-    //       auto fac = eve::deginrad(d);
-    //       return kumi::tuple{Z{s, c*fac}, Z{c, -s*fac}};
-    //     }
-
-    //     template<eve::like<valder> Z>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::sinhcosh_
-    //                                                , Z const& z ) noexcept
-    //     {
-    //       auto [v, d] = z;
-    //       auto [s, c]= eve::sinhcosh(v);
-    //       return kumi::tuple{Z{s, d*c}, Z{c, d*s}};
-    //     }
 
     //     template<eve::like<valder> Z>
     //     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::lambert_
@@ -536,60 +461,6 @@ namespace flx
     //       auto [s, c]= eve::lambert(v);
     //     auto [ds, dc]= flx::derivative(eve::lambert)(v);
     //       return kumi::tuple{Z{s, d*ds}, Z{c, d*dc}};
-    //     }
-
-    //     //// if_else
-    //     template<typename Z1,  typename Z2>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::if_else_
-    //                                                 , auto const & vc
-    //                                                 , Z1 const & a
-    //                                                 , Z2 const & b
-    //                                                 ) noexcept
-    //     requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-    //     {
-    //       auto va = val(a); auto da = der(a);
-    //       auto vb = val(b); auto db = der(b);
-    //       using v_t = decltype(eve::if_else(vc, va, vb));
-    //       using r_t = as_valder_t<v_t>;
-    //       return r_t{eve::if_else(vc, va, vb), eve::if_else(vc, da, db)};
-    //     }
-
-    //     template < eve::like < valder> Z2, eve::generator < typename Z2::value_type> Constant>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::if_else_
-    //                                                , auto const & vc
-    //                                                , Constant const& a
-    //                                                , Z2 const& b ) noexcept
-    //     {
-    //       auto vb = val(b); auto db = der(b);
-    //       using v_t = decltype(eve::if_else(vc, a, vb));
-    //       using r_t = as_valder_t<v_t>;
-    //       return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
-    //     }
-
-    //     template < eve::like < valder> Z1, eve::generator < typename Z1::value_type> Constant>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::if_else_
-    //                                                , auto const & vc
-    //                                                , Z1 const& b
-    //                                                , Constant const& a
-
-    //                                                ) noexcept
-    //     {
-    //       auto vb = val(b); auto db = der(b);
-    //       using v_t = decltype(eve::if_else(vc, a, vb));
-    //       using r_t = as_valder_t<v_t>;
-    //       return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
-    //     }
-
-    //     //// ifnot_else
-    //     template< typename Z1,  typename Z2>
-    //     EVE_FORCEINLINE friend auto tagged_dispatch ( eve::tag::ifnot_else_
-    //                                                 , auto const & c
-    //                                                 , Z1 const & a
-    //                                                 , Z2 const & b
-    //                                                 ) noexcept
-    //     requires ( eve::like<Z1, valder> || eve::like<Z2, valder> )
-    //     {
-    //       return eve::if_else(c, b, a);
     //     }
 
     //     //// modf

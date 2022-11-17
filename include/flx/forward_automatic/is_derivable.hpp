@@ -18,6 +18,4 @@ namespace flx
 
   template<typename Tag>
   inline constexpr auto has_optimized_derivative_v =  has_optimized_derivative<Tag>::value;
-
-  template<> struct has_optimized_derivative<eve::tag::if_else_>  : std::true_type {};
 }

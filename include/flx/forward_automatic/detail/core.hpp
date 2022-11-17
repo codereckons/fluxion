@@ -14,15 +14,17 @@
 #include <eve/module/core.hpp>
 
 // Those functions have a specific derivation specified here
-template<> struct flx::has_optimized_derivative<eve::tag::dist_>     : std::true_type {};
-template<> struct flx::has_optimized_derivative<eve::tag::exponent_> : std::true_type {};
-//template<> struct flx::has_optimized_derivative<eve::tag::fmod_>     : std::true_type {};
-template<> struct flx::has_optimized_derivative<eve::tag::ldexp_>    : std::true_type {};
-template<> struct flx::has_optimized_derivative<eve::tag::mantissa_> : std::true_type {};
-template<> struct flx::has_optimized_derivative<eve::tag::rec_>      : std::true_type {};
-template<> struct flx::has_optimized_derivative<eve::tag::rem_>      : std::true_type {};
-template<> struct flx::has_optimized_derivative<eve::tag::rsqrt_>    : std::true_type {};
-template<> struct flx::has_optimized_derivative<eve::tag::sqrt_>     : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::dist_>        : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::exponent_>    : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::if_else_>     : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::ifnot_else_>  : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::ldexp_>       : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::mantissa_>    : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::rec_>         : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::rem_>         : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::rsqrt_>       : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sqrt_>        : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::ulpdist_>     : std::true_type {};
 
 namespace flx::detail
 {
@@ -132,6 +134,65 @@ namespace flx::detail
     return Z{v, eve::zero(eve::as(val(z)))};
   }
 
+  //// if_else
+  template < typename Z1,  typename Z2>
+  EVE_FORCEINLINE auto
+  valder_ternary_dispatch ( eve::tag::if_else_
+                       , auto const & vc
+                       , Z1 const & a
+                       , Z2 const & b
+                       ) noexcept
+  {
+    using v_t = decltype(eve::if_else(vc, val(a), val(b)));
+    using e_t = eve::element_type_t<v_t>;
+    using r_t = flx::as_valder_t<v_t>;
+    auto r = eve::if_else(vc, val(a), val(b));
+    if constexpr(!eve::like < Z1, valder<e_t>>)      return r_t(r, eve::if_else(vc, eve::zero, der(b)));
+    else if constexpr(!eve::like < Z2, valder<e_t>>) return r_t(r, eve::if_else(vc, der(a), eve::zero));
+    else                                             return r_t{r, eve::if_else(vc, der(a), der(b))};
+  }
+
+
+  //// ifnot_else
+  template< typename Z1,  typename Z2>
+  EVE_FORCEINLINE  auto
+  valder_ternary_dispatch ( eve::tag::ifnot_else_
+                          , auto const & c
+                          , Z1 const & a
+                          , Z2 const & b
+                          ) noexcept
+  {
+    return eve::if_else(c, b, a);
+  }
+
+
+
+  //     template < eve::like < valder> Z2, eve::generator < typename Z2::value_type> Constant>
+  //     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::if_else_
+  //                                                , auto const & vc
+  //                                                , Constant const& a
+  //                                                , Z2 const& b ) noexcept
+  //     {
+  //       auto vb = val(b); auto db = der(b);
+  //       using v_t = decltype(eve::if_else(vc, a, vb));
+  //       using r_t = as_valder_t<v_t>;
+  //       return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
+  //     }
+
+  //     template < eve::like < valder> Z1, eve::generator < typename Z1::value_type> Constant>
+  //     EVE_FORCEINLINE friend auto tagged_dispatch( eve::tag::if_else_
+  //                                                , auto const & vc
+  //                                                , Z1 const& b
+  //                                                , Constant const& a
+
+  //                                                ) noexcept
+  //     {
+  //       auto vb = val(b); auto db = der(b);
+  //       using v_t = decltype(eve::if_else(vc, a, vb));
+  //       using r_t = as_valder_t<v_t>;
+  //       return r_t{eve::if_else(vc, a, vb), eve::if_else(vc, eve::zero, db)};
+  //     }
+
   //// ldexp
   template<typename Z, eve::value N>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::ldexp_
@@ -149,6 +210,17 @@ namespace flx::detail
     return Z{eve::mantissa(val(z)), eve::ldexp(eve::sign(val(z)), -eve::exponent(val(z)))};
   }
 
+
+  //// modf
+  template<typename Z>
+  EVE_FORCEINLINE  auto
+  valder_unary_dispatch( eve::tag::modf_
+                       , Z const& z ) noexcept
+  {
+    return kumi::tuple{ eve::modf(val(z))
+                      , Z{{eve::one(eve::as(val(z))),eve::zero(eve::as(val(z)))}}};
+  }
+
   //// rec
   template<typename Z>
   EVE_FORCEINLINE auto
@@ -159,25 +231,7 @@ namespace flx::detail
     return Z {inv, -eve::sqr(inv) * d};
   }
 
-  //// rsqrt
-  template<typename Z>
-  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::rsqrt_
-                                              , Z const& z) noexcept
-  {
-    auto [v, d] = z;
-    auto rs = eve::rsqrt(v);
-    return Z{rs, d*eve::mhalf(eve::as(v))*rs*eve::rec(v)};
-  }
-
-  template<typename Z>
-  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sqrt_
-                                              , Z const& z) noexcept
-  {
-    auto [v, d] = z;
-    auto sqrtv = eve::sqrt(v);
-    return Z{sqrtv, d/(2*sqrtv)};
-  }
-
+  //// rem
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::rem_
                                               , Z1 const & z1
@@ -206,33 +260,51 @@ namespace flx::detail
     }
   }
 
+  //// rsqrt
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::rsqrt_
+                                              , Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto rs = eve::rsqrt(v);
+    return Z{rs, d*eve::mhalf(eve::as(v))*rs*eve::rec(v)};
+  }
+
+  //// sqrt
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sqrt_
+                                              , Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto sqrtv = eve::sqrt(v);
+    return Z{sqrtv, d/(2*sqrtv)};
+  }
+
+
+  //// ulpdist between two valders return a floating_value DOESNOT comote any derivative
+  template < typename Z1,  typename Z2>
+  EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::ulpdist_
+                                              , Z1 const & z1
+                                              , Z2 const & z2
+                                              ) noexcept
+  {
+    return eve::max( eve::ulpdist(val(z1), val(z2))
+                   , eve::ulpdist(der(z1), der(z2)));
+  }
+
+
+  // pas encore utilisé
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::fmod_
                                               , Z1 const & z1
                                               , Z2 const & z2
                                               ) noexcept
   {
-    using v_t = decltype(eve::rem(val(z1), val(z2)));
-    using e_t = eve::element_type_t<v_t>;
-    using r_t = flx::as_valder_t<v_t>;
-    auto z = eve::pedantic(eve::rem)(val(z1), val(z2));
-    if constexpr(!eve::like < Z1, valder<e_t>>)
-    {
-      return r_t(z, -eve::trunc(v_t(val(z1))/v_t(val(z2))*v_t(der(z2))));
-    }
-    else if constexpr(!eve::like < Z2, valder<e_t>>)
-    {
-      return r_t(z, v_t(der(z1)));
-    }
-    else
-    {
-      return r_t(z, eve::fsm( v_t(der(z1))
-                            , eve::trunc( v_t(val(z1))/v_t(val(z2)))
-                            , v_t(der(z2))
-                            )
-                );
-    }
+    return rem(z1, z2);
   }
+
+
+
  }
 
 // Those functions can't be derived
