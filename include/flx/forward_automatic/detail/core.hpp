@@ -14,33 +14,33 @@
 #include <eve/module/core.hpp>
 
 // Those functions have a specific derivation specified here
-template<> struct flx::has_optimized_derivative<eve::tag::rec_> : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::dist_>     : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::exponent_> : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::ldexp_>    : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::mantissa_> : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::rec_>      : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::rsqrt_>    : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sqrt_>     : std::true_type {};
 
 namespace flx::detail
 {
-//// rec
-template<typename Z>
-EVE_FORCEINLINE auto
-valder_unary_dispatch(eve::tag::rec_, Z const& z) noexcept
-{
-  auto [v, d] = z;
-  auto inv    = eve::rec(v);
-  return Z {inv, -eve::sqr(inv) * d};
-}
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// add, mul, sub, div
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//// add
-template<typename Z1, typename Z2>
-EVE_FORCEINLINE auto
-valder_binary_dispatch(eve::tag::add_, Z1 const& z1, Z2 const& z2) noexcept
-{
-  using v_t = decltype(val(z1) + val(z2));
-  using e_t = eve::element_type_t<v_t>;
-  using r_t = flx::as_valder_t<v_t>;
-  auto z    = val(z1) + val(z2);
-  if constexpr( !eve::like<Z1, valder<e_t>> ) return r_t(z, v_t(der(z2)));
-  else if constexpr( !eve::like<Z2, valder<e_t>> ) return r_t(z, v_t(der(z1)));
-  else return r_t(z, v_t(der(z1)) + v_t(der(z2)));
-}
+  //// add
+  template<typename Z1, typename Z2>
+  EVE_FORCEINLINE auto
+  valder_binary_dispatch(eve::tag::add_, Z1 const& z1, Z2 const& z2) noexcept
+  {
+    using v_t = decltype(val(z1) + val(z2));
+    using e_t = eve::element_type_t<v_t>;
+    using r_t = flx::as_valder_t<v_t>;
+    auto z    = val(z1) + val(z2);
+    if constexpr( !eve::like<Z1, valder<e_t>> ) return r_t(z, v_t(der(z2)));
+    else if constexpr( !eve::like<Z2, valder<e_t>> ) return r_t(z, v_t(der(z1)));
+    else return r_t(z, v_t(der(z1)) + v_t(der(z2)));
+  }
 
   //// sub
   template < typename Z1,  typename Z2>
@@ -102,47 +102,90 @@ valder_binary_dispatch(eve::tag::add_, Z1 const& z1, Z2 const& z2) noexcept
     }
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// other optimizations
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//   //// dist
-//   template < typename Z1,  typename Z2>
-//   EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::dist_
-//                                               , Z1 const & z1
-//                                               , Z2 const & z2
-//                                               ) noexcept
-//   {
-//     using v_t = decltype(eve::dist(val(z1), val(z2)));
-//     using r_t = flx::as_valder_t<v_t>;
-//     auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
-//     auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-//     auto  s = eve::sign(v1-v2);
-//     return r_t{eve::dist(v1, v2), s*(d1-d2)};
-//   }
+  //// dist
+  template < typename Z1,  typename Z2>
+  EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::dist_
+                                              , Z1 const & z1
+                                              , Z2 const & z2
+                                              ) noexcept
+  {
+    using v_t = decltype(eve::dist(val(z1), val(z2)));
+    using r_t = flx::as_valder_t<v_t>;
+    auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
+    auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
+    auto  s = eve::sign(v1-v2);
+    return r_t{eve::dist(v1, v2), s*(d1-d2)};
+  }
+
+  //// rec
+  template<typename Z>
+  EVE_FORCEINLINE auto
+  valder_unary_dispatch(eve::tag::rec_, Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto inv    = eve::rec(v);
+    return Z {inv, -eve::sqr(inv) * d};
+  }
+
+  //// rsqrt
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::rsqrt_
+                                              , Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto rs = eve::rsqrt(v);
+    return Z{rs, d*eve::mhalf(eve::as(v))*rs*eve::rec(v)};
+  }
 
 
-//   //// expxxx
-//   template<typename Z>
-//   EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::exp_, Z const& z ) noexcept
-//   {
-//     auto [v, d] = z;
-//     auto e = eve::exp(v);
-//     return Z{e, e*d};
-//   }
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sqrt_
+                                              , Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto sqrtv = eve::sqrt(v);
+    return Z{sqrtv, d/(2*sqrtv)};
+  }
 
-//   template<typename Z>
-//   EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::exp2_, Z const& z ) noexcept
-//   {
-//     auto [v, d] = z;
-//     auto e = eve::exp2(v);
-//     return Z{e, e*eve::log_2(eve::as(v))*d};
-//   }
 
-//   template<typename Z>
-//   EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::exp10_, Z const& z ) noexcept
-//   {
-//     auto [v, d] = z;
-//     auto e = eve::exp10(v);
-//     return Z{e, e*eve::log_10(eve::as(v))*d};
-//   }
+  //==============================================================================================/////////////////////////
+  //==  peculiar cases
+  //==============================================================================================/////////////////////////
+  template<typename Z>
+  EVE_FORCEINLINE auto
+  valder_unary_dispatch(eve::tag::exponent_, Z const& z) noexcept
+  {
+    auto v = eve::convert(eve::exponent(val(z)), eve::as<eve::element_type_t<decltype(val(z))>>());
+    return Z{v, eve::zero(eve::as(val(z)))};
+  }
+
+  template<typename Z>
+  EVE_FORCEINLINE auto
+  valder_unary_dispatch(eve::tag::mantissa_, Z const& z) noexcept
+  {
+    return Z{eve::mantissa(val(z)), eve::ldexp(eve::sign(val(z)), -eve::exponent(val(z)))};
+  }
+
+  template<typename Z, eve::value N>
+  EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::ldexp_
+                                              , Z const& z,  N const& n) noexcept
+  {
+    auto nn = eve::convert(n, eve::as<eve::element_type_t<decltype(val(z))>>());
+    return Z{eve::ldexp(val(z), nn), eve::ldexp(eve::one(eve::as(val(z))), nn)*der(z)};
+  }
+
+
+
+
+
+
+}
+
+
 
 
 //   template < typename Z1,  typename Z2>
@@ -189,33 +232,13 @@ valder_binary_dispatch(eve::tag::add_, Z1 const& z1, Z2 const& z2) noexcept
 //     }
 //   }
 
-//   //// rsqrt
-//   template<typename Z>
-//   EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::rsqrt_
-//                                               , Z const& z) noexcept
-//   {
-//     auto [v, d] = z;
-//     auto rs = eve::rsqrt(v);
-//     return Z{rs, d*eve::mhalf(eve::as(v))*rs*eve::rec(v)};
-//   }
 
-
-//   template<typename Z>
-//   EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sqrt_
-//                                               , Z const& z) noexcept
-//   {
-//     auto [v, d] = z;
-//     auto sqrtv = eve::sqrt(v);
-//     return Z{sqrtv, d/(2*sqrtv)};
-//   }
-}
 
 // Those functions can't be derived
 template<> struct flx::is_derivable<eve::tag::all_>                   : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::any_>                   : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::count_true_>            : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::epsilon_>               : std::false_type {};
-template<> struct flx::is_derivable<eve::tag::exponent_>              : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::gather_>                : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::hi_>                    : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_denormal_>           : std::false_type {};

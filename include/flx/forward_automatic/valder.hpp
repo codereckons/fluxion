@@ -17,6 +17,7 @@
 #include <flx/forward_automatic/is_derivable.hpp>
 // #include <flx/derivative/derivative.hpp>
 #include <flx/forward_automatic/detail/core.hpp>
+#include <flx/forward_automatic/detail/math.hpp>
 #include <flx/forward_automatic/var.hpp>
 
 #include <ostream>
@@ -24,7 +25,6 @@
 #include <eve/concept/generator.hpp>
 #include <eve/detail/abi.hpp>
 #include <eve/product_type.hpp>
-// #include <flx/forward_automatic/detail/math.hpp>
 
 namespace flx
 {
@@ -106,18 +106,19 @@ namespace flx
     //==============================================================================================
     // mask helper
     //==============================================================================================
-    //     template<eve::conditional_expr Cond>
-    //     static EVE_FORCEINLINE auto if_else_1(Cond const & cond)
-    //     {
-    //       if constexpr(Cond::has_alternative) return cond.rebase(1);
-    //       else return cond.else_(1);
-    //     }
-    //     template<eve::conditional_expr Cond>
-    //     static EVE_FORCEINLINE auto if_else_0(Cond const & cond)
-    //     {
-    //       if constexpr(Cond::has_alternative) return cond.rebase(0);
-    //       else return cond.else_(0);
-    //     }
+    template<eve::conditional_expr Cond>
+    static EVE_FORCEINLINE auto if_else_1(Cond const & cond)
+    {
+      if constexpr(Cond::has_alternative) return cond.rebase(1);
+      else return cond.else_(1);
+    }
+
+    template<eve::conditional_expr Cond>
+    static EVE_FORCEINLINE auto if_else_0(Cond const & cond)
+    {
+      if constexpr(Cond::has_alternative) return cond.rebase(0);
+      else return cond.else_(0);
+    }
 
     //==============================================================================================
     // functions which do not have in fluxion an implemented derivative decorated version
@@ -291,26 +292,26 @@ namespace flx
       return Z{f(v), flx::derivative(f)(v)*d};
     }
 
-//     template<typename Func, eve::decorator D, eve::like<valder> Z>
-//     static EVE_FORCEINLINE auto deriv(Func f, D const &, Z const & z)
-//     {
-//       auto [v, d] = z;
-//       return Z{D()(f)(v), flx::derivative(f)(v)*d};
-//     }
+    template<typename Func, eve::decorator D, eve::like<valder> Z>
+    static EVE_FORCEINLINE auto deriv(Func f, D const &, Z const & z)
+    {
+      auto [v, d] = z;
+      return Z{D()(f)(v), flx::derivative(f)(v)*d};
+    }
 
-//     template<typename Func, eve::conditional_expr C, eve::like<valder> Z>
-//     static EVE_FORCEINLINE auto deriv(Func f, C const & cond, Z const & z)
-//     {
-//       auto [v, d] = z;
-//       return Z{f[cond](v), flx::derivative(f[if_else_1(cond)])(v)*d};
-//     }
+    template<typename Func, eve::conditional_expr C, eve::like<valder> Z>
+    static EVE_FORCEINLINE auto deriv(Func f, C const & cond, Z const & z)
+    {
+      auto [v, d] = z;
+      return Z{f[cond](v), flx::derivative(f[if_else_1(cond)])(v)*d};
+    }
 
-//     template<typename Func, eve::conditional_expr C, eve::decorator D, eve::like<valder> Z>
-//     static EVE_FORCEINLINE auto deriv(Func f, C const & cond, D const &, Z const & z)
-//     {
-//       auto [v, d] = z;
-//       return Z{D()(f[cond])(v), flx::derivative(D()(f[if_else_1(cond)]))(v)*d};
-//     }
+    template<typename Func, eve::conditional_expr C, eve::decorator D, eve::like<valder> Z>
+    static EVE_FORCEINLINE auto deriv(Func f, C const & cond, D const &, Z const & z)
+    {
+      auto [v, d] = z;
+      return Z{D()(f[cond])(v), flx::derivative(D()(f[if_else_1(cond)]))(v)*d};
+    }
 
 //     //==============================================================================================
 //     //  n_ary functions
