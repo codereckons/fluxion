@@ -37,6 +37,6 @@ TTS_CASE_WITH("Check behavior of eve::betainc(eve::wide)",
   auto dbetainc = [&](auto s, auto x, auto y) -> e_t{
     return eve::pow(s, eve::dec(x))*eve::pow(eve::oneminus(s), eve::dec(y))/eve::beta(x, y);
   };
-  TTS_RELATIVE_EQUAL(flx::derivative_1st(eve::betainc)(a0, a1, a2), map(dbetainc, a0, a1, a2), 1.0e-4);
+  TTS_RELATIVE_EQUAL(flx::derivative_1st(eve::betainc)(a0, a1, a2), map(dbetainc, a0, a1, a2), 2.0e-4);
 
 };

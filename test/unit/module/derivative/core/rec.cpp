@@ -29,5 +29,5 @@ TTS_CASE_WITH("Check behavior of eve::rec(eve::wide)",
   using eve::detail::map;
 
   auto drec=[&](auto e) {  return -1/eve::sqr(e); };
-  TTS_ULP_EQUAL( flx::derivative(eve::rec)(a0), map(drec, a0), 0.5);
+  TTS_ULP_EQUAL( flx::derivative(eve::rec)(a0), map(drec, a0), 1.5);
 };

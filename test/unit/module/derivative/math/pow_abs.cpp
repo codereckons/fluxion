@@ -35,7 +35,7 @@ TTS_CASE_WITH("Check behavior of eve::pow_abs(eve::wide)",
 
   auto dpow_abs1 = [&](auto x, auto y) { return eve::pow_abs(x, eve::dec(y))*y; };
   auto dpow_abs2 = [&](auto x, auto y) { return eve::pow_abs(x, y)*eve::log_abs(x); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::pow_abs)(a0, a1), map(dpow_abs1, a0, a1), 2.0);
-  TTS_ULP_EQUAL(flx::derivative_2nd(eve::pow_abs)(a0, a1), map(dpow_abs2, a0, a1), 2.0);
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::pow_abs)(a0, a1), map(dpow_abs1, a0, a1), 4.0);
+  TTS_ULP_EQUAL(flx::derivative_2nd(eve::pow_abs)(a0, a1), map(dpow_abs2, a0, a1), 4.0);
 
 };

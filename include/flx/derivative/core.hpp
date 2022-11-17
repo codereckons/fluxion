@@ -46,6 +46,7 @@
 #include <flx/derivative/module/core/oneminus.hpp>
 #include <flx/derivative/module/core/plus.hpp>
 #include <flx/derivative/module/core/rec.hpp>
+#include <flx/derivative/module/core/rem.hpp>
 #include <flx/derivative/module/core/round.hpp>
 #include <flx/derivative/module/core/rsqrt.hpp>
 #include <flx/derivative/module/core/sign.hpp>

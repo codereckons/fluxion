@@ -34,5 +34,5 @@ TTS_CASE_WITH("Check behavior of eve::cyl_bessel_j1(eve::wide)",
   using v_t = eve::element_type_t<T>;
 
   auto dcyl_bessel_j1 = [&](auto e) -> v_t{ return boost::math::cyl_bessel_j_prime(1, e); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::cyl_bessel_j1)(a0), map(dcyl_bessel_j1, a0), 20.);
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::cyl_bessel_j1)(a0), map(dcyl_bessel_j1, a0), 50.);
 };

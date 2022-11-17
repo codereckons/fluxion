@@ -31,5 +31,5 @@ TTS_CASE_WITH("Check behavior of eve::erf_inv(eve::wide)",
   using eve::detail::map;
 
   auto derf_inv = [&]( auto e) { return eve::rec(flx::derivative(eve::erf)(eve::erf_inv(e))); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::erf_inv)(a0), map(derf_inv, a0), 2.0);
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::erf_inv)(a0), map(derf_inv, a0), 30.0);
 };
