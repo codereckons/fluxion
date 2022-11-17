@@ -20,6 +20,7 @@ template<> struct flx::has_optimized_derivative<eve::tag::if_else_>     : std::t
 template<> struct flx::has_optimized_derivative<eve::tag::ifnot_else_>  : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::ldexp_>       : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::mantissa_>    : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::modf_>        : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::rec_>         : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::rem_>         : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::rsqrt_>       : std::true_type {};
@@ -214,11 +215,14 @@ namespace flx::detail
   //// modf
   template<typename Z>
   EVE_FORCEINLINE  auto
-  valder_unary_dispatch( eve::tag::modf_
-                       , Z const& z ) noexcept
+  valder_unary_dispatch(eve::tag::modf_, Z const& z ) noexcept
   {
-    return kumi::tuple{ eve::modf(val(z))
-                      , Z{{eve::one(eve::as(val(z))),eve::zero(eve::as(val(z)))}}};
+    auto f = eve::frac(val(z));
+    auto t = eve::trunc(val(z));
+
+    return kumi::tuple{  Z{f, eve::one(eve::as(f)) }
+                       , Z{t, eve::zero(eve::as(t))}
+                               };
   }
 
   //// rec

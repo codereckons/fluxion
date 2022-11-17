@@ -4,4 +4,4 @@
 ## SPDX-License-Identifier: BSL-1.0
 ##==================================================================================================
 add_subdirectory(core)
-##add_subdirectory(math)
+add_subdirectory(math)
