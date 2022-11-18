@@ -15,8 +15,8 @@ TTS_CASE_TPL("Check return types of eve::tchebytchev", flx::test::simd::ieee_rea
 {
   using v_t = eve::element_type_t<T>;
   using i_t  = eve::as_integer_t<v_t>;
-  TTS_EXPR_IS( flx::derivative(eve::tchebytchev)(i_t(), T())  , T);
-  TTS_EXPR_IS( flx::derivative(eve::tchebytchev)(i_t(), v_t())  , v_t);
+  TTS_EXPR_IS( flx::derivative_2nd(eve::tchebytchev)(i_t(), T())  , T);
+  TTS_EXPR_IS( flx::derivative_2nd(eve::tchebytchev)(i_t(), v_t())  , v_t);
 };
 
 //==================================================================================================
@@ -31,7 +31,7 @@ TTS_CASE_WITH( "Check behavior of diff tchebytchev on wide"
 
  for(int i=1; i < 10 ; ++i)
  {
-   auto dt = flx::derivative(eve::tchebytchev)(i, a0);
+   auto dt = flx::derivative_2nd(eve::tchebytchev)(i, a0);
    auto u =  eve::kind_2(eve::tchebytchev)(i-1, a0);
    auto bdt1 = [&i](auto e){return boost::math::chebyshev_t_prime(i, e); };
    TTS_ULP_EQUAL(dt, u*i, 10);
