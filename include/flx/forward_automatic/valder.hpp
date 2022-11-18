@@ -140,6 +140,7 @@ namespace flx
     template<typename Func, typename Z1, typename... Zs>
     static EVE_FORCEINLINE auto compute(Func f, Z1 const& z1, Zs const& ... zs)
     {
+      std::cout << "icitte0" << std::endl;
       if constexpr(eve::decorator<Z1>)
         return compute(z1(f), val(zs)...);
       else if constexpr(eve::conditional_expr<Z1>)
@@ -315,57 +316,57 @@ namespace flx
       return Z{D()(f[cond])(v), flx::derivative(D()(f[if_else_1(cond)]))(v)*d};
     }
 
-//     //==============================================================================================
-//     //  n_ary functions
-//     //==============================================================================================
-//     template<typename Func, eve::decorator D, typename V0, typename V1, typename... Vs>
-//     static EVE_FORCEINLINE auto deriv(Func f, D const &, V0 const& z0, V1 const& z1, Vs
-//                                       const&... zs )
-//     {
-//       return deriv(D()(f), z0, z1, zs...);
-//     }
+    //==============================================================================================
+    //  n_ary functions
+    //==============================================================================================
+    template<typename Func, eve::decorator D, typename V0, typename V1, typename... Vs>
+    static EVE_FORCEINLINE auto deriv(Func f, D const &, V0 const& z0, V1 const& z1, Vs
+                                      const&... zs )
+    {
+      return deriv(D()(f), z0, z1, zs...);
+    }
 
-//     template<typename Func, eve::conditional_expr C, typename V0, typename V1, typename... Vs>
-//     static EVE_FORCEINLINE auto deriv(Func f, C const & c, V0 const& z0, V1 const& z1, Vs
-//                                       const&... zs )
-//     {
-//       return deriv(f[c], z0, z1, zs...);
-//     }
+    template<typename Func, eve::conditional_expr C, typename V0, typename V1, typename... Vs>
+    static EVE_FORCEINLINE auto deriv(Func f, C const & c, V0 const& z0, V1 const& z1, Vs
+                                      const&... zs )
+    {
+      return deriv(f[c], z0, z1, zs...);
+    }
 
-//     template<typename Func, typename V0, typename V1, typename... Vs>
-//     static EVE_FORCEINLINE auto deriv(Func f, V0 const& z0, V1 const& z1 , Vs const&... zs)
-//       requires(!eve::conditional_expr<V0> && !eve::decorator<V0>)
-//     {
-//       using v_t = decltype(f(val(z0),val(z1),val(zs)...));
-//       using r_t = flx::as_valder_t<v_t>;
+    template<typename Func, typename V0, typename V1, typename... Vs>
+    static EVE_FORCEINLINE auto deriv(Func f, V0 const& z0, V1 const& z1 , Vs const&... zs)
+      requires(!eve::conditional_expr<V0> && !eve::decorator<V0>)
+    {
+      using v_t = decltype(f(val(z0),val(z1),val(zs)...));
+      using r_t = flx::as_valder_t<v_t>;
 
-//       auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...);
-//       auto tzs = kumi::make_tuple(zs...);
+      auto vs = kumi::make_tuple(v_t(val(z0)),v_t(val(z1)),v_t(val(zs))...);
+      auto tzs = kumi::make_tuple(zs...);
 
-//       auto snd0 = [&](auto z0){
-//         if constexpr(!eve::like<decltype(z0), valder>) return eve::zero(eve::as(val(z0)));
-//         else return kumi::apply(derivative_1st(f),vs);
-//       };
-//       auto snd1 = [&](auto z1){
-//         if constexpr(!eve::like<decltype(z1), valder>) return eve::zero(eve::as(val(z1)));
-//         else return kumi::apply(derivative_2nd(f),vs);
-//       };
+      auto snd0 = [&](auto z0){
+        if constexpr(!eve::like<decltype(z0), valder>) return eve::zero(eve::as(val(z0)));
+        else return kumi::apply(derivative_1st(f),vs);
+      };
+      auto snd1 = [&](auto z1){
+        if constexpr(!eve::like<decltype(z1), valder>) return eve::zero(eve::as(val(z1)));
+        else return kumi::apply(derivative_2nd(f),vs);
+      };
 
-//       v_t d = eve::sum_of_prod ( v_t(snd0(z0)), v_t(der(z0)), v_t(snd1(z1)), v_t(der(z1))   );
+      v_t d = eve::sum_of_prod ( v_t(snd0(z0)), v_t(der(z0)), v_t(snd1(z1)), v_t(der(z1))   );
 
-//       if constexpr(sizeof...(zs)!= 0)
-//       {
-//         [&]<std::size_t... I>(std::index_sequence<I...>)
-//         {
-//           auto ifam = [](auto a,  auto b, auto c){
-//             if constexpr(eve::floating_value<decltype(c)>) return a;
-//             else return eve::fam(a, b, v_t(der(c)));
-//           };
-//           ((d = ifam(d, kumi::apply(derivative_nth<I+3>(f),vs), get<I>(tzs))),...);
-//         }(std::index_sequence_for<Vs...>{});
-//       }
-//       return r_t{ kumi::apply(f,vs), d};
-//     }
+      if constexpr(sizeof...(zs)!= 0)
+      {
+        [&]<std::size_t... I>(std::index_sequence<I...>)
+        {
+          auto ifam = [](auto a,  auto b, auto c){
+            if constexpr(eve::floating_value<decltype(c)>) return a;
+            else return eve::fam(a, b, v_t(der(c)));
+          };
+          ((d = ifam(d, kumi::apply(derivative_nth<I+3>(f),vs), get<I>(tzs))),...);
+        }(std::index_sequence_for<Vs...>{});
+      }
+      return r_t{ kumi::apply(f,vs), d};
+    }
 
     //==============================================================================================
     // Functions support
@@ -376,76 +377,78 @@ namespace flx
     EVE_FORCEINLINE friend auto tagged_dispatch(Tag, eve::like<valder> auto const& v) noexcept
     requires( !has_optimized_derivative_v<Tag> )
     {
+      std::cout << "icitte1" << std::endl;
       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v);
       else                              return compute( eve::detail::callable_object<Tag>{}, v);
     }
 
-//     template<typename Tag, eve::conditional_expr C>
-//     EVE_FORCEINLINE friend auto tagged_dispatch(Tag
-//                                                , C const & c
-//                                                , eve::like<valder> auto const& v) noexcept
-//     requires( has_derivation_v<Tag> )
-//     {
-//       if constexpr(is_derivable_v<Tag>)
-//         return eve::detail::mask_op(c, eve::detail::callable_object<Tag>{}, v);
-//       else
-//         return compute( eve::detail::callable_object<Tag>{}, c, v);
-//     }
+    template<typename Tag, eve::conditional_expr C>
+    EVE_FORCEINLINE friend auto tagged_dispatch(Tag
+                                               , C const & c
+                                               , eve::like<valder> auto const& v) noexcept
+    requires( !has_optimized_derivative_v<Tag> )
+    {
+      std::cout << "icitte2" << std::endl;
+      if constexpr(is_derivable_v<Tag>)
+        return eve::detail::mask_op(c, eve::detail::callable_object<Tag>{}, v);
+      else
+        return compute( eve::detail::callable_object<Tag>{}, c, v);
+    }
 
-//     template<typename Tag, eve::decorator D>
-//     EVE_FORCEINLINE friend auto tagged_dispatch(Tag
-//                                                , D const & d
-//                                                , eve::like<valder> auto const& v) noexcept
-//     requires( has_derivation_v<Tag> )
-//     {
-//       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, d,
-//                                                       v); else                              return compute(
-//                                                         eve::detail::callable_object<Tag>{}, d, v);
-//     }
+    template<typename Tag, eve::decorator D>
+    EVE_FORCEINLINE friend auto tagged_dispatch(Tag
+                                               , D const & d
+                                               , eve::like<valder> auto const& v) noexcept
+    requires( !has_optimized_derivative_v<Tag> )
+    {
+      std::cout << "icitte3" << std::endl;
+      if constexpr(is_derivable_v<Tag>)
+        return deriv( eve::detail::callable_object<Tag>{}, d, v);
+      else
+        return compute(eve::detail::callable_object<Tag>{}, d, v);
+    }
 
-//     //==============================================================================================
-//     // n-ary functions
-//     template<typename Tag, typename V0, typename ... Vs>
-//     EVE_FORCEINLINE friend auto tagged_dispatch (Tag, V0 const& v0, Vs const&... vs ) noexcept
-//     requires( has_derivation_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder >
-//                                                                      ||...)))
-//     {
-//       if constexpr(is_derivable_v<Tag>)
-//       {
-//         return deriv( eve::detail::callable_object<Tag>{}, v0, vs ...);
-//       }
-//       else
-//       {
-//         return compute( eve::detail::callable_object<Tag>{}, v0, vs ...);
-//       }
-//     }
+    //==============================================================================================
+    // n-ary functions
+    template<typename Tag, typename V0, typename ... Vs>
+    EVE_FORCEINLINE friend auto tagged_dispatch (Tag, V0 const& v0, Vs const&... vs ) noexcept
+    requires( !has_optimized_derivative_v<Tag>
+              && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
+    {
+      std::cout << "icitte n" << std::endl;
+      if constexpr(is_derivable_v<Tag>)
+        return deriv( eve::detail::callable_object<Tag>{}, v0, vs ...);
+      else
+        return compute( eve::detail::callable_object<Tag>{}, v0, vs ...);
+    }
 
-//     template<typename Tag, eve::conditional_expr C, typename V0, typename ... Vs>
-//     EVE_FORCEINLINE friend auto
-//     tagged_dispatch (Tag const &, C const& c, V0 const& v0, Vs const&... vs ) noexcept
-//     requires( has_derivation_v<Tag> && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
-//     {
-//       if constexpr(is_derivable_v<Tag>)
-//       {
-//         auto deri = [&](auto p0, auto ...ps)
-//           {
-//             eve::detail::callable_object<Tag> co{};
-//             return deriv(co, p0, ps ...);
-//           };
+    template<typename Tag, eve::conditional_expr C, typename V0, typename ... Vs>
+    EVE_FORCEINLINE friend auto
+    tagged_dispatch (Tag const &, C const& c, V0 const& v0, Vs const&... vs ) noexcept
+    requires( !has_optimized_derivative_v<Tag>
+              && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
+    {
+      if constexpr(is_derivable_v<Tag>)
+      {
+        auto deri = [&](auto p0, auto ...ps)
+          {
+            eve::detail::callable_object<Tag> co{};
+            return deriv(co, p0, ps ...);
+          };
 
-//         return eve::detail::mask_op(c, deri, v0, vs ...);
-//       }
-//       else
-//       {
-//         auto compu = [&](auto p0, auto ...ps)
-//           {
-//             eve::detail::callable_object<Tag> co{};
-//             return compute(co, p0, ps ...);
-//           };
+        return eve::detail::mask_op(c, deri, v0, vs ...);
+      }
+      else
+      {
+        auto compu = [&](auto p0, auto ...ps)
+          {
+            eve::detail::callable_object<Tag> co{};
+            return compute(co, p0, ps ...);
+          };
 
-//         return eve::detail::mask_op(c, compu, v0, vs ...);
-//       }
-//     }
+        return eve::detail::mask_op(c, compu, v0, vs ...);
+      }
+    }
 
 
   };
