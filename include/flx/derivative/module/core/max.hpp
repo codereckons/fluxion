@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: BSL-1.0                                                                  //!
 //================================================================================================== //!
 #pragma once
-#include <flx/derivative/derivative.hpp>
+#include <flx/derivative/decorator.hpp>
 #include <eve/module/core.hpp>
 #include <flx/derivative/module/core/detail/minmax_kernel.hpp>
 

@@ -11,5 +11,5 @@
 //! @defgroup derivatives Functional derivations
 //! @brief Types and functions for functional derivation
 //==================================================================================================
-#include <flx/derivative/derivative.hpp>
+#include <flx/derivative/decorator.hpp>
 #include <flx/derivative/as_differential.hpp>
