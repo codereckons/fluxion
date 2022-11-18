@@ -12,6 +12,9 @@ add_custom_target(unit.forward_automatic.math.exe )
 ##==================================================================================================
 ## module/forward_automatic/math tests
 ##==================================================================================================
+make_unit("unit.forward_automatic.math" atan2.cpp                 )
+make_unit("unit.forward_automatic.math" atan2d.cpp                )
+make_unit("unit.forward_automatic.math" atan2pi.cpp               )
 make_unit("unit.forward_automatic.math" exp10.cpp                 )
 make_unit("unit.forward_automatic.math" exp2.cpp                  )
 make_unit("unit.forward_automatic.math" exp.cpp                   )
