@@ -5,7 +5,7 @@
 //==================================================================================================
 #pragma once
 
-#include <flx/derivative/derivative.hpp>
+#include <flx/derivative/decorator.hpp>
 
 #include <eve/module/core.hpp>
 
