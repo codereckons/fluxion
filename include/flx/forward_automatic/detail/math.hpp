@@ -32,9 +32,17 @@ template<> struct flx::has_optimized_derivative<eve::tag::exp2_>          : std:
 template<> struct flx::has_optimized_derivative<eve::tag::exp10_>         : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::nthroot_>       : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::pow_>           : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sec_>           : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::secd_>          : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sech_>          : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::secpi_>         : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sin_>           : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::sincos_>        : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sind_>          : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::sindcosd_>      : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sinh_>          : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::sinhcosh_>      : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sinpi_>         : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::sinpicospi_>    : std::true_type {};
 
 namespace flx::detail
@@ -270,9 +278,57 @@ namespace flx::detail
     }
   }
 
-  //==============================================================================================
-  //  returning tuples
-  //==============================================================================================
+
+  //// sec
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::sec_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto se = eve::sec(v);
+    return Z{se, d*se*eve::tan(v)};
+  }
+
+  //// secd
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::secd_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto se = eve::secd(v);
+    return Z{se, d*eve::deginrad(se)*eve::tand(v)};
+  }
+
+  //// sech
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::sech_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto se = eve::sech(v);
+    return Z{se, -d*se*eve::tanh(v)};
+  }
+
+  //// secpi
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::secpi_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto se = eve::secpi(v);
+    return Z{se, d*se*eve::tanpi(v)*eve::pi(eve::as(v))};
+  }
+
+  //// sin
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sin_, Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto [s, c]= eve::sincos(v);
+    return Z{s, d*c};
+  }
+
+  //// sincos
   template<typename Z>
   EVE_FORCEINLINE  auto valder_unary_dispatch( eve::tag::sincos_
                                              , Z const& z ) noexcept
@@ -282,16 +338,16 @@ namespace flx::detail
     return kumi::tuple{Z{s, d*c}, Z{c, -d*s}};
   }
 
+  //// sind
   template<typename Z>
-  EVE_FORCEINLINE  auto valder_unary_dispatch( eve::tag::sinpicospi_
-                                             , Z const& z ) noexcept
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sind_, Z const& z) noexcept
   {
     auto [v, d] = z;
-    auto [s, c]= eve::sinpicospi(v);
-    auto fac = eve::pi(eve::as(v));
-    return kumi::tuple{Z{s, d*c*fac}, Z{c, -d*s*fac}};
+    auto [s, c]= eve::sindcosd(v);
+    return Z{s, d*eve::deginrad(c)};
   }
 
+  //// sindcosd
   template<typename Z>
   EVE_FORCEINLINE  auto valder_unary_dispatch( eve::tag::sindcosd_
                                              , Z const& z ) noexcept
@@ -302,6 +358,17 @@ namespace flx::detail
     return kumi::tuple{Z{s, c*fac}, Z{c, -s*fac}};
   }
 
+  //// sinh
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sinh_, Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto [s, c]= eve::sinhcosh(v);
+    return Z{s, d*c};
+  }
+
+
+  //// sinhcosh
   template<typename Z>
   EVE_FORCEINLINE  auto valder_unary_dispatch( eve::tag::sinhcosh_
                                              , Z const& z ) noexcept
@@ -310,5 +377,26 @@ namespace flx::detail
     auto [s, c]= eve::sinhcosh(v);
     return kumi::tuple{Z{s, d*c}, Z{c, d*s}};
   }
+
+  //// sinpi
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::sinpi_, Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto [s, c]= eve::sinpicospi(v);
+    return Z{s, d*c*eve::pi(eve::as(v))};
+  }
+
+  //// sinpicospi
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch( eve::tag::sinpicospi_
+                                             , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto [s, c]= eve::sinpicospi(v);
+    auto fac = eve::pi(eve::as(v));
+    return kumi::tuple{Z{s, d*c*fac}, Z{c, -d*s*fac}};
+  }
+
 
 }
