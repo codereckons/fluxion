@@ -27,6 +27,7 @@
 #include <flx/derivative/module/core/fsm.hpp>
 #include <flx/derivative/module/core/fsnm.hpp>
 #include <flx/derivative/module/core/inc.hpp>
+#include <flx/derivative/module/core/lerp.hpp>
 #include <flx/derivative/module/core/manhattan.hpp>
 #include <flx/derivative/module/core/maxabs.hpp>
 #include <flx/derivative/module/core/max.hpp>

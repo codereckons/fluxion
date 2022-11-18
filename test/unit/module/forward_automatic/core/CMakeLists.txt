@@ -36,7 +36,7 @@ make_unit("unit.forward_automatic.core" rem.cpp         )
 make_unit("unit.forward_automatic.core" rsqrt.cpp       )
 make_unit("unit.forward_automatic.core" sqrt.cpp        )
 
-### other
+### other with explicit derivatives
 make_unit("unit.forward_automatic.core" abs.cpp        )
 ###make_unit("unit.forward_automatic.core" absmax.cpp     )
 ###make_unit("unit.forward_automatic.core" absmin.cpp     )
@@ -57,7 +57,7 @@ make_unit("unit.forward_automatic.core" frac.cpp       )
 make_unit("unit.forward_automatic.core" fsm.cpp        )
 make_unit("unit.forward_automatic.core" fsnm.cpp       )
 make_unit("unit.forward_automatic.core" inc.cpp        )
-###make_unit("unit.forward_automatic.core" lerp.cpp       )
+make_unit("unit.forward_automatic.core" lerp.cpp       )
 make_unit("unit.forward_automatic.core" manhattan.cpp  )
 ###make_unit("unit.forward_automatic.core" maxabs.cpp     )
 #make_unit("unit.forward_automatic.core" max.cpp        )
