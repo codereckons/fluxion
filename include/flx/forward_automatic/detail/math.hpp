@@ -27,12 +27,13 @@ template<> struct flx::has_optimized_derivative<eve::tag::csc_>           : std:
 template<> struct flx::has_optimized_derivative<eve::tag::cscd_>          : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::csch_>          : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::cscpi_>         : std::true_type {};
-
 template<> struct flx::has_optimized_derivative<eve::tag::exp_>           : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::exp2_>          : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::exp10_>         : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::nthroot_>       : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::pow_>           : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::sincos_>        : std::true_type {};
-template<> struct flx::has_optimized_derivative<eve::tag::sindcosd_>       : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sindcosd_>      : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::sinhcosh_>      : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::sinpicospi_>    : std::true_type {};
 
@@ -221,6 +222,52 @@ namespace flx::detail
     auto [v, d] = z;
     auto e = eve::exp10(v);
     return Z{e, e*eve::log_10(eve::as(v))*d};
+  }
+
+  //// nthroot
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::nthroot_
+                                              , Z  const& z
+                                              , eve::value auto const& n) noexcept
+  {
+    EVE_ASSERT(eve::all(eve::is_flint(n)),  "n is not flint");
+    auto v1 = val(z); auto d1 = der(z);
+    auto rn = eve::nthroot(v1, n);
+    using v_t =  decltype(rn);
+    using elt_t = eve::element_type_t<v_t>;
+    auto fn = eve::rec(eve::convert(n, eve::as<elt_t>())*v1);
+    using r_t = as_valder_t<v_t>;
+    return r_t{rn, rn*fn*d1};
+  }
+
+  template < typename Z1,  typename Z2>
+  EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::pow_
+                                              , Z1 const & z1
+                                              , Z2 const & z2
+                                              ) noexcept
+  {
+    using v_t = decltype(eve::pow(val(z1), val(z2)));
+    using r_t = as_valder_t<v_t>;
+    using elt_t = eve::element_type_t<v_t>;
+    if constexpr(! eve::like<Z1, valder<elt_t>>)
+    {
+      auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
+      auto p = eve::pow(z1, v2);
+      return r_t{p, eve::log(z1)*p*d2};
+    }
+    else if constexpr(! eve::like<Z2, valder<elt_t>>)
+    {
+      auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
+      auto  p = eve::pow(v1, z2);
+      return r_t{p, p*(z2/v1)*d1};
+    }
+    else
+    {
+      auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
+      auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
+      auto  puv = eve::pow(v1, v2);
+      return r_t{puv, puv*eve::sum_of_prod(v2/v1, d1, eve::log(v1), d2)};
+    }
   }
 
   //==============================================================================================
