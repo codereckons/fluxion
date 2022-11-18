@@ -38,7 +38,7 @@ make_unit("unit.forward_automatic.core" sqrt.cpp        )
 
 ### other with explicit derivatives
 make_unit("unit.forward_automatic.core" abs.cpp        )
-###make_unit("unit.forward_automatic.core" absmax.cpp     )
+make_unit("unit.forward_automatic.core" absmax.cpp     )
 ###make_unit("unit.forward_automatic.core" absmin.cpp     )
 make_unit("unit.forward_automatic.core" average.cpp    )
 make_unit("unit.forward_automatic.core" ceil.cpp       )
