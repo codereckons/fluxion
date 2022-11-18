@@ -18,6 +18,11 @@
 template<> struct flx::has_optimized_derivative<eve::tag::atan2_>         : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::atan2d_>        : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::atan2pi_>       : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::cbrt_>          : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::cos_>           : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::cosd_>          : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::cosh_>          : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::cospi_>         : std::true_type {};
 
 template<> struct flx::has_optimized_derivative<eve::tag::exp_>           : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::exp2_>          : std::true_type {};
@@ -94,6 +99,56 @@ namespace flx::detail
       return r_t(at2, invden*v2*d1);
     else
       return r_t{eve::atan2d(v1, v2), invden*eve::sum_of_prod(v1, d2, v2, d1)};
+  }
+
+
+  //// cbrt
+  template<typename Z>
+  EVE_FORCEINLINE  auto valder_unary_dispatch ( eve::tag::cbrt_, Z const& z) noexcept
+  {
+    auto [v, d] = z;
+    auto cb = eve::cbrt(v);
+    return Z{cb, eve::rec(3*eve::sqr(cb))*d};
+  }
+
+  //// cos
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::cos_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto [s, c]= eve::sincos(v);
+    return Z{c, -d*s};
+  }
+
+  //// cosd
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::cosd_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto [s, c]= eve::sindcosd(v);
+    return Z{c, -d*eve::deginrad(s)};
+  }
+
+  //// cosh
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::cosh_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto [s, c]= eve::sinhcosh(v);
+    return Z{c, d*s};
+  }
+
+  //// cospi
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::cospi_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto [s, c]= eve::sinpicospi(v);
+    return Z{c, -d*s*eve::pi(eve::as(v))};
   }
 
   //// exp
