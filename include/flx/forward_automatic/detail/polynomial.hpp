@@ -20,7 +20,7 @@ namespace flx::detail
 {
 
   //// tchebytchev
-  template<eve::value N, typename Z>
+  template<eve::scalar_value N, typename Z>
   EVE_FORCEINLINE  auto
   valder_binary_dispatch( eve::tag::tchebytchev_
                         , N const& n
@@ -32,17 +32,17 @@ namespace flx::detail
                , flx::derivative_2nd(eve::tchebytchev)(n, val(z))*der(z)};
   }
 
-  template<eve::value N, typename Z>
+  template<eve::scalar_value N, typename Z>
   EVE_FORCEINLINE auto valder_binary_dispatch( eve::tag::tchebytchev_
                                              , eve::kind_1_type const &
                                              , N const& n
                                              , Z const& z ) noexcept
   {
-    return tchebytchev(n, z);
+    return valder_ternary_dispatch( eve::tag::tchebytchev_{}, n, z);
   }
 
-  template<eve::value N, typename Z>
-  EVE_FORCEINLINE auto valder_binary_dispatch( eve::tag::tchebytchev_
+  template<eve::scalar_value N, typename Z>
+  EVE_FORCEINLINE auto valder_ternary_dispatch( eve::tag::tchebytchev_
                                              , eve::kind_2_type const &
                                              , N const& n
                                              , Z const& z ) noexcept
