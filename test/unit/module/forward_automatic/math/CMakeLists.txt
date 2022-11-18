@@ -41,7 +41,10 @@ make_unit("unit.forward_automatic.math" sinh.cpp                  )
 make_unit("unit.forward_automatic.math" sinhcosh.cpp              )
 make_unit("unit.forward_automatic.math" sinpi.cpp                 )
 make_unit("unit.forward_automatic.math" sinpicospi.cpp            )
-
+make_unit("unit.forward_automatic.math" tan.cpp                   )
+make_unit("unit.forward_automatic.math" tand.cpp                  )
+make_unit("unit.forward_automatic.math" tanh.cpp                  )
+make_unit("unit.forward_automatic.math" tanpi.cpp                 )
 
 ##make_unit("unit.forward_automatic.math.acos.cpp"                  )
 ##make_unit("unit.forward_automatic.math.acosd.cpp"                 )

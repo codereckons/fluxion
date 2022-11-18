@@ -44,6 +44,10 @@ template<> struct flx::has_optimized_derivative<eve::tag::sinh_>          : std:
 template<> struct flx::has_optimized_derivative<eve::tag::sinhcosh_>      : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::sinpi_>         : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::sinpicospi_>    : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::tan_>           : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::tand_>          : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::tanh_>          : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::tanpi_>         : std::true_type {};
 
 namespace flx::detail
 {
@@ -398,5 +402,45 @@ namespace flx::detail
     return kumi::tuple{Z{s, d*c*fac}, Z{c, -d*s*fac}};
   }
 
+
+  ////tan
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::tan_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto t = eve::tan(v);
+    return Z{t, d*eve::inc(eve::sqr(t))};
+  }
+
+  ////tand
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::tand_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto t = eve::tand(v);
+    return Z{t, eve::deginrad(d)*eve::inc(eve::sqr(t))};
+  }
+
+  ////tanh //this seems useless as we donot use tanh as twice 1-sqr(tanh(v)) is not accurate at 0
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::tanh_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto t = eve::tanh(v);
+    return Z{t, eve::sqr(eve::sech(v))*d};
+  }
+
+  ////tanpi
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::tanpi_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto t = eve::tanpi(v);
+    return Z{t, d*eve::inc(eve::sqr(t))*eve::pi(eve::as(v))};
+  }
 
 }
