@@ -23,6 +23,10 @@ template<> struct flx::has_optimized_derivative<eve::tag::cos_>           : std:
 template<> struct flx::has_optimized_derivative<eve::tag::cosd_>          : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::cosh_>          : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::cospi_>         : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::csc_>           : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::cscd_>          : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::csch_>          : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::cscpi_>         : std::true_type {};
 
 template<> struct flx::has_optimized_derivative<eve::tag::exp_>           : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::exp2_>          : std::true_type {};
@@ -149,6 +153,47 @@ namespace flx::detail
     auto [v, d] = z;
     auto [s, c]= eve::sinpicospi(v);
     return Z{c, -d*s*eve::pi(eve::as(v))};
+  }
+
+
+  //// csc
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::csc_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto cs = eve::csc(v);
+    return Z{cs, -d*cs*eve::cot(v)};
+  }
+
+  //// cscd
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::cscd_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto cs = eve::cscd(v);
+    return Z{cs, -d*eve::deginrad(cs)*eve::cotd(v)};
+  }
+
+  //// csch
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::csch_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto cs = eve::csch(v);
+    return Z{cs, -d*cs*eve::coth(v)};
+  }
+
+  //// cscpi
+  template<typename Z>
+  EVE_FORCEINLINE auto valder_unary_dispatch( eve::tag::cscpi_
+                                            , Z const& z ) noexcept
+  {
+    auto [v, d] = z;
+    auto cs = eve::cscpi(v);
+    return Z{cs, -d*cs*eve::cotpi(v)*eve::pi(eve::as(v))};
   }
 
   //// exp
