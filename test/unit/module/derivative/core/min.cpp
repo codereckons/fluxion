@@ -37,9 +37,9 @@ TTS_CASE_WITH("Check behavior of eve::min(eve::wide)",
   auto dmin2=[&](auto e, auto f) { return e >  f ? eve::one(eve::as(f)) : eve::zero(eve::as(f)); };
   TTS_ULP_EQUAL( flx::derivative_1st(eve::min)(a0, a1), map(dmin1, a0, a1), 0.5);
   TTS_ULP_EQUAL( flx::derivative_2nd(eve::min)(a0, a1), map(dmin2, a0, a1), 0.5);
-  auto dmin3_1=[&](auto e, auto f, auto g) { return flx::derivative_1st(eve::min)(e, f, g)*eve::sign(e); };
-  auto dmin3_2=[&](auto e, auto f, auto g) { return flx::derivative_2nd(eve::min)(e, f, g)*eve::sign(f); };
-  auto dmin3_3=[&](auto e, auto f, auto g) { return flx::derivative_3rd(eve::min)(e, f, g)*eve::sign(g); };
+  auto dmin3_1=[&](auto e, auto f, auto g) { return flx::derivative_1st(eve::min)(e, f, g); };
+  auto dmin3_2=[&](auto e, auto f, auto g) { return flx::derivative_2nd(eve::min)(e, f, g); };
+  auto dmin3_3=[&](auto e, auto f, auto g) { return flx::derivative_3rd(eve::min)(e, f, g); };
   TTS_ULP_EQUAL( flx::derivative_1st(eve::min)(a0, a1, a2), map(dmin3_1, a0, a1, a2), 0.5);
   TTS_ULP_EQUAL( flx::derivative_2nd(eve::min)(a0, a1, a2), map(dmin3_2, a0, a1, a2), 0.5);
   TTS_ULP_EQUAL( flx::derivative_3rd(eve::min)(a0, a1, a2), map(dmin3_3, a0, a1, a2), 0.5);

@@ -37,9 +37,9 @@ TTS_CASE_WITH("Check behavior of eve::max(eve::wide)",
   TTS_ULP_EQUAL( flx::derivative_1st(eve::max)(a0, a1), map(dmax1, a0, a1), 0.5);
   TTS_ULP_EQUAL( flx::derivative_2nd(eve::max)(a0, a1), map(dmax2, a0, a1), 0.5);
 
-  auto dmax3_1=[&](auto e, auto f, auto g) { return flx::derivative_1st(eve::max)(e, f, g)*eve::sign(e); };
-  auto dmax3_2=[&](auto e, auto f, auto g) { return flx::derivative_2nd(eve::max)(e, f, g)*eve::sign(f); };
-  auto dmax3_3=[&](auto e, auto f, auto g) { return flx::derivative_3rd(eve::max)(e, f, g)*eve::sign(g); };
+  auto dmax3_1=[&](auto e, auto f, auto g) { return flx::derivative_1st(eve::max)(e, f, g); };
+  auto dmax3_2=[&](auto e, auto f, auto g) { return flx::derivative_2nd(eve::max)(e, f, g); };
+  auto dmax3_3=[&](auto e, auto f, auto g) { return flx::derivative_3rd(eve::max)(e, f, g); };
   TTS_ULP_EQUAL( flx::derivative_1st(eve::max)(a0, a1, a2), map(dmax3_1, a0, a1, a2), 0.5);
   TTS_ULP_EQUAL( flx::derivative_2nd(eve::max)(a0, a1, a2), map(dmax3_2, a0, a1, a2), 0.5);
   TTS_ULP_EQUAL( flx::derivative_3rd(eve::max)(a0, a1, a2), map(dmax3_3, a0, a1, a2), 0.5);
