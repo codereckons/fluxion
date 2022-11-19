@@ -19,7 +19,7 @@ TTS_CASE_WITH( "Check behavior of flx::absmax(eve::wide)"
                               , tts::logicals(0,3)
                               )
         )
-<typename T, typename M>(T const& a0, T const& a1, T const&a2  , M const& )
+<typename T, typename M>(T const& a0, T const& a1, T const&  , M const& )
 {
   using eve::detail::map;
   using flx::var;
@@ -30,16 +30,16 @@ TTS_CASE_WITH( "Check behavior of flx::absmax(eve::wide)"
   using flx::derivative_3rd;
 
   auto vda0 = var(a0);
-//  auto vda1 = var(a1);
+  auto vda1 = var(a1);
   TTS_EQUAL(0, 0);
   if ((eve::cardinal_v<T> == 1) && (sizeof(eve::element_type_t<T>) == 4))
   {
 //  auto vda2 = var(a2);
-//   TTS_EQUAL(val(eve::absmax(vda0, a1))      , eve::absmax(a0, a1    ));
-//   TTS_EQUAL(der(eve::absmax(vda0, a1))      , derivative_1st(eve::absmax)(a0, a1));
-//   TTS_EQUAL(val(eve::absmax(a0, vda1))      , eve::absmax(a0, a1    ));
-//  TTS_EQUAL(der(eve::absmax(a0, vda1))      , derivative_2nd(eve::absmax)(a0, a1));
-  std::cout << eve::absmax(vda0, a1, a2) << std::endl;
+  TTS_EQUAL(val(eve::absmax(vda0, a1))      , eve::absmax(a0, a1    ));
+  TTS_EQUAL(der(eve::absmax(vda0, a1))      , derivative_1st(eve::absmax)(a0, a1));
+  TTS_EQUAL(val(eve::absmax(a0, vda1))      , eve::absmax(a0, a1    ));
+ TTS_EQUAL(der(eve::absmax(a0, vda1))      , derivative_2nd(eve::absmax)(a0, a1));
+//  std::cout << eve::absmax(vda0, a1, a2) << std::endl;
   }
 //   TTS_EQUAL(val(eve::absmax(vda0, a1, a2))  , eve::absmax(a0, a1, a2));
 //   TTS_EQUAL(val(eve::absmax(a0, vda1, a2))  , eve::absmax(a0, a1, a2));

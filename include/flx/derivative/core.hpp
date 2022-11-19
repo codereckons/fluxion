@@ -12,6 +12,7 @@
 #include <flx/derivative/module/core/average.hpp>
 #include <flx/derivative/module/core/ceil.hpp>
 #include <flx/derivative/module/core/clamp.hpp>
+#include <flx/derivative/module/core/copysign.hpp>
 #include <flx/derivative/module/core/dec.hpp>
 #include <flx/derivative/module/core/dist.hpp>
 #include <flx/derivative/module/core/div.hpp>
