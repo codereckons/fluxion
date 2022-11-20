@@ -135,6 +135,16 @@ namespace flx::detail
     return Z{v, eve::zero(eve::as(val(z)))};
   }
 
+  //// fmod
+  template < typename Z1,  typename Z2>
+  EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::fmod_
+                                              , Z1 const & z1
+                                              , Z2 const & z2
+                                              ) noexcept
+  {
+    return eve::rem(z1, z2);
+  }
+
   //// if_else
   template < typename Z1,  typename Z2>
   EVE_FORCEINLINE auto
@@ -295,19 +305,6 @@ namespace flx::detail
     return eve::max( eve::ulpdist(val(z1), val(z2))
                    , eve::ulpdist(der(z1), der(z2)));
   }
-
-
-  // pas encore utilisé
-  template < typename Z1,  typename Z2>
-  EVE_FORCEINLINE auto valder_binary_dispatch ( eve::tag::fmod_
-                                              , Z1 const & z1
-                                              , Z2 const & z2
-                                              ) noexcept
-  {
-    return rem(z1, z2);
-  }
-
-
 
  }
 

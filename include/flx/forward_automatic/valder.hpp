@@ -140,7 +140,6 @@ namespace flx
     template<typename Func, typename Z1, typename... Zs>
     static EVE_FORCEINLINE auto compute(Func f, Z1 const& z1, Zs const& ... zs)
     {
-      std::cout << "icitte0" << std::endl;
       if constexpr(eve::decorator<Z1>)
         return compute(z1(f), val(zs)...);
       else if constexpr(eve::conditional_expr<Z1>)
@@ -375,7 +374,6 @@ namespace flx
     EVE_FORCEINLINE friend auto tagged_dispatch(Tag, eve::like<valder> auto const& v) noexcept
     requires( !has_optimized_derivative_v<Tag> )
     {
-      std::cout << "icitte1" << std::endl;
       if constexpr(is_derivable_v<Tag>) return deriv( eve::detail::callable_object<Tag>{}, v);
       else                              return compute( eve::detail::callable_object<Tag>{}, v);
     }
@@ -386,7 +384,6 @@ namespace flx
                                                , eve::like<valder> auto const& v) noexcept
     requires( !has_optimized_derivative_v<Tag> )
     {
-      std::cout << "icitte2" << std::endl;
       if constexpr(is_derivable_v<Tag>)
         return eve::detail::mask_op(c, eve::detail::callable_object<Tag>{}, v);
       else
@@ -399,7 +396,6 @@ namespace flx
                                                , eve::like<valder> auto const& v) noexcept
     requires( !has_optimized_derivative_v<Tag> )
     {
-      std::cout << "icitte3" << std::endl;
       if constexpr(is_derivable_v<Tag>)
         return deriv( eve::detail::callable_object<Tag>{}, d, v);
       else
@@ -413,7 +409,6 @@ namespace flx
     requires( !has_optimized_derivative_v<Tag>
               && (eve::like < V0, valder > || (eve::like < Vs, valder > ||...)))
     {
-      std::cout << "icitte n" << std::endl;
       if constexpr(is_derivable_v<Tag>)
         return deriv( eve::detail::callable_object<Tag>{}, v0, vs ...);
       else
