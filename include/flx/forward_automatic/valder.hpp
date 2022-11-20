@@ -9,9 +9,6 @@
 
 #include <eve/concept/vectorizable.hpp>
 #include <eve/detail/abi.hpp>
-// #include <eve/module/core.hpp>
-// #include <eve/module/math.hpp>
-// #include <eve/module/polynomial.hpp>
 #include <eve/product_type.hpp>
 #include <flx/forward_automatic/traits.hpp>
 #include <flx/forward_automatic/is_derivable.hpp>

@@ -28,8 +28,8 @@ TTS_CASE_WITH( "Check behavior of flx::fmod(eve::wide)"
 
   auto vda0 = var(a0);
   auto vda1 = var(a1);
-  TTS_ULP_EQUAL(val(eve::fmod(vda0, a1))      , eve::fmod(a0, a1), 10);
-  TTS_ULP_EQUAL(der(eve::fmod(vda0, a1))      , derivative_1st(eve::rem)(a0, a1), 10);
-  TTS_ULP_EQUAL(val(eve::fmod(a0, vda1))      , eve::fmod(a0, a1), 10);
-  TTS_ULP_EQUAL(der(eve::fmod(a0, vda1))      , derivative_2nd(eve::rem)(a0, a1), 10);
+  TTS_ULP_EQUAL(val(eve::fmod(vda0, a1))      , eve::fmod(a0, a1), 20);
+  TTS_ULP_EQUAL(der(eve::fmod(vda0, a1))      , derivative_1st(eve::rem)(a0, a1), 20);
+  TTS_ULP_EQUAL(val(eve::fmod(a0, vda1))      , eve::fmod(a0, a1), 20);
+  TTS_ULP_EQUAL(der(eve::fmod(a0, vda1))      , derivative_2nd(eve::rem)(a0, a1), 20);
 };
