@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<int N, typename T0, typename T1, typename... Ts>
+  template<auto N, typename T0, typename T1, typename... Ts>
   auto negmaxabs_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
            , T0 arg0, T1 arg1, Ts... args) noexcept
   {

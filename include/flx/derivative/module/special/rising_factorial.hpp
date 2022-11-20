@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<int N, real_simd_value I, floating_real_value T>
+  template<auto N, real_simd_value I, floating_real_value T>
   auto rising_factorial_(EVE_SUPPORTS(cpu_), decorated<flx::derivative_<N>(pedantic_)> const &
              , I a, T x) noexcept
   {
@@ -25,7 +25,7 @@ namespace eve::detail
       return zero(as<r_t>());
   }
 
-  template<int N, real_scalar_value I, floating_real_value T, typename D>
+  template<auto N, real_scalar_value I, floating_real_value T, typename D>
   auto rising_factorial_(EVE_SUPPORTS(cpu_), decorated<flx::derivative_<N>(D)> const &
              , I a, T x) noexcept
   {
@@ -38,7 +38,7 @@ namespace eve::detail
       return zero(as<T>());
   }
 
-  template<int N, real_value I, floating_real_value T>
+  template<auto N, real_value I, floating_real_value T>
   auto rising_factorial_(EVE_SUPPORTS(cpu_)
                         , flx::derivative_type<N> const & d
                         , I a, T x) noexcept

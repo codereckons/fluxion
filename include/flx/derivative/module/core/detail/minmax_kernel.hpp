@@ -10,7 +10,7 @@
 namespace eve::detail
 {
 
-  template<int N, typename F, typename M, typename T0, typename T1, typename... Ts>
+  template<auto N, typename F, typename M, typename T0, typename T1, typename... Ts>
   auto minmax_kernel(F const & op, M const & aux, T0 arg0, T1 arg1, Ts... args) noexcept
   {
     using r_t = common_compatible_t<T0,T1, Ts...>;
@@ -47,7 +47,7 @@ namespace eve::detail
     }
   }
 
-  template<int N, typename F, typename M, typename T0, typename T1, typename... Ts>
+  template<auto N, typename F, typename M, typename T0, typename T1, typename... Ts>
   auto minmaxabs_kernel(F const & op, M const & aux, T0 arg0, T1 arg1, Ts... args) noexcept
   {
     using r_t = common_compatible_t<T0,T1, Ts...>;

@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<int N, real_value T, real_value U>
+  template<auto N, real_value T, real_value U>
   EVE_FORCEINLINE auto
   mul_(EVE_SUPPORTS(cpu_), flx::derivative_type<N> const &, T const &a, U const &b) noexcept
   requires compatible_values<T, U>
@@ -34,7 +34,7 @@ namespace eve::detail
     return x;
   }
 
-  template<int N, typename T0, typename T1, typename... Ts>
+  template<auto N, typename T0, typename T1, typename... Ts>
   auto mul_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
            , T0 arg0, T1 arg1, Ts... args) noexcept
   {
