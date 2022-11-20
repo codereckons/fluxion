@@ -43,4 +43,5 @@ TTS_CASE_WITH("Check behavior of eve::min(eve::wide)",
   TTS_ULP_EQUAL( flx::derivative_1st(eve::min)(a0, a1, a2), map(dmin3_1, a0, a1, a2), 0.5);
   TTS_ULP_EQUAL( flx::derivative_2nd(eve::min)(a0, a1, a2), map(dmin3_2, a0, a1, a2), 0.5);
   TTS_ULP_EQUAL( flx::derivative_3rd(eve::min)(a0, a1, a2), map(dmin3_3, a0, a1, a2), 0.5);
+  
 };

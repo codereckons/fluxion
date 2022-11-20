@@ -353,16 +353,14 @@ namespace flx
       };
 
       v_t d = eve::sum_of_prod ( v_t(snd0(z0)), v_t(der(z0)), v_t(snd1(z1)), v_t(der(z1))   );
-
       if constexpr(sizeof...(zs)!= 0)
       {
         [&]<std::size_t... I>(std::index_sequence<I...>)
         {
-          auto ifam = [](auto a,  auto b, auto c){
-            if constexpr(eve::floating_value<decltype(c)>) return a;
-            else return eve::fam(a, b, v_t(der(c)));
+          auto ifam = [&d](auto b, auto c){
+            if constexpr(!eve::floating_value<decltype(c)>) d = eve::fam(d, b, v_t(der(c)));
           };
-          ((d = ifam(d, kumi::apply(derivative_nth<I+3>(f),vs), get<I>(tzs))),...);
+          ((ifam(kumi::apply(derivative_nth<I+3>(f),vs), get<I>(tzs))),...);
         }(std::index_sequence_for<Vs...>{});
       }
       return r_t{ kumi::apply(f,vs), d};

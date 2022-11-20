@@ -30,6 +30,7 @@ TTS_CASE_WITH( "Check behavior of flx::max(eve::wide)"
   using flx::derivative_2nd;
   using flx::derivative_3rd;
 
+
   auto vda0 = var(a0);
   auto vda1 = var(a1);
   auto vda2 = var(a2);
