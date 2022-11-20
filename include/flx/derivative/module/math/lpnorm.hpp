@@ -11,7 +11,7 @@ namespace eve::detail
 {
 
 
-  template<int N, real_value P, typename T0, typename T1, typename... Ts>
+  template<auto N, real_value P, typename T0, typename T1, typename... Ts>
   auto lpnorm_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
             , P const & p, T0 arg0, T1 arg1, Ts... args) noexcept
   {
@@ -54,7 +54,7 @@ namespace eve::detail
     }
   }
 
-  template<int N, real_value P, typename T0, typename T1, typename... Ts>
+  template<auto N, real_value P, typename T0, typename T1, typename... Ts>
   auto lpnorm_(EVE_SUPPORTS(cpu_), decorated<flx::derivative_<N>(pedantic_)> const &, P const & p
              , T0 arg0, T1 arg1, Ts... args) noexcept
   {
