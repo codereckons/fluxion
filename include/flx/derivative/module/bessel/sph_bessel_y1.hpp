@@ -15,6 +15,6 @@ namespace eve::detail
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept
   {
-    return flx::derivative(sph_bessel_yn)(1u, x);
+    return flx::derivative_2nd(sph_bessel_yn)(1u, x);
   }
 }

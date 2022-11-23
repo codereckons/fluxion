@@ -10,12 +10,15 @@
 namespace eve::detail
 {
 
-  template<floating_real_value T, real_value N>
+  template<auto N, floating_real_value T, real_value I>
   EVE_FORCEINLINE constexpr T exp_int_(EVE_SUPPORTS(cpu_)
-                                  , flx::derivative_type<1> const &
-                                  , N const &n
+                                  , flx::derivative_type<N> const &
+                                  , I const &i
                                   , T const &x) noexcept
   {
-    return -exp_int(dec(n), x);
+    if constexpr(N == 2)
+      return -exp_int(dec(i), x);
+    else
+      return T(0);
   }
 }
