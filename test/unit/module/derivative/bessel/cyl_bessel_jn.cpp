@@ -16,11 +16,11 @@ TTS_CASE_TPL("Check return types of eve::cyl_bessel_jn", flx::test::simd::ieee_r
   using v_t = eve::element_type_t<T>;
   using i_t = eve::as_integer_t<v_t>;
   using I_t = eve::wide<i_t, eve::cardinal_t<T>>;
-  TTS_EXPR_IS(flx::derivative(eve::cyl_bessel_jn)(T(), T()), T);
-  TTS_EXPR_IS(flx::derivative(eve::cyl_bessel_jn)(v_t(), v_t()), v_t);
-  TTS_EXPR_IS(flx::derivative(eve::cyl_bessel_jn)(i_t(), T()), T);
-  TTS_EXPR_IS(flx::derivative(eve::cyl_bessel_jn)(I_t(), T()), T);
-  TTS_EXPR_IS(flx::derivative(eve::cyl_bessel_jn)(i_t(), v_t()), v_t);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::cyl_bessel_jn)(T(), T()), T);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::cyl_bessel_jn)(v_t(), v_t()), v_t);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::cyl_bessel_jn)(i_t(), T()), T);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::cyl_bessel_jn)(I_t(), T()), T);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::cyl_bessel_jn)(i_t(), v_t()), v_t);
 };
 
 //==================================================================================================
@@ -38,5 +38,5 @@ TTS_CASE_WITH("Check behavior of eve::cyl_bessel_jn(eve::wide)",
   using eve::detail::map;
 
   auto dcyl_bessel_jn = [&](auto i, auto e) { return boost::math::cyl_bessel_j_prime(i, e); };
-  TTS_RELATIVE_EQUAL(flx::derivative_1st(eve::cyl_bessel_jn)(i0, a0), map(dcyl_bessel_jn, i0, a0), 1.0e-4);
+  TTS_RELATIVE_EQUAL(flx::derivative_2nd(eve::cyl_bessel_jn)(i0, a0), map(dcyl_bessel_jn, i0, a0), 1.0e-4);
 };

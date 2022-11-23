@@ -14,8 +14,8 @@ TTS_CASE_TPL("Check return types of eve::exp_int", flx::test::simd::ieee_reals)
 <typename T>(tts::type<T>)
 {
   using v_t = eve::element_type_t<T>;
-  TTS_EXPR_IS(flx::derivative(eve::exp_int)(T(), T()), T);
-  TTS_EXPR_IS(flx::derivative(eve::exp_int)(v_t(), v_t()), v_t);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::exp_int)(T(), T()), T);
+  TTS_EXPR_IS(flx::derivative_2nd(eve::exp_int)(v_t(), v_t()), v_t);
 };
 
 //==================================================================================================
@@ -34,5 +34,5 @@ TTS_CASE_WITH("Check behavior of eve::exp_int(eve::wide)",
 
   std::cout << eve::exp_int(n, a0) << std::endl;
   auto dexp_int = [&](auto n, auto e) { return -boost::math::expint((unsigned int)(n-1), e); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::exp_int)(n, a0), map(dexp_int, n, a0), 5.0);
+  TTS_ULP_EQUAL(flx::derivative_2nd(eve::exp_int)(n, a0), map(dexp_int, n, a0), 5.0);
 };
