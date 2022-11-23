@@ -12,6 +12,7 @@
 #include <flx/derivative/module/core/average.hpp>
 #include <flx/derivative/module/core/ceil.hpp>
 #include <flx/derivative/module/core/clamp.hpp>
+#include <flx/derivative/module/core/copysign.hpp>
 #include <flx/derivative/module/core/dec.hpp>
 #include <flx/derivative/module/core/dist.hpp>
 #include <flx/derivative/module/core/div.hpp>
@@ -27,6 +28,7 @@
 #include <flx/derivative/module/core/fsm.hpp>
 #include <flx/derivative/module/core/fsnm.hpp>
 #include <flx/derivative/module/core/inc.hpp>
+#include <flx/derivative/module/core/lerp.hpp>
 #include <flx/derivative/module/core/manhattan.hpp>
 #include <flx/derivative/module/core/maxabs.hpp>
 #include <flx/derivative/module/core/max.hpp>

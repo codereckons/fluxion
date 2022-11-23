@@ -61,7 +61,7 @@ namespace flx
     auto operator()(V&&) const noexcept
     requires (!flx::is_valder<eve::element_type_t<std::decay_t<V>>>::value )
     {
-      return V{0};
+      return std::decay_t<V>{0};
     }
   };
 

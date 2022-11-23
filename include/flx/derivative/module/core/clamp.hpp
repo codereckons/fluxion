@@ -15,7 +15,7 @@ namespace eve::detail
                             , T const &a
                             , U const &b
                             , V const &c) noexcept
-  requires compatible_values<T, U>&&compatible_values<T, V>
+  requires compatible_values<T, U> && compatible_values<T, V>
   {
     return arithmetic_call(flx::derivative_type<N>()(clamp), a, b, c);
   }

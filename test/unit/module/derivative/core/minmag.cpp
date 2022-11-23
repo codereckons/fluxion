@@ -23,10 +23,11 @@ TTS_CASE_TPL("Check return types of eve::minmag", flx::test::simd::ieee_reals)
 TTS_CASE_WITH("Check behavior of eve::minmag(eve::wide)",
               flx::test::simd::ieee_reals,
               tts::generate(tts::randoms(eve::valmin, eve::valmax),
+                            tts::randoms(eve::valmin, eve::valmax),
                             tts::randoms(eve::valmin, eve::valmax)
                            )
              )
-<typename T>(T const& a0, T const& a1)
+<typename T>(T const& a0, T const& a1, T const& a2)
 {
   using eve::minmag;
   using eve::detail::map;
@@ -35,4 +36,10 @@ TTS_CASE_WITH("Check behavior of eve::minmag(eve::wide)",
   auto dminmag2=[&](auto e, auto f) { return flx::derivative_2nd(eve::min)(eve::abs(e), eve::abs(f)); };
   TTS_ULP_EQUAL( flx::derivative_1st(eve::minmag)(a0, a1), map(dminmag1, a0, a1), 0.5);
   TTS_ULP_EQUAL( flx::derivative_2nd(eve::minmag)(a0, a1), map(dminmag2, a0, a1), 0.5);
+  auto dminmag3_1=[&](auto e, auto f, auto g) { return flx::derivative_1st(eve::min)(eve::abs(e), eve::abs(f), eve::abs(g)); };
+  auto dminmag3_2=[&](auto e, auto f, auto g) { return flx::derivative_2nd(eve::min)(eve::abs(e), eve::abs(f), eve::abs(g)); };
+  auto dminmag3_3=[&](auto e, auto f, auto g) { return flx::derivative_3rd(eve::min)(eve::abs(e), eve::abs(f), eve::abs(g)); };
+  TTS_ULP_EQUAL( flx::derivative_1st(eve::minmag)(a0, a1, a2), map(dminmag3_1, a0, a1, a2), 0.5);
+  TTS_ULP_EQUAL( flx::derivative_2nd(eve::minmag)(a0, a1, a2), map(dminmag3_2, a0, a1, a2), 0.5);
+  TTS_ULP_EQUAL( flx::derivative_3rd(eve::minmag)(a0, a1, a2), map(dminmag3_3, a0, a1, a2), 0.5);
 };
