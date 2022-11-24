@@ -5,20 +5,18 @@
 //================================================================================================== //!
 #pragma once
 #include <flx/derivative/decorator.hpp>
-#include <eve/module/math.hpp>
+#include <eve/module/core.hpp>
 
 namespace eve::detail
 {
-  template<auto N, floating_real_value T, value I>
-  EVE_FORCEINLINE constexpr T nthroot_(EVE_SUPPORTS(cpu_)
-                                   , flx::derivative_type<N> const &
-                                   , T x, I i) noexcept
+  template< typename C, value U, value V, auto N>
+  EVE_FORCEINLINE  auto binarize_not_(EVE_SUPPORTS(cpu_)
+                                     , flx::derivative_type<N> const &
+                                     , C const &
+                                     , U const &
+                                     , V const &) noexcept
   {
-    using elt_t = element_type_t<T>;
-    auto ti = convert(i, as<elt_t>());
-    if constexpr(N == 1)
-      return nthroot(x, i)*rec(x*ti);
-    else if constexpr(N == 2)
-      return nthroot(x, i)*eve::log(x)/sqr(ti);
+    using r_t =  eve::common_compatible_t<U, V>;
+    return eve::zero(eve::as<r_t>());
   }
 }

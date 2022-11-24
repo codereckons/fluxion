@@ -4,36 +4,33 @@
 // SPDX-License-Identifier: BSL-1.0                                                                  //!
 //================================================================================================== //!
 #include "test.hpp"
-#include <eve/module/complex.hpp>
-#include <flx/derivative/math.hpp>
+#include <flx/derivative/core.hpp>
 
 //==================================================================================================
-// Types tests
+//== Types tests
 //==================================================================================================
-TTS_CASE_TPL("Check return types of eve::nthroot", flx::test::simd::ieee_reals)
+TTS_CASE_TPL("Check return types of eve::binarize", flx::test::simd::ieee_reals)
 <typename T>(tts::type<T>)
 {
   using v_t = eve::element_type_t<T>;
-  TTS_EXPR_IS( flx::derivative(eve::nthroot)(T(), T())  , T  );
-  TTS_EXPR_IS( flx::derivative(eve::nthroot)(v_t(), v_t()), v_t);
+  TTS_EXPR_IS( flx::derivative(eve::binarize)(eve::as_logical<T>(), T(), T())  , T  );
+  TTS_EXPR_IS( flx::derivative(eve::binarize)(eve::as_logical<v_t>(), v_t(), v_t()), v_t);
 };
 
 //==================================================================================================
-// Tests for eve::nthroot
+// Tests for eve::binarize
 //==================================================================================================
-TTS_CASE_WITH("Check behavior of eve::nthroot(eve::wide)",
+TTS_CASE_WITH("Check behavior of eve::binarize(eve::wide)",
               flx::test::simd::ieee_reals,
-              tts::generate(tts::randoms(eve::valmin, eve::valmax)
+              tts::generate(tts::randoms(eve::valmin, eve::valmax),
+                            tts::randoms(eve::valmin, eve::valmax),
+                            tts::randoms(eve::valmin, eve::valmax)
                            )
-              )
-<typename T>(T const& a0)
+             )
+<typename T>(T const& a0, T const& a1, T const& a2)
 {
-  using eve::nthroot;
-  using eve::detail::map;
-  using v_t = eve::element_type_t<T>;
+  using eve::binarize;
 
-  auto dnthroot1 = [&](auto e) { return eve::nthroot(e, 5)*eve::rec(e*v_t(5)); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::nthroot)(a0, 5), map(dnthroot1, a0), 2.0);
-  auto dnthroot2 = [&](auto e) { return eve::nthroot(e, 5)*eve::log(e)/v_t(25); };
-  TTS_ULP_EQUAL(flx::derivative_2nd(eve::nthroot)(a0, 5), map(dnthroot2, a0), 2.0);
+  TTS_ULP_EQUAL( flx::derivative_1st(eve::binarize)(eve::is_ltz(a0), a1, a2), eve::zero(eve::as(a0)), 0.5);
+  TTS_ULP_EQUAL( flx::derivative_2nd(eve::binarize)(eve::is_ltz(a0), a1, a2), eve::zero(eve::as(a0)), 0.5);
 };

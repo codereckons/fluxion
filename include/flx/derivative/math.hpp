@@ -48,6 +48,7 @@
 #include <flx/derivative/module/math/csch.hpp>
 #include <flx/derivative/module/math/csc.hpp>
 #include <flx/derivative/module/math/cscpi.hpp>
+#include <flx/derivative/module/math/deginrad.hpp>
 #include <flx/derivative/module/math/exp10.hpp>
 #include <flx/derivative/module/math/exp2.hpp>
 #include <flx/derivative/module/math/exp.hpp>
@@ -69,6 +70,8 @@
 #include <flx/derivative/module/math/pow_abs.hpp>
 #include <flx/derivative/module/math/pow.hpp>
 #include <flx/derivative/module/math/powm1.hpp>
+#include <flx/derivative/module/math/radindeg.hpp>
+#include <flx/derivative/module/math/radinpi.hpp>
 #include <flx/derivative/module/math/secd.hpp>
 #include <flx/derivative/module/math/sech.hpp>
 #include <flx/derivative/module/math/sec.hpp>

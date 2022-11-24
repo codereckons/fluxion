@@ -10,30 +10,27 @@
 //==================================================================================================
 // Types tests
 //==================================================================================================
-TTS_CASE_TPL("Check return types of eve::nthroot", flx::test::simd::ieee_reals)
+TTS_CASE_TPL("Check return types of eve::deginrad", flx::test::simd::ieee_reals)
 <typename T>(tts::type<T>)
 {
   using v_t = eve::element_type_t<T>;
-  TTS_EXPR_IS( flx::derivative(eve::nthroot)(T(), T())  , T  );
-  TTS_EXPR_IS( flx::derivative(eve::nthroot)(v_t(), v_t()), v_t);
+  TTS_EXPR_IS( flx::derivative(eve::deginrad)(T())  , T  );
+  TTS_EXPR_IS( flx::derivative(eve::deginrad)(v_t()), v_t);
 };
 
 //==================================================================================================
-// Tests for eve::nthroot
+// Tests for eve::deginrad
 //==================================================================================================
-TTS_CASE_WITH("Check behavior of eve::nthroot(eve::wide)",
+TTS_CASE_WITH("Check behavior of eve::deginrad(eve::wide)",
               flx::test::simd::ieee_reals,
-              tts::generate(tts::randoms(eve::valmin, eve::valmax)
+              tts::generate(tts::randoms(eve::minlog, eve::maxlog)
                            )
               )
 <typename T>(T const& a0)
 {
-  using eve::nthroot;
+  using eve::deginrad;
   using eve::detail::map;
-  using v_t = eve::element_type_t<T>;
 
-  auto dnthroot1 = [&](auto e) { return eve::nthroot(e, 5)*eve::rec(e*v_t(5)); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::nthroot)(a0, 5), map(dnthroot1, a0), 2.0);
-  auto dnthroot2 = [&](auto e) { return eve::nthroot(e, 5)*eve::log(e)/v_t(25); };
-  TTS_ULP_EQUAL(flx::derivative_2nd(eve::nthroot)(a0, 5), map(dnthroot2, a0), 2.0);
+  auto ddeginrad = [&](auto e) { return eve::deginrad(eve::one(eve::as(e))); };
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::deginrad)(a0), map(ddeginrad, a0), 2.0);
 };
