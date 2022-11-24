@@ -9,13 +9,16 @@
 
 namespace eve::detail
 {
-  template<floating_real_value T, value N>
+  template<auto N, floating_real_value T, value I>
   EVE_FORCEINLINE constexpr T nthroot_(EVE_SUPPORTS(cpu_)
-                                   , flx::derivative_type<1> const &
-                                   , T x, N n) noexcept
+                                   , flx::derivative_type<N> const &
+                                   , T x, I i) noexcept
   {
     using elt_t = element_type_t<T>;
-    auto tn = convert(n, as<elt_t>());
-    return nthroot(x, n)*rec(x*tn);
+    auto ti = convert(i, as<elt_t>());
+    if constexpr(N == 1)
+      return nthroot(x, i)*rec(x*ti);
+    else if constexpr(N == 2)
+      return nthroot(x, i)*eve::log(x)/sqr(ti);
   }
 }

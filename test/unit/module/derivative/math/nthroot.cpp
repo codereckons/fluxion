@@ -32,6 +32,8 @@ TTS_CASE_WITH("Check behavior of eve::nthroot(eve::wide)",
   using eve::detail::map;
   using v_t = eve::element_type_t<T>;
 
-  auto dnthroot = [&](auto e) { return eve::nthroot(e, 5)*eve::rec(e*v_t(5)); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::nthroot)(a0, 5), map(dnthroot, a0), 2.0);
+  auto dnthroot1 = [&](auto e) { return eve::nthroot(e, 5)*eve::rec(e*v_t(5)); };
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::nthroot)(a0, 5), map(dnthroot1, a0), 2.0);
+  auto dnthroot2 = [&](auto e) { return eve::nthroot(e, 5)*eve::log(e)/v_t(25); };
+  TTS_ULP_EQUAL(flx::derivative_2nd(eve::nthroot)(a0, 5), map(dnthroot2, a0), 2.0);
 };
