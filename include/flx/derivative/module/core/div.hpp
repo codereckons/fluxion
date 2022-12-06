@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<auto N, real_value T, real_value U>
+  template<auto N, ordered_value T, ordered_value U>
   EVE_FORCEINLINE auto
   div_(EVE_SUPPORTS(cpu_), flx::derivative_type<N> const &, T const &a, U const &b) noexcept
       requires compatible_values<T, U>
@@ -17,7 +17,7 @@ namespace eve::detail
     return arithmetic_call(flx::derivative_type<N>()(div), a, b);
   }
 
-  template<floating_real_value T>
+  template<floating_ordered_value T>
   EVE_FORCEINLINE constexpr T div_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<1> const &
                                     , T , T y ) noexcept
@@ -25,7 +25,7 @@ namespace eve::detail
     return rec(y);
   }
 
-  template<floating_real_value T>
+  template<floating_ordered_value T>
   EVE_FORCEINLINE constexpr T div_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<2> const &
                                     , T x, T y ) noexcept

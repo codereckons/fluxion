@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<auto N, floating_real_value T, value I>
+  template<auto N, floating_ordered_value T, value I>
   EVE_FORCEINLINE constexpr T nthroot_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<N> const &
                                    , T x, I i) noexcept

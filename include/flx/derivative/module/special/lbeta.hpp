@@ -19,7 +19,7 @@ namespace eve::detail
     return arithmetic_call(flx::derivative_type<N>{}(lbeta), a, b);
   }
 
-  template<floating_real_value T>
+  template<floating_ordered_value T>
   EVE_FORCEINLINE constexpr T lbeta_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<1> const &
                                     , T const &x
@@ -29,7 +29,7 @@ namespace eve::detail
     return digamma(x) - digamma(x + y);
 }
 
-template<floating_real_value T>
+template<floating_ordered_value T>
 EVE_FORCEINLINE constexpr T lbeta_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<2> const &
                                   , T const &x

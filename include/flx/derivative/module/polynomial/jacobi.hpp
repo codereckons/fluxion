@@ -11,7 +11,7 @@ namespace eve::detail
 {
 
 
-  template<real_value N, floating_value T, floating_value U, floating_value V>
+  template<ordered_value N, floating_value T, floating_value U, floating_value V>
   EVE_FORCEINLINE constexpr T jacobi_(EVE_SUPPORTS(cpu_)
                                      , flx::derivative_type<1> const &
                                      , N const & n
@@ -29,7 +29,7 @@ namespace eve::detail
     return if_else(k > nn, zero, j*scale);
   }
 
-  template<real_value N, floating_value T, floating_value U, floating_value V>
+  template<ordered_value N, floating_value T, floating_value U, floating_value V>
   EVE_FORCEINLINE constexpr auto jacobi_(EVE_SUPPORTS(cpu_)
                                         , flx::derivative_type<1> const &
                                         , N const & n

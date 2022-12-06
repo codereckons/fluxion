@@ -11,7 +11,7 @@
 namespace eve::detail
 {
 
-  template<integral_value N, floating_real_value T, floating_real_value U>
+  template<integral_value N, floating_ordered_value T, floating_ordered_value U>
   EVE_FORCEINLINE constexpr auto gegenbauer_(EVE_SUPPORTS(cpu_)
                                             , flx::derivative_type<1> const &
                                             , N const &n

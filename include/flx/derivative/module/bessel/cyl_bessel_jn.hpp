@@ -10,7 +10,7 @@
 namespace eve::detail
 {
 
-  template<auto N, real_value I, floating_real_value T>
+  template<auto N, ordered_value I, floating_ordered_value T>
   EVE_FORCEINLINE constexpr T cyl_bessel_jn_(EVE_SUPPORTS(cpu_)
                                             , flx::derivative_type<N> const &
                                             , I n

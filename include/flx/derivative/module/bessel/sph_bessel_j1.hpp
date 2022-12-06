@@ -12,7 +12,7 @@ namespace eve::detail
 {
 
 
-  template<floating_real_value T>
+  template<floating_ordered_value T>
   EVE_FORCEINLINE constexpr T sph_bessel_j1_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T x) noexcept

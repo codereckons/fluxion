@@ -10,7 +10,7 @@
 namespace eve::detail
 {
 
-  template<integral_value N, floating_real_value T>
+  template<integral_value N, floating_ordered_value T>
   EVE_FORCEINLINE constexpr auto hermite_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , N const &n

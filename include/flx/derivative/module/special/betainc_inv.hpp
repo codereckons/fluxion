@@ -20,7 +20,7 @@ namespace eve::detail
     return arithmetic_call(flx::derivative_type<N>{}(betainc_inv), s, a, b);
   }
 
-  template<floating_real_value T>
+  template<floating_ordered_value T>
   EVE_FORCEINLINE constexpr auto betainc_inv_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<1> const &
                                    , T const &s

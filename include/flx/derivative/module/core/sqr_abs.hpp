@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<floating_real_value T, unsigned_value N>
+  template<floating_ordered_value T, unsigned_value N>
   EVE_FORCEINLINE constexpr T sqr_abs_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<1> const &
                                    , T x
@@ -25,7 +25,7 @@ namespace eve::detail
       return apply_over(flx::derivative_1st(sqr_abs), x, n);
   }
 
-  template<floating_real_value T>
+  template<floating_ordered_value T>
   EVE_FORCEINLINE constexpr T sqr_abs_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<1> const &
                                     , T x) noexcept
