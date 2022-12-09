@@ -10,7 +10,7 @@
 namespace eve::detail
 {
 
-  template<floating_ordered_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T atan2_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<1> const &
                                    , T const &x
@@ -19,7 +19,7 @@ namespace eve::detail
     return rec(sqr(x)+sqr(y))*y;
   }
 
-  template<floating_ordered_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T atan2_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<2> const &
                                    , T const &x

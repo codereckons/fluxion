@@ -47,6 +47,7 @@ namespace tts
   template<typename T, typename N>
   inline double ulp_distance(eve::wide<T, N> const &l, eve::wide<T, N> const &r)
   {
+    std::cout << "icitte" << std::endl;
     double max_ulp = 0;
     for(auto i = 0; i < l.size(); ++i)
       max_ulp = std::max(max_ulp, tts::ulp_distance(T(l.get(i)), T(r.get(i))));

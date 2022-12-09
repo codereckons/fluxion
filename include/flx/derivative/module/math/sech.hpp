@@ -10,7 +10,7 @@
 namespace eve::detail
 {
 
-  template<floating_ordered_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T sech_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept

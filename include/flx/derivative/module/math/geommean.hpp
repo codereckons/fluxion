@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<auto N, floating_ordered_value T, floating_ordered_value... Ts>
+  template<auto N, value T, value... Ts>
   EVE_FORCEINLINE constexpr T geommean_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<N> const &
                                     , T y, Ts ... ys ) noexcept
