@@ -35,7 +35,7 @@ TTS_CASE_WITH( "Check behavior of gegenbauer diff on wide"
 {
    using v_t = eve::element_type_t<T>;
   v_t l = v_t(-3)/v_t(8);
-   auto flx__gegenbauerv  =  [l](auto n, auto x) { return flx::derivative( eve::gegenbauer)(n, l, x); };
+   auto flx__gegenbauerv  =  [l](auto n, auto x) { return flx::derivative_3rd( eve::gegenbauer)(n, l, x); };
   for(unsigned int n=0; n < 5; ++n)
   {
     auto boost_gegenbauer =  [&](auto i, auto) { return boost::math::gegenbauer_derivative(n, l, a0.get(i), 1u); };

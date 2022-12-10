@@ -11,16 +11,17 @@ namespace eve::detail
 {
 
 
-  template<ordered_value N, floating_value T, floating_value U, floating_value V>
-  EVE_FORCEINLINE constexpr T jacobi_(EVE_SUPPORTS(cpu_)
+  template<ordered_value N, value T, value U, value V>
+  EVE_FORCEINLINE constexpr auto jacobi_(EVE_SUPPORTS(cpu_)
                                      , flx::derivative_type<1> const &
                                      , N const & n
                                      , U const & alpha
                                      , V const & beta
                                      , T const &x
                                      , size_t k) noexcept
+  -> indexed_common_value_t<N, U, V, T>
   {
-    using f_t = common_compatible_t<T, U, V>;
+    using f_t = indexed_common_value_t<N, U, V, T>;
     f_t scale(1);
     auto nn(to_<f_t>(n));
     auto apbpn = alpha+beta+nn;
@@ -29,15 +30,16 @@ namespace eve::detail
     return if_else(k > nn, zero, j*scale);
   }
 
-  template<ordered_value N, floating_value T, floating_value U, floating_value V>
+  template<ordered_value N, value T, value U, value V>
   EVE_FORCEINLINE constexpr auto jacobi_(EVE_SUPPORTS(cpu_)
                                         , flx::derivative_type<1> const &
                                         , N const & n
                                         , U const & alpha
                                         , V const & beta
                                         , T const &x) noexcept
+  -> indexed_common_value_t<N, U, V, T>
   {
-    using f_t = common_compatible_t<T, U, V>;
+    using f_t = indexed_common_value_t<N, U, V, T>;
     auto nn(to_<f_t>(n));
     return if_else(is_eqz(n), zero, (alpha + beta + inc(nn))*f_t(0.5)*jacobi(dec(n), inc(alpha), inc(beta), x));
   }

@@ -11,7 +11,7 @@ namespace eve::detail
 {
 
 
-  template<integral_value M, integral_value N, floating_value T>
+  template<integral_value M, integral_value N, value T>
   EVE_FORCEINLINE constexpr T laguerre_(EVE_SUPPORTS(cpu_)
                                        , flx::derivative_type<1> const &
                                        , M const & m
@@ -21,7 +21,7 @@ namespace eve::detail
     return if_else(is_eqz(n), zero, sign_alternate(m)*eve::laguerre(inc(m), saturated(dec)(n), x));
   }
 
-  template<integral_value N, floating_value T>
+  template<integral_value N, value T>
   EVE_FORCEINLINE constexpr T laguerre_(EVE_SUPPORTS(cpu_)
                                        , flx::derivative_type<1> const &
                                        , N const & n

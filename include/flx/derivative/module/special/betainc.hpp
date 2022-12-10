@@ -15,7 +15,8 @@ namespace eve::detail
                               , S const &s
                               , T const &a
                               , U const &b) noexcept
-  requires compatible_values<T, U> && compatible_values<T, S>
+  -> common_value_t<S, T, U>
+  requires(std::floating_point<underlying_type_t<common_value_t<s, T, U>>>)
   {
     return arithmetic_call(flx::derivative_type<N>{}(betainc), s, a, b);
   }
@@ -26,7 +27,7 @@ namespace eve::detail
                                    , T const &s
                                    , T const &x
                                    , T const &y) noexcept
-  requires(has_native_abi_v<T>)
+  requires(std::floating_point<underlying_type_t<T>>)
   {
     return pow(s, dec(x))*pow(oneminus(s), dec(y))/beta(x, y);
   }

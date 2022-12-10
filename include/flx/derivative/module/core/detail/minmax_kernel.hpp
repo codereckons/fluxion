@@ -13,7 +13,7 @@ namespace eve::detail
   template<auto N, typename F, typename M, typename T0, typename T1, typename... Ts>
   auto minmax_kernel(F const & op, M const & aux, T0 arg0, T1 arg1, Ts... args) noexcept
   {
-    using r_t = common_compatible_t<T0,T1, Ts...>;
+    using r_t = common_value_t<T0,T1, Ts...>;
     auto getNth = []<std::size_t... I>(std::index_sequence<I...>, auto& that, auto... vs)
       {
         auto iff = [&that]<std::size_t J>(auto val, std::integral_constant<std::size_t,J>)
@@ -50,7 +50,7 @@ namespace eve::detail
   template<auto N, typename F, typename M, typename T0, typename T1, typename... Ts>
   auto minmaxabs_kernel(F const & op, M const & aux, T0 arg0, T1 arg1, Ts... args) noexcept
   {
-    using r_t = common_compatible_t<T0,T1, Ts...>;
+    using r_t = common_value_t<T0,T1, Ts...>;
     auto getNth = []<std::size_t... I>(std::index_sequence<I...>, auto& that, auto... vs)
       {
         auto iff = [&that]<std::size_t J>(auto val, std::integral_constant<std::size_t,J>)

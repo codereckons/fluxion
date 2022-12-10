@@ -10,13 +10,15 @@
 namespace eve::detail
 {
 
-  template<integral_value N, floating_ordered_value T>
+  template<integral_value N, value T>
   EVE_FORCEINLINE constexpr auto hermite_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , N const &n
                                   , T const &x) noexcept
-  requires index_compatible_values<N, T>
+  ->indexed_common_value_t<N, T>
   {
-    return fma(x+x, eve::hermite(n, x), -eve::hermite(inc(n), x));
+    using f_t = indexed_common_value_t<N, T>;
+    auto nn(to_<f_t>(n));
+    return fma(x+x, eve::hermite(nn, x), -eve::hermite(inc(nn), x));
   }
 }

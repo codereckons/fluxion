@@ -10,11 +10,12 @@
 namespace eve::detail
 {
 
-  template<integral_scalar_value N, floating_value T>
+  template<integral_scalar_value N, value T>
   EVE_FORCEINLINE constexpr auto legendre_(EVE_SUPPORTS(cpu_)
                                           , flx::derivative_type<1> const &
                                           , N const & l
                                           , T const &x) noexcept
+  requires(std::floating_point<underlying_type_t<T>>)
   {
     if (is_eqz(l)) return T(0);
     auto legendre_next = [](auto ll, auto x, auto pl, auto plm1)
@@ -46,22 +47,23 @@ namespace eve::detail
     return if_else(eve::abs(x) > one(as(x)), allbits,  p_prime);
   }
 
-  template<integral_simd_value I, floating_scalar_value T>
+  template<integral_simd_value I, value T>
   EVE_FORCEINLINE auto legendre_(EVE_SUPPORTS(cpu_)
                                 , flx::derivative_type<1> const &
                                 , I nn
                                 , T x) noexcept
+  requires(std::floating_point<underlying_type_t<T>> && scalar_value<T>)
   {
     using f_t = as_wide_t<T, cardinal_t<I>>;
     return if_else(eve::abs(x) > one(as(x)), nan(as<f_t>()), flx::derivative(eve::legendre)(nn, f_t(x)));
   }
 
-  template<integral_simd_value N, floating_simd_value T>
+  template<integral_simd_value N, value T>
   EVE_FORCEINLINE constexpr T legendre_(EVE_SUPPORTS(cpu_)
                                        , flx::derivative_type<1> const &
                                        , N const & l
                                        , T const &x) noexcept
-  requires index_compatible_values<N, T>
+  requires(std::floating_point<underlying_type_t<T>>&& simd_value<T>)
   {
     using elt_t = element_type_t<T>;
     auto p0 = one(as(x));
