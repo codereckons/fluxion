@@ -39,7 +39,6 @@ namespace eve::detail
            , T0 arg0, T1 arg1, Ts... args) noexcept
  -> common_value_t<T0, T1, Ts...>
   {
-  {
     auto mmul = []<std::size_t... I>(std::index_sequence<I...>, auto& that, auto... vs)
       {
         auto iff = []<std::size_t J>(auto acc, auto val, std::integral_constant<std::size_t,J>)
