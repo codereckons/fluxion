@@ -15,8 +15,8 @@ namespace eve::detail
                               , S const &s
                               , T const &a
                               , U const &b) noexcept
-  -> common_value_t<T, U, V>
-  requires(std::floating_point<underlying_type_t<common_value_t<T, U, V>>>)
+  -> common_value_t<S, T, U>
+  requires(std::floating_point<underlying_type_t<common_value_t<S, T, U>>>)
   {
     return arithmetic_call(flx::derivative_type<N>{}(betainc_inv), s, a, b);
   }
