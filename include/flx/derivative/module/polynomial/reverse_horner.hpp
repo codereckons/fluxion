@@ -15,9 +15,9 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr auto reverse_horner_(EVE_SUPPORTS(cpu_)
                                                 , flx::derivative_type<1> const &
                                                 , T0 const &, T1 const &) noexcept
-  requires compatible_values<T0, T1>
+  -> common_value_t<T0, T1>
   {
-    using r_t = common_compatible_t<T0, T1>;
+    using r_t = common_value_t<T0, T1>;
     return zero(as<r_t>());
   }
 
@@ -25,9 +25,9 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr auto reverse_horner_(EVE_SUPPORTS(cpu_)
                                                 , flx::derivative_type<1> const &
                                                 , T0 const & b, T1 const &, T2 const &) noexcept
-  requires compatible_values<T0, T1> &&compatible_values<T1, T2>
+  -> common_value_t<T0, T1, T2>
   {
-    using r_t = common_compatible_t<T0, T1, T2>;
+    using r_t = common_value_t<T0, T1, T2>;
     return r_t(b);
   }
 
@@ -41,8 +41,9 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr auto reverse_horner_(EVE_SUPPORTS(cpu_)
                                                 , flx::derivative_type<1> const &
                                                 , T0 xx, T1 , Ts... cs) noexcept
+  -> common_value_t<T0, Ts...>
   {
-    using r_t = common_compatible_t<T0, Ts...>;
+    using r_t = common_value_t<T0, Ts...>;
     auto x = r_t(xx);
     auto n = 0;
     std::array<r_t, sizeof...(cs)> c {(r_t(cs)*++n)...};
