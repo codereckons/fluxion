@@ -15,6 +15,7 @@ namespace eve::detail
                                     , flx::derivative_type<1> const &
                                     , T const &x
                                     , T const &y) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return pow1p(x, dec(y))*y;
   }
@@ -24,6 +25,7 @@ namespace eve::detail
                                     , flx::derivative_type<2> const &
                                     , T const &x
                                     , T const &y) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return pow1p(x, y)*log1p(x);
   }

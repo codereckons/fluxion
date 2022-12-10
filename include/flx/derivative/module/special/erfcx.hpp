@@ -10,12 +10,13 @@
 namespace eve::detail
 {
 
-  template<floating_ordered_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T erfcx_(EVE_SUPPORTS(cpu_)
-                                  , flx::derivative_type<1> const &
+                                    , flx::derivative_type<1> const &
                                   , T const &x) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
-    auto twoosqrtpi = T(1.1283791670955125738961589);
+    auto twoosqrtpi = underlying_type_t<T>(1.1283791670955125738961589);
     return fms(2*x, erfcx(x),  twoosqrtpi);
   }
 }

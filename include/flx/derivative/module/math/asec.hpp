@@ -14,6 +14,7 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr T asec_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return rec(eve::abs(x)*sqrt(dec(sqr(x))));
   }

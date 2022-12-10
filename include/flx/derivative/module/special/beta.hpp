@@ -9,32 +9,33 @@
 
 namespace eve::detail
 {
-  template<floating_value T, floating_value U, auto N>
+  template<value T, value U, auto N>
   EVE_FORCEINLINE  auto beta_(EVE_SUPPORTS(cpu_)
                               , flx::derivative_type<N> const &
                               , T const &a
                               , U const &b) noexcept
-  requires compatible_values<T, U>
+  -> common_value_t<T, U>
+  requires(std::floating_point<underlying_type_t<common_value_t<T, U>>>)
   {
     return arithmetic_call(flx::derivative_type<N>{}(beta), a, b);
   }
 
-  template<floating_ordered_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T beta_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T const &x
                                   , T const &y) noexcept
-  requires(has_native_abi_v<T>)
+  requires(std::floating_point<underlying_type_t<T>>)
   {
     return -(digamma(x+y)-digamma(x))*beta(x, y);
   }
 
-  template<floating_ordered_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T beta_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<2> const &
                                   , T const &x
                                   , T const &y) noexcept
-  requires(has_native_abi_v<T>)
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return -(digamma(x + y)-digamma(y))*beta(x, y);
   }

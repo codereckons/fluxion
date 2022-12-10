@@ -16,7 +16,7 @@ namespace eve::detail
                                      , U const &
                                      , V const &) noexcept
   {
-    using r_t =  eve::common_compatible_t<U, V>;
+    using r_t =  eve::common_value_t<U, V>;
     return eve::zero(eve::as<r_t>());
   }
 }

@@ -14,6 +14,7 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr T sinhc_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     auto [s, c] = sinhcosh(x);
     return if_else(is_eqz(x), zero, fms(x, c, s)/sqr(x));

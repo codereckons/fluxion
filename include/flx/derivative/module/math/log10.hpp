@@ -14,6 +14,7 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr T log10_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     auto invlog10 = T(0.4342944819032518276511289189);
     return if_else(is_gtz(x), rec(x)*invlog10, allbits); ;

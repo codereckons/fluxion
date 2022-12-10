@@ -15,6 +15,7 @@ namespace eve::detail
                                    , flx::derivative_type<N> const &
                                    , T const &x
                                    , T const &y) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return radinpi(flx::derivative_type<N>()(atan2)(x, y));
   }

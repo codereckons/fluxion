@@ -14,6 +14,7 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr T log2_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     auto invlog2 = T(1.4426950408889634073599);
     return flx::derivative(log)(x)*invlog2;

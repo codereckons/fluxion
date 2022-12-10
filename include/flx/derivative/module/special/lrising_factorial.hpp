@@ -9,9 +9,10 @@
 
 namespace eve::detail
 {
-  template<auto N, ordered_value I, floating_ordered_value T, typename D>
+  template<auto N, value I, value T, typename D>
   auto lrising_factorial_(EVE_SUPPORTS(cpu_), decorated<flx::derivative_<N>(D)> const &
-             , I a, T x) noexcept
+                         , I a, T x) noexcept
+  requires(std::floating_point<underlying_type_t<T>>)
   {
     using elt_t = element_type_t<T>;
     using r_t = as_wide_t<elt_t, cardinal_t<I>>;
@@ -28,9 +29,10 @@ namespace eve::detail
       return zero(as<r_t>());
   }
 
-  template<auto N, ordered_value I, floating_ordered_value T>
+  template<auto N, value I, value T>
   auto lrising_factorial_(EVE_SUPPORTS(cpu_), flx::derivative_type<N> const &
-             , I a, T x) noexcept
+                         , I a, T x) noexcept
+  requires(std::floating_point<underlying_type_t<T>>)
   {
     using elt_t = element_type_t<T>;
     using r_t = as_wide_t<elt_t, cardinal_t<I>>;

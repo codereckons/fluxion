@@ -9,9 +9,10 @@
 
 namespace eve::detail
 {
-  template<auto N, ordered_value I, floating_ordered_value T>
+  template<auto N, value I, value T>
   auto rising_factorial_(EVE_SUPPORTS(cpu_), decorated<flx::derivative_<N>(pedantic_)> const &
              , I a, T x) noexcept
+  requires(std::floating_point<underlying_type_t<T>>)
   {
     if constexpr(simd_value<I>)
     {

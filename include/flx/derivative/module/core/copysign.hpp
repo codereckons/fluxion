@@ -10,13 +10,13 @@
 namespace eve::detail
 {
 
-  template<floating_value T, floating_value U, auto N>
+  template<floating_ordered_value T, floating_ordered_value U, auto N>
   EVE_FORCEINLINE  auto copysign_(EVE_SUPPORTS(cpu_)
                                  , flx::derivative_type<N> const &
                                  , T const &
                                  , U const &b) noexcept
   {
-    using v_t = common_compatible_t<T, U>;
+    using v_t = common_value_t<T, U>;
     if constexpr(N == 1) return v_t(sign(b));
     else if constexpr(N == 2) return zero(as<v_t>());
   }

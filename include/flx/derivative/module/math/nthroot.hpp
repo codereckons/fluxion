@@ -13,6 +13,7 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr T nthroot_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<N> const &
                                    , T x, I i) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     using elt_t = element_type_t<T>;
     auto ti = convert(i, as<elt_t>());
