@@ -9,12 +9,13 @@
 
 namespace eve::detail
 {
-  template<auto N, floating_real_value T, floating_real_value... Ts>
+  template<auto N, value T, value... Ts>
   EVE_FORCEINLINE constexpr T geommean_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<N> const &
                                     , T y, Ts ... ys ) noexcept
+  requires(std::floating_point<underlying_type_t<decltype(mul(y, ys...))>>)
   {
-    using r_t = common_compatible_t<T,Ts...>;
+    using r_t = common_value_t<T,Ts...>;
     if constexpr(N > sizeof...(Ts)+1) return zero(as < r_t>());
     auto g = geommean(y, ys...);
     auto n = sizeof...(ys)+1;

@@ -34,24 +34,24 @@ TTS_CASE_WITH( "Check behavior of legendre diff on wide"
   <typename T, typename I>(T const& a0,I const & i0)
 {
   using v_t = eve::element_type_t<T>;
-  auto flx__legendrev  =  [](auto n, auto x) { return eve::legendre(n, x); };
+  auto flx__legendrev  =  [](auto n, auto x) { return flx::derivative(eve::legendre)(n, x); };
   for(unsigned int n=0; n < 5; ++n)
   {
-    auto boost_legendre =  [&](auto i, auto) { return boost::math::legendre_p(n, a0.get(i)); };
+    auto boost_legendre =  [&](auto i, auto) { return boost::math::legendre_p_prime(n, a0.get(i)); };
     TTS_ULP_EQUAL(flx__legendrev(n, a0), T(boost_legendre), 100);
   }
-  auto boost_legendrev =  [&](auto i, auto) { return boost::math::legendre_p(i0.get(i), a0.get(i)); };
+  auto boost_legendrev =  [&](auto i, auto) { return boost::math::legendre_p_prime(i0.get(i), a0.get(i)); };
   TTS_ULP_EQUAL(flx__legendrev(i0    , a0), T(boost_legendrev), 100);
   for(unsigned int j=0; j < eve::cardinal_v<T>; ++j)
   {
-    auto boost_legendre2 =  [&](auto i, auto) { return boost::math::legendre_p(i0.get(i), a0.get(j)); };
+    auto boost_legendre2 =  [&](auto i, auto) { return boost::math::legendre_p_prime(i0.get(i), a0.get(j)); };
     TTS_RELATIVE_EQUAL(flx__legendrev(i0 , a0.get(j)), T(boost_legendre2), 0.01);
   }
   for(unsigned int j=0; j < eve::cardinal_v<T>; ++j)
   {
     for(unsigned int n=0; n < eve::cardinal_v<T>; ++n)
     {
-      TTS_RELATIVE_EQUAL(flx__legendrev(i0.get(j) , a0.get(n)), v_t(boost::math::legendre_p(i0.get(j), a0.get(n))), 0.01);
+      TTS_RELATIVE_EQUAL(flx__legendrev(i0.get(j) , a0.get(n)), v_t(boost::math::legendre_p_prime(i0.get(j), a0.get(n))), 0.01);
     }
   }
 };

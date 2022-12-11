@@ -9,36 +9,40 @@
 
 namespace eve::detail
 {
-  template<auto N, real_value T, real_value U>
+  template<auto N, value T, value U>
   EVE_FORCEINLINE auto
   div_(EVE_SUPPORTS(cpu_), flx::derivative_type<N> const &, T const &a, U const &b) noexcept
-      requires compatible_values<T, U>
+  -> common_value_t<T, U>
+  requires (std::floating_point<underlying_type_t<common_value_t<T, U>>>)
   {
     return arithmetic_call(flx::derivative_type<N>()(div), a, b);
   }
 
-  template<floating_real_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T div_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<1> const &
                                     , T , T y ) noexcept
+  requires(std::floating_point<underlying_type_t<T>>)
   {
     return rec(y);
   }
 
-  template<floating_real_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T div_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<2> const &
                                     , T x, T y ) noexcept
+  requires(std::floating_point<underlying_type_t<T>>)
   {
 
     return -rec(sqr(y))*x;
   }
 
-  template<auto N, typename T0, typename T1, typename... Ts>
+  template<auto N, value T0, value T1, value... Ts>
   EVE_FORCEINLINE auto div_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
                            , T0 arg0, T1 arg1, Ts... args) noexcept
+  requires(std::floating_point<underlying_type_t<common_value_t<T0,T1, Ts...>>>)
   {
-    using r_t = common_compatible_t<T0,T1, Ts...>;
+    using r_t = common_value_t<T0,T1, Ts...>;
     if constexpr(N > sizeof...(Ts)+2)
     {
       return zero(as<r_t >());

@@ -9,20 +9,22 @@
 
 namespace eve::detail
 {
-  template<floating_real_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T pow_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<1> const &
                                    , T const &x
                                    , T const &y) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return pow(x, dec(y))*y;
   }
 
-   template<floating_real_value T>
+   template<value T>
   EVE_FORCEINLINE constexpr T pow_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<2> const &
                                    , T const &x
                                    , T const &y) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return pow(x, y)*log(x);
   }

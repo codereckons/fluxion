@@ -10,20 +10,22 @@
 namespace eve::detail
 {
 
-  template<floating_real_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T logspace_sub_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<1> const &
                                    , T const &x
                                    , T const &y) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return rec(oneminus(exp(y-x)));
   }
 
-   template<floating_real_value T>
+   template<value T>
   EVE_FORCEINLINE constexpr T logspace_sub_(EVE_SUPPORTS(cpu_)
                                    , flx::derivative_type<2> const &
                                    , T const &x
                                    , T const &y) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return  rec(oneminus(exp(x-y)));
   }
@@ -35,8 +37,9 @@ namespace eve::detail
   template<auto N, typename T0, typename T1, typename... Ts>
   auto logspace_sub_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
                     , T0 arg0, T1 arg1, Ts... args) noexcept
+  requires(std::floating_point<underlying_type_t<common_value_t<T0,T1, Ts...>>>)
   {
-    using r_t = common_compatible_t<T0,T1, Ts...>;
+    using r_t = common_value_t<T0,T1, Ts...>;
     if constexpr(N > sizeof...(Ts)+2)
     {
       return zero(as<r_t >());

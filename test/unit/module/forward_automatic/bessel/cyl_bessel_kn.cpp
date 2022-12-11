@@ -26,6 +26,6 @@ TTS_CASE_WITH( "Check behavior of flx::cyl_bessel_kn(eve::wide)"
   using flx::derivative_2nd;
   auto n = 3;
   auto vda0 = var(a0);
-  TTS_EQUAL(val(eve::cyl_bessel_kn(n, vda0))      , eve::cyl_bessel_kn(n, a0));
-  TTS_EQUAL(der(eve::cyl_bessel_kn(n, vda0))      , derivative_2nd(eve::cyl_bessel_kn)(n, a0));
+  TTS_ULP_EQUAL(val(eve::cyl_bessel_kn(n, vda0))      , eve::cyl_bessel_kn(n, a0), 1.0);
+  TTS_ULP_EQUAL(der(eve::cyl_bessel_kn(n, vda0))      , derivative_2nd(eve::cyl_bessel_kn)(n, a0), 1.0);
 };

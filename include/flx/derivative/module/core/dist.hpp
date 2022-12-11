@@ -9,7 +9,7 @@
 
 namespace eve::detail
 {
-  template<floating_real_value T>
+  template<floating_ordered_value T>
   EVE_FORCEINLINE constexpr T dist_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<1> const &
                                     , T x, T y) noexcept
@@ -20,7 +20,7 @@ namespace eve::detail
       return apply_over(flx::derivative_1st(dist), x, y);
   }
 
-  template<floating_real_value T>
+  template<floating_ordered_value T>
   EVE_FORCEINLINE constexpr T dist_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<2> const &
                                     , T x, T y) noexcept

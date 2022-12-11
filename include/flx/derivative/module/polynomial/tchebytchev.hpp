@@ -36,7 +36,6 @@ namespace eve::detail
                                   , decorated<flx::derivative_<2>(kind_2_type)> const &
                                   , N const &n
                                   , T const &x) noexcept
-  requires index_compatible_values<N, T>
   {
 
     auto nn = convert(n, as<element_type_t<T>>());

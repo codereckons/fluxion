@@ -9,9 +9,10 @@
 
 namespace eve::detail
 {
-  template<auto N, real_value P, typename T0, typename T1, typename... Ts>
+  template<auto N, ordered_value P, floating_ordered_value T0, floating_ordered_value T1, floating_ordered_value... Ts>
   auto lpnorm_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
             , P const & p, T0 arg0, T1 arg1, Ts... args) noexcept
+  requires(std::floating_point<underlying_type_t<decltype(((pow_abs(arg0, p)+pow_abs(arg1, p)) + ... + pow_abs(args, p)))>>)
   {
     using r_t = decltype(((pow_abs(arg0, p)+pow_abs(arg1, p)) + ... + pow_abs(args, p)));
     if constexpr(N > sizeof...(Ts)+3)
@@ -59,9 +60,10 @@ namespace eve::detail
     }
   }
 
-  template<auto N, real_value P, typename T0, typename T1, typename... Ts>
+  template<auto N, ordered_value P, floating_ordered_value T0, floating_ordered_value T1, floating_ordered_value... Ts>
   auto lpnorm_(EVE_SUPPORTS(cpu_), decorated<flx::derivative_<N>(pedantic_)> const &, P const & p
              , T0 arg0, T1 arg1, Ts... args) noexcept
+  requires(std::floating_point<underlying_type_t<decltype(((pow_abs(arg0, p)+pow_abs(arg1, p)) + ... + pow_abs(args, p)))>>)
   {
     using r_t = decltype(((pow_abs(arg0, p)+pow_abs(arg1, p)) + ... + pow_abs(args, p)));
     if constexpr(N > sizeof...(Ts)+3)

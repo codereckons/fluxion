@@ -10,11 +10,12 @@
 namespace eve::detail
 {
 
-  template<floating_real_value T, auto N>
+  template<value T, auto N>
   EVE_FORCEINLINE constexpr T powm1_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<N> const &
                                     , T const &x
                                     , T const &y) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return flx::derivative_type<N>()(eve::pow)(x, y);
   }

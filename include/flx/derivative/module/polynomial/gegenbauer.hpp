@@ -11,15 +11,20 @@
 namespace eve::detail
 {
 
-  template<integral_value N, floating_real_value T, floating_real_value U>
+  template<auto I, integral_value N, value T, value U>
   EVE_FORCEINLINE constexpr auto gegenbauer_(EVE_SUPPORTS(cpu_)
-                                            , flx::derivative_type<1> const &
+                                            , flx::derivative_type<I> const &
                                             , N const &n
                                             , T const &l
                                             , U const &x) noexcept
-  requires index_compatible_values<N, T> && compatible_values<T, U>
   {
-    auto iseqzn = is_eqz(n);
-    return if_else(iseqzn, zero, 2*l*gegenbauer(dec[!iseqzn](n), inc(l), x));
+    using f_t = indexed_common_value_t<N, T, U>;
+    if constexpr(I == 3)
+    {
+      auto iseqzn = is_eqz(n);
+      return if_else(iseqzn, zero, 2*l*gegenbauer(dec[!iseqzn](n), inc(l), x));
+    }
+    else
+      return zero(as<f_t>());
   }
 }

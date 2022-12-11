@@ -10,10 +10,11 @@
 namespace eve::detail
 {
 
-  template<floating_real_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T cospi_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T const &x) noexcept
+   requires(std::floating_point<underlying_type_t<T>>)
   {
     return -pi(as(x))*sinpi(x);
   }

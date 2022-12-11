@@ -9,6 +9,7 @@
 #include <tts/tts.hpp>
 #include <random>
 #include "measures.hpp"
+#include "cmeasures.hpp"
 #include "generator.hpp"
 
 int main(int argc, char const **argv)

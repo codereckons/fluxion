@@ -9,15 +9,15 @@
 
 namespace eve::detail
 {
-  template<auto N, real_value T, real_value U>
+  template<auto N, value T, value U>
   EVE_FORCEINLINE auto
   mul_(EVE_SUPPORTS(cpu_), flx::derivative_type<N> const &, T const &a, U const &b) noexcept
-  requires compatible_values<T, U>
+  -> common_value_t<T, U>
   {
     return arithmetic_call(flx::derivative_nth<N>(mul), a, b);
   }
 
-  template<floating_real_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T mul_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<1> const &
                                   , T , T y ) noexcept
@@ -25,7 +25,7 @@ namespace eve::detail
     return y;
   }
 
-  template<floating_real_value T>
+  template<value T>
   EVE_FORCEINLINE constexpr T mul_(EVE_SUPPORTS(cpu_)
                                   , flx::derivative_type<2> const &
                                   , T x, T  ) noexcept
@@ -34,9 +34,10 @@ namespace eve::detail
     return x;
   }
 
-  template<auto N, typename T0, typename T1, typename... Ts>
+  template<auto N, value T0, value T1, value... Ts>
   auto mul_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
            , T0 arg0, T1 arg1, Ts... args) noexcept
+ -> common_value_t<T0, T1, Ts...>
   {
     auto mmul = []<std::size_t... I>(std::index_sequence<I...>, auto& that, auto... vs)
       {
@@ -47,7 +48,7 @@ namespace eve::detail
 
         ((that = iff(that,vs, std::integral_constant<std::size_t,I+3>{})),...);
       };
-    using r_t = common_compatible_t<T0,T1, Ts...>;
+    using r_t = common_value_t<T0,T1, Ts...>;
     if constexpr(N > sizeof...(Ts)+2)
     {
       return zero(as<r_t >());

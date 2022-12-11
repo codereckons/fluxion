@@ -15,7 +15,7 @@ namespace eve::detail
                                     , flx::derivative_type<1> const &
                                     , T , U  ) noexcept
   {
-    using r_t = common_compatible_t<T, U>;
+    using r_t = common_value_t<T, U>;
     return one(as<r_t>());
   }
 

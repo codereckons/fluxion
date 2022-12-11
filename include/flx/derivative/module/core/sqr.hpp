@@ -11,21 +11,11 @@
 
 namespace eve::detail
 {
-template<floating_real_value T, unsigned_value N>
-EVE_FORCEINLINE constexpr T
-sqr_(EVE_SUPPORTS(cpu_), flx::derivative_type<1> const&, T x, N n) noexcept
-{
-  if constexpr( has_native_abi_v<T> )
-  {
-    return if_else(
-        is_eqz(n), sqr(x), if_else(n == one(as(n)), x + x, if_else(n == N(2), T(2), zero)));
-  }
-  else return apply_over(flx::derivative_1st(sqr), x, n);
-}
 
-template<floating_real_value T>
+template<value T>
 EVE_FORCEINLINE constexpr T
 sqr_(EVE_SUPPORTS(cpu_), flx::derivative_type<1> const&, T x) noexcept
+requires(std::floating_point<underlying_type_t<T>>)
 {
   return x + x;
 }

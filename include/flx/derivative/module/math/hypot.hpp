@@ -9,11 +9,12 @@
 
 namespace eve::detail
 {
-  template<auto N, typename T0, typename T1, typename... Ts>
+  template<auto N, floating_ordered_value T0, floating_ordered_value T1, floating_ordered_value... Ts>
   auto hypot_(EVE_SUPPORTS(cpu_), flx::derivative_type<N>
              , T0 arg0, T1 arg1, Ts... args) noexcept
+   requires(std::floating_point<element_type_t<common_value_t<T0,T1, Ts...>>>)
   {
-    using r_t = common_compatible_t<T0,T1, Ts...>;
+    using r_t = common_value_t<T0,T1, Ts...>;
     if constexpr(N > sizeof...(Ts)+2)
     {
       return zero(as<r_t >());
@@ -41,11 +42,12 @@ namespace eve::detail
     }
   }
 
-  template<auto N, typename T0, typename T1, typename... Ts>
+  template<auto N, floating_ordered_value T0, floating_ordered_value T1, floating_ordered_value... Ts>
   auto hypot_(EVE_SUPPORTS(cpu_), decorated<flx::derivative_<N>(pedantic_)> const &
              , T0 arg0, T1 arg1, Ts... args) noexcept
+   requires(std::floating_point<element_type_t<common_value_t<T0,T1, Ts...>>>)
   {
-    using r_t = common_compatible_t<T0,T1, Ts...>;
+    using r_t = common_value_t<T0,T1, Ts...>;
     if constexpr(N > sizeof...(Ts)+2)
     {
       return zero(as<r_t >());
