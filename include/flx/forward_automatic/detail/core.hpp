@@ -317,6 +317,7 @@ template<> struct flx::is_derivable<eve::tag::gather_>                : std::fal
 template<> struct flx::is_derivable<eve::tag::hi_>                    : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_denormal_>           : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_equal_>              : std::false_type {};
+template<> struct flx::is_derivable<eve::tag::is_imag_>               : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_not_equal_>          : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_less_>               : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_less_equal_>         : std::false_type {};
@@ -354,6 +355,7 @@ template<> struct flx::is_derivable<eve::tag::is_not_nan_>            : std::fal
 template<> struct flx::is_derivable<eve::tag::is_odd_>                : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_positive_>           : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_pow2_>               : std::false_type {};
+template<> struct flx::is_derivable<eve::tag::is_real_>               : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::lo_>                    : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::lohi_>                  : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::lookup_>                : std::false_type {};

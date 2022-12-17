@@ -24,9 +24,10 @@ TTS_CASE_TPL("Check return types of eve::acos", flx::test::simd::ieee_reals)
 TTS_CASE_WITH("Check behavior of eve::acos(eve::wide)",
               flx::test::simd::ieee_reals,
               tts::generate(tts::randoms(eve::mone, eve::one)
+                           , tts::randoms(eve::mone, eve::one)
                            )
               )
-<typename T>(T const& a0)
+<typename T>(T const& a0, T const& a1)
 {
   using eve::acos;
   using eve::detail::map;
@@ -36,4 +37,7 @@ TTS_CASE_WITH("Check behavior of eve::acos(eve::wide)",
   auto eps = eve::eps(eve::as<e_t>());
   auto dacos = [&](auto e) { return eve::imag(acos(c_t(e,eps)))/eps; };
   TTS_ULP_EQUAL(flx::derivative_1st(eve::acos)(a0), map(dacos, a0), 2.0);
+
+  eve::as_complex_t<T> z(a0, a1);
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::acos)(z), -eve::rec(eve::sqrt(eve::oneminus(eve::sqr(z)))), 2.0);
 };

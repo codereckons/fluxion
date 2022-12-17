@@ -51,17 +51,17 @@ namespace flx
 //!
 //! @tparam Type  Underlying floating point type
 //================================================================================================
-  template<eve::floating_scalar_value Type>
+  template<eve::scalar_value Type>
   struct valder : eve::struct_support<valder<Type>, Type, Type>
   {
     using parent = eve::struct_support<valder<Type>, Type, Type>;
 
-    /// Underlying type
-    using value_type = Type;
+    /// Base value type
+    using underlying_type = eve::underlying_type_t<Type>;
 
     /// Default constructors
     EVE_FORCEINLINE valder() {}
-    EVE_FORCEINLINE valder(Type val) noexcept : parent {val, 0} {}
+    EVE_FORCEINLINE valder(Type val) noexcept : parent {val, Type(0)} {}
     EVE_FORCEINLINE valder(Type val, Type der) noexcept : parent {val, der} {}
 
     /// Stream insertion operator
@@ -174,21 +174,28 @@ namespace flx
       return self;
     }
 
-    template<typename Z>
-    EVE_FORCEINLINE friend auto& operator+=(eve::like<valder> auto& self, Z const& o) noexcept
-    requires(eve::like<Z, Type> || std::convertible_to<Z, Type>)
-    {
-      val(self) += val(o);
-      return self;
-    }
+template<typename Z>
+EVE_FORCEINLINE friend auto& operator+=(eve::like<valder> auto& self, Z const& o) noexcept
+requires( requires{val(self) += val(o); } &&  !is_valder_v<Z>)
+{
+  val(self) += val(o);
+  return self;
+}
 
-    template<typename Z1, typename Z2>
-    EVE_FORCEINLINE friend auto operator+(Z1 const& x, Z2 const& y) noexcept
-    requires(eve::like<Z1,valder> || eve::like<Z2,valder>)
-    {
-      return eve::add(x, y);
-    }
+template<eve::like<valder> Z, typename R>
+EVE_FORCEINLINE friend auto operator+(Z const& x, R const& y) noexcept
+requires(requires(eve::as_wide_as_t<Z,R> t) { t += y; }&& !is_valder_v<R>)
+{
+  eve::as_wide_as_t<Z,R> that{x};
+  return that += y;
+}
 
+template<typename R, eve::like<valder> Z>
+EVE_FORCEINLINE friend auto operator+(R const& x, Z const& y) noexcept
+requires(requires(eve::as_wide_as_t<Z,R> t) { t += x; }&& !is_valder_v<R>)
+{
+  return y + x;
+}
     //==============================================================================================
     // -
     //==============================================================================================
@@ -225,7 +232,7 @@ namespace flx
     {
       auto [a, b] = self;
       auto [c, d] = o;
-      der(self) = eve::sum_of_prod(a, d, b, c);
+      der(self) = a*d+b*c; //TODO eve::sum_of_prod(a, d, b, c);
       val(self) *= c;
       return self;
     }
