@@ -35,7 +35,7 @@ namespace flx
   //!
   //! **Parameters**
   //!
-  //!`x`:   [floating_value](@ref eve::floating_value).
+  //!`x`:   [floating_value](@ref eve::value).
   //!
   //! **Return value**
   //! `as_valder<decltype(x)> :the variable is x so its derivative is 1.
@@ -50,6 +50,13 @@ namespace flx
 
   struct var_
   {
+    template<eve::value T >
+    constexpr auto operator()(T x) const noexcept
+    requires(flx::is_valder_v<T>)
+    {
+      return x;
+    }
+
     template<eve::value T >
     constexpr auto operator()(T x) const noexcept
     requires(!flx::is_valder_v<T>)

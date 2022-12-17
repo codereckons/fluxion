@@ -32,5 +32,6 @@ TTS_CASE_WITH( "Check behavior of flx::rem(eve::wide)"
   TTS_EQUAL(der(eve::rem(vda0, a1))      , derivative_1st(eve::rem)(a0, a1));
   TTS_EQUAL(val(eve::rem(a0, vda1))      , eve::rem(a0, a1));
   TTS_EQUAL(der(eve::rem(a0, vda1))      , derivative_2nd(eve::rem)(a0, a1));
-
+  TTS_EQUAL(val(eve::rem(vda0, vda1))    , eve::rem(a0, a1));
+  TTS_EQUAL(der(eve::rem(vda0, vda1))    , derivative_2nd(eve::rem)(a0, a1) +derivative_1st(eve::rem)(a0, a1));
 };

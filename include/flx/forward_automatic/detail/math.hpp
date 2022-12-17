@@ -103,21 +103,8 @@ namespace flx::detail
                                               , Z2 const & z2
                                               ) noexcept
   {
-    using v_t = decltype(eve::atan2pi(val(z1), val(z2)));
-    using r_t = flx::as_valder_t<v_t>;
-    using elt_t = eve::element_type_t<v_t>;
-    auto v1 = v_t(val(z1)); auto d1 = v_t(der(z1));
-    auto v2 = v_t(val(z2)); auto d2 = v_t(der(z2));
-    auto  invden = eve::radinpi(eve::rec(eve::sum_of_prod(v1, v1, v2, v2)));
-    auto  at2 = eve::atan2pi(v1, v2);
-    if constexpr(! eve::like<Z1, valder<elt_t>>)
-      return r_t(at2, invden*v1*d2);
-    else if constexpr(! eve::like<Z2, valder<elt_t>>)
-      return r_t(at2, invden*v2*d1);
-    else
-      return r_t{eve::atan2pi(v1, v2), invden*eve::sum_of_prod(v1, d2, v2, d1)};
+    return eve::radinpi(eve::atan2(z1, z2));
   }
-
 
   //// cbrt
   template<typename Z>

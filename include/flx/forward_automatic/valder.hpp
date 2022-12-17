@@ -7,22 +7,20 @@
 //==================================================================================================
 #pragma once
 
+#include <eve/concept/generator.hpp>
 #include <eve/concept/vectorizable.hpp>
 #include <eve/detail/abi.hpp>
-#include <eve/traits/product_type.hpp>
-#include <flx/forward_automatic/traits.hpp>
-#include <flx/forward_automatic/is_derivable.hpp>
+#include <eve/traits/underlying_type.hpp>
+
 #include <flx/forward_automatic/detail/core.hpp>
 #include <flx/forward_automatic/detail/math.hpp>
 #include <flx/forward_automatic/detail/polynomial.hpp>
 #include <flx/forward_automatic/detail/special.hpp>
+#include <flx/forward_automatic/is_derivable.hpp>
+#include <flx/forward_automatic/traits.hpp>
 #include <flx/forward_automatic/var.hpp>
 
 #include <ostream>
-
-#include <eve/concept/generator.hpp>
-#include <eve/detail/abi.hpp>
-#include <eve/traits/product_type.hpp>
 
 namespace flx
 {
@@ -51,23 +49,44 @@ namespace flx
 //!
 //! @tparam Type  Underlying floating point type
 //================================================================================================
-  template<eve::floating_scalar_value Type>
-  struct valder : eve::struct_support<valder<Type>, Type, Type>
+  template<eve::scalar_value Type>
+  struct valder
   {
-    using parent = eve::struct_support<valder<Type>, Type, Type>;
+    // Tuple interface
+    using tuple_type      = kumi::tuple<Type, Type>;
+    using is_product_type = void;
+    tuple_type storage;
 
-    /// Underlying type
-    using value_type = Type;
+    template<std::size_t I>
+    friend decltype(auto) get(valder& s) noexcept { return get<I>(s.storage); }
+
+    template<std::size_t I>
+    friend decltype(auto) get(valder const& s) noexcept { return get<I>(s.storage); }
+
+    /// Base value type
+    using underlying_type = eve::underlying_type_t<Type>;
 
     /// Default constructors
     EVE_FORCEINLINE valder() {}
-    EVE_FORCEINLINE valder(Type val) noexcept : parent {val, 0} {}
-    EVE_FORCEINLINE valder(Type val, Type der) noexcept : parent {val, der} {}
+    EVE_FORCEINLINE valder(Type val) noexcept : storage {val, Type(0)} {}
+    EVE_FORCEINLINE valder(Type val, Type der) noexcept : storage {val, der} {}
 
     /// Stream insertion operator
     friend std::ostream& operator<<(std::ostream& os, eve::like<valder> auto const& z)
     {
-      return os << "(" << get<0>(z) << ", " << get<1>(z) << ")";
+      return os << "(" << get<0>(z) << " @" << get<1>(z) << ")";
+    }
+
+    //==============================================================================================
+    // Constants support
+    //==============================================================================================
+    template<typename Tag, eve::like<valder> VD>
+    EVE_FORCEINLINE friend auto tagged_dispatch(Tag, eve::as<VD> const&) noexcept
+    {
+      eve::detail::callable_object<Tag> cst;
+      if constexpr( std::same_as<Tag, eve::tag::true__> || std::same_as<Tag, eve::tag::false__> )
+        return cst(as(real(VD {})));
+      else return VD {cst(eve::as<Type> {}), Type {0}};
     }
 
     //==============================================================================================
@@ -75,42 +94,11 @@ namespace flx
     //==============================================================================================
     template<typename Tag, typename Z1>
     requires(eve::like<Z1, valder>)
-      EVE_FORCEINLINE friend auto tagged_dispatch(Tag const& tag, Z1 const& z1) noexcept
-    -> decltype(detail::valder_unary_dispatch(tag, z1))
+    EVE_FORCEINLINE friend auto tagged_dispatch(Tag const& tag, Z1 const& z1) noexcept
+                        -> decltype(detail::valder_unary_dispatch(tag, z1))
     {
       return detail::valder_unary_dispatch(tag, z1);
     }
-
-    template<typename Tag, typename Z1, typename Z2>
-    requires(eve::like<Z1, valder> || eve::like<Z2, valder>)
-      EVE_FORCEINLINE friend auto tagged_dispatch(Tag const& tag
-                                                 , Z1 const& z1
-                                                 , Z2 const& z2) noexcept
-    -> decltype(detail::valder_binary_dispatch(tag, z1, z2))
-    {
-      return detail::valder_binary_dispatch(tag, z1, z2);
-    }
-
-    template<typename Tag, typename Z1, typename Z2, typename Z3>
-    requires(eve::like<Z1, valder> || eve::like<Z2, valder> || eve::like<Z3, valder>)
-      EVE_FORCEINLINE friend auto tagged_dispatch(Tag const& tag
-                                                 , Z1 const& z1
-                                                 , Z2 const& z2
-                                                 , Z3 const& z3) noexcept
-    -> decltype(detail::valder_ternary_dispatch(tag, z1, z2, z3))
-    {
-      return detail::valder_ternary_dispatch(tag, z1, z2, z3);
-    }
-
-    //     template<typename Tag, typename Z1,  typename ...Zs>
-    //     requires(like<Z1,valder> || (... || like<Zs,valder>))
-    //       EVE_FORCEINLINE friend  auto  tagged_dispatch ( Tag const& tag
-    //                                                     , Z1 const& z1, Zs const&... zs
-    //                                                     ) noexcept
-    //     ->    decltype(detail::valder_nary_dispatch(tag, z1, zs...))
-    //     {
-    //       return detail::valder_nary_dispatch(tag, z1, zs...);
-    //     }
 
     //==============================================================================================
     // helpers
@@ -143,19 +131,6 @@ namespace flx
         return compute(f[z1], val(zs)...);
       else
         return f(val(z1), val(zs)...);
-    }
-
-
-    //==============================================================================================
-    // Constants support
-    //==============================================================================================
-    template<typename Tag, eve::like<valder> VD>
-    EVE_FORCEINLINE friend auto tagged_dispatch(Tag, eve::as<VD> const&) noexcept
-    {
-      eve::detail::callable_object<Tag> cst;
-      if constexpr( std::same_as<Tag, eve::tag::true__> || std::same_as<Tag, eve::tag::false__> )
-        return cst(as(real(VD {})));
-      else return VD {cst(eve::as<Type> {}), Type {0}};
     }
 
     //==============================================================================================
@@ -391,7 +366,49 @@ namespace flx
         return eve::detail::mask_op(c, compu, v0, vs ...);
       }
     }
-
-
   };
+
+  //===== Binary dispatch
+  template<typename Tag, typename Z1, typename Z2>
+  requires( derivate<Z1> || derivate<Z2> )
+  EVE_FORCEINLINE  auto tagged_dispatch(Tag const& tag, Z1 const& z1, Z2 const& z2) noexcept
+                -> decltype(detail::valder_binary_dispatch(tag, z1, z2))
+  {
+    return detail::valder_binary_dispatch(tag, z1, z2);
+  }
+
+  //===== Comparisons
+  template<typename T1, typename T2>
+  EVE_FORCEINLINE auto operator==(T1 const& a, T2 const& b) noexcept -> decltype(val(a) == val(b))
+  requires( derivate<T1> || derivate<T2> )
+  {
+    return val(a) == val(b);
+  }
+
+  template<typename T1, typename T2>
+  EVE_FORCEINLINE auto operator!=(T1 const& a, T2 const& b) noexcept -> decltype(!(a==b))
+  requires( derivate<T1> || derivate<T2> )
+  {
+    return !(a == b);
+  }
+
+  //===== Ternary dispatch
+  template<typename Tag, typename T1, typename T2, typename T3>
+  requires(derivate<T1> || derivate<T2> || derivate<T3> )
+  EVE_FORCEINLINE   auto tagged_dispatch ( Tag const& tag
+                                         , T1 const& z1, T2 const& z2, T3 const& z3
+                                         ) noexcept
+                ->  decltype(detail::valder_ternary_dispatch(tag, z1, z2, z3))
+  {
+    return detail::valder_ternary_dispatch(tag, z1, z2, z3);
+  }
 }
+
+//==================================================================================================
+// Tuple interface
+//==================================================================================================
+template<typename T>
+struct std::tuple_size<flx::valder<T>> : std::integral_constant<std::size_t,2> {};
+
+template <std::size_t I, typename T>
+struct std::tuple_element<I, flx::valder<T>> { using type = T; };

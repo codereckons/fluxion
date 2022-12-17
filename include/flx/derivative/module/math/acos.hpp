@@ -16,6 +16,6 @@ namespace eve::detail
                                   , T const &x) noexcept
    requires(std::floating_point<underlying_type_t<T>>)
   {
-    return -rsqrt(oneminus(sqr(x)));
+    return -eve::rec(eve::sqrt(oneminus(sqr(x))));
   }
 }
