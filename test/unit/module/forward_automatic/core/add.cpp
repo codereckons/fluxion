@@ -14,109 +14,283 @@
 TTS_CASE_WITH("Check behavior of flx::add(eve::wide) for real values",
               flx::test::simd::ieee_reals,
               tts::generate(tts::randoms(-10, +10),
-                            tts::randoms(-10, +10),
-                            tts::randoms(-10, +10),
-                            tts::logicals(0, 3)))
-<typename T, typename M>(T const& a0, T const& a1, T const& a2, M const& )
+                            tts::randoms(-10, +10)
+                           ))
+<typename T>(T const& w0, T const& w1)
 {
-  std::cout << a0 << std::endl;
-  std::cout << a1 << std::endl;
-  std::cout << a2 << std::endl;
-
-  using eve::detail::map;
   using flx::der;
   using flx::val;
   using flx::var;
 
-  auto vda0 = var(a0);
-  auto vda1 = var(a1);
+  auto wv0 = var(w0);
+  auto wv1 = var(w1);
 
-  TTS_EQUAL(val(eve::add(vda0, a1))   , eve::add(a0, a1));
-  TTS_EQUAL(der(eve::add(vda0, a1))   , eve::one(eve::as(a0)));
-  TTS_EQUAL(val(eve::add(a0, vda1))   , eve::add(a0, a1));
-  TTS_EQUAL(der(eve::add(a0, vda1))   , eve::one(eve::as(a1)));
-  TTS_EQUAL(val(eve::add(vda0, vda1)) , eve::add(a0, a1));
-  TTS_EQUAL(der(eve::add(vda0, vda1)) , T(2));
-
-  //  mix with  scalars
   using e_t = eve::element_type_t<T>;
-  e_t b0(1);
-  e_t b1(3);
-  auto vdb0 = var(b0);
-  TTS_EQUAL(val(eve::add(vdb0, a1))   , eve::add(b0, a1));
-  TTS_EQUAL(der(eve::add(vdb0, a1))   , eve::one(eve::as(a1)));
-  TTS_EQUAL(val(eve::add(vdb0, b1))   , eve::add(b0, b1));
-  TTS_EQUAL(der(eve::add(vdb0, b1))   , eve::one(eve::as(b1)));
+  e_t s(7);
+  auto sv = var(s);
 
-  TTS_EQUAL(val(eve::add(b0, vda1))   , eve::add(b0, a1));
-  TTS_EQUAL(val(eve::add(b0, vda1))   , eve::add(b0, a1));
-  TTS_EQUAL(der(eve::add(vdb0, vda1))   , T(2));
-  TTS_EQUAL(der(eve::add(vdb0, vda1))   , T(2));
+  //  valder + valder
+  TTS_EQUAL(val(eve::add(wv0,wv1)), eve::add(w0,w1));
+  TTS_EQUAL(der(eve::add(wv0,wv1)), T(2));
+  TTS_EQUAL(val(eve::add(wv0, sv)), eve::add(w0, s));
+  TTS_EQUAL(der(eve::add(wv0, sv)), T(2));
+  TTS_EQUAL(val(eve::add(sv ,wv1)), eve::add( s,w1));
+  TTS_EQUAL(der(eve::add(sv ,wv1)), T(2));
+  TTS_EQUAL(val(eve::add(sv , sv)), eve::add( s, s));
+  TTS_EQUAL(der(eve::add(sv , sv)), 2);
 
-  //  mix with  complex
+  //  valder + type
+  TTS_EQUAL(eve::add(wv0,w1), var(eve::add(w0,w1),1));
+  TTS_EQUAL(eve::add(wv0, s), var(eve::add(w0,s ),1));
+  TTS_EQUAL(eve::add(sv ,w1), var(eve::add( s,w1),1));
+  TTS_EQUAL(eve::add(sv , s), var(eve::add( s,s ),1));
+
+  //  type + valder
+  TTS_EQUAL(eve::add(w1,wv0), var(eve::add(w1,w0),1));
+  TTS_EQUAL(eve::add( s,wv0), var(eve::add(s ,w0),1));
+  TTS_EQUAL(eve::add(w1,sv ), var(eve::add(w1, s),1));
+  TTS_EQUAL(eve::add( s,sv ), var(eve::add(s , s),1));
+};
+
+TTS_CASE_WITH("Check behavior of flx::add(eve::wide) for complex values",
+              flx::test::simd::ieee_reals,
+              tts::generate(tts::randoms(-10, +10),
+                            tts::randoms(-10, +10),
+                            tts::randoms(-10, +10)
+                           ))
+<typename T>(T const& wr0, T const& wr1, T const& wr2)
+{
+  using flx::der;
+  using flx::val;
+  using flx::var;
+
   using z_t = eve::as_complex_t<T>;
-  z_t za(a0, a1);
-  z_t zb(a1, a2);
-  auto vdza = var(za);
-  auto vdzb = var(zb);
-  std::cout << vdza << std::endl;
-  std::cout << vdzb << std::endl;
-  TTS_EQUAL(val(eve::add(vdza, vdzb)) , eve::add(za, zb));
-  TTS_EQUAL(der(eve::add(vdza, vdzb)) , z_t(2));
+  using u_t = eve::element_type_t<z_t>;
+  using e_t = eve::element_type_t<T>;
 
-  auto vda2 = var(a2);
-   TTS_EQUAL(val(eve::add(vdza, vda2)) , eve::add(za, a2));
-   TTS_EQUAL(der(eve::add(vdza, vda2)) , z_t(2));
-    TTS_EQUAL(val(eve::add(vdza, zb)) , eve::add(za, zb));
-    TTS_EQUAL(der(eve::add(vdza, zb)) , z_t(1));
-   TTS_EQUAL(val(eve::add(vdza, a2)) , eve::add(za, a2));
-   TTS_EQUAL(der(eve::add(vdza, a2)) , z_t(1));
+  u_t sc(-3,+2);
+  e_t sr(9);
 
-  //  mix with "scalar"  complex
-  using sz_t = eve::as_complex_t<eve::element_type_t<T>>;
-  sz_t sza(1, 2);
-  sz_t szb(3, 4);
-  auto vdsza = var(sza);
-  auto vdszb = var(szb);
-  TTS_EQUAL(val(eve::add(vdsza, vdszb)) , eve::add(sza, szb));
-  TTS_EQUAL(der(eve::add(vdsza, vdszb)) , sz_t(2));
-//      TTS_EQUAL(val(eve::add(vdsza, vda2)) , eve::add(sza, a2));
-//      TTS_EQUAL(der(eve::add(vdsza, vda2)) , z_t(2));
-//      TTS_EQUAL(val(eve::add(vdsza, a2)) , eve::add(sza, a2));
-//      TTS_EQUAL(der(eve::add(vdsza, a2)) , z_t(1));
+  z_t wc0(wr0, wr1);
+  z_t wc1(wr1, wr2);
+  auto vwc0 = var(wc0);
+  auto vwc1 = var(wc1);
+  auto vsc  = var(sc);
+  auto vw   = var(wr0);
+  auto vs   = var(sr);
 
-  // operator +
-  TTS_EQUAL(val(vda0+a1)              , eve::add(a0, a1));
-  TTS_EQUAL(der(vda0+a1)              , eve::one(eve::as(a0)));
-  TTS_EQUAL(val(a0+vda1)              , eve::add(a0, a1));
-  TTS_EQUAL(der(a0+vda1)              , eve::one(eve::as(a1)));
-    std::cout << "vda0            " << vda0 << std::endl;
-    std::cout << "vda1            " << vda1 << std::endl;
-    std::cout << "add(vda0, vda1) "<< eve::add(vda0, vda1) << std::endl;
-    std::cout << "vda0+vda1       " << vda0+vda1 << std::endl;
-    TTS_EQUAL(val(vda0+vda1)            , eve::add(a0, a1));
-    TTS_EQUAL(der(vda0+vda1)            , T(2));
-
-  vda0 += vda1;
-  std::cout << "vda0 += vda1    " << vda0 << std::endl;
-  TTS_EQUAL(val(vda0), a0 + a1);
-  TTS_EQUAL(der(vda0), T(2));
-  std::cout << "avant vda1 " << vda1 << std::endl;
-  vda1 += a0;
-  std::cout << "apres vda1 " << vda1 << std::endl;
-  std::cout << "vda1 += a0    " << vda1 << std::endl;
-  TTS_EQUAL(val(vda1), a1 + a0);
-  TTS_EQUAL(der(vda1), T(1));
-
+  // valder wide * (+) valder * *
   {
-    auto vda0 = var(a0);
-    auto vda1 = var(a1);
-    auto vda2 = var(a2);
-    TTS_EQUAL(val(eve::add(vda0, a1, a2))      , eve::add(a0, a1, a2));
-    TTS_EQUAL(der(eve::add(vda0, a1, a2))      , flx::derivative_1st(eve::add)(a0, a1, a2));
-    TTS_EQUAL(val(eve::add(a0, vda1, a2))      , eve::add(a0, a1, a2));
-    TTS_EQUAL(der(eve::add(a0, vda1, a2))      , flx::derivative_2nd(eve::add)(a0, a1, a2));
-    TTS_EQUAL(val(eve::add(a0, a1, vda2))      , eve::add(a0, a1, a2));
-    TTS_EQUAL(der(eve::add(a0, a1, vda2))      , flx::derivative_3rd(eve::add)(a0, a1, a2));
+    // w<v<c>> + w<v<c>>
+    TTS_EQUAL(val(eve::add(vwc0,vwc1)), eve::add(wc0,wc1) );
+    TTS_EQUAL(der(eve::add(vwc0,vwc1)), z_t(2) );
+
+    // w<v<c>> + w<v<r>>
+    TTS_EQUAL(val(eve::add(vwc0,vw  )), eve::add(wc0,wr0) );
+    TTS_EQUAL(der(eve::add(vwc0,vw  )), z_t(2) );
+
+    // w<v<c>> + v<c>
+    TTS_EQUAL(val(eve::add(vwc0,vsc )), eve::add(wc0,sc ) );
+    TTS_EQUAL(der(eve::add(vwc0,vsc )), z_t(2) );
+
+    // w<v<c>> + v<r>
+    TTS_EQUAL(val(eve::add(vwc0,vs  )), eve::add(wc0,sr ) );
+    TTS_EQUAL(der(eve::add(vwc0,vs  )), z_t(2) );
+
+    // w<v<r>> + w<v<c>>
+    TTS_EQUAL(val(eve::add(vw,vwc1)), eve::add(wr0,wc1) );
+    TTS_EQUAL(der(eve::add(vw,vwc1)), z_t(2) );
+
+    // w<v<r>> + w<v<r>>
+    TTS_EQUAL(val(eve::add(vw,vw  )), eve::add(wr0,wr0) );
+    TTS_EQUAL(der(eve::add(vw,vw  )), T(2) );
+
+    // w<v<r>> + v<c>
+    TTS_EQUAL(val(eve::add(vw,vsc )), eve::add(wr0,sc ) );
+    TTS_EQUAL(der(eve::add(vw,vsc )), z_t(2) );
+
+    // w<v<r>> + v<r>
+    TTS_EQUAL(val(eve::add(vw,vs  )), eve::add(wr0,sr ) );
+    TTS_EQUAL(der(eve::add(vw,vs  )), T(2) );
   }
- };
+
+  // valder wide * (+) * *
+  {
+    // w<v<c>> + w<c>
+    TTS_EQUAL(val(eve::add(vwc0,wc1)), eve::add(wc0,wc1) );
+    TTS_EQUAL(der(eve::add(vwc0,wc1)), z_t(1) );
+
+    // w<v<c>> + w<r>
+    TTS_EQUAL(val(eve::add(vwc0,wr0)), eve::add(wc0,wr0) );
+    TTS_EQUAL(der(eve::add(vwc0,wr0)), z_t(1) );
+
+    // w<v<c>> + c
+    TTS_EQUAL(val(eve::add(vwc0,sc )), eve::add(wc0,sc ) );
+    TTS_EQUAL(der(eve::add(vwc0,sc )), z_t(1) );
+
+    // w<v<c>> + r
+    TTS_EQUAL(val(eve::add(vwc0,sr  )), eve::add(wc0,sr ) );
+    TTS_EQUAL(der(eve::add(vwc0,sr )), z_t(1) );
+
+    // w<v<r>> + w<c>
+    TTS_EQUAL(val(eve::add(vw,wc1)), eve::add(wr0,wc1) );
+    TTS_EQUAL(der(eve::add(vw,wc1)), z_t(1) );
+
+    // w<v<r>> + w<r>
+    TTS_EQUAL(val(eve::add(vw,wr0 )), eve::add(wr0,wr0) );
+    TTS_EQUAL(der(eve::add(vw,wr0 )), T(1) );
+
+    // w<v<r>> + c
+    TTS_EQUAL(val(eve::add(vw,sc )), eve::add(wr0,sc ) );
+    TTS_EQUAL(der(eve::add(vw,sc )), z_t(1) );
+
+    // w<v<r>> + r
+    TTS_EQUAL(val(eve::add(vw,sr  )), eve::add(wr0,sr ) );
+    TTS_EQUAL(der(eve::add(vw,sr  )), T(1) );
+  }
+
+  // * * (+) valder wide *
+  {
+    // w<c> + w<v<c>>
+    TTS_EQUAL(val(eve::add(wc1,vwc0)), eve::add(wc0,wc1) );
+    TTS_EQUAL(der(eve::add(wc1,vwc0)), z_t(1) );
+
+    // w<r> + w<v<c>>
+    TTS_EQUAL(val(eve::add(wr0,vwc0)), eve::add(wc0,wr0) );
+    TTS_EQUAL(der(eve::add(wr0,vwc0)), z_t(1) );
+
+    // c + w<v<c>>
+    TTS_EQUAL(val(eve::add(sc ,vwc0)), eve::add(wc0,sc ) );
+    TTS_EQUAL(der(eve::add(sc ,vwc0)), z_t(1) );
+
+    // r + w<v<c>>
+    TTS_EQUAL(val(eve::add(sr ,vwc0)), eve::add(wc0,sr ) );
+    TTS_EQUAL(der(eve::add(sr ,vwc0)), z_t(1) );
+
+    // w<c> + w<v<r>>
+    TTS_EQUAL(val(eve::add(wc1,vw)), eve::add(wr0,wc1) );
+    TTS_EQUAL(der(eve::add(wc1,vw)), z_t(1) );
+
+    // w<r> + w<v<r>>
+    TTS_EQUAL(val(eve::add(wr0,vw )), eve::add(wr0,wr0) );
+    TTS_EQUAL(der(eve::add(wr0,vw )), T(1) );
+
+    // c + w<v<r>>
+    TTS_EQUAL(val(eve::add(sc,vw)), eve::add(wr0,sc ) );
+    TTS_EQUAL(der(eve::add(sc,vw)), z_t(1) );
+
+    // r + w<v<r>>
+    TTS_EQUAL(val(eve::add(sr,vw)), eve::add(wr0,sr ) );
+    TTS_EQUAL(der(eve::add(sr,vw)), T(1) );
+  }
+
+  // valder scalar * (+) valder * *
+  {
+    // v<c> + w<v<c>>
+    TTS_EQUAL(val(eve::add(vsc,vwc1)), eve::add(sc,wc1) );
+    TTS_EQUAL(der(eve::add(vsc,vwc1)), z_t(2) );
+
+    // v<c> + w<v<r>>
+    TTS_EQUAL(val(eve::add(vsc,vw  )), eve::add(sc,wr0) );
+    TTS_EQUAL(der(eve::add(vsc,vw  )), z_t(2) );
+
+    // v<c> + v<c>
+    TTS_EQUAL(val(eve::add(vsc,vsc )), eve::add(sc,sc ) );
+    TTS_EQUAL(der(eve::add(vsc,vsc )), u_t(2) );
+
+    // v<c> + v<r>
+    TTS_EQUAL(val(eve::add(vsc,vs  )), eve::add(sc,sr ) );
+    TTS_EQUAL(der(eve::add(vsc,vs  )), u_t(2) );
+
+    // v<r> + w<v<c>>
+    TTS_EQUAL(val(eve::add(vs,vsc)), eve::add(sr,sc) );
+    TTS_EQUAL(der(eve::add(vs,vsc)), u_t(2) );
+
+    //  v<r> + w<v<r>>
+    TTS_EQUAL(val(eve::add(vs,vw  )), eve::add(sr,wr0) );
+    TTS_EQUAL(der(eve::add(vs,vw  )), T(2) );
+
+    //  v<r> + v<c>
+    TTS_EQUAL(val(eve::add(vs,vsc )), eve::add(sr,sc ) );
+    TTS_EQUAL(der(eve::add(vs,vsc )), u_t(2) );
+
+    //  v<r> + v<r>
+    TTS_EQUAL(val(eve::add(vs,vs  )), eve::add(sr,sr ) );
+    TTS_EQUAL(der(eve::add(vs,vs  )), 2 );
+  }
+
+  // valder scalar * (+) * *
+  {
+    // v<c> + w<c>
+    TTS_EQUAL(val(eve::add(vsc,wc1)), eve::add(sc,wc1) );
+    TTS_EQUAL(der(eve::add(vsc,wc1)), z_t(1) );
+
+    // v<c> + w<r>
+    TTS_EQUAL(val(eve::add(vsc,wr0)), eve::add(sc,wr0) );
+    TTS_EQUAL(der(eve::add(vsc,wr0)), z_t(1) );
+
+    // v<c> + c
+    // REQUIRE EVE FIX ON COMPLEX
+    // TTS_EQUAL(val(eve::add(vsc,sc )), eve::add(sc,sc ) );
+    // TTS_EQUAL(der(eve::add(vsc,sc )), u_t(1) );
+
+    // v<c> + r
+    TTS_EQUAL(val(eve::add(vsc,sr )), eve::add(sc,sr ) );
+    TTS_EQUAL(der(eve::add(vsc,sr )), u_t(1) );
+
+    // v<r> + w<c>
+    TTS_EQUAL(val(eve::add(vs,wc1)), eve::add(sr,wc1) );
+    TTS_EQUAL(der(eve::add(vs,wc1)), z_t(1) );
+
+    // v<r> + w<r>
+    TTS_EQUAL(val(eve::add(vs,wr0 )), eve::add(sr,wr0) );
+    TTS_EQUAL(der(eve::add(vs,wr0 )), T(1) );
+
+    // v<r> + c
+    // REQUIRE EVE FIX ON COMPLEX
+    // TTS_EQUAL(val(eve::add(vs,sc )), eve::add(sr,sc ) );
+    // TTS_EQUAL(der(eve::add(vs,sc )), u_t(1) );
+
+    // v<r> + r
+    TTS_EQUAL(val(eve::add(vs,sr  )), eve::add(sr,sr ) );
+    TTS_EQUAL(der(eve::add(vs,sr  )), 1 );
+  }
+
+
+  // * * (+) valder scalar *
+  {
+    // v<c> + w<c>
+    TTS_EQUAL(val(eve::add(wc1,vsc)), eve::add(wc1,sc) );
+    TTS_EQUAL(der(eve::add(wc1,vsc)), z_t(1) );
+
+    // v<c> + w<r>
+    TTS_EQUAL(val(eve::add(wr0,vsc)), eve::add(wr0,sc) );
+    TTS_EQUAL(der(eve::add(wr0,vsc)), z_t(1) );
+
+    // v<c> + c
+    // REQUIRE EVE FIX ON COMPLEX
+    // TTS_EQUAL(val(eve::add(sc ,vsc)), eve::add(sc,sc));
+    // TTS_EQUAL(der(eve::add(sc ,vsc)), u_t(1) );
+
+    // v<c> + r
+    TTS_EQUAL(val(eve::add(sr ,vsc)), eve::add(sr,sc) );
+    TTS_EQUAL(der(eve::add(sr ,vsc)), u_t(1) );
+
+    // v<r> + w<c>
+    TTS_EQUAL(val(eve::add(wc1,vs)), eve::add(wc1,sr) );
+    TTS_EQUAL(der(eve::add(wc1,vs)), z_t(1) );
+
+    // v<r> + w<r>
+    TTS_EQUAL(val(eve::add(wr0,vs)), eve::add(wr0,sr) );
+    TTS_EQUAL(der(eve::add(wr0,vs)), T(1) );
+
+    // v<r> + c
+    // REQUIRE EVE FIX ON COMPLEX
+    // TTS_EQUAL(val(eve::add(sc,vs)), eve::add(sc,sr) );
+    // TTS_EQUAL(der(eve::add(sc,vs)), u_t(1) );
+
+    // v<r> + r
+    TTS_EQUAL(val(eve::add(sr,vs)), eve::add(sr,sr) );
+    TTS_EQUAL(der(eve::add(sr,vs)), 1 );
+  }
+};
