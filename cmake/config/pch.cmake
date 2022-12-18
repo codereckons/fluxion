@@ -22,3 +22,4 @@ set_target_properties ( test_pch PROPERTIES
                       )
 
 target_precompile_headers(test_pch PRIVATE "${PROJECT_SOURCE_DIR}/test/test.hpp")
+target_precompile_headers(test_pch PRIVATE "${PROJECT_SOURCE_DIR}/include/flx/flx.hpp")
