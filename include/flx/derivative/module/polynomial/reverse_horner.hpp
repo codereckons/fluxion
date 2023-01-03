@@ -6,7 +6,7 @@
 #pragma once
 #include <flx/derivative/decorator.hpp>
 #include <eve/module/math.hpp>
-#include <eve/algo.hpp>
+#include <eve/module/core.hpp>
 
 namespace eve::detail
 {
@@ -46,7 +46,8 @@ namespace eve::detail
     using r_t = common_value_t<T0, Ts...>;
     auto x = r_t(xx);
     auto n = 0;
-    std::array<r_t, sizeof...(cs)> c {(r_t(cs)*++n)...};
+    using t_t = kumi::result::generate_t<sizeof...(cs), r_t>;
+    t_t c {(r_t(cs)*++n)...};
     return reverse_horner(x, c);
   }
 }

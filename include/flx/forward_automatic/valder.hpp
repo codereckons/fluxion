@@ -9,7 +9,7 @@
 
 #include <eve/concept/vectorizable.hpp>
 #include <eve/detail/abi.hpp>
-#include <eve/product_type.hpp>
+#include <eve/traits/product_type.hpp>
 #include <flx/forward_automatic/traits.hpp>
 #include <flx/forward_automatic/is_derivable.hpp>
 #include <flx/forward_automatic/detail/core.hpp>
@@ -22,7 +22,7 @@
 
 #include <eve/concept/generator.hpp>
 #include <eve/detail/abi.hpp>
-#include <eve/product_type.hpp>
+#include <eve/traits/product_type.hpp>
 
 namespace flx
 {
