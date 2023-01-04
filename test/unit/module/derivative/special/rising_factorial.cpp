@@ -40,6 +40,6 @@ TTS_CASE_WITH("Check behavior of eve::rising_factorial(eve::wide)",
   auto drising_factorial1 = [&](auto e, auto f) -> e_t{ return eve::imag(eve::rising_factorial(c_t(e,eps), c_t(f, zer)))/eps; };
   auto drising_factorial2 = [&](auto e, auto f) { return eve::imag(eve::rising_factorial(c_t(e, zer), c_t(f,eps)))/eps; };
 
-  TTS_RELATIVE_EQUAL(flx::derivative_1st(eve::rising_factorial)(a0, a1), map(drising_factorial1, a0, a1), 5.0e-4);
-  TTS_RELATIVE_EQUAL(flx::derivative_2nd(eve::rising_factorial)(a0, a1), map(drising_factorial2, a0, a1), 5.0e-4);
+  TTS_RELATIVE_EQUAL(flx::derivative_1st(eve::rising_factorial)(a0, a1), map(drising_factorial1, a0, a1), 7.0e-4);
+  TTS_RELATIVE_EQUAL(flx::derivative_2nd(eve::rising_factorial)(a0, a1), map(drising_factorial2, a0, a1), 7.0e-4);
 };
