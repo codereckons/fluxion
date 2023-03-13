@@ -81,7 +81,7 @@ namespace flx
     /// Stream insertion operator
     friend std::ostream& operator<<(std::ostream& os, eve::like<valder> auto const& z)
     {
-      return os << "(" << get<0>(z) << ", " << get<1>(z) << ")";
+      return os << "(" << get<0>(z) << " @" << get<1>(z) << ")";
     }
 
     //==============================================================================================
@@ -91,40 +91,44 @@ namespace flx
     //===== operator+
     EVE_FORCEINLINE friend auto operator+(eve::like<valder> auto const& v) noexcept { return v; }
 
-    EVE_FORCEINLINE friend auto& operator+= ( eve::like<valder> auto&       self
-                                            , derivate          auto const& other
+    EVE_FORCEINLINE friend auto& operator+= ( eve::like<valder> auto& self
+                                            , auto const&             other
                                             ) noexcept
+    requires requires{ self = eve::add(self,other); }
     {
-      val(self) += val(other);
-      der(self) += der(other);
-      return self;
-    }
-
-    EVE_FORCEINLINE friend auto& operator+= ( eve::like<valder> auto&       self
-                                            , pure              auto const& other
-                                            ) noexcept
-    {
-      val(self) += other;
+      self = eve::add(self,other);
       return self;
     }
 
     //===== operator-
     EVE_FORCEINLINE friend auto operator-(eve::like<valder> auto const& z) noexcept { return z; }
 
-    EVE_FORCEINLINE friend auto& operator-= ( eve::like<valder> auto&       self
-                                            , derivate          auto const& other
+    EVE_FORCEINLINE friend auto& operator-= ( eve::like<valder> auto& self
+                                            , auto const&             other
                                             ) noexcept
+    requires requires{ self = eve::sub(self,other); }
     {
-      val(self) -= val(other);
-      der(self) -= der(other);
+      self = eve::sub(self,other);
       return self;
     }
 
-    EVE_FORCEINLINE friend auto& operator-= ( eve::like<valder> auto&       self
-                                            , pure              auto const& other
+    // operator*
+    EVE_FORCEINLINE friend auto& operator*= ( eve::like<valder> auto&       self
+                                            , auto const& other
                                             ) noexcept
+    requires requires{ self = eve::mul(self,other); }
     {
-      val(self) += other;
+      self = eve::mul(self,other);
+      return self;
+    }
+
+    // operator/
+    EVE_FORCEINLINE friend auto& operator/= ( eve::like<valder> auto&       self
+                                            , auto const& other
+                                            ) noexcept
+    requires requires{ self = eve::div(self,other); }
+    {
+      self = eve::div(self,other);
       return self;
     }
 
@@ -150,16 +154,6 @@ namespace flx
     {
       return detail::valder_unary_dispatch(tag, z1);
     }
-
-    //     template<typename Tag, typename Z1,  typename ...Zs>
-    //     requires(like<Z1,valder> || (... || like<Zs,valder>))
-    //       EVE_FORCEINLINE friend  auto  tagged_dispatch ( Tag const& tag
-    //                                                     , Z1 const& z1, Zs const&... zs
-    //                                                     ) noexcept
-    //     ->    decltype(detail::valder_nary_dispatch(tag, z1, zs...))
-    //     {
-    //       return detail::valder_nary_dispatch(tag, z1, zs...);
-    //     }
 
     //==============================================================================================
     // helpers
@@ -192,69 +186,6 @@ namespace flx
         return compute(f[z1], val(zs)...);
       else
         return f(val(z1), val(zs)...);
-    }
-
-    //==============================================================================================
-    // *
-    //==============================================================================================
-    template<eve::like<valder> Z1, eve::like<valder> Z2>
-    EVE_FORCEINLINE friend auto& operator*= (Z1& self, Z2 const& o) noexcept
-    {
-      auto [a, b] = self;
-      auto [c, d] = o;
-      der(self) = a*d+b*c; //TODO eve::sum_of_prod(a, d, b, c);
-      val(self) *= c;
-      return self;
-    }
-
-    template<typename Z>
-    EVE_FORCEINLINE friend auto& operator*=(eve::like<valder> auto& self, Z const & o) noexcept
-    requires(eve::like<Z,Type> || std::convertible_to<Z,Type>)
-    {
-      val(self) *= o;
-      der(self) *= o;
-      return self;
-    }
-
-    template < typename Z1, typename Z2>
-    EVE_FORCEINLINE friend auto operator*( const Z1 & z1
-                                         , const Z2 & z2
-                                         ) noexcept
-    requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
-    {
-      return eve::mul(z1, z2);
-    }
-
-    //==============================================================================================
-    // /
-    //==============================================================================================
-    template<eve::like<valder> Z1, eve::like<valder> Z2>
-    EVE_FORCEINLINE friend auto& operator/= (Z1& self, Z2 const& o) noexcept
-    {
-      auto [a, b] = self;
-      auto [c, d] = o;
-      auto invo2 = eve::rec(eve::sqr(val(o)));
-      val(self) /= c;
-      der(self) = eve::diff_of_prod(c, b, a, d)*invo2;
-      return self;
-    }
-
-    template<typename Z>
-    EVE_FORCEINLINE friend auto& operator/=(eve::like<valder> auto& self, Z const & o) noexcept
-    requires(eve::like<Z,Type> || std::convertible_to<Z,Type>)
-    {
-      val(self) /= o;
-      der(self) /= o;
-      return self;
-    }
-
-    template < typename Z1, typename Z2>
-    EVE_FORCEINLINE friend auto operator/( const Z1 & z1
-                                         , const Z2 & z2
-                                         ) noexcept
-    requires (eve::like<Z1, valder> || eve::like<Z2, valder>)
-    {
-      return eve::div(z1, z2);
     }
 
     //==============================================================================================
@@ -441,6 +372,20 @@ namespace flx
     return var(val(a) - val(b),der(a) - der(b));
   }
 
+  template<typename T1, typename T2>
+  EVE_FORCEINLINE auto operator*(T1 a,T2 b) noexcept -> decltype(var(val(a)*val(b)))
+  requires( derivate<T1> || derivate<T2> )
+  {
+    return eve::mul(a,b);
+  }
+
+  template<typename T1, typename T2>
+  EVE_FORCEINLINE auto operator/(T1 a,T2 b) noexcept -> decltype(var(val(a)/val(b)))
+  requires( derivate<T1> || derivate<T2> )
+  {
+    return eve::div(a,b);
+  }
+
   //===== Comparisons
   template<typename T1, typename T2>
   EVE_FORCEINLINE auto operator==(T1 const& a, T2 const& b) noexcept -> decltype(val(a) == val(b))
@@ -477,3 +422,12 @@ struct std::tuple_size<flx::valder<T>> : std::integral_constant<std::size_t,2> {
 template <std::size_t I, typename T>
 struct std::tuple_element<I, flx::valder<T>> { using type = T; };
 
+template<typename Wrapper, typename T>
+struct  eve::supports_like<Wrapper,flx::valder<T>>
+      : std::bool_constant<   std::same_as<flx::valder<T>, element_type_t<Wrapper>>
+                          ||  std::same_as<T, element_type_t<Wrapper>>
+                          ||  eve::like<underlying_type_t<Wrapper>,T>
+                          ||  plain_scalar_value<Wrapper>
+                          >
+{
+};

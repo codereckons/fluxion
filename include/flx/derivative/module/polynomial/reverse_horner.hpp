@@ -6,7 +6,6 @@
 #pragma once
 #include <flx/derivative/decorator.hpp>
 #include <eve/module/math.hpp>
-#include <eve/module/core.hpp>
 
 namespace eve::detail
 {
