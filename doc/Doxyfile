@@ -34,7 +34,23 @@ STRIP_FROM_PATH       += $(DOXYGEN_STRIP)/include
 SEPARATE_MEMBER_PAGES  = YES
 TAB_SIZE               = 2
 
-ALIASES  =
+ALIASES += "godbolt{1}=@include \1"
+ALIASES += "groupheader{1}=<h2 class=\"groupheader\"> \1 </h2>"
+ALIASES += "nullable=[NullablePointer](https://en.cppreference.com/w/cpp/named_req/NullablePointer)"
+ALIASES += "semiregular=<a href=\"https://en.cppreference.com/w/cpp/concepts/semiregular\">SemiRegular</a>"
+ALIASES += "regular=<a href=\"https://en.cppreference.com/w/cpp/concepts/regular\">Regular</a>"
+ALIASES += "swappable=<a href=\"https://en.cppreference.com/w/cpp/concepts/swappable\">Swappable</a>"
+ALIASES += "callable=[Callable Object](https://en.cppreference.com/w/cpp/named_req/Callable)"
+ALIASES += "container=[Container](https://en.cppreference.com/w/cpp/named_req/Container)"
+ALIASES += "iterator=[Input Iterator](https://en.cppreference.com/w/cpp/named_req/Inputterator)"
+ALIASES += "raiterator=[Random Access Iterator](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator)"
+ALIASES += "callable{1}=[Callable Object\1](https://en.cppreference.com/w/cpp/named_req/Callable)"
+ALIASES += "container{1}=[Container\1](https://en.cppreference.com/w/cpp/named_req/Container)"
+ALIASES += "iterator{1}=[Input Iterator\1](https://en.cppreference.com/w/cpp/named_req/Inputterator)"
+ALIASES += "raiterator{1}=[Random Access Iterator\1](https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator"
+ALIASES += "view{1}=[view\1](@ref kwk::view)"
+ALIASES += "view=[view](@ref kwk::view)"
+
 EXTENSION_MAPPING      =
 MARKDOWN_SUPPORT       = YES
 TOC_INCLUDE_HEADINGS   = 5
@@ -71,8 +87,8 @@ GENERATE_TESTLIST      = NO
 GENERATE_BUGLIST       = NO
 SHOW_USED_FILES        = NO
 SHOW_FILES             = NO
-LAYOUT_FILE            = $(DOXYGEN_ASSETS)/layout.xml
-INPUT                  = ../src \
+LAYOUT_FILE            = layout.xml
+INPUT                  = ../include \
                          .
 
 RECURSIVE              = YES
@@ -131,7 +147,7 @@ ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = YES
-INCLUDE_PATH           = ../src
+INCLUDE_PATH           = ../include
 INCLUDE_FILE_PATTERNS  =
 PREDEFINED             = DOXYGEN_INVOKED
 EXPAND_AS_DEFINED      =
