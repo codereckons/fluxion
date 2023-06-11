@@ -3,7 +3,7 @@
 ## Copyright : Fluxion Project Contributors
 ## SPDX-License-Identifier: BSL-1.0
 ##======================================================================================================================
-set(root "${CMAKE_SOURCE_DIR}/test/unit/module")
+set(root "${CMAKE_SOURCE_DIR}/test/unit")
 
 ##======================================================================================================================
 ## Derivative tests

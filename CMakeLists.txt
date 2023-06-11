@@ -29,6 +29,12 @@ copa_setup_install( LIBRARY fluxion
 
 if(FLUXION_BUILD_TEST)
   enable_testing()
-  copa_setup_pch( AUTONOMOUS TARGET flx-test INTERFACES fluxion_test HEADERS test/test.hpp )
-  add_subdirectory(test/unit/module)
+
+  ## Unit Tests PCH
+  copa_setup_pch( AUTONOMOUS TARGET flx-test INTERFACES fluxion_test HEADERS test/test.hpp include/flx/flx.hpp )
+
+  ## Documentation Tests PCH
+  copa_setup_pch( TARGET flx-doc INTERFACES fluxion_test HEADERS include/flx/flx.hpp )
+
+  add_subdirectory(test/unit)
 endif()
