@@ -18,7 +18,7 @@ else()
 endif()
 
 if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
-  message(STATUS "[fluxion] Downloading CPM.cmake to ${CPM_DOWNLOAD_LOCATION}")
+  message(STATUS "[${PROJECT_NAME}] Downloading CPM.cmake to ${CPM_DOWNLOAD_LOCATION}")
   file(DOWNLOAD
        https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake
        ${CPM_DOWNLOAD_LOCATION}
@@ -30,6 +30,8 @@ include(${CPM_DOWNLOAD_LOCATION})
 ##==================================================================================================
 ## Retrieve dependencies
 ##==================================================================================================
+CPMAddPackage(NAME COPACABANA GITHUB_REPOSITORY jfalcou/copacabana GIT_TAG main)
+
 CPMAddPackage ( NAME eve   GITHUB_REPOSITORY jfalcou/eve
                 GIT_TAG main
                 OPTIONS "EVE_BUILD_TEST OFF"
