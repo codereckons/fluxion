@@ -1,54 +1,62 @@
-##==================================================================================================
+##======================================================================================================================
 ## Fluxion - Post-Modern Automatic Derivation
 ## Copyright : Fluxion Project Contributors
 ## SPDX-License-Identifier: BSL-1.0
-##==================================================================================================
-cmake_minimum_required(VERSION 3.18)
-enable_testing()
+##======================================================================================================================
+cmake_minimum_required(VERSION 3.22)
+project(FLUXION LANGUAGES CXX)
+include(${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/compiler.cmake)
 
-## =================================================================================================
-## Setup project
-## =================================================================================================
-project(fluxion LANGUAGES CXX)
-
-set(FLUXION_MAJOR_VERSION 0)
-set(FLUXION_MINOR_VERSION 1)
-set(FLUXION_PATCH_VERSION 0)
-set(FLUXION_VERSION ${FLUXION_MAJOR_VERSION}.${FLUXION_MINOR_VERSION}.${FLUXION_PATCH_VERSION})
-
-set(PROJECT_VERSION   ${FLUXION_VERSION})
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake )
-
-##==================================================================================================
-## No in-source build
-##==================================================================================================
-if (${PROJECT_SOURCE_DIR} STREQUAL ${PROJECT_BINARY_DIR})
-  message(FATAL_ERROR "[fluxion]: In-source build is not recommend")
-endif()
-
-##==================================================================================================
-## Fetch dependencies & Setup install
-##==================================================================================================
-include(${PROJECT_SOURCE_DIR}/cmake/config/dependencies.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/config/fluxion-install.cmake)
-
-##==================================================================================================
-## Options
-##==================================================================================================
+##======================================================================================================================
 option( FLUXION_BUILD_TEST  "Build tests for Fluxion" ON  )
 option( FLUXION_BUILD_DOCS  "Build docs  for Fluxion" OFF )
 
-##==================================================================================================
-## Test target
-##==================================================================================================
-if( FLUXION_BUILD_TEST )
-  include(CTest)
-  add_subdirectory(${PROJECT_SOURCE_DIR}/test/)
+##======================================================================================================================
+## Project setup via copacabana
+##======================================================================================================================
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake ${COPACABANA_SOURCE_DIR}/copacabana/cmake)
+include(${COPACABANA_SOURCE_DIR}/copacabana/cmake/copacabana.cmake)
+copa_project_version(MAJOR 0 MINOR 1 PATCH 1)
+
+##======================================================================================================================
+## Summary Display
+##======================================================================================================================
+if(NOT FLUXION_QUIET)
+  if(CMAKE_BUILD_TYPE)
+    message(STATUS "[${PROJECT_NAME}] - Building in ${CMAKE_BUILD_TYPE} mode")
+  endif()
+  message(STATUS "[${PROJECT_NAME}] - Documentation : ${FLUXION_BUILD_DOCS} (via FLUXION_BUILD_DOCS)")
+  message(STATUS "[${PROJECT_NAME}] - Unit tests    : ${FLUXION_BUILD_TEST} (via FLUXION_BUILD_TEST)")
 endif()
 
-##==================================================================================================
-## Add Doxygen building target
-##==================================================================================================
-if( FLUXION_BUILD_DOCS )
-  include(${PROJECT_SOURCE_DIR}/cmake/config/doxygen.cmake)
+##======================================================================================================================
+## Install Process setup
+##======================================================================================================================
+copa_setup_install( LIBRARY fluxion
+                    FEATURES cxx_std_20
+                    DOC     ${PROJECT_SOURCE_DIR}/LICENSE.md
+                    INCLUDE ${PROJECT_SOURCE_DIR}/include/fluxion
+                  )
+
+##======================================================================================================================
+## Documentation setup
+##======================================================================================================================
+if(FLUXION_BUILD_DOCS)
+  copa_setup_doxygen(QUIET DESTINATION "${PROJECT_BINARY_DIR}/doc")
+endif()
+
+##======================================================================================================================
+## Tests setup
+##======================================================================================================================
+if(FLUXION_BUILD_TEST)
+  enable_testing()
+
+  ## Unit Tests Setup
+  copa_setup_pch( AUTONOMOUS TARGET flx-test INTERFACES fluxion_test HEADERS test/test.hpp include/flx/flx.hpp )
+  add_subdirectory(test/unit)
+
+  ## Documentation Tests Setup
+  copa_setup_pch( TARGET flx-doc INTERFACES fluxion_test HEADERS include/flx/flx.hpp )
+  add_subdirectory(test/doc)
 endif()
