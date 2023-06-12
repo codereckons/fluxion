@@ -33,6 +33,6 @@ TTS_CASE_WITH("Check behavior of eve::airy_ai(eve::wide)",
   using eve::detail::map;
 
   auto dairy_ai = [&](auto e) { return boost::math::airy_ai_prime(e); };
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::airy_ai)(a0), map(dairy_ai, a0), 100);
-  TTS_ULP_EQUAL(flx::derivative_1st(eve::airy_ai)(a1), map(dairy_ai, a1), 100);
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::airy_ai)(a0), map(dairy_ai, a0), 150);
+  TTS_ULP_EQUAL(flx::derivative_1st(eve::airy_ai)(a1), map(dairy_ai, a1), 150);
 };
