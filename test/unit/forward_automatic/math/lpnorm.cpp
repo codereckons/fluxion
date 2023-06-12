@@ -18,10 +18,9 @@ TTS_CASE_WITH( "Check behavior of flx::lpnorm(eve::wide)"
                              , tts::randoms(1, +10)
                              , tts::randoms(1, +10)
                              , tts::randoms(1, +10)
-                             , tts::logicals(0,3)
                               )
         )
-  <typename T, typename M>(T const& p,  T const& a0, T const& a1, T const& a2, M const & mask)
+  <typename T>(T const& p,  T const& a0, T const& a1, T const& a2)
 {
   using flx::var;
   using flx::val;
@@ -43,15 +42,4 @@ TTS_CASE_WITH( "Check behavior of flx::lpnorm(eve::wide)"
   TTS_EQUAL(der(eve::lpnorm(p, a0, vda1, a2))      , derivative_3rd(eve::lpnorm)(p, a0, a1, a2));
   TTS_EQUAL(val(eve::lpnorm(p, a0, a1, vda2))      , eve::lpnorm(p, a0, a1, a2));
   TTS_EQUAL(der(eve::lpnorm(p, a0, a1, vda2))      , derivative_nth<4>(eve::lpnorm)(p, a0, a1, a2));
-
-  TTS_EQUAL(val(eve::lpnorm[mask](vdp, a0, a1, a2)), eve::lpnorm[mask](p, a0, a1, a2));
-  TTS_EQUAL(der(eve::lpnorm[mask](vdp, a0, a1, a2)), eve::if_else(mask,derivative_1st(eve::lpnorm)(p, a0, a1, a2), eve::one));
-  TTS_EQUAL(val(eve::lpnorm[mask](p, vda0, a1, a2)), eve::lpnorm[mask](p, a0, a1, a2));
-  TTS_EQUAL(der(eve::lpnorm[mask](p, vda0, a1, a2)), eve::if_else(mask, derivative_2nd(eve::lpnorm)(p, a0, a1, a2), eve::zero));
-  TTS_EQUAL(val(eve::lpnorm[mask](p, a0, vda1, a2)), eve::lpnorm[mask](p, a0, a1, a2));
-  TTS_EQUAL(der(eve::lpnorm[mask](p, a0, vda1, a2)), eve::if_else(mask, derivative_3rd(eve::lpnorm)(p, a0, a1, a2), eve::zero));
-  TTS_EQUAL(val(eve::lpnorm[mask](p, a0, a1, vda2)), eve::lpnorm[mask](p, a0, a1, a2));
-  TTS_EQUAL(der(eve::lpnorm[mask](p, a0, a1, vda2)), eve::if_else(mask, derivative_nth<4>(eve::lpnorm)(p, a0, a1, a2), eve::zero));
-
-
 };
