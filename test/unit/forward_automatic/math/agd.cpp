@@ -9,21 +9,12 @@
 #include <eve/module/math.hpp>
 #include <flx/flx.hpp>
 
-// auto maxi = []<typename T>(eve::as<T> const & tgt)
-// {
-//   return eve::pio_2(tgt);
-// };
-// auto mini = []<typename T>(eve::as<T> const & tgt)
-// {
-//   return -eve::pio_2(tgt);
-// };
 //==================================================================================================
-// Tests for flx::invgd
+// Tests for flx::agd
 //==================================================================================================
-TTS_CASE_WITH( "Check behavior of flx::invgd(eve::wide)"
+TTS_CASE_WITH( "Check behavior of flx::agd(eve::wide)"
         , flx::test::simd::ieee_reals
-             , tts::generate ( tts::randoms(-1.5, 1.5)//mini, maxi)
-                              )
+             , tts::generate ( tts::randoms(-1.5, 1.5) )
         )
 <typename T>(T const& a0)
 {
@@ -33,6 +24,6 @@ TTS_CASE_WITH( "Check behavior of flx::invgd(eve::wide)"
   using flx::derivative;
 
   auto vda0 = var(a0);
-  TTS_EQUAL(val(eve::invgd(vda0))      , eve::invgd(a0));
-  TTS_EQUAL(der(eve::invgd(vda0))      , derivative(eve::invgd)(a0));
+  TTS_EQUAL(val(eve::agd(vda0))      , eve::agd(a0));
+  TTS_EQUAL(der(eve::agd(vda0))      , derivative(eve::agd)(a0));
 };
