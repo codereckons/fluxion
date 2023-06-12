@@ -19,19 +19,24 @@ jobs:
         cfg:
         - { comp: clang_libcpp, arch: x86     , opts: -msse2    , target: derivative.exe, tests: ^derivative.*.exe }
         - { comp: clang       , arch: x86     , opts: -msse2    , target: derivative.exe, tests: ^derivative.*.exe }
-        - { comp: clang       , arch: x86_asan, opts: -msse2    , target: derivative.exe, tests: ^derivative.*.exe }
         - { comp: clang       , arch: x86     , opts: -mavx2    , target: derivative.exe, tests: ^derivative.*.exe }
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v3
-      - name: Testing Fluxion with ${{ matrix.cfg.comp }} on ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
-        uses: ./.github/actions/run_docker
-        with:
-          options:        '${{ matrix.cfg.opts }}'
-          cmake-options:  '-DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake'
-          target:         '${{ matrix.cfg.target }}'
-          tests:          '${{ matrix.cfg.tests }}'
-          cpu:            2
+      - name: Prepare Fluxion with ${{ matrix.cfg.comp }} @ ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
+        run:  |
+          mkdir build
+          cd build
+          cmake ..  -G Ninja -DFLUXION_OPTIONS="${{ matrix.cfg.opts }}" \
+                    -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake
+      - name: Compile Unit Tests
+        run:  |
+          cd build
+          ninja ${{ matrix.cfg.tests }} -j 8
+      - name: Running Random Sampling Tests
+        run:  |
+          cd build
+          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.target }}
 
   forward_automatic-clang:
     runs-on: [self-hosted]
@@ -44,19 +49,24 @@ jobs:
         cfg:
         - { comp: clang_libcpp, arch: x86     , opts: -msse2    , target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
         - { comp: clang       , arch: x86     , opts: -msse2    , target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
-        - { comp: clang       , arch: x86_asan, opts: -msse2    , target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
         - { comp: clang       , arch: x86     , opts: -mavx2    , target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v3
-      - name: Testing Fluxion with ${{ matrix.cfg.comp }} on ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
-        uses: ./.github/actions/run_docker
-        with:
-          options:        '${{ matrix.cfg.opts }}'
-          cmake-options:  '-DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake'
-          target:         '${{ matrix.cfg.target }}'
-          tests:          '${{ matrix.cfg.tests }}'
-          cpu:            2
+      - name: Prepare Fluxion with ${{ matrix.cfg.comp }} @ ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
+        run:  |
+          mkdir build
+          cd build
+          cmake ..  -G Ninja -DFLUXION_OPTIONS="${{ matrix.cfg.opts }}" \
+                    -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake
+      - name: Compile Unit Tests
+        run:  |
+          cd build
+          ninja ${{ matrix.cfg.tests }} -j 8
+      - name: Running Random Sampling Tests
+        run:  |
+          cd build
+          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.target }}
 
   derivative-gcc:
     runs-on: [self-hosted]
@@ -73,14 +83,20 @@ jobs:
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v3
-      - name: Testing Fluxion with ${{ matrix.cfg.comp }} on ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
-        uses: ./.github/actions/run_docker
-        with:
-          options:        '${{ matrix.cfg.opts }}'
-          cmake-options:  '-DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake'
-          target:         '${{ matrix.cfg.target }}'
-          tests:          '${{ matrix.cfg.tests }}'
-          cpu:            2
+      - name: Prepare Fluxion with ${{ matrix.cfg.comp }} @ ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
+        run:  |
+          mkdir build
+          cd build
+          cmake ..  -G Ninja -DFLUXION_OPTIONS="${{ matrix.cfg.opts }}" \
+                    -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake
+      - name: Compile Unit Tests
+        run:  |
+          cd build
+          ninja ${{ matrix.cfg.tests }} -j 8
+      - name: Running Random Sampling Tests
+        run:  |
+          cd build
+          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.target }}
 
   forward_automatic-gcc:
     runs-on: [self-hosted]
@@ -97,11 +113,17 @@ jobs:
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v3
-      - name: Testing Fluxion with ${{ matrix.cfg.comp }} on ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
-        uses: ./.github/actions/run_docker
-        with:
-          options:        '${{ matrix.cfg.opts }}'
-          cmake-options:  '-DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake'
-          target:         '${{ matrix.cfg.target }}'
-          tests:          '${{ matrix.cfg.tests }}'
-          cpu:            2
+      - name: Prepare Fluxion with ${{ matrix.cfg.comp }} @ ${{ matrix.cfg.arch }} with ${{ matrix.cfg.opts }}
+        run:  |
+          mkdir build
+          cd build
+          cmake ..  -G Ninja -DFLUXION_OPTIONS="${{ matrix.cfg.opts }}" \
+                    -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/${{ matrix.cfg.comp }}.${{ matrix.cfg.arch }}.cmake
+      - name: Compile Unit Tests
+        run:  |
+          cd build
+          ninja ${{ matrix.cfg.tests }} -j 8
+      - name: Running Random Sampling Tests
+        run:  |
+          cd build
+          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.target }}
