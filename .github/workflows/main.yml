@@ -32,11 +32,11 @@ jobs:
       - name: Compile Unit Tests
         run:  |
           cd build
-          ninja ${{ matrix.cfg.tests }} -j 8
+          ninja ${{ matrix.cfg.target }} -j 8
       - name: Running Random Sampling Tests
         run:  |
           cd build
-          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.target }}
+          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.tests }}
 
   forward_automatic-clang:
     runs-on: [self-hosted]
@@ -62,11 +62,11 @@ jobs:
       - name: Compile Unit Tests
         run:  |
           cd build
-          ninja ${{ matrix.cfg.tests }} -j 8
+          ninja ${{ matrix.cfg.target }} -j 8
       - name: Running Random Sampling Tests
         run:  |
           cd build
-          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.target }}
+          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.tests }}
 
   derivative-gcc:
     runs-on: [self-hosted]
@@ -92,11 +92,11 @@ jobs:
       - name: Compile Unit Tests
         run:  |
           cd build
-          ninja ${{ matrix.cfg.tests }} -j 8
+          ninja ${{ matrix.cfg.target }} -j 8
       - name: Running Random Sampling Tests
         run:  |
           cd build
-          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.target }}
+          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.tests }}
 
   forward_automatic-gcc:
     runs-on: [self-hosted]
@@ -122,8 +122,8 @@ jobs:
       - name: Compile Unit Tests
         run:  |
           cd build
-          ninja ${{ matrix.cfg.tests }} -j 8
+          ninja ${{ matrix.cfg.target }} -j 8
       - name: Running Random Sampling Tests
         run:  |
           cd build
-          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.target }}
+          ctest --output-on-failure -j 4 -R ${{ matrix.cfg.tests }}

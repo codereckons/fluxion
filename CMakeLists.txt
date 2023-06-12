@@ -10,6 +10,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/compiler.cmake)
 
 ##======================================================================================================================
 option( FLUXION_BUILD_TEST  "Build tests for Fluxion" ON  )
+option( FLUXION_BUILD_DOCS  "Build docs  for Fluxion" OFF )
 
 ##======================================================================================================================
 ## Project setup via copacabana
@@ -41,7 +42,6 @@ copa_setup_install( LIBRARY fluxion
 ##======================================================================================================================
 ## Documentation setup
 ##======================================================================================================================
-option( FLUXION_BUILD_DOCS  "Build docs  for Fluxion" OFF )
 if(FLUXION_BUILD_DOCS)
   copa_setup_doxygen(QUIET DESTINATION "${PROJECT_BINARY_DIR}/doc")
 endif()
