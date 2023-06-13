@@ -54,6 +54,7 @@
 #include <flx/derivative/module/math/exp.hpp>
 #include <flx/derivative/module/math/expm1.hpp>
 #include <flx/derivative/module/math/expx2.hpp>
+#include <flx/derivative/module/math/expmx2.hpp>
 #include <flx/derivative/module/math/gd.hpp>
 #include <flx/derivative/module/math/geommean.hpp>
 #include <flx/derivative/module/math/hypot.hpp>
