@@ -17,9 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         cfg:
-        - { comp: clang_libcpp, arch: x86     , opts: -msse2    , target: derivative.exe, tests: ^derivative.*.exe }
-        - { comp: clang       , arch: x86     , opts: -msse2    , target: derivative.exe, tests: ^derivative.*.exe }
-        - { comp: clang       , arch: x86     , opts: -mavx2    , target: derivative.exe, tests: ^derivative.*.exe }
+        - { comp: clang_libcpp, arch: x86     , opts: -msse2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: clang       , arch: x86     , opts: -msse2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: clang       , arch: x86     , opts: -mavx2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v3
@@ -47,9 +47,9 @@ jobs:
       fail-fast: false
       matrix:
         cfg:
-        - { comp: clang_libcpp, arch: x86     , opts: -msse2    , target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
-        - { comp: clang       , arch: x86     , opts: -msse2    , target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
-        - { comp: clang       , arch: x86     , opts: -mavx2    , target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
+        - { comp: clang_libcpp, arch: x86     , opts: -msse2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: clang       , arch: x86     , opts: -msse2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: clang       , arch: x86     , opts: -mavx2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v3
@@ -77,9 +77,9 @@ jobs:
       fail-fast: false
       matrix:
         cfg:
-        - { comp: gcc         , arch: aarch64 , opts: -Wno-psabi, target: derivative.exe, tests: ^derivative.*.exe }
-        - { comp: gcc         , arch: x86     , opts: -msse2    , target: derivative.exe, tests: ^derivative.*.exe }
-        - { comp: gcc         , arch: x86     , opts: -mavx2    , target: derivative.exe, tests: ^derivative.*.exe }
+        - { comp: gcc         , arch: aarch64 , opts: -Wno-psabi, target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: gcc         , arch: x86     , opts: -msse2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
+        - { comp: gcc         , arch: x86     , opts: -mavx2    , target: unit.derivative.exe, tests: ^unit.derivative.*.exe }
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v3
@@ -107,9 +107,9 @@ jobs:
       fail-fast: false
       matrix:
         cfg:
-        - { comp: gcc         , arch: aarch64 , opts: -Wno-psabi, target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
-        - { comp: gcc         , arch: x86     , opts: -msse2    , target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
-        - { comp: gcc         , arch: x86     , opts: -mavx2    , target: forward_automatic.exe, tests: ^forward_automatic.*.exe }
+        - { comp: gcc         , arch: aarch64 , opts: -Wno-psabi, target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: gcc         , arch: x86     , opts: -msse2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
+        - { comp: gcc         , arch: x86     , opts: -mavx2    , target: unit.forward_automatic.exe, tests: ^unit.forward_automatic.*.exe }
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v3
