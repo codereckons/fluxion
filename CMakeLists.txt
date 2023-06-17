@@ -51,6 +51,8 @@ endif()
 ##======================================================================================================================
 if(FLUXION_BUILD_TEST)
   enable_testing()
+  add_custom_target(flx-test    )
+  add_dependencies(flx-test unit)
   copa_setup_pch( AUTONOMOUS TARGET flx-test INTERFACES fluxion_test HEADERS test/test.hpp include/flx/flx.hpp )
   copa_setup_pch( TARGET flx-doc INTERFACES fluxion_test HEADERS include/flx/flx.hpp )
 
