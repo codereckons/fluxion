@@ -8,12 +8,61 @@
 #pragma once
 
 #include <eve/detail/overload.hpp>
-#include <eve/module/ad.hpp>
+#include <flx/forward_automatic/var.hpp>
+#include <flx/forward_automatic/valder.hpp>
+#include <flx/forward_automatic/val.hpp>
+#include <flx/forward_automatic/der.hpp>
+
+namespace eve
+{
+  
+  //================================================================================================
+  //================================================================================================
+  // Function decorators mark-up used in function overloads
+  struct pol_
+  {
+    template<typename D> static constexpr auto combine(D const&) noexcept = delete;
+  };
+  
+  using pol_type = decorated<pol_()>;
+  //================================================================================================
+  //! @addtogroup core_decorators
+  //! @{
+  //! @var pol
+  //!
+  //! @brief  Higher-order @callable imbuing polar semantic onto other @callable{s}.
+  //!
+  //! #### Members Functions
+  //!
+  //!  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
+  //!  auto operator()(eve::callable auto const& f ) const noexcept;
+  //!  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //! @param f
+  //! An instance of eve::callable
+  //!
+  //! @return
+  //! A @callable performing the same kind of operation but implying polar semantic.
+  //!
+  //!  @}
+  //================================================================================================
+  [[maybe_unused]] inline constexpr pol_type const pol = {};
+  
+  
+  EVE_REGISTER_CALLABLE(gradient_);
+  EVE_DECLARE_CALLABLE(gradient_,gradient);
+  EVE_CALLABLE_API(gradient_,gradient);
+}
+
+
+namespace flx
+{
+  inline eve::detail::callable_object<eve::tag::gradient_> const gradient = {};
+}
 
 namespace eve
 {
   //================================================================================================
-  //! @addtogroup complex
+  //! @addtogroup forward_automatic
   //! @{
   //! @var imag
   //!
@@ -48,11 +97,6 @@ namespace eve
   //!  @}
   //================================================================================================
 
-  namespace tag { struct gradient_; }
-  template<> struct supports_conditional<tag::gradient_> : std::false_type {};
-
-  EVE_MAKE_CALLABLE(gradient_, gradient);
-
   namespace detail
   {
 
@@ -60,20 +104,20 @@ namespace eve
     EVE_FORCEINLINE auto gradient_( EVE_SUPPORTS(cpu_)
                                   , Func f, Xs const & ...xs) noexcept
     {
-      using v_t = decltype(f(val(xs)...));
+      using v_t = decltype(f(flx::val(xs)...));
       constexpr size_t S =  sizeof...(Xs);
       std::array<v_t, S> that;
 
       auto values = kumi::tuple{xs...};
 
       auto var_or_val = []<typename Pos, typename N>(Pos, N, auto x){
-        if constexpr(Pos::value==N::value) return var(x); else return x;
+        if constexpr(Pos::value==N::value) return flx::var(x); else return x;
       };
 
       return [&]<std::size_t... N>(std::index_sequence<N...>)
       {
         using kumi::index;
-        ((that[N] = der(kumi::apply( f
+        ((that[N] = flx::der(kumi::apply( f
                                    , kumi::map_index( [&](auto idx, auto v)
                                                       {
                                                         return var_or_val(idx,index<N>, v);
@@ -88,7 +132,7 @@ namespace eve
     }
 
     template < typename Func, typename X0, typename X1>
-    EVE_FORCEINLINE auto gradient_( EVE_SUPPORTS(cpu_), pol_type const &
+    EVE_FORCEINLINE auto gradient_( EVE_SUPPORTS(cpu_), eve::pol_type const &
                                   , Func f, X0 const & rho, X1 const & theta) noexcept
     {
       auto g = gradient(f, rho, theta);
@@ -97,19 +141,19 @@ namespace eve
     }
 
     template < typename Func, typename X0, typename X1,  typename X2>
-    EVE_FORCEINLINE auto gradient_( EVE_SUPPORTS(cpu_), cyl_type const &
+    EVE_FORCEINLINE auto gradient_( EVE_SUPPORTS(cpu_), eve::cyl_type const &
                                   , Func f, X0 const & rho, X1 const & theta, X2 const & z) noexcept
     {
-      auto g = gradient(f, rho, theta, z);
+      auto g = flx::gradient(f, rho, theta, z);
       g[1] /= rho;
       return g;
     }
 
     template < typename Func, typename X0, typename X1,  typename X2>
-    EVE_FORCEINLINE auto gradient_( EVE_SUPPORTS(cpu_), sph_type const &
+    EVE_FORCEINLINE auto gradient_( EVE_SUPPORTS(cpu_), eve::sph_type const &
                                   , Func f, X0 const & rho, X1 const & theta, X2 const & phi) noexcept
     {
-      auto g = gradient(f, rho, phi, theta);
+      auto g = flx::gradient(f, rho, phi, theta);
       auto rinv = rec(rho);
       g[1] *= rinv;
       g[2] *= rinv*csc(theta);

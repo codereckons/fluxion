@@ -9,4 +9,7 @@
 
 #include <flx/forward_automatic/valder.hpp>
 #include <flx/forward_automatic/var.hpp>
+#include <flx/forward_automatic/val.hpp>
+#include <flx/forward_automatic/der.hpp>
 #include <flx/forward_automatic/differential.hpp>
+#include <flx/forward_automatic/gradient.hpp>
