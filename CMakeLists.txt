@@ -51,12 +51,8 @@ endif()
 ##======================================================================================================================
 if(FLUXION_BUILD_TEST)
   enable_testing()
-
-  ## Unit Tests Setup
   copa_setup_pch( AUTONOMOUS TARGET flx-test INTERFACES fluxion_test HEADERS test/test.hpp include/flx/flx.hpp )
-  add_subdirectory(test/unit)
-
-  ## Documentation Tests Setup
   copa_setup_pch( TARGET flx-doc INTERFACES fluxion_test HEADERS include/flx/flx.hpp )
-  add_subdirectory(test/doc)
+
+  add_subdirectory(test)
 endif()
