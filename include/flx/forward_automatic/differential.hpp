@@ -8,11 +8,39 @@
 #pragma once
 
 #include <eve/detail/overload.hpp>
-#include <eve/module/ad/regular/var.hpp>
-#include <eve/module/ad/valder.hpp>
+#include <flx/forward_automatic/var.hpp>
+#include <flx/forward_automatic/valder.hpp>
+#include <flx/forward_automatic/val.hpp>
+#include <flx/forward_automatic/der.hpp>
 
 namespace eve
 {
+  EVE_REGISTER_CALLABLE(differential_);
+  EVE_DECLARE_CALLABLE(differential_,differential);
+  EVE_CALLABLE_API(differential_,differential);
+}
+
+
+namespace flx
+{
+  inline eve::detail::callable_object<eve::tag::differential_> const differential = {};
+}
+
+
+namespace eve
+{
+
+  namespace detail
+  {
+
+    template < typename Func>
+    EVE_FORCEINLINE auto differential_( EVE_SUPPORTS(cpu_), Func f, auto const & ...x) noexcept
+    {
+      return [f, x...](auto ...dx){return flx::der(f(flx::var(x, dx)...)); };
+    }
+  }
+}
+
   //================================================================================================
   //! @addtogroup complex
   //! @{
@@ -37,7 +65,7 @@ namespace eve
   //! **Parameters**
   //!
   //!`f`:   callable t differentiate.
-  //!`x`:   [maybe<valder>](@ref eve::maybe<valder>).
+  //!`x`:   [like<valder>](@ref eve::maybe<valder>).
   //!
   //! **Return the value of the differential of f at x :\$f \sum_0^n \frac{\partial{f}}{\partial{x}}dx \$f
   //!
@@ -48,19 +76,3 @@ namespace eve
   //!
   //!  @}
   //================================================================================================
-
-//   namespace tag { struct differential_; }
-//   template<> struct supports_conditional<tag::differential_> : std::false_type {};
-
-  EVE_MAKE_CALLABLE(differential_, differential);
-
-  namespace detail
-  {
-
-    template < typename Func>
-    EVE_FORCEINLINE auto differential_( EVE_SUPPORTS(cpu_), Func f, auto const & ...x) noexcept
-    {
-      return [f, x...](auto ...dx){return der(f(var(x, dx)...)); };
-    }
-  }
-}
