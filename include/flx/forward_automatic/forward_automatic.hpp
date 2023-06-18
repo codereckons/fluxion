@@ -13,3 +13,4 @@
 #include <flx/forward_automatic/der.hpp>
 #include <flx/forward_automatic/differential.hpp>
 #include <flx/forward_automatic/gradient.hpp>
+#include <flx/forward_automatic/newton_raphson.hpp>
