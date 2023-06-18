@@ -15,7 +15,7 @@
 
 namespace eve
 {
-  
+
   //================================================================================================
   //================================================================================================
   // Function decorators mark-up used in function overloads
@@ -23,7 +23,7 @@ namespace eve
   {
     template<typename D> static constexpr auto combine(D const&) noexcept = delete;
   };
-  
+
   using pol_type = decorated<pol_()>;
   //================================================================================================
   //! @addtogroup core_decorators
@@ -46,8 +46,8 @@ namespace eve
   //!  @}
   //================================================================================================
   [[maybe_unused]] inline constexpr pol_type const pol = {};
-  
-  
+
+
   EVE_REGISTER_CALLABLE(gradient_);
   EVE_DECLARE_CALLABLE(gradient_,gradient);
   EVE_CALLABLE_API(gradient_,gradient);
@@ -135,7 +135,7 @@ namespace eve
     EVE_FORCEINLINE auto gradient_( EVE_SUPPORTS(cpu_), eve::pol_type const &
                                   , Func f, X0 const & rho, X1 const & theta) noexcept
     {
-      auto g = gradient(f, rho, theta);
+      auto g = flx::gradient(f, rho, theta);
       g[1] /= rho;
       return g;
     }
