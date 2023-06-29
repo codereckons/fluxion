@@ -52,6 +52,15 @@ namespace flx
 
 namespace eve
 {
+  template<typename Wrapper, typename T>
+  struct  supports_like<Wrapper,flx::valder<T>>
+        : std::bool_constant<   std::same_as<flx::valder<T>, element_type_t<Wrapper>>
+                            ||  std::same_as<T, element_type_t<Wrapper>>
+                            ||  plain_scalar_value<Wrapper>
+                            >
+  {
+  };
+
   template<typename T>
   struct as_logical<flx::valder<T>> : eve::as_logical_t<T>
   {};
