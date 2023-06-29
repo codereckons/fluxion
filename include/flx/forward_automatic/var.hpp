@@ -51,17 +51,20 @@ namespace flx
   struct var_
   {
     template<eve::value T >
-    constexpr auto operator()(T const & x) const
+    constexpr auto operator()(T x) const noexcept
+    requires(!flx::is_valder_v<T>)
     {
       using vd_t = flx::as_valder_t<T>;
-      return vd_t{x, T(1)};
+      return vd_t{x, eve::one(eve::as<T>())};
     }
 
-    template < eve::value T >
-    constexpr auto operator()( const T & x, const T & dx) const
+    template<eve::value T, eve::value U>
+    constexpr auto operator()(T x, U dx) const  noexcept
+    requires(!flx::is_valder_v<T> && !flx::is_valder_v<U>)
     {
       using vd_t = flx::as_valder_t<T>;
-      return vd_t{x, dx};
+      using in_t = eve::as_wide_as_t<T,U>;
+      return vd_t{in_t{x}, in_t{dx}};
     }
   };
 
