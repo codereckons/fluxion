@@ -44,7 +44,7 @@ namespace flx
 
   template<typename T> struct is_valder                   : std::false_type {};
   template<typename T> struct is_valder<valder<T>>        : std::true_type {};
-  template<typename T> struct is_valder<eve::wide<valder<T>>>  : std::true_type {};
+  template<typename T, typename N> struct is_valder<eve::wide<valder<T>,N>>  : std::true_type {};
 
   template<typename T>
   inline constexpr bool is_valder_v = is_valder<T>::value;

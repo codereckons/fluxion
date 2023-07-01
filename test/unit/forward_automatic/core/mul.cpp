@@ -1,74 +1,89 @@
-/**
-  EVE - Expressive Vector Engine
-  Copyright : EVE Contributors & Maintainers
+//==================================================================================================
+/*
+  Fluxion - Post-Modern Automatic Derivation
+  Copyright : Fluxion Contributors & Maintainers
   SPDX-License-Identifier: MIT
-**/
+*/
 //==================================================================================================
 #include "test.hpp"
-#include <algorithm>
-#include <eve/module/core.hpp>
 #include <flx/flx.hpp>
+
+auto val_mul(auto a, auto b) { return flx::val(a) * flx::val(b); }
+auto der_mul(auto a, auto b) { return flx::val(a) * flx::der(b) + flx::der(a) * flx::val(b); }
 
 //==================================================================================================
 // Tests for flx::mul
 //==================================================================================================
-TTS_CASE_WITH( "Check behavior of flx::mul(eve::wide)"
-        , flx::test::simd::ieee_reals
-        , tts::generate ( tts::randoms(-10, +10)
-                              , tts::randoms(-10, +10)
-                              , tts::randoms(-10, +10)
-                              , tts::logicals(0,3)
-                              )
-        )
-  <typename T, typename M>(T const& a0, T const& a1, T const&  , M const& )
+TTS_CASE_WITH("Check behavior of flx::valder::operator* for real values",
+              flx::test::simd::ieee_reals,
+              tts::generate(tts::randoms(-10, +10),
+                            tts::randoms(-10, +10)
+                           ))
+<typename T>(T const& w0, T const& w1)
 {
-  using eve::detail::map;
-  using flx::var;
-  using flx::val;
   using flx::der;
-  using flx::derivative_1st;
-  using flx::derivative_2nd;
-  using flx::derivative_3rd;
+  using flx::val;
+  using flx::var;
 
-  auto vda0 = var(a0);
-  auto vda1 = var(a1);
-  TTS_EQUAL(val(eve::mul(vda0, a1    ))      , eve::mul(a0, a1    ));
-  TTS_EQUAL(val(eve::mul(vda0, vda1  ))      , eve::mul(a0, a1    ));
-  TTS_EQUAL(der(eve::mul(vda0, a1    ))      , a1);
-  TTS_EQUAL(der(eve::mul(a0, vda1    ))      , a0);
-  TTS_EQUAL(der(eve::mul(vda0, vda1  ))      , a0+a1);
+  auto wv0 = var(w0);
+  auto wv1 = var(w1);
 
-  TTS_EQUAL(val(vda0*a1)                     , eve::mul(a0, a1    ));
-  TTS_EQUAL(val(vda0*vda1)                   , eve::mul(a0, a1    ));
-  TTS_EQUAL(der(vda0*a1)                     , a1);
-  TTS_EQUAL(der(a0*vda1)                     , a0);
-  TTS_EQUAL(der(vda0*vda1)                   , a0+a1);
+  using e_t = eve::element_type_t<T>;
+  e_t s(7);
+  auto sv = var(s);
 
-  vda0 *= vda1;
-  std::cout << "vda0 *= vda1    " << vda0 << std::endl;
-  TTS_EQUAL(val(vda0), a0 * a1);
-  TTS_EQUAL(der(vda0), a0 + a1);
-  std::cout << "avant vda1 " << vda1 << std::endl;
-  vda1 *= a0;
-  std::cout << "apres vda1 " << vda1 << std::endl;
-  std::cout << "vda1 *= a0    " << vda1 << std::endl;
-  TTS_EQUAL(val(vda1), a1 * a0);
-  TTS_EQUAL(der(vda1), a0);
+  //  valder * valder
+  TTS_EQUAL(wv0 * wv1, var(val_mul(wv0,wv1), der_mul(wv0,wv1)) );
+  TTS_EQUAL(wv0 *  sv, var(val_mul(wv0, sv), der_mul(wv0, sv)) );
+  TTS_EQUAL(sv  * wv1, var(val_mul(sv ,wv1), der_mul(sv ,wv1)) );
+  TTS_EQUAL(sv  *  sv, var(val_mul(sv , sv), der_mul(sv , sv)) );
 
-//  auto vda2 = var(a2);
-//   TTS_EQUAL(val(eve::mul(vda0, a1, a2))      , eve::mul(a0, a1, a2));
-//   TTS_EQUAL(der(eve::mul(vda0, a1, a2))      , derivative_1st(eve::mul)(a0, a1, a2));
-//   TTS_EQUAL(val(eve::mul(a0, vda1, a2))      , eve::mul(a0, a1, a2));
-//   TTS_EQUAL(der(eve::mul(a0, vda1, a2))      , derivative_2nd(eve::mul)(a0, a1, a2));
-//   TTS_EQUAL(val(eve::mul(a0, a1, vda2))      , eve::mul(a0, a1, a2));
-//   TTS_EQUAL(der(eve::mul(a0, a1, vda2))      , derivative_3rd(eve::mul)(a0, a1, a2));
+  //  valder * type
+  TTS_EQUAL(wv0 * w1, var(val_mul(wv0, w1), der_mul(wv0, w1)) );
+  TTS_EQUAL(wv0 *  s, var(val_mul(wv0, s ), der_mul(wv0, s )) );
+  TTS_EQUAL(sv  * w1, var(val_mul(sv , w1), der_mul(sv , w1)) );
+  TTS_EQUAL(sv  *  s, var(val_mul(sv , s ), der_mul(sv , s )) );
 
-//   TTS_EQUAL(val(eve::mul[mask](vda0, a1, a2)), eve::mul[mask](a0, a1, a2));
-//   TTS_EQUAL(der(eve::mul[mask](vda0, a1, a2)), eve::if_else(mask, derivative_1st(eve::mul)(a0, a1, a2), eve::one));
-//   TTS_EQUAL(val(eve::mul[mask](a0, vda1, a2)), eve::mul[mask](a0, a1, a2));
-//   TTS_EQUAL(der(eve::mul[mask](a0, vda1, a2)), eve::if_else(mask, derivative_2nd(eve::mul)(a0, a1, a2), eve::zero));
-//   TTS_EQUAL(val(eve::mul[mask](a0, a1, vda2)), eve::mul[mask](a0, a1, a2));
-//   TTS_EQUAL(der(eve::mul[mask](a0, a1, vda2)), eve::if_else(mask, derivative_3rd(eve::mul)(a0, a1, a2), eve::zero));
+  //  type * valder
+  TTS_EQUAL(w1 * wv0, var(val_mul(w1,wv0), der_mul(w1,wv0)) );
+  TTS_EQUAL( s * wv0, var(val_mul(s ,wv0), der_mul(s ,wv0)) );
+  TTS_EQUAL(w1 * sv , var(val_mul(w1,sv ), der_mul(w1,sv )) );
+  TTS_EQUAL( s * sv , var(val_mul(s ,sv ), der_mul(s ,sv )) );
+};
 
+TTS_CASE_WITH("Check behavior of mul(valder...) for real values",
+              flx::test::simd::ieee_reals,
+              tts::generate(tts::randoms(-10, +10),
+                            tts::randoms(-10, +10)
+                           ))
+<typename T>(T const& w0, T const& w1)
+{
+  using flx::der;
+  using flx::val;
+  using flx::var;
 
+  auto wv0 = var(w0);
+  auto wv1 = var(w1);
+
+  using e_t = eve::element_type_t<T>;
+  e_t s(7);
+  auto sv = var(s);
+
+//  valder * valder
+  TTS_EQUAL(eve::mul(wv0, wv1), var(val_mul(wv0,wv1), der_mul(wv0,wv1)) );
+  TTS_EQUAL(eve::mul(wv0,  sv), var(val_mul(wv0, sv), der_mul(wv0, sv)) );
+  TTS_EQUAL(eve::mul(sv , wv1), var(val_mul(sv ,wv1), der_mul(sv ,wv1)) );
+  TTS_EQUAL(eve::mul(sv ,  sv), var(val_mul(sv , sv), der_mul(sv , sv)) );
+
+  //  valder * type
+  TTS_EQUAL(eve::mul(wv0, w1), var(val_mul(wv0, w1), der_mul(wv0, w1)) );
+  TTS_EQUAL(eve::mul(wv0,  s), var(val_mul(wv0, s ), der_mul(wv0, s )) );
+  TTS_EQUAL(eve::mul(sv , w1), var(val_mul(sv , w1), der_mul(sv , w1)) );
+  TTS_EQUAL(eve::mul(sv ,  s), var(val_mul(sv , s ), der_mul(sv , s )) );
+
+  //  type * valder
+  TTS_EQUAL(eve::mul(w1, wv0), var(val_mul(w1,wv0), der_mul(w1,wv0)) );
+  TTS_EQUAL(eve::mul( s, wv0), var(val_mul(s ,wv0), der_mul(s ,wv0)) );
+  TTS_EQUAL(eve::mul(w1, sv) , var(val_mul(w1,sv ), der_mul(w1,sv )) );
+  TTS_EQUAL(eve::mul( s, sv) , var(val_mul(s ,sv ), der_mul(s ,sv )) );
 };

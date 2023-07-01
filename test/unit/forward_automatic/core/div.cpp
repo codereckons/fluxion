@@ -1,79 +1,92 @@
-/**
-  EVE - Expressive Vector Engine
-  Copyright : EVE Contributors & Maintainers
+//==================================================================================================
+/*
+  Fluxion - Post-Modern Automatic Derivation
+  Copyright : Fluxion Contributors & Maintainers
   SPDX-License-Identifier: MIT
-**/
+*/
 //==================================================================================================
 #include "test.hpp"
-#include <eve/module/core.hpp>
 #include <flx/flx.hpp>
-TTS_CASE_WITH("Check behavior of flx::div(eve::wide)",
+
+auto val_div(auto a, auto b) { return flx::val(a) / flx::val(b); }
+auto der_div(auto a, auto b)
+{
+  return  eve::diff_of_prod(flx::val(b), flx::der(a), flx::val(a), flx::der(b)) / (flx::val(b)*flx::val(b));
+}
+
+//==================================================================================================
+// Tests for flx::div
+//==================================================================================================
+TTS_CASE_WITH("Check behavior of flx::valder::operator/ for real values",
               flx::test::simd::ieee_reals,
               tts::generate(tts::randoms(-10, +10),
-                            tts::randoms(-10, +10),
-                            tts::randoms(-10, +10),
-                            tts::logicals(0, 3)))
-<typename T, typename M>(T const& a0, T const& a1, T const&, M const&)
+                            tts::randoms(-10, +10)
+                           ))
+<typename T>(T const& w0, T const& w1)
 {
-  using eve::detail::map;
   using flx::der;
-  // using flx::derivative_1st;
-  // using flx::derivative_2nd;
-  // using flx::derivative_3rd;
   using flx::val;
   using flx::var;
 
-//  using e_t = eve::element_type_t<T>;
+  auto wv0 = var(w0);
+  auto wv1 = var(w1);
 
-  auto vda0 = var(a0);
-  auto vda1 = var(a1);
+  using e_t = eve::element_type_t<T>;
+  e_t s(4);
+  auto sv = var(s);
 
-  TTS_ULP_EQUAL(val(eve::div(vda0, a1))   , eve::div(a0, a1),10.0);
-  TTS_ULP_EQUAL(der(eve::div(vda0, a1))   , eve::rec(a1),10.0);
-  TTS_ULP_EQUAL(val(eve::div(a0, vda1))   , eve::div(a0, a1),10.0);
-  TTS_ULP_EQUAL(der(eve::div(a0, vda1))   , -eve::sqr(eve::rec(a1))*a0, 10.0);
-  TTS_ULP_EQUAL(val(eve::div(vda0, vda1)) , eve::div(a0, a1),10.0);
-  TTS_ULP_EQUAL(der(eve::div(vda0, vda1)) ,  eve::rec(a1)-eve::sqr(eve::rec(a1))*a0, 10.0);
+  //  valder / valder
+  TTS_EQUAL(wv0 / wv1, var(val_div(wv0,wv1), der_div(wv0,wv1)));
+  TTS_EQUAL(wv0 /  sv, var(val_div(wv0, sv), der_div(wv0, sv)));
+  TTS_EQUAL(sv  / wv1, var(val_div(sv ,wv1), der_div(sv ,wv1)));
+  TTS_EQUAL(sv  /  sv, var(val_div(sv , sv), der_div(sv , sv)));
 
-  // //  mix with  scalars
-  // auto vda2 = var(a2);
-  //   e_t b0(1);
-  //   e_t b1(3);
-  //   auto vdb0 = var(b0);
-  //   TTS_ULP_EQUAL(val(eve::div(vdb0, a1))   , eve::div(b0, a1),10.0);
-  //   TTS_ULP_EQUAL(der(eve::div(vdb0, a1))   , eve::one(eve::as(a1)),10.0);
-  //   TTS_ULP_EQUAL(val(eve::div(vdb0, b1))   , eve::div(b0, b1),10.0);
-  //   TTS_ULP_EQUAL(der(eve::div(vdb0, b1))   , eve::one(eve::as(b1)),10.0);
+  //  valder / type
+  TTS_EQUAL(wv0 / w1, var(val_div(wv0, w1), der_div(wv0, w1)));
+  TTS_EQUAL(wv0 /  s, var(val_div(wv0, s ), der_div(wv0, s )));
+  TTS_EQUAL(sv  / w1, var(val_div(sv , w1), der_div(sv , w1)));
+  TTS_EQUAL(sv  /  s, var(val_div(sv , s ), der_div(sv , s )));
 
-  //   TTS_ULP_EQUAL(val(eve::div(b0, vda1))   , eve::div(b0, a1),10.0);
-  //   TTS_ULP_EQUAL(val(eve::div(b0, vda1))   , eve::div(b0, a1),10.0);
-  //   TTS_ULP_EQUAL(der(eve::div(vdb0, vda1))   , T(2),10.0);
-  //   TTS_ULP_EQUAL(der(eve::div(vdb0, vda1))   , T(2),10.0);
-  // //  mix with  complex
-  // //  using z_t = eve::as_complex_t<T>;
-  // //   z_t za(a0, a1);
-  // //   z_t zb(a1, a2);
-  // //   auto vdza = var(za);
-  // //   auto vdzb = var(zb);
-  // //   TTS_ULP_EQUAL(val(eve::div(vdza, vdzb)) , eve::div(za, zb),10.0);
-  // //   TTS_ULP_EQUAL(der(eve::div(vdza, vdzb)) , z_t(2),10.0);
+  //  type / valder
+  TTS_EQUAL(w1 / wv0, var(val_div(w1,wv0), der_div(w1,wv0)));
+  TTS_EQUAL( s / wv0, var(val_div(s ,wv0), der_div(s ,wv0)));
+  TTS_EQUAL(w1 / sv , var(val_div(w1,sv ), der_div(w1,sv )));
+  TTS_EQUAL( s / sv , var(val_div(s ,sv ), der_div(s ,sv )));
+};
 
-  TTS_ULP_EQUAL(val(vda0/a1)              , eve::div(a0, a1),10.0);
-  TTS_ULP_EQUAL(der(vda0/a1)              , eve::rec(a1),10.0);
-  TTS_ULP_EQUAL(val(a0/vda1)              , eve::div(a0, a1),10.0);
-  TTS_ULP_EQUAL(der(a0/vda1)              , -eve::sqr(eve::rec(a1))*a0,10.0);
-  TTS_ULP_EQUAL(val(vda0/vda1)            , eve::div(a0, a1),10.0);
-  TTS_ULP_EQUAL(der(vda0/vda1)            , eve::rec(a1)-eve::sqr(eve::rec(a1))*a0,10.0);
+TTS_CASE_WITH("Check behavior of div(valder...) for real values",
+              flx::test::simd::ieee_reals,
+              tts::generate(tts::randoms(-10, +10),
+                            tts::randoms(-10, +10)
+                           ))
+<typename T>(T const& w0, T const& w1)
+{
+  using flx::der;
+  using flx::val;
+  using flx::var;
 
-  vda0 /= vda1;
-  std::cout << "vda0 /= vda1    " << vda0 << std::endl;
-  TTS_ULP_EQUAL(val(vda0), a0 / a1,10.0);
-  TTS_ULP_EQUAL(der(vda0), eve::rec(a1)-eve::sqr(eve::rec(a1))*a0,10.0);
-  std::cout << "avant vda1 " << vda1 << std::endl;
-  vda1 /= a0;
-  std::cout << "apres vda1 " << vda1 << std::endl;
-  std::cout << "vda1 /= a0    " << vda1 << std::endl;
-  TTS_ULP_EQUAL(val(vda1), a1 / a0, 10.0);
-  TTS_ULP_EQUAL(der(vda1), eve::rec(a0),10.0);
+  auto wv0 = var(w0);
+  auto wv1 = var(w1);
 
+  using e_t = eve::element_type_t<T>;
+  e_t s(4);
+  auto sv = var(s);
+
+//  valder / valder
+  TTS_EQUAL(eve::div(wv0, wv1), var(val_div(wv0,wv1), der_div(wv0,wv1)));
+  TTS_EQUAL(eve::div(wv0,  sv), var(val_div(wv0, sv), der_div(wv0, sv)));
+  TTS_EQUAL(eve::div(sv , wv1), var(val_div(sv ,wv1), der_div(sv ,wv1)));
+  TTS_EQUAL(eve::div(sv ,  sv), var(val_div(sv , sv), der_div(sv , sv)));
+
+  //  valder / type
+  TTS_EQUAL(eve::div(wv0, w1), var(val_div(wv0, w1), der_div(wv0, w1)));
+  TTS_EQUAL(eve::div(wv0,  s), var(val_div(wv0, s ), der_div(wv0, s )));
+  TTS_EQUAL(eve::div(sv , w1), var(val_div(sv , w1), der_div(sv , w1)));
+  TTS_EQUAL(eve::div(sv ,  s), var(val_div(sv , s ), der_div(sv , s )));
+
+  //  type / valder
+  TTS_EQUAL(eve::div(w1, wv0), var(val_div(w1,wv0), der_div(w1,wv0)));
+  TTS_EQUAL(eve::div( s, wv0), var(val_div(s ,wv0), der_div(s ,wv0)));
+  TTS_EQUAL(eve::div(w1, sv) , var(val_div(w1,sv ), der_div(w1,sv )));
+  TTS_EQUAL(eve::div( s, sv) , var(val_div(s ,sv ), der_div(s ,sv )));
 };

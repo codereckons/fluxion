@@ -1,75 +1,93 @@
-/**
-  EVE - Expressive Vector Engine
-  Copyright : EVE Contributors & Maintainers
+//==================================================================================================
+/*
+  Fluxion - Post-Modern Automatic Derivation
+  Copyright : Fluxion Contributors & Maintainers
   SPDX-License-Identifier: MIT
-**/
+*/
 //==================================================================================================
 #include "test.hpp"
-#include <algorithm>
-#include <eve/module/core.hpp>
 #include <flx/flx.hpp>
+
+auto der_sub(auto a, auto b)
+{
+  using flx::der;
+  using flx::val;
+  return der(a) - der(b);
+}
 
 //==================================================================================================
 // Tests for flx::sub
 //==================================================================================================
-TTS_CASE_WITH( "Check behavior of flx::sub(eve::wide)"
-        , flx::test::simd::ieee_reals
-        , tts::generate ( tts::randoms(-10, +10)
-                              , tts::randoms(-10, +10)
-                              , tts::randoms(-10, +10)
-                              , tts::logicals(0,3)
-                              )
-        )
-  <typename T, typename M>(T const& a0, T const& a1, T const& , M const& )
+TTS_CASE_WITH("Check behavior of flx::valder::operator- for real values",
+              flx::test::simd::ieee_reals,
+              tts::generate(tts::randoms(-10, +10),
+                            tts::randoms(-10, +10)
+                           ))
+<typename T>(T const& w0, T const& w1)
 {
-  using eve::detail::map;
-  using flx::var;
-  using flx::val;
   using flx::der;
-  using flx::derivative_1st;
-  using flx::derivative_2nd;
-  using flx::derivative_3rd;
+  using flx::val;
+  using flx::var;
 
-  auto vda0 = var(a0);
-  auto vda1 = var(a1);
-//  auto vda2 = var(a2);
-  TTS_EQUAL(val(eve::sub(vda0, a1))          , eve::sub(a0, a1));
-  TTS_EQUAL(der(eve::sub(vda0, a1))          , eve::one(eve::as(a0)));
-  TTS_EQUAL(val(eve::sub(a0, vda1))          , eve::sub(a0, a1));
-  TTS_EQUAL(der(eve::sub(a0, vda1))          , eve::mone(eve::as(a1)));
-  TTS_EQUAL(val(eve::sub(vda0, vda1))        , eve::sub(a0, a1));
-  TTS_EQUAL(der(eve::sub(vda0, vda1))        , eve::zero(eve::as(a1)));;
+  auto wv0 = var(w0);
+  auto wv1 = var(w1);
 
+  using e_t = eve::element_type_t<T>;
+  e_t s(7);
+  auto sv = var(s);
 
-  TTS_EQUAL(val(vda0-a1)              , eve::sub(a0, a1));
-  TTS_EQUAL(der(vda0-a1)              , eve::one(eve::as(a0)));
-  TTS_EQUAL(val(a0-vda1)              , eve::sub(a0, a1));
-  TTS_EQUAL(der(a0-vda1)              , eve::mone(eve::as(a0)));
+  //  valder - valder
+  TTS_EQUAL(wv0 - wv1, var(w0 - w1 , der_sub(wv0,wv1)) );
+  TTS_EQUAL(wv0 -  sv, var(w0 - s  , der_sub(wv0, sv)) );
+  TTS_EQUAL(sv  - wv1, var(s  - w1 , der_sub(sv ,wv1)) );
+  TTS_EQUAL(sv  -  sv, var(s  - s  , der_sub(sv,sv)  ) );
 
-  vda0 -= vda1;
-  std::cout << "vda0 -= vda1    " << vda0 << std::endl;
-  TTS_EQUAL(val(vda0), a0 - a1);
-  TTS_EQUAL(der(vda0), T(0));
-  std::cout << "avant vda1 " << vda1 << std::endl;
-  vda1 -= a0;
-  std::cout << "apres vda1 " << vda1 << std::endl;
-  std::cout << "vda1 -= a0    " << vda1 << std::endl;
-  TTS_EQUAL(val(vda1), a1 - a0);
-  TTS_EQUAL(der(vda1), T(1));
+  //  valder - type
+  TTS_EQUAL(wv0 - w1, var(w0 - w1, 1));
+  TTS_EQUAL(wv0 -  s, var(w0 - s , 1));
+  TTS_EQUAL(sv  - w1, var( s - w1, 1));
+  TTS_EQUAL(sv  -  s, var( s - s , 1));
 
-//   TTS_EQUAL(val(eve::sub(vda0, a1, a2))      , eve::sub(a0, a1, a2));
-//   TTS_EQUAL(der(eve::sub(vda0, a1, a2))      , derivative_1st(eve::sub)(a0, a1, a2));
-//   TTS_EQUAL(val(eve::sub(a0, vda1, a2))      , eve::sub(a0, a1, a2));
-//   TTS_EQUAL(der(eve::sub(a0, vda1, a2))      , derivative_2nd(eve::sub)(a0, a1, a2));
-//   TTS_EQUAL(val(eve::sub(a0, a1, vda2))      , eve::sub(a0, a1, a2));
-//   TTS_EQUAL(der(eve::sub(a0, a1, vda2))      , derivative_3rd(eve::sub)(a0, a1, a2));
+  //  type - valder
+  TTS_EQUAL(w1 - wv0, var(w1 - w0,-1));
+  TTS_EQUAL( s - wv0, var(s  - w0,-1));
+  TTS_EQUAL(w1 - sv , var(w1 -  s,-1));
+  TTS_EQUAL( s - sv , var(s  -  s,-1));
+};
 
-//   TTS_EQUAL(val(eve::sub[mask](vda0, a1, a2)), eve::sub[mask](a0, a1, a2));
-//   TTS_EQUAL(der(eve::sub[mask](vda0, a1, a2)), eve::if_else(mask, derivative_1st(eve::sub)(a0, a1, a2), eve::one));
-//   TTS_EQUAL(val(eve::sub[mask](a0, vda1, a2)), eve::sub[mask](a0, a1, a2));
-//   TTS_EQUAL(der(eve::sub[mask](a0, vda1, a2)), eve::if_else(mask, derivative_2nd(eve::sub)(a0, a1, a2), eve::zero));
-//   TTS_EQUAL(val(eve::sub[mask](a0, a1, vda2)), eve::sub[mask](a0, a1, a2));
-//   TTS_EQUAL(der(eve::sub[mask](a0, a1, vda2)), eve::if_else(mask, derivative_3rd(eve::sub)(a0, a1, a2), eve::zero));
+TTS_CASE_WITH("Check behavior of sub(valder...) for real values",
+              flx::test::simd::ieee_reals,
+              tts::generate(tts::randoms(-10, +10),
+                            tts::randoms(-10, +10)
+                           ))
+<typename T>(T const& w0, T const& w1)
+{
+  using flx::der;
+  using flx::val;
+  using flx::var;
 
+  auto wv0 = var(w0);
+  auto wv1 = var(w1);
 
+  using e_t = eve::element_type_t<T>;
+  e_t s(7);
+  auto sv = var(s);
+
+  //  valder + valder
+  TTS_EQUAL(eve::sub(wv0, wv1), var(w0 - w1 , der_sub(wv0,wv1)) );
+  TTS_EQUAL(eve::sub(wv0,  sv), var(w0 - s  , der_sub(wv0, sv)) );
+  TTS_EQUAL(eve::sub(sv , wv1), var(s  - w1 , der_sub(sv ,wv1)) );
+  TTS_EQUAL(eve::sub(sv ,  sv), var(s  - s  , der_sub(sv,sv)  ) );
+
+  //  valder + type
+  TTS_EQUAL(eve::sub(wv0, w1), var(w0 - w1,1));
+  TTS_EQUAL(eve::sub(wv0,  s), var(w0 - s ,1));
+  TTS_EQUAL(eve::sub(sv , w1), var( s - w1,1));
+  TTS_EQUAL(eve::sub(sv ,  s), var( s - s ,1));
+
+  //  type + valder
+  TTS_EQUAL(eve::sub(w1, wv0), var(w1 - w0,-1));
+  TTS_EQUAL(eve::sub( s, wv0), var(s  - w0,-1));
+  TTS_EQUAL(eve::sub(w1, sv ), var(w1 -  s,-1));
+  TTS_EQUAL(eve::sub( s, sv ), var(s  -  s,-1));
 };
