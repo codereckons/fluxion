@@ -14,8 +14,9 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr auto rem_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<1> const &
                                     , T , U  ) noexcept
+  -> decltype(T()+U())
   {
-    using r_t = common_value_t<T, U>;
+    using r_t = decltype(T()+U());
     return one(as<r_t>());
   }
 
@@ -23,6 +24,7 @@ namespace eve::detail
   EVE_FORCEINLINE constexpr auto rem_(EVE_SUPPORTS(cpu_)
                                     , flx::derivative_type<2> const &
                                     , T const &x, U const & y ) noexcept
+  -> decltype(T()+U())
   {
     return -eve::trunc(x/y);
   }
