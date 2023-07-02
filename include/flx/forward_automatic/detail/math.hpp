@@ -115,7 +115,7 @@ namespace flx::detail
     else if constexpr(! eve::like<Z2, valder<elt_t>>)
       return r_t(at2, invden*v2*d1);
     else
-      return r_t{eve::atan2d(v1, v2), invden*eve::sum_of_prod(v1, d2, v2, d1)};
+      return r_t{eve::atan2pi(v1, v2), invden*eve::sum_of_prod(v1, d2, v2, d1)};
   }
 
 
