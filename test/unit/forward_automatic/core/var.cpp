@@ -35,14 +35,4 @@ TTS_CASE_WITH( "Check behavior of flx::var(eve::wide)"
   auto vda2 = var(a1, T(1));
   auto vdt2  = flx::as_valder_t<T>(a1, eve::one(eve::as(a0)));
   TTS_EQUAL(vda2      , vdt2);
-
-
-
-//   using z_t = eve::as_complex_t<T>;
-//   z_t z{a0, a1};
-//   std::cout << "z " << z << std::endl;
-// la suite ne compile pas
-//   auto vdz = var(z);
-//  auto vdzt  = flx::as_valder_t<T>(z, eve::one(eve::as(z)));
-//   TTS_EQUAL(var(vdz)      , vdzt);
 };
