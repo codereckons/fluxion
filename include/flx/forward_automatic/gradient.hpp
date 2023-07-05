@@ -92,11 +92,14 @@ namespace eve
   //!
   //!  @}
   //================================================================================================
+}
   namespace flx
   {
     inline eve::detail::callable_object<eve::tag::gradient_> const gradient = {};
   }
 
+namespace eve
+{
   namespace detail
   {
 
