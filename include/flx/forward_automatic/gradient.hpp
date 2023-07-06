@@ -9,9 +9,6 @@
 
 #include <eve/detail/overload.hpp>
 #include <flx/forward_automatic/var.hpp>
-#include <flx/forward_automatic/valder.hpp>
-#include <flx/forward_automatic/val.hpp>
-#include <flx/forward_automatic/der.hpp>
 
 namespace eve
 {
@@ -47,10 +44,10 @@ namespace eve
   //================================================================================================
   [[maybe_unused]] inline constexpr pol_type const pol = {};
 
-
   EVE_REGISTER_CALLABLE(gradient_);
   EVE_DECLARE_CALLABLE(gradient_,gradient);
   EVE_CALLABLE_API(gradient_,gradient);
+
 }
 
 
