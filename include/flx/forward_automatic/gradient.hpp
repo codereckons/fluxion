@@ -50,9 +50,7 @@ namespace eve
 
 }
 
-
-
-namespace eve
+namespace flx
 {
   //================================================================================================
   //! @addtogroup forward_automatic
@@ -89,11 +87,8 @@ namespace eve
   //!
   //!  @}
   //================================================================================================
+  inline eve::detail::callable_object<eve::tag::gradient_> const gradient = {};
 }
-  namespace flx
-  {
-    inline eve::detail::callable_object<eve::tag::gradient_> const gradient = {};
-  }
 
 namespace eve
 {
