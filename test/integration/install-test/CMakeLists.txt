@@ -17,7 +17,7 @@ FetchContent_Declare(eve
 
 FetchContent_MakeAvailable(eve)
 
-find_package(flx CONFIG REQUIRED)
-add_executable(test_flx ../main.cpp)
-target_link_libraries(test_flx PUBLIC flx::flx eve::eve)
-add_test(NAME test_flx COMMAND test_flx)
+find_package(fluxion CONFIG REQUIRED)
+add_executable(test_fluxion ../main.cpp)
+target_link_libraries(test_fluxion PUBLIC fluxion::fluxion eve::eve)
+add_test(NAME test_fluxion COMMAND test_fluxion)
