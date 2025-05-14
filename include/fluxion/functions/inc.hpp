@@ -71,7 +71,7 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE FLX_FORCEINLINE constexpr auto inc_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto inc_(flx_DELAY(), O const&, Z z) noexcept
   {
     auto val = eve::inc(e0(z));
     if constexpr(concepts::base<Z>)

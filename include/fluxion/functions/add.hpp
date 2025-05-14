@@ -68,7 +68,7 @@ namespace flx::_
 {
 
   template<typename Z0, typename ... Zs, eve::callable_options O>
-  FLX_FORCEINLINE FLX_FORCEINLINE constexpr auto add_(flx_DELAY(), O const&, Z0 z0, Zs... zs) noexcept
+  FLX_FORCEINLINE constexpr auto add_(flx_DELAY(), O const&, Z0 z0, Zs... zs) noexcept
   {
     return z0+(zs+...);
   }

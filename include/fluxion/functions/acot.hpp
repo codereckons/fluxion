@@ -68,7 +68,7 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE FLX_FORCEINLINE constexpr auto acot_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto acot_(flx_DELAY(), O const&, Z z) noexcept
   {
     auto val = eve::acot(e0(z));
     if constexpr(concepts::base<Z>)

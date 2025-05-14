@@ -68,7 +68,7 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE FLX_FORCEINLINE constexpr auto acotpi_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto acotpi_(flx_DELAY(), O const&, Z z) noexcept
   {
     return flx::acot(z)*eve::inv_pi(eve::as(e0(z)));
   }

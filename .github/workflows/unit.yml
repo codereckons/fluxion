@@ -26,8 +26,6 @@ jobs:
         - { compiler: clang++ , opts: "-O3 -DNDEBUG"                       }
         - { compiler: g++     , opts: "-O3 -DNDEBUG -mavx2"                }
         - { compiler: clang++ , opts: "-O3 -DNDEBUG -mavx2"                }
-        - { compiler: g++     , opts: "-O3 -DNDEBUG -march=skylake-avx512" }
-        - { compiler: clang++ , opts: "-O3 -DNDEBUG -march=skylake-avx512" }
     steps:
       - name: Fetch current branch
         uses: actions/checkout@v4

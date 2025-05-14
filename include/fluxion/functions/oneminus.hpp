@@ -71,7 +71,7 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE FLX_FORCEINLINE constexpr auto oneminus_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto oneminus_(flx_DELAY(), O const&, Z z) noexcept
   {
     auto val = eve::oneminus(e0(z));
     if constexpr(concepts::base<Z>)
