@@ -1,13 +1,13 @@
-##==================================================================================================
-## Fluxion - Post-Modern Automatic Derivation
-## Copyright : Fluxion Project Contributors
-## SPDX-License-Identifier: BSL-1.0
-##==================================================================================================
+##======================================================================================================================
+##  FLUXION - Post-Modern Automatic Derivation
+##  Copyright : FLUXION Contributors & Maintainers
+##  SPDX-License-Identifier: BSL-1.0
+##======================================================================================================================
 
-##==================================================================================================
+##======================================================================================================================
 ## Download and setup CPM
-##==================================================================================================
-set(CPM_DOWNLOAD_VERSION 0.34.0)
+##======================================================================================================================
+set(CPM_DOWNLOAD_VERSION 0.40.2)
 
 if(CPM_SOURCE_CACHE)
   set(CPM_DOWNLOAD_LOCATION "${CPM_SOURCE_CACHE}/cpm/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
@@ -27,19 +27,19 @@ endif()
 
 include(${CPM_DOWNLOAD_LOCATION})
 
-##==================================================================================================
+##======================================================================================================================
 ## Retrieve dependencies
-##==================================================================================================
-CPMAddPackage(NAME COPACABANA GITHUB_REPOSITORY jfalcou/copacabana GIT_TAG main)
-
-CPMAddPackage ( NAME eve   GITHUB_REPOSITORY jfalcou/eve
+##======================================================================================================================
+CPMAddPackage ( NAME COPACABANA GITHUB_REPOSITORY jfalcou/copacabana  GIT_TAG main)
+CPMAddPackage ( NAME TTS   GITHUB_REPOSITORY jfalcou/tts
+                GIT_TAG main
+                OPTIONS "TTS_BUILD_TEST OFF"
+                        "TTS_BUILD_DOCUMENTATION OFF"
+                        "TTS_QUIET ON"
+              )
+CPMAddPackage ( NAME EVE   GITHUB_REPOSITORY jfalcou/eve
                 GIT_TAG main
                 OPTIONS "EVE_BUILD_TEST OFF"
                         "EVE_BUILD_BENCHMARKS OFF"
                         "EVE_BUILD_DOCUMENTATION OFF"
               )
-
-# CPMAddPackage ( NAME nucog GITHUB_REPOSITORY jfalcou/nucog
-#                 GIT_TAG main    DOWNLOAD_ONLY TRUE
-#                 OPTIONS "NUCOG_BUILD_TEST OFF"
-#               )
