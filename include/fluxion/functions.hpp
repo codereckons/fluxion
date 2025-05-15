@@ -100,7 +100,7 @@
 // #include <fluxion/functions/faddeeva.hpp>
 // #include <fluxion/functions/fam.hpp>
 // #include <fluxion/functions/floor.hpp>
-// #include <fluxion/functions/fma.hpp>
+#include <fluxion/functions/fma.hpp>
 // #include <fluxion/functions/fms.hpp>
 // #include <fluxion/functions/fnma.hpp>
 // #include <fluxion/functions/fnms.hpp>

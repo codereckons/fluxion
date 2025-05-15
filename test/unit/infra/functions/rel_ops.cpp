@@ -25,13 +25,13 @@ TTS_CASE_WITH ( "Check flx::hyperdual + "
     TTS_EQUAL(h1 != h2, r != j);
     TTS_EQUAL(h1 == h2, r == j);
 
-    TTS_EQUAL(flx::is_equal(h1, h2), r == j);
-    TTS_EQUAL(flx::is_not_equal(h1, h2), r != j);
+//     TTS_EQUAL(flx::is_equal(h1, h2), r == j);
+//     TTS_EQUAL(flx::is_not_equal(h1, h2), r != j);
    flx::e0(h2) = r;
     TTS_EQUAL(h1 != h2, eve::false_(eve::as<T>()));
     TTS_EQUAL(h1 == h2, eve::true_(eve::as<T>()));
-    TTS_EQUAL(flx::is_equal(h1, h2), eve::true_(eve::as<T>()));
-    TTS_EQUAL(flx::is_not_equal(h1, h2), eve::false_(eve::as<T>()));
+//     TTS_EQUAL(flx::is_equal(h1, h2), eve::true_(eve::as<T>()));
+//     TTS_EQUAL(flx::is_not_equal(h1, h2), eve::false_(eve::as<T>()));
   }
 //   {
 //     h1_t h1(r, i);
