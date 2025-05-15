@@ -112,25 +112,25 @@ namespace flx
     }
   }
 
-//   //! @brief Compares two hyperdual values for equality
-//   //! @related hyperdual
-//   template<concepts::hyperdual_like T1, concepts::hyperdual_like T2>
-//   //  requires(concepts::hyperdual<T1> || concepts::hyperdual<T2>)
-//   constexpr auto operator==( T1 const& a, T2  const& b)
-//   {
-//     std::cout << "icitte" << std::endl;
-//     return flx::is_equal(a, b);
-// //    return e0(a) == e0(b);
-//   }
+  //! @brief Compares two hyperdual values for equality
+  //! @related hyperdual
+  template<concepts::hyperdual_like T1, concepts::hyperdual_like T2>
+  //  requires(concepts::hyperdual<T1> || concepts::hyperdual<T2>)
+  constexpr auto operator==( T1 const& a, T2  const& b)
+  {
+    std::cout << "icitte" << std::endl;
+    return flx::is_equal(a, b);
+   return e0(a) == e0(b);
+  }
 
-//   //! @brief Compares  two hyperdual values for inequality
-//   //! @related hyperdual
-//   template<concepts::hyperdual_like T1, concepts::hyperdual_like T2>
-//   //  requires(concepts::hyperdual<T1> || concepts::hyperdual<T2>)
-//   constexpr auto operator!=( T1 const& a, T2 b)
-//   {
-//     return e0(a) != e0(b);
-//   }
+  //! @brief Compares  two hyperdual values for inequality
+  //! @related hyperdual
+  template<concepts::hyperdual_like T1, concepts::hyperdual_like T2>
+  //  requires(concepts::hyperdual<T1> || concepts::hyperdual<T2>)
+  constexpr auto operator!=( T1 const& a, T2 b)
+  {
+    return e0(a) != e0(b);
+  }
 
   //====================================================================================================================
   //! @}

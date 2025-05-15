@@ -12,3 +12,4 @@ namespace flx {}
 
 #include <fluxion/types.hpp>
 #include <fluxion/functions.hpp>
+#include <fluxion/utils.hpp>

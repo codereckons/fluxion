@@ -1,34 +1,33 @@
 //======================================================================================================================
 /*
-  FLUXION - Post-Modern Automatic Derivation
-  Copyright: FLUXION Contributors & Maintainers
+  Kyosu - Hyperdual numbers
+  Copyright: KYOSU Contributors & Maintainers
   SPDX-License-Identifier: BSL-1.0
 */
 //======================================================================================================================
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <fluxion/types/operators.hpp>
 
 namespace flx
 {
   template<typename Options>
-  struct add_t : eve::callable<add_t, Options>
+  struct fma_t : eve::callable<fma_t, Options>
   {
-    template<concepts::hyperdual_like Z0, concepts::hyperdual_like ... Zs>
-    FLX_FORCEINLINE constexpr flx::as_hyperdual_t<Z0, Zs...> operator()(Z0 const& z0, Zs const& ... zs) const noexcept
+    template<concepts::hyperdual_like Z0, concepts::hyperdual_like Z1, concepts::hyperdual_like Z2 >
+    FLX_FORCEINLINE constexpr flx::as_hyperdual_t<Z0, Z1, Z2> operator()(Z0 const& z0, Z1 const& z1, Z2 const& z2) const noexcept
     {
-      return  flx_CALL(z0, zs...);
+      return  flx_CALL(z0, z1, z2);
     }
 
-    flx_CALLABLE_OBJECT(add_t, add_);
+    flx_CALLABLE_OBJECT(fma_t, fma_);
   };
 
 //======================================================================================================================
-//! @addtogroup functions
+//! @fmatogroup functions
 //! @{
-//!   @var add
-//!   @brief Computes the sum of the arguments.
+//!   @var fma
+//!   @brief Computes z0*z1+z2
 //!
 //!   @groupheader{Header file}
 //!
@@ -41,23 +40,23 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<concepts::hyperdual_like T0, oncepts::hyperdual_like ... Ts > constexprT add(T0 z0,  Ts... zs) noexcept;
+//!      template<concepts::hyperdual_like T0, oncepts::hyperdual_like ... Ts > constexprT fma(T0 z0,  Ts... zs) noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `z0`,  `z1`: Values to process.
+//!     * `z0`, `z1`, `z2`: Values to process.
 //!
 //!   **Return value**
 //!
-//!     Returns the sum of the arguments.
+//!     Returns  z0*z1+z2.
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/add.cpp}
+//!  @godbolt{doc/fma.cpp}
 //======================================================================================================================
-  inline constexpr auto add = eve::functor<add_t>;
+  inline constexpr auto fma = eve::functor<fma_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -66,9 +65,11 @@ namespace flx
 namespace flx::_
 {
 
-  template<typename Z0, typename ... Zs, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto add_(flx_DELAY(), O const&, Z0 z0, Zs... zs) noexcept
+  template<typename Z0, typename Z1, typename Z2, eve::callable_options O>
+  FLX_FORCEINLINE constexpr auto fma_(flx_DELAY(), O const&, Z0 z0, Z1 z1, Z2 z2) noexcept
   {
-    return z0+(zs+...);
+    auto r = z0*z1+z2;
+    flx::e0(r) = eve::fma(e0(z0), e0(z1), e0(z2));
+    return r;
   }
 }
