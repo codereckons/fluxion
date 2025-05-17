@@ -26,31 +26,31 @@ TTS_CASE_WITH ( "Check flx::log over hyperdual 1 to 4"
   {
     auto vr = flx::variable<1>(r);
     auto logvr = flx::log(vr);
-    TTS_ULP_EQUAL(flx::D0(logvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(logvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d0(logvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(logvr), d1, 2.5);
   }
   {
     auto vr = flx::variable<2>(r);
     auto logvr = flx::log(vr);
-    TTS_ULP_EQUAL(flx::D0(logvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(logvr), d1, 2.5);
-    TTS_ULP_EQUAL(flx::D2(logvr), d2, 3.0);
+    TTS_ULP_EQUAL(flx::d0(logvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(logvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d2(logvr), d2, 3.0);
   }
   {
     auto vr = flx::variable<3>(r);
     auto logvr = flx::log(vr);
-    TTS_ULP_EQUAL(flx::D0(logvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(logvr), d1, 2.5);
-    TTS_ULP_EQUAL(flx::D2(logvr), d2, 3.0);
-    TTS_ULP_EQUAL(flx::D3(logvr), d3, 3.0);
+    TTS_ULP_EQUAL(flx::d0(logvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(logvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d2(logvr), d2, 3.0);
+    TTS_ULP_EQUAL(flx::d3(logvr), d3, 3.0);
   }
   {
     auto vr = flx::variable<4>(r);
     auto logvr = flx::log(vr);
-    TTS_ULP_EQUAL(flx::D0(logvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(logvr), d1, 2.5);
-    TTS_ULP_EQUAL(flx::D2(logvr), d2, 3.0);
-    TTS_ULP_EQUAL(flx::D3(logvr), d3, 3.0);
-    TTS_ULP_EQUAL(flx::D4(logvr), d4, 3.5);
+    TTS_ULP_EQUAL(flx::d0(logvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(logvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d2(logvr), d2, 3.0);
+    TTS_ULP_EQUAL(flx::d3(logvr), d3, 3.0);
+    TTS_ULP_EQUAL(flx::d4(logvr), d4, 3.5);
   }
 };

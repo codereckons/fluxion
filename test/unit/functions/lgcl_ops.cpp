@@ -27,8 +27,8 @@ TTS_CASE_WITH ( "Check flx::sqrt over hyperdual 1"
   auto sqrtvr = flx::sqrt(vr);
   auto d0 = eve::sqrt(r);
   auto d1 = eve::rec(d0)/2;
-  TTS_ULP_EQUAL(flx::D0(sqrtvr), d0, 2.5);
-  TTS_ULP_EQUAL(flx::D1(sqrtvr), d1, 2.5);
+  TTS_ULP_EQUAL(flx::d0(sqrtvr), d0, 2.5);
+  TTS_ULP_EQUAL(flx::d1(sqrtvr), d1, 2.5);
 };
 
 TTS_CASE_WITH ( "Check flx::sqrt over hyperdual 2"
@@ -42,9 +42,9 @@ TTS_CASE_WITH ( "Check flx::sqrt over hyperdual 2"
   auto d0 = eve::sqrt(r);
   auto d1 = eve::rec(d0)/2;
   auto d2 = -d1/(2*r);
-  TTS_ULP_EQUAL(flx::D0(sqrtvr), d0, 2.5);
-  TTS_ULP_EQUAL(flx::D1(sqrtvr), d1, 2.5);
-  TTS_ULP_EQUAL(flx::D2(sqrtvr), d2, 2.5);
+  TTS_ULP_EQUAL(flx::d0(sqrtvr), d0, 2.5);
+  TTS_ULP_EQUAL(flx::d1(sqrtvr), d1, 2.5);
+  TTS_ULP_EQUAL(flx::d2(sqrtvr), d2, 2.5);
 };
 
 TTS_CASE_WITH ( "Check flx::sqrt over hyperdual 3"
@@ -59,8 +59,8 @@ TTS_CASE_WITH ( "Check flx::sqrt over hyperdual 3"
   auto d1 = eve::rec(d0)/2;
   auto d2 = -d1/(2*r);
   auto d3 = -3*d2/(2*r);
-  TTS_ULP_EQUAL(flx::D0(sqrtvr), d0, 2.5);
-  TTS_ULP_EQUAL(flx::D1(sqrtvr), d1, 2.5);
-  TTS_ULP_EQUAL(flx::D2(sqrtvr), d2, 2.5);
-  TTS_ULP_EQUAL(flx::D3(sqrtvr), d3, 2.5);
+  TTS_ULP_EQUAL(flx::d0(sqrtvr), d0, 2.5);
+  TTS_ULP_EQUAL(flx::d1(sqrtvr), d1, 2.5);
+  TTS_ULP_EQUAL(flx::d2(sqrtvr), d2, 2.5);
+  TTS_ULP_EQUAL(flx::d3(sqrtvr), d3, 2.5);
 };

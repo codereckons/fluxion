@@ -39,9 +39,9 @@ TTS_CASE_WITH( "Check behavior of flx::gradient"
 //     TTS_ULP_EQUAL(d(da0, 1.0, 1.0), df(a0, a1, a2, da0, 1.0, 1.0), 0.5);
 
 
-    auto der0 = flx::D1(g(flx::variable<1>(a0), a1, a2));
-    auto der1 = flx::D1(g(a0, flx::variable<1>(a1), a2));
-    auto der2 = flx::D1(g(a0, a1, flx::variable<1>(a2)));
+    auto der0 = flx::d1(g(flx::variable<1>(a0), a1, a2));
+    auto der1 = flx::d1(g(a0, flx::variable<1>(a1), a2));
+    auto der2 = flx::d1(g(a0, a1, flx::variable<1>(a2)));
     auto gg = flx::gradient(g, a0, a1, a2);
     std::cout << "toto " << gg << std::endl;
     TTS_ULP_EQUAL(get<0>(gg), der0, 0.5);

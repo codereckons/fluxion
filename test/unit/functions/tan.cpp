@@ -25,32 +25,32 @@ TTS_CASE_WITH ( "Check flx::tan over hyperdual 1 to 4"
   {
     auto vr = flx::variable<1>(r);
     auto tanvr = flx::tan(vr);
-    TTS_ULP_EQUAL(flx::D0(tanvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(tanvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d0(tanvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(tanvr), d1, 2.5);
   }
   {
     auto vr = flx::variable<2>(r);
     auto tanvr = flx::tan(vr);
-    TTS_ULP_EQUAL(flx::D0(tanvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(tanvr), d1, 2.5);
-    TTS_ULP_EQUAL(flx::D2(tanvr), d2, 3.0);
+    TTS_ULP_EQUAL(flx::d0(tanvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(tanvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d2(tanvr), d2, 3.0);
   }
   {
     auto vr = flx::variable<3>(r);
     auto tanvr = flx::tan(vr);
-    TTS_ULP_EQUAL(flx::D0(tanvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(tanvr), d1, 2.5);
-    TTS_ULP_EQUAL(flx::D2(tanvr), d2, 3.0);
-    TTS_ULP_EQUAL(flx::D3(tanvr), d3, 3.0);
+    TTS_ULP_EQUAL(flx::d0(tanvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(tanvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d2(tanvr), d2, 3.0);
+    TTS_ULP_EQUAL(flx::d3(tanvr), d3, 3.0);
   }
   {
     auto vr = flx::variable<4>(r);
     auto tanvr = flx::tan(vr);
-    TTS_ULP_EQUAL(flx::D0(tanvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(tanvr), d1, 2.5);
-    TTS_ULP_EQUAL(flx::D2(tanvr), d2, 3.0);
-    TTS_ULP_EQUAL(flx::D3(tanvr), d3, 3.0);
-    TTS_ULP_EQUAL(flx::D4(tanvr), d4, 3.5);
+    TTS_ULP_EQUAL(flx::d0(tanvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(tanvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d2(tanvr), d2, 3.0);
+    TTS_ULP_EQUAL(flx::d3(tanvr), d3, 3.0);
+    TTS_ULP_EQUAL(flx::d4(tanvr), d4, 3.5);
   }
 
 };

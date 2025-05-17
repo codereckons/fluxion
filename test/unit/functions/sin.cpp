@@ -18,9 +18,9 @@ TTS_CASE_WITH ( "Check flx::sin over hyperdual 4"
   auto vr = flx::variable<4>(r);
   auto sinvr = flx::sin(vr);
   auto [s, c] = eve::sincos(r);
-  TTS_ULP_EQUAL(flx::D0(sinvr),  s, 0.5);
-  TTS_ULP_EQUAL(flx::D1(sinvr),  c, 0.5);
-  TTS_ULP_EQUAL(flx::D2(sinvr), -s, 0.5);
-  TTS_ULP_EQUAL(flx::D3(sinvr), -c, 0.5);
-  TTS_ULP_EQUAL(flx::D4(sinvr),  s, 0.5);
+  TTS_ULP_EQUAL(flx::d0(sinvr),  s, 0.5);
+  TTS_ULP_EQUAL(flx::d1(sinvr),  c, 0.5);
+  TTS_ULP_EQUAL(flx::d2(sinvr), -s, 0.5);
+  TTS_ULP_EQUAL(flx::d3(sinvr), -c, 0.5);
+  TTS_ULP_EQUAL(flx::d4(sinvr),  s, 0.5);
 };

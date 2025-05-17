@@ -9,7 +9,7 @@
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
 
-namespace hypdu
+namespace flx
 {
 //   template<typename Options>
 //   struct differential_t : eve::callable<differential_t, Options>
@@ -78,12 +78,17 @@ namespace hypdu
 //     return as_tuple<Formats...>(arr, std::make_index_sequence<N>{});
 //   }
 
-//   template<typename Func, typename ... Zs>
-//   FLX_FORCEINLINE constexpr auto differential(Func f, Zs const &... xs) noexcept
-//   {
-//     {
-//       auto g = gradient(f, xs...);
-//       auto diff = [g](auto ... dxs){return kumi::sum(kumi::map_index([](auto i, auto l,  auto r)(return l*r; ), kg, kumi::tuple(dxs...)); };
-//     }
-//   }
+  template<typename Func, typename ... Zs>
+  FLX_FORCEINLINE constexpr auto differential(Func f, Zs const &... xs) noexcept
+  {
+    {
+      auto g = gradient(f, xs...);
+      auto df = [g](auto const &... dxs){
+        auto tdxs = kumi::tuple{dxs...};
+        auto prod = [](auto l,  auto r){ return l*r; };
+        return kumi::sum(kumi::map(prod, g, tdxs));
+      };
+      return df;
+    }
+  }
 }

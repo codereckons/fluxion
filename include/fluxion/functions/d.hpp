@@ -35,10 +35,14 @@ namespace flx
   //!   @code
   //!   namespace flx
   //!   {
-  //!     constexpr decltype(auto) D0(concepts::hyperdual auto&& v)  noexcept; // 1
-  //!     constexpr decltype(auto) D0(concepts::real auto&& v)       noexcept; // 2
+  //!     template < unsigned short N> constexpr decltype(auto) d(concepts::hyperdual auto&& v)  noexcept; // 1
+  //!     template < unsigned short N> constexpr decltype(auto) d(concepts::real auto&& v)       noexcept; // 2
   //!   }
   //!   @endcode
+  //!
+  //!   **template non type Parameter**
+  //!
+  //!   * `N`: order of derivation
   //!
   //!   **Parameters**
   //!
@@ -46,14 +50,14 @@ namespace flx
   //!
   //!   **Return value**
   //!
-  //!   1. Returns a properly const-qualified reference to the derivative or order 0 (the value) of `v`.
+  //!   1. Returns a properly const-qualified reference to the derivative or order N (the value) of `v`.
   //!   2. Returns a properly const-qualified reference to `v`.
   //!
   //!  @groupheader{Example}
   //!
-  //!  @godbolt{doc/D0.cpp}
+  //!  @godbolt{doc/d0.cpp}
   //====================================================================================================================
-  template < unsigned short Ord > struct D : extractor<(1<<Ord)-1>{};
+  template < unsigned short Ord > struct d : extractor<(1<<Ord)-1>{};
 
   //====================================================================================================================
   //! @addtogroup functions
@@ -75,8 +79,8 @@ namespace flx
   //!   @code
   //!   namespace flx
   //!   {
-  //!     constexpr decltype(auto) D0(concepts::hyperdual auto&& v)  noexcept; // 1
-  //!     constexpr decltype(auto) D0(concepts::real auto&& v)       noexcept; // 2
+  //!     constexpr decltype(auto) d0(concepts::hyperdual auto&& v)  noexcept; // 1
+  //!     constexpr decltype(auto) d0(concepts::real auto&& v)       noexcept; // 2
   //!   }
   //!   @endcode
   //!
@@ -91,9 +95,9 @@ namespace flx
   //!
   //!  @groupheader{Example}
   //!
-  //!  @godbolt{doc/D0.cpp}
+  //!  @godbolt{doc/d0.cpp}
   //====================================================================================================================
-  inline constexpr auto D0    = D<0>{};
+  inline constexpr auto d0    = d<0>{};
 
   //====================================================================================================================
   //!   @var D1
@@ -110,8 +114,8 @@ namespace flx
   //!   @code
   //!   namespace flx
   //!   {
-  //!     constexpr decltype(auto)  D1(concepts::hyperdual auto&& v)  noexcept; // 1
-  //!     constexpr auto            D1(concepts::real auto&& v)       noexcept; // 2
+  //!     constexpr decltype(auto)  d1(concepts::hyperdual auto&& v)  noexcept; // 1
+  //!     constexpr auto            d1(concepts::real auto&& v)       noexcept; // 2
   //!   }
   //!   @endcode
   //!
@@ -126,12 +130,12 @@ namespace flx
   //!
   //!  @groupheader{Example}
   //!
-  //!  @godbolt{doc/D1.cpp}
+  //!  @godbolt{doc/d1.cpp}
   //====================================================================================================================
-  inline constexpr auto D1   = D<1>{};
+  inline constexpr auto d1   = d<1>{};
 
   //====================================================================================================================
-  //!   @var D2
+  //!   @var d2
   //!   @brief Extracts the second derivative part from an hyperdual number.
   //!
   //!   @groupheader{Header file}
@@ -145,7 +149,7 @@ namespace flx
   //!   @code
   //!   namespace flx
   //!   {
-  //!     constexpr decltype(auto)  D2(concepts::hyperdual auto&& v)       noexcept;
+  //!     constexpr decltype(auto)  d2(concepts::hyperdual auto&& v)       noexcept;
   //!   }
   //!   @endcode
   //!
@@ -159,12 +163,12 @@ namespace flx
   //!
   //!  @groupheader{Example}
   //!
-  //!  @godbolt{doc/D2.cpp}
+  //!  @godbolt{doc/d2.cpp}
   //====================================================================================================================
-  inline constexpr auto D2   = D<2>{};
+  inline constexpr auto d2   = d<2>{};
 
   //====================================================================================================================
-  //!   @var D3
+  //!   @var d3
   //!   @brief Extracts the third derivative part from an hyperdual number.
   //!
   //!   @groupheader{Header file}
@@ -178,7 +182,7 @@ namespace flx
   //!   @code
   //!   namespace flx
   //!   {
-  //!     constexpr decltype(auto)  D3(concepts::hyperdual auto&& v)       noexcept;
+  //!     constexpr decltype(auto)  d3(concepts::hyperdual auto&& v)       noexcept;
   //!   }
   //!   @endcode
   //!
@@ -192,12 +196,12 @@ namespace flx
   //!
   //!  @groupheader{Example}
   //!
-  //!  @godbolt{doc/D3.cpp}
+  //!  @godbolt{doc/d3.cpp}
   //====================================================================================================================
-  inline constexpr auto D3   = D<3>{};
+  inline constexpr auto d3   = d<3>{};
 
    //====================================================================================================================
-  //!   @var D4
+  //!   @var d4
   //!   @brief Extracts the third derivative part from an hyperdual number.
   //!
   //!   @groupheader{Header file}
@@ -211,7 +215,7 @@ namespace flx
   //!   @code
   //!   namespace flx
   //!   {
-  //!     constexpr decltype(auto)  D4(concepts::hyperdual auto&& v)       noexcept;
+  //!     constexpr decltype(auto)  d4(concepts::hyperdual auto&& v)       noexcept;
   //!   }
   //!   @endcode
   //!
@@ -225,7 +229,7 @@ namespace flx
   //!
   //!  @groupheader{Example}
   //!
-  //!  @godbolt{doc/D4.cpp}
+  //!  @godbolt{doc/d4.cpp}
   //====================================================================================================================
-  inline constexpr auto D4   = D<4>{};
+  inline constexpr auto d4   = d<4>{};
 }

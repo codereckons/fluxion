@@ -23,7 +23,8 @@
 // Fundamental functions
 //======================================================================================================================
 #include <fluxion/functions/parts.hpp>
-#include <fluxion/functions/D.hpp>
+#include <fluxion/functions/d.hpp>
+//#include <fluxion/functions/D.hpp>
 #include <fluxion/functions/abs.hpp>
 // #include <fluxion/functions/conj.hpp>
 #include <fluxion/functions/convert.hpp>

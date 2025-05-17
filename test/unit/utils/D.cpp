@@ -15,9 +15,9 @@ TTS_CASE_WITH ( "Check flx::D over base"
 (auto data)
 {
   auto f = [](auto x){return x; };
-  auto z = flx::D<0, 1>(f)(data);
+  auto z = (flx::D<0, 1>(f))(data);
   std::cout << z << std::endl;
-  //TTS_EQUAL(flx::D<0, 0>(f)(data), data);
+//  TTS_EQUAL(flx::D<0, 0>(f)(data), data);
 };
 
 // TTS_CASE_WITH ( "Check flx::D over hyperdual 1"
