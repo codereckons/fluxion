@@ -170,7 +170,7 @@ namespace flx
 
 //   //====================================================================================================================
 //   //! @struct complexify
-//   //! @brief compute the cayley dickson type associated to a floating type or any other type.
+//   //! @brief compute the hyperdual type associated to a floating type or any other type.
 //   //!
 //   //! if the type is an eve::floating_value return the complex type associated else let the type as is.
 //   //!

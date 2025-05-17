@@ -61,7 +61,7 @@ namespace flx
 //!      2. if the pedantic option is used the is_not_equalance betwween an infinite value an anything (even a nan) is infinite.
 //!      3. the numeric option implies pedantic return zero if all corresponding parts satisfy `eve::is_not_equal[numeric]`.
 //!
-//!     Arguments can be a mix of floating or Cayley-Dickson values.
+//!     Arguments can be a mix of floating or Hyperdual values.
 //!
 //!  @groupheader{Example}
 //!
