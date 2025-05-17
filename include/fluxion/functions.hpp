@@ -15,7 +15,7 @@
 // #include <eve/module/bessel.hpp>
 
 //======================================================================================================================
-//! @defgroup functions Cayley-Dickson Functions
+//! @defgroup functions Hyperdual Functions
 //! @brief Functions performing computations over all hyperdual types
 //======================================================================================================================
 
