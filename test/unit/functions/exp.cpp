@@ -37,9 +37,9 @@ TTS_CASE_WITH ( "Check flx::exp over hyperdual 2"
 {
   auto vr = flx::variable<2>(r);
   auto expr = flx::exp(vr);
-  TTS_EQUAL(flx::D0(expr), eve::exp(r));
-  TTS_EQUAL(flx::D1(expr), eve::exp(r));
-  TTS_EQUAL(flx::D2(expr), eve::exp(r));
+  TTS_EQUAL(flx::d0(expr), eve::exp(r));
+  TTS_EQUAL(flx::d1(expr), eve::exp(r));
+  TTS_EQUAL(flx::d2(expr), eve::exp(r));
 };
 
 TTS_CASE_WITH ( "Check flx::exp over hyperdual 3"
@@ -50,8 +50,8 @@ TTS_CASE_WITH ( "Check flx::exp over hyperdual 3"
 {
   auto vr = flx::variable<3>(r);
   auto expr = flx::exp(vr);
-  TTS_ULP_EQUAL(flx::D0(expr), eve::exp(r), 0.5);
-  TTS_ULP_EQUAL(flx::D1(expr), eve::exp(r), 0.5);
-  TTS_ULP_EQUAL(flx::D2(expr), eve::exp(r), 0.5);
-  TTS_ULP_EQUAL(flx::D3(expr), eve::exp(r), 0.5);
+  TTS_ULP_EQUAL(flx::d0(expr), eve::exp(r), 0.5);
+  TTS_ULP_EQUAL(flx::d1(expr), eve::exp(r), 0.5);
+  TTS_ULP_EQUAL(flx::d2(expr), eve::exp(r), 0.5);
+  TTS_ULP_EQUAL(flx::d3(expr), eve::exp(r), 0.5);
 };

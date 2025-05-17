@@ -24,32 +24,32 @@ TTS_CASE_WITH ( "Check flx::sqrt over hyperdual 1 to 4"
   {
     auto vr = flx::variable<1>(r);
     auto sqrtvr = flx::sqrt(vr);
-    TTS_ULP_EQUAL(flx::D0(sqrtvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(sqrtvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d0(sqrtvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(sqrtvr), d1, 2.5);
   }
   {
     auto vr = flx::variable<2>(r);
     auto sqrtvr = flx::sqrt(vr);
-    TTS_ULP_EQUAL(flx::D0(sqrtvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(sqrtvr), d1, 2.5);
-    TTS_ULP_EQUAL(flx::D2(sqrtvr), d2, 2.5);
+    TTS_ULP_EQUAL(flx::d0(sqrtvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(sqrtvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d2(sqrtvr), d2, 2.5);
   }
   {
     auto vr = flx::variable<3>(r);
     auto sqrtvr = flx::sqrt(vr);
-    TTS_ULP_EQUAL(flx::D0(sqrtvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(sqrtvr), d1, 2.5);
-    TTS_ULP_EQUAL(flx::D2(sqrtvr), d2, 2.5);
-    TTS_ULP_EQUAL(flx::D3(sqrtvr), d3, 2.5);
+    TTS_ULP_EQUAL(flx::d0(sqrtvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(sqrtvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d2(sqrtvr), d2, 2.5);
+    TTS_ULP_EQUAL(flx::d3(sqrtvr), d3, 2.5);
   }
   {
     auto vr = flx::variable<4>(r);
     auto sqrtvr = flx::sqrt(vr);
-    TTS_ULP_EQUAL(flx::D0(sqrtvr), d0, 2.5);
-    TTS_ULP_EQUAL(flx::D1(sqrtvr), d1, 2.5);
-    TTS_ULP_EQUAL(flx::D2(sqrtvr), d2, 2.5);
-    TTS_ULP_EQUAL(flx::D3(sqrtvr), d3, 2.5);
-    TTS_ULP_EQUAL(flx::D4(sqrtvr), d4, 2.5);
+    TTS_ULP_EQUAL(flx::d0(sqrtvr), d0, 2.5);
+    TTS_ULP_EQUAL(flx::d1(sqrtvr), d1, 2.5);
+    TTS_ULP_EQUAL(flx::d2(sqrtvr), d2, 2.5);
+    TTS_ULP_EQUAL(flx::d3(sqrtvr), d3, 2.5);
+    TTS_ULP_EQUAL(flx::d4(sqrtvr), d4, 2.5);
   }
 
 };

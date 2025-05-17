@@ -11,5 +11,6 @@
 //! @defgroup types Types
 //! @brief Classes and structs defining gradients and differentials.
 //======================================================================================================================
+#include <fluxion/utils/D.hpp>
 #include <fluxion/utils/gradient.hpp>
 #include <fluxion/utils/differential.hpp>

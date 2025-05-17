@@ -70,7 +70,6 @@ namespace flx
   {
     using v_t = decltype(f(flx::e0(xs)...));
     constexpr size_t S =  sizeof...(Xs);
-    std::array<v_t, S> that;
 
     auto values = kumi::tuple{xs...};
 
@@ -81,7 +80,7 @@ namespace flx
     return [&]<std::size_t... N>(std::index_sequence<N...>)
     {
       using kumi::index;
-      return kumi::tuple{ (flx::D1(kumi::apply( f
+      return kumi::tuple{ (flx::d1(kumi::apply( f
                                               , kumi::map_index( [&](auto idx, auto v)
                                                                  {
                                                                    return var_or_val(idx,index<N>, v);

@@ -27,8 +27,8 @@ TTS_CASE_WITH ( "Check flx::abs over hyperdual 1"
   auto absvr = flx::abs(vr);
   auto a = eve::abs(r);
   auto s = eve::signnz(r);
-  TTS_EQUAL(flx::D0(absvr), a);
-  TTS_EQUAL(flx::D1(absvr), s);
+  TTS_EQUAL(flx::d0(absvr), a);
+  TTS_EQUAL(flx::d1(absvr), s);
 };
 
 TTS_CASE_WITH ( "Check flx::abs over hyperdual 2"
@@ -42,9 +42,9 @@ TTS_CASE_WITH ( "Check flx::abs over hyperdual 2"
   auto a = eve::abs(r);
   auto s = eve::signnz(r);
   auto z = eve::zero(eve::as(r));
-  TTS_EQUAL(flx::D0(absvr), a);
-  TTS_EQUAL(flx::D1(absvr), s);
-  TTS_EQUAL(flx::D2(absvr), z);
+  TTS_EQUAL(flx::d0(absvr), a);
+  TTS_EQUAL(flx::d1(absvr), s);
+  TTS_EQUAL(flx::d2(absvr), z);
 };
 
 TTS_CASE_WITH ( "Check flx::abs over hyperdual 3"
@@ -58,8 +58,8 @@ TTS_CASE_WITH ( "Check flx::abs over hyperdual 3"
   auto a = eve::abs(r);
   auto s = eve::signnz(r);
   auto z = eve::zero(eve::as(r));
-  TTS_EQUAL(flx::D0(absvr), a);
-  TTS_EQUAL(flx::D1(absvr), s);
-  TTS_EQUAL(flx::D2(absvr), z);
-  TTS_EQUAL(flx::D3(absvr), z);
+  TTS_EQUAL(flx::d0(absvr), a);
+  TTS_EQUAL(flx::d1(absvr), s);
+  TTS_EQUAL(flx::d2(absvr), z);
+  TTS_EQUAL(flx::d3(absvr), z);
 };

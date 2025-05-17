@@ -32,31 +32,31 @@ TTS_CASE_WITH ( "Check flx::acos over hyperduals"
   {
     auto vr = flx::variable<1>(r);
     auto acosvr = flx::acos(vr);
-    TTS_ULP_EQUAL(flx::D0(acosvr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::D1(acosvr), d1, 4.0);
+    TTS_ULP_EQUAL(flx::d0(acosvr), d0, 4.0);
+    TTS_ULP_EQUAL(flx::d1(acosvr), d1, 4.0);
   }
   {
     auto vr = flx::variable<2>(r);
     auto acosvr = flx::acos(vr);
-    TTS_ULP_EQUAL(flx::D0(acosvr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::D1(acosvr), d1, 4.0);
-    TTS_ULP_EQUAL(flx::D2(acosvr), d2, 4.0);
+    TTS_ULP_EQUAL(flx::d0(acosvr), d0, 4.0);
+    TTS_ULP_EQUAL(flx::d1(acosvr), d1, 4.0);
+    TTS_ULP_EQUAL(flx::d2(acosvr), d2, 4.0);
   }
   {
     auto vr = flx::variable<3>(r);
     auto acosvr = flx::acos(vr);
-    TTS_ULP_EQUAL(flx::D0(acosvr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::D1(acosvr), d1, 4.0);
-    TTS_ULP_EQUAL(flx::D2(acosvr), d2, 4.0);
-    TTS_ULP_EQUAL(flx::D3(acosvr), d3, 4.0);
+    TTS_ULP_EQUAL(flx::d0(acosvr), d0, 4.0);
+    TTS_ULP_EQUAL(flx::d1(acosvr), d1, 4.0);
+    TTS_ULP_EQUAL(flx::d2(acosvr), d2, 4.0);
+    TTS_ULP_EQUAL(flx::d3(acosvr), d3, 4.0);
   }
   {
     auto vr = flx::variable<4>(r);
     auto acosvr = flx::acos(vr);
-    TTS_ULP_EQUAL(flx::D0(acosvr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::D1(acosvr), d1, 4.0);
-    TTS_ULP_EQUAL(flx::D2(acosvr), d2, 4.0);
-    TTS_ULP_EQUAL(flx::D3(acosvr), d3, 4.0);
-    TTS_ULP_EQUAL(flx::D4(acosvr), d4, 8.0);
+    TTS_ULP_EQUAL(flx::d0(acosvr), d0, 4.0);
+    TTS_ULP_EQUAL(flx::d1(acosvr), d1, 4.0);
+    TTS_ULP_EQUAL(flx::d2(acosvr), d2, 4.0);
+    TTS_ULP_EQUAL(flx::d3(acosvr), d3, 4.0);
+    TTS_ULP_EQUAL(flx::d4(acosvr), d4, 8.0);
   }
 };
