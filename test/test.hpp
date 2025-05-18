@@ -33,6 +33,14 @@ namespace eve
     if constexpr(eve::simd_value<T>)  return eve::all(l == r);
     else                              return l == r;
   }
+
+  template<flx::concepts::hyperdual_like T>
+  inline bool compare_equal(T const &l, T const &r)
+  {
+    if constexpr(eve::simd_value<T>)  return eve::all(kumi::to_tuple(l) == kumi::to_tuple(r));
+    else                              return kumi::to_tuple(l) == kumi::to_tuple(r);
+  }
+
 }
 
 namespace eve::detail
