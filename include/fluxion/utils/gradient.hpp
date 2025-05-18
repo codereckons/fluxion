@@ -16,7 +16,7 @@ namespace flx
 //! @addtogroup functions
 //! @{
 //!   @var gradient
-//!   @brief Computes the gradient of an invocable at an evaluation point.
+//!   @brief Computes the gradient of a callable at an evaluation point.
 //!
 //!   @groupheader{Header file}
 //!

@@ -22,7 +22,8 @@ namespace flx
 
   //====================================================================================================================
   //!   @var D
-  //!   @brief return an invocable the call of which returns the derivative relative at the Ith variable of the function f of order N
+  //!   @brief return an invocable the call of which returns the derivative relative
+  //!   at the Ith and Jth variables of the callable f
   //!
   //!   @groupheader{Header file}
   //!
@@ -35,14 +36,14 @@ namespace flx
   //!   @code
   //!   namespace flx
   //!   {
-  //!     template < unsigned short I, unsigned short N> constexpr auto D(Func f)       noexcept;
+  //!     template < unsigned short I, unsigned short J> constexpr auto D2(Func f)       noexcept;
   //!   }
   //!   @endcode
   //!
   //!   **template non type Parameters**
   //!
-  //!   * `I`: index of the variable of derivation  from 0
-  //!   * `N`: order of derivation
+  //!   * `I`: index of the first variable of derivation from 0
+  //!   * `J`: index of the second variable of derivation from 0
   //!
   //!   **Parameters**
   //!
@@ -50,17 +51,17 @@ namespace flx
   //!
   //!   **Return value**
   //!
-  //!     Returns the callable \f$ (x_i) \leadsto \partial^N f}{\partial x_I^N} `.
+  //!     Returns the callable \f$ (x_i) \leadsto \partial^2 f}{\partial x_I\partial x_J} `.
   //!
   //!  @groupheader{Example}
   //!
-  //!  @godbolt{doc/D.cpp}
+  //!  @godbolt{doc/D2.cpp}
   //====================================================================================================================
 
-  template < auto I,  unsigned short Ord, typename Func> auto D(Func f) noexcept
+  template < auto I, auto J, unsigned short Ord, typename Func> auto D2(Func f) noexcept
   {
     return [&](auto ... xi){
-      return flx::d<Ord>{}(kumi::apply(f, variable1<I, Ord>(xi...))); //cor_value));
+      return flx::d<Ord>{}(kumi::apply(f, variable2<I, J, Ord>(xi...)));
     };
   }
 };

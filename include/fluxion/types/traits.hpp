@@ -43,16 +43,6 @@ namespace flx
   //! @addtogroup traits
   //! @{
   //====================================================================================================================
-
-  //====================================================================================================================
-  //! @brief Obtains the number of dimensions of the algebra containing a given type
-  //!
-  //!
-  //! If `T` models a value of \f$\mathbb{R}\f$, evaluates to 1.
-  //!
-  //! @tparam T Type to analyze.
-  //====================================================================================================================
-
 constexpr unsigned short max_dimension_v = 16;
 constexpr unsigned short max_order = 4;
 
@@ -65,7 +55,26 @@ constexpr unsigned short max_order = 4;
 #endif
 
 
+  //====================================================================================================================
+  //! @brief Obtains the number of dimensions of the algebra containing a given type
+  //!
+  //!
+  //! If `T` models a value of \f$\mathbb{R}\f$, evaluates to 1.
+  //!
+  //! @tparam T Type to analyze.
+  //====================================================================================================================
+
   template<concepts::hyperdual T> inline constexpr auto dimension_v<T> = eve::element_type_t<std::remove_cvref_t<T>>::static_dimension;
+
+  //====================================================================================================================
+  //! @brief Obtains the order of derivation obtained in the algebra containing a given type
+  //!
+  //!
+  //! If `T` models a value of \f$\mathbb{R}\f$, evaluates to 1.
+  //!
+  //! @tparam T Type to analyze.
+  //====================================================================================================================
+
   template<concepts::hyperdual T> inline constexpr auto order_v<T> = eve::element_type_t<std::remove_cvref_t<T>>::order;
 
   template<typename T>                    struct as_base_type                     { using type = T; };

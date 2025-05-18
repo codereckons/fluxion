@@ -37,7 +37,7 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the invocable \f$( (dx_i...) \rightarrow \sum_i \frac{\partial f}{\partial x_i}|_(x_0, ...,  x_n)( (dx_0, ...,  dx_n))\f$.
+//!     Returns the callable \f$( (dx_i...) \rightarrow \sum_i \frac{\partial f}{\partial x_i}|_(x_0, ...,  x_n)( (dx_0, ...,  dx_n))\f$.
 //!
 //!  @groupheader{Example}
 //!
