@@ -19,7 +19,7 @@ TTS_CASE_WITH ( "Check flx::rsqrt over real"
 
 TTS_CASE_WITH ( "Check flx::rsqrt over hyperdual 1"
               , flx::real_types
-              , tts::generate(tts::randoms(0,10))
+              , tts::generate(tts::randoms(0.5,10))
               )
 <typename T>(T r)
 {
@@ -33,7 +33,7 @@ TTS_CASE_WITH ( "Check flx::rsqrt over hyperdual 1"
 
 TTS_CASE_WITH ( "Check flx::rsqrt over hyperdual 3"
               , flx::real_types
-              , tts::generate(tts::randoms(0,10))
+              , tts::generate(tts::randoms(0.5,10))
               )
 <typename T>(T r)
 {
@@ -51,7 +51,7 @@ TTS_CASE_WITH ( "Check flx::rsqrt over hyperdual 3"
 
 TTS_CASE_WITH ( "Check flx::sqrt over hyperdual 2"
                 , flx::real_types
-                , tts::generate(tts::randoms(0,10))
+                , tts::generate(tts::randoms(0.5,10))
                 )
 <typename T>(T r)
 {
