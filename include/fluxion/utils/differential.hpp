@@ -6,28 +6,15 @@
 */
 //======================================================================================================================
 #pragma once
-#include <fluxion/details/callable.hpp>
-#include <fluxion/details/compose.hpp>
 
 namespace flx
 {
-//   template<typename Options>
-//   struct differential_t : eve::callable<differential_t, Options>
-//   {
-//     template<typename Func, typename ... Ts>
-//     HYPDU_FORCEINLINE constexpr auto operator()(Func f, Options const&, Ts const &... zs) const noexcept
-//     {
-//       return  HYPDU_CALL(zs...);
-//     }
-
-//     HYPDU_CALLABLE_OBJECT(differential_t, differential_);
-// };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
 //!   @var differential
-//!   @brief Computes the arc cotangent of the argument.
+//!   @brief Computes the differential of \f$f\f$ at \f$(z_i)_i\f$.
 //!
 //!   @groupheader{Header file}
 //!
@@ -40,7 +27,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT differential(T z) noexcept;
+//!      template<typename Func,  typename ... Xi> constexpr auto differential(Func f, Xi const &... xi ) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -50,7 +37,7 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc cotangent of the argument.
+//!     Returns the invocable \f$( (dx_i...) \rightarrow \sum_i \frac{\partial f}{\partial x_i}|_(x_0, ...,  x_n)( (dx_0, ...,  dx_n))\f$.
 //!
 //!  @groupheader{Example}
 //!
@@ -60,23 +47,6 @@ namespace flx
 //======================================================================================================================
 //! @}
 //======================================================================================================================
-// }
-
-// namespace flx::_
-// {
-
- //  template <typename V, size_t N, size_t... Is>
-//   auto as_tuple(std::array<V, N> const& arr, std::index_sequence<Is...>)
-//   {
-//     return kumi:make_tuple(V{arr[Is]}...);
-//   }
-
-//  template <typename V, size_t N,
-//             class = std::enable_if_t<(N == sizeof...(Formats))>>
-//   std::tuple<Formats...> as_tuple(std::array<char*, N> const& arr)
-//   {
-//     return as_tuple<Formats...>(arr, std::make_index_sequence<N>{});
-//   }
 
   template<typename Func, typename ... Zs>
   FLX_FORCEINLINE constexpr auto differential(Func f, Zs const &... xs) noexcept

@@ -24,7 +24,7 @@ namespace flx
   };
 
 //======================================================================================================================
-//! @fmatogroup functions
+//! @addtogroup functions
 //! @{
 //!   @var fma
 //!   @brief Computes z0*z1+z2

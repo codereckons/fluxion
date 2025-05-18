@@ -11,23 +11,12 @@
 
 namespace flx
 {
-//   template<typename Options>
-//   struct differential_t : eve::callable<differential_t, Options>
-//   {
-//     template<typename Func, typename ... Ts>
-//     FLX_FORCEINLINE constexpr auto operator()(Func f, Options const&, Ts const &... zs) const noexcept
-//     {
-//       return  FLX_CALL(zs...);
-//     }
-
-//     FLX_CALLABLE_OBJECT(differential_t, differential_);
-// };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var differential
-//!   @brief Computes the arc cotangent of the argument.
+//!   @var gradient
+//!   @brief Computes the gradient of an invocable at an evaluation point.
 //!
 //!   @groupheader{Header file}
 //!
@@ -40,7 +29,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT differential(T z) noexcept;
+//!      template<typename Func,  typename ... Xi> constexpr auto gradient(Func f, Xi const &... xi ) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -50,7 +39,7 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc cotangent of the argument.
+//!     Returns the kumi tuple containing the gradient components.
 //!
 //!  @groupheader{Example}
 //!

@@ -10,91 +10,19 @@
 
 TTS_CASE_WITH ( "Check flx::D over base"
               , flx::real_types
-              , tts::generate(tts::randoms(-10,10))
+              , tts::generate(tts::randoms(-10,10)
+                            , tts::randoms(-10,10)
+                            , tts::randoms(-10,10))
               )
-(auto data)
+<typename T>(T x, T y, T z)
 {
-  auto f = [](auto x){return x; };
-  auto z = (flx::D<0, 1>(f))(data);
-  std::cout << z << std::endl;
-//  TTS_EQUAL(flx::D<0, 0>(f)(data), data);
+  auto f = [](auto x, auto y, auto z){return x*x+y*y+z*z*y; };
+  TTS_EQUAL((flx::D<0, 1>(f))(x, y, z), 2*x);
+  TTS_EQUAL((flx::D<1, 1>(f))(x, y, z), 2*y+z*z);
+  TTS_EQUAL((flx::D<2, 1>(f))(x, y, z), 2*z*y);
+
+  TTS_EQUAL((flx::D<0, 2>(f))(x, y, z), T(2));
+  TTS_EQUAL((flx::D<1, 2>(f))(x, y, z), T(2));
+  TTS_EQUAL((flx::D<2, 2>(f))(x, y, z), 2*y);
+
 };
-
-// TTS_CASE_WITH ( "Check flx::D over hyperdual 1"
-//               , flx::real_types
-//               , tts::generate(tts::randoms(-10,10), tts::randoms(-10,10))
-//               )
-// <typename T >(T r, T i)
-// {
-//   using h1_t = flx::as_hyperdual_n_t<1, T>;
-//   {
-//     auto z = h1_t(r,i);
-//     TTS_EQUAL(flx::d0(z), r);
-//     flx::d0(z) = i;
-//     TTS_EQUAL(flx::d0(z), i);
-//   }
-//   {
-//     auto z = h1_t(r,i);
-//     TTS_EQUAL(flx::d1(z), i);
-//     flx::d1(z) = r;
-//     TTS_EQUAL(flx::d0(z), r);
-//   }
-// };
-
-// TTS_CASE_WITH ( "Check flx::D over hyperdual 2"
-//               , flx::real_types
-//               , tts::generate ( tts::randoms(-10,10), tts::randoms(-10,10)
-//                               , tts::randoms(-10,10), tts::randoms(-10,10)
-//                               )
-//               )
-// <typename T >(T r, T i, T j, T k)
-// {
-//   using h2_t = flx::as_hyperdual_n_t<2, T>;
-//   {
-//     auto q = h2_t(r,i,j,k);
-//     TTS_EQUAL(flx::d0(q), r);
-//     flx::d0(q) = k;
-//     TTS_EQUAL(flx::d0(q), k);
-//   }
-//   {
-//     auto q = h2_t(r,i,j,k);
-//     TTS_EQUAL(flx::d1(q), i);
-//     flx::d1(q) = k;
-//     TTS_EQUAL(flx::d2(q), k);
-//   }
-//   {
-//     auto q = h2_t(r,i,j,k);
-//     TTS_EQUAL(flx::d2(q), k);
-//     flx::d2(q) = i;
-//     TTS_EQUAL(flx::d2(q), i);
-//   }
-// };
-
-// TTS_CASE_WITH ( "Check flx::D over hyperdual 3"
-//               , flx::real_types
-//               , tts::generate ( tts::randoms(-10,10), tts::randoms(-10,10)
-//                               , tts::randoms(-10,10), tts::randoms(-10,10)
-//                               , tts::randoms(-10,10), tts::randoms(-10,10)
-//                               , tts::randoms(-10,10), tts::randoms(-10,10)
-//                               )
-//               )
-// <typename T>(T r, T i, T j, T k, T l, T m, T n, T o)
-// {
-//   using h3_t = flx::as_hyperdual_n_t<3, T>;
-//   auto z = h3_t(r,i,j,k,l,m,n,o);
-
-//   TTS_EQUAL(flx::d0(z), r );
-//   TTS_EQUAL(flx::d1(z), i );
-//   TTS_EQUAL(flx::d2(z), k );
-//   TTS_EQUAL(flx::d3(z), o );
-
-//   flx::d0(z) = k;
-//   TTS_EQUAL(flx::d0(z), k);
-//   flx::d1(z) = k;
-//   TTS_EQUAL(flx::d1(z), k);
-//   flx::d2(z) = k;
-//   TTS_EQUAL(flx::d2(z), k);
-//   flx::d3(z) = k;
-//   TTS_EQUAL(flx::d3(z), k);
-
-// };
