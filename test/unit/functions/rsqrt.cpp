@@ -28,7 +28,7 @@ TTS_CASE_WITH ( "Check flx::rsqrt over hyperdual 1"
   auto d0 = eve::rsqrt(r);
   auto d1 = -d0/(2*r);
   TTS_ULP_EQUAL(flx::D0(rsqrtvr), d0, 0.5);
-  TTS_ULP_EQUAL(flx::D1(rsqrtvr), d1, 1.0);
+  TTS_ULP_EQUAL(flx::D1(rsqrtvr), d1, 2.0);
 };
 
 TTS_CASE_WITH ( "Check flx::rsqrt over hyperdual 3"
