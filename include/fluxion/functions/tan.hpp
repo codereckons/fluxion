@@ -8,9 +8,9 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <fluxion/functions/rec.hpp>
-#include <fluxion/functions/sqrt.hpp>
-//#include <eve/module/math.hpp>
+#include <fluxion/functions/sin.hpp>
+#include <fluxion/functions/cos.hpp>
+#include <eve/module/math.hpp>
 
 namespace flx
 {

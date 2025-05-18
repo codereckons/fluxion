@@ -24,7 +24,6 @@
 //======================================================================================================================
 #include <fluxion/functions/parts.hpp>
 #include <fluxion/functions/d.hpp>
-//#include <fluxion/functions/D.hpp>
 #include <fluxion/functions/abs.hpp>
 // #include <fluxion/functions/conj.hpp>
 #include <fluxion/functions/convert.hpp>
@@ -42,7 +41,7 @@
 #include <fluxion/functions/acoth.hpp>
 #include <fluxion/functions/acotpi.hpp>
 #include <fluxion/functions/add.hpp>
-// #include <fluxion/functions/agd.hpp>
+#include <fluxion/functions/agd.hpp>
 // #include <fluxion/functions/am.hpp>
 // #include <fluxion/functions/atan2.hpp>
 // #include <fluxion/functions/atanpi.hpp>
@@ -57,7 +56,7 @@
 // #include <fluxion/functions/asinh.hpp>
 // #include <fluxion/functions/associator.hpp>
 // #include <fluxion/functions/atan.hpp>
-// #include <fluxion/functions/atanh.hpp>
+#include <fluxion/functions/atanh.hpp>
 // #include <fluxion/functions/atanpi.hpp>
 // #include <fluxion/functions/average.hpp>
 
