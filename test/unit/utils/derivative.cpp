@@ -25,4 +25,5 @@ TTS_CASE_WITH ( "Check flx::D over base"
   TTS_EQUAL((flx::D<1, 2>(f))(x, y, z), T(2));
   TTS_EQUAL((flx::D<2, 2>(f))(x, y, z), 2*y);
 
+
 };
