@@ -48,7 +48,7 @@ constexpr unsigned short max_order = 4;
 
 #if !defined(flx_DOXYGEN_INVOKED)
   template<typename T>  inline constexpr unsigned short dimension_v = max_dimension_v;
-  template<typename T>  inline constexpr unsigned short order_v    =  max_order;
+  template<typename T>  inline constexpr unsigned short order_v    =  max_order+1;
 #else
   template<typename T>  inline constexpr unsigned short dimension_v = *implementation-defined*;
   template<typename T>  inline constexpr unsigned short order_v    =  *implementation-defined*;
@@ -130,7 +130,7 @@ constexpr unsigned short max_order = 4;
 
   template<typename... Ts>
   requires( requires(Ts... ts) { typename as_hyperdual_n<std::min( {order_v<Ts>...} ), Ts...>::type; } )
-  struct as_hyperdual : as_hyperdual_n<std::min( {order_v<Ts>...} ), Ts...>
+  struct as_hyperdual : as_hyperdual_n<std::min( {order_v<Ts>...}), Ts...>
   {};
 }
 
