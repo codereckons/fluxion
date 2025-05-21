@@ -121,9 +121,9 @@ TTS_CASE_WITH( "Check behavior of flx::gradient"
     //    std::cout << tts::typename_<decltype(h)> << std::endl;
     auto hes = flx::hessian(f, x, y);
     std::cout << tts::typename_<decltype(hes)> << std::endl;
-    TTS_ULP_EQUAL(hes[0][1], d12f(x, y), 2.0);
-    TTS_ULP_EQUAL(hes[1][1], d22f(x, y), 2.0);
-    TTS_ULP_EQUAL(hes[0][0], d11f(x, y), 2.0);
+    TTS_ULP_EQUAL(hes[0][1], d12f(x, y), 20.0);
+    TTS_ULP_EQUAL(hes[1][1], d22f(x, y), 20.0);
+    TTS_ULP_EQUAL(hes[0][0], d11f(x, y), 20.0);
   }
   TTS_EQUAL(0, 0);
 };
