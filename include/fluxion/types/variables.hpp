@@ -126,7 +126,7 @@ namespace flx
 
   template <auto I,  auto J, unsigned short Order, typename ...Xs>
   constexpr auto variable2(Xs... xi) noexcept
-  requires(sizeof...(Xs) >= 2)
+  requires((sizeof...(Xs) >= 2) || ((I == J && (sizeof...(Xs) >= 1) )))
   {
     auto k = kumi::tuple{xi...};
     using t_t = decltype((xi+...));
@@ -153,6 +153,16 @@ namespace flx
       auto kx = kumi::replace<I>(k, hvx, kumi::index<I>);
       auto kxy = kumi::replace<J>(kx, hvy, kumi::index<J>);
       return kxy;
+//       auto y = get<J>(k);
+//       auto hx = h;
+//       auto hy = h;
+//       kumi::get<0>(hx) = x;
+//       kumi::get<0>(hy) = y;
+//       r_t hvx(hx);
+//       r_t hvy(hy);
+//       auto kx = kumi::replace<I>(k, hvx, kumi::index<I>);
+//       auto kxy = kumi::replace<J>(kx, hvy, kumi::index<J>);
+//       return kxy;
     }
   }
 
@@ -160,3 +170,16 @@ namespace flx
   //! @}
   //====================================================================================================================
 }
+
+
+//       auto y = get<J>(k);
+//       auto h0 = kumi::fill<flx::dimension_v<r_t>/2>(eve::zero(eve::as<t_t>()));
+//       auto hx = cat(kumi::extract(h, kumi::index<0>, kumi::index<flx::dimension_v<r_t>/2>), h0);
+//       auto hy = cat(h0, kumi::extract(h, kumi::index<flx::dimension_v<r_t>/2>));
+//       kumi::get<0>(hx) = x;
+//       kumi::get<0>(hy) = y;
+//       r_t hvx(hx);
+//       r_t hvy(hy);
+//       auto kx = kumi::replace<I>(k, hvx, kumi::index<I>);
+//       auto kxy = kumi::replace<J>(kx, hvy, kumi::index<J>);
+//       return kxy;

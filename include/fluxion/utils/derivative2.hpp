@@ -61,7 +61,7 @@ namespace flx
   template < auto I, auto J, unsigned short Ord, typename Func> auto D2(Func f) noexcept
   {
     return [&](auto ... xi){
-      return flx::d<Ord>{}(kumi::apply(f, variable2<I, J, Ord>(xi...)));
+      return flx::e12(kumi::apply(f, variable2<I, J, Ord>(xi...)));
     };
   }
 };

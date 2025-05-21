@@ -49,12 +49,17 @@ int main()
 {
   double x = 10.0;
   double y = -2.3;
-  auto [a, b] =  flx::variable2<0, 1, 1>(x, y);
+  // auto [a, b] =  flx::variable2<0, 1, 1>(x, y);
+  auto a = flx::variable<3>(x);
+  auto b = flx::variable<3>(y);
+  std::cout << a << std::endl;
+  std::cout << b << std::endl;
   std::cout << "a " << a << std::endl;
   std::cout << "b " << b << std::endl;
   auto f = [](auto x,  auto y){return x*x*y + x*y; };
   auto D12f =  2*x+1;
   auto d12f = f(a, b);
+  std::cout << "f(a, b) " << d12f << std::endl;
   std::cout << flx::e12(d12f) <<  "==" << D12f << std::endl;
 
   std::cout << " ================================= " << std::endl;

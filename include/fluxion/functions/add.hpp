@@ -16,7 +16,7 @@ namespace flx
   struct add_t : eve::callable<add_t, Options>
   {
     template<concepts::hyperdual_like Z0, concepts::hyperdual_like ... Zs>
-    FLX_FORCEINLINE constexpr flx::as_hyperdual_t<Z0, Zs...> operator()(Z0 const& z0, Zs const& ... zs) const noexcept
+    FLX_FORCEINLINE constexpr flx::as_hyperdual_like_t<Z0, Zs...> operator()(Z0 const& z0, Zs const& ... zs) const noexcept
     {
       return  flx_CALL(z0, zs...);
     }
@@ -47,7 +47,7 @@ namespace flx
 //!
 //!   **Parameters**
 //!
-//!     * `z0`,  `z1`: Values to process.
+//!     * `z0`,  `zs...`: Values to process.
 //!
 //!   **Return value**
 //!

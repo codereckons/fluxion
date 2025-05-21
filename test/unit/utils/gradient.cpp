@@ -48,5 +48,12 @@ TTS_CASE_WITH( "Check behavior of flx::gradient"
     TTS_ULP_EQUAL(get<1>(gg), der1, 0.5);
     TTS_ULP_EQUAL(get<2>(gg), der2, 0.5);
 //     TTS_ULP_EQUAL(ref, g[0]*da0+g[1]*da1+g[2]*da2, 0.5);
+    auto ggg = flx::agradient(g, a0, a1, a2);
+
+    for(int i=0; i < 3 ; ++i) std::cout << ggg[i] << "  ";
+    std::cout << std::endl;
+ {
+   std::cout << flx::add(a0, a1)<< std::endl;
+ }
   }
 };

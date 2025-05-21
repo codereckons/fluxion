@@ -19,8 +19,8 @@ constexpr auto variable2(T x, T y) noexcept
     auto hy = cat(h0, kumi::extract(h, kumi::index<flx::dimension_v<r_t>/2>));
     kumi::get<0>(hx) = x;
     kumi::get<0>(hy) = y;
-    std::cout << "hx " << hx << std::endl;
-    std::cout << "hy " << hy << std::endl;
+//     std::cout << "hx " << hx << std::endl;
+//     std::cout << "hy " << hy << std::endl;
     r_t hvx(hx);
     r_t hvy(hy);
     return kumi::tuple{hvx, hvy};
@@ -31,11 +31,26 @@ int main()
   double x = 10.0;
   double y = -2.3;
   auto [a, b] =  variable2<1>(x, y);
-  std::cout << a << std::endl;
-  std::cout << b << std::endl;
-  auto f = [](auto x,  auto y){return x*x*y + x*y; };
-  auto D12f =  2*x+1;
-  auto d12f = f(a, b);
-  std::cout << flx::e12(d12f) <<  "==" << D12f << std::endl;
+  std::cout << "a " << a << std::endl;
+  std::cout << "b " << b << std::endl;
+  {
+    auto f = [](auto x,  auto y){return x*x*y + x*y; };
+    auto D12f =  2*x+1;
+    auto D11f =  2.0;
+    auto D22f =  0.0;
+    auto d12f = f(a, b);
 
+
+    std::cout << "d12f " << d12f << std::endl;
+    std::cout << flx::e12(d12f) <<  "==" << D12f << std::endl;
+    std::cout << flx::e1(d12f)  <<  "==" << D11f << std::endl;
+    std::cout << flx::e2(d12f)  <<  "==" << D22f << std::endl;
+  }
+  {
+    auto f = [](auto x,  auto y){return flx::atan(y/x); };
+    auto D12f = (y*y-x*x)/eve::sqr(x*x+y*y);
+    auto d12f = f(a, b);
+    std::cout << "d12f " << d12f << std::endl;
+    std::cout << flx::e12(d12f) <<  "==" << D12f << std::endl;
+  }
 };

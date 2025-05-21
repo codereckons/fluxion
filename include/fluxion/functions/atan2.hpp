@@ -16,7 +16,7 @@ namespace flx
   struct atan2_t : eve::strict_elementwise_callable<atan2_t, Options, eve::pedantic_option, eve::numeric_option>
   {
    template<concepts::hyperdual_like Z0, concepts::hyperdual_like Z1 >
-    FLX_FORCEINLINE constexpr auto operator()(Z0 c0, Z1 c1) const noexcept -> decltype(flx::abs(c0-c1))
+    FLX_FORCEINLINE constexpr as_hyperdual_like_t<Z0, Z1> operator()(Z0 c0, Z1 c1) const noexcept
     {
       return flx_CALL(c0, c1);
     }
