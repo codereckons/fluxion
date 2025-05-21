@@ -11,7 +11,7 @@
 int main()
 {
 
-//   double x = 10.0;
+  double x = 10.0;
   double y = -2.3;
   // auto [a, b] =  flx::variable2<0, 1, 1>(x, y);
   auto a = flx::variable<3>(x);
