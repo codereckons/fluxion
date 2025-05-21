@@ -89,7 +89,7 @@ namespace flx
     auto h = kumi::map(   [&](auto e) { return D<e,1>(f); }
                     ,   kumi::generate<N>([](auto i) { return kumi::index<i>; })
                     );
-    using r_t = decltype(e0(f(xn...)));
+    using r_t = decltype(f(xn...));
     std::array<r_t, N> that = {};
     kumi::for_each_index([&](auto i, auto dd)
                          {

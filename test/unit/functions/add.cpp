@@ -78,39 +78,12 @@ TTS_CASE_WITH ( "Check flx::add over hyperduals"
     TTS_ULP_EQUAL(flx::d3(addvr), T(0), 0.5);
     TTS_ULP_EQUAL(flx::d4(addvr), T(0), 0.5);
   }
-
   {
-    auto vr = flx::variable<1>(r);
-    auto vs = flx::variable<1>(s);
-    auto addvr = flx::add(vr, vs);
-    TTS_ULP_EQUAL(flx::d0(addvr), r+s, 0.5);
-    TTS_ULP_EQUAL(flx::d1(addvr), T(2), 0.5);
-  }
-  {
-    auto vr = flx::variable<2>(r);
-    auto vs = flx::variable<2>(s);
-    auto addvr = flx::add(vr, vs);
-    TTS_ULP_EQUAL(flx::d0(addvr), r+s, 0.5);
-    TTS_ULP_EQUAL(flx::d1(addvr), T(2), 0.5);
-    TTS_ULP_EQUAL(flx::d2(addvr), T(0), 0.5);
-  }
-  {
-    auto vr = flx::variable<3>(r);
-    auto vs = flx::variable<3>(s);
-    auto addvr = flx::add(vr, vs);
-    TTS_ULP_EQUAL(flx::d0(addvr), r+s, 0.5);
-    TTS_ULP_EQUAL(flx::d1(addvr), T(2), 0.5);
-    TTS_ULP_EQUAL(flx::d2(addvr), T(0), 0.5);
-    TTS_ULP_EQUAL(flx::d3(addvr), T(0), 0.5);
-  }
-  {
-    auto vr = flx::variable<4>(r);
-    auto vs = flx::variable<4>(s);
-    auto addvr = flx::add(vr, vs);
-    TTS_ULP_EQUAL(flx::d0(addvr), r+s, 0.5);
-    TTS_ULP_EQUAL(flx::d1(addvr), T(2), 0.5);
-    TTS_ULP_EQUAL(flx::d2(addvr), T(0), 0.5);
-    TTS_ULP_EQUAL(flx::d3(addvr), T(0), 0.5);
-    TTS_ULP_EQUAL(flx::d4(addvr), T(0), 0.5);
+    auto [a, b] = flx::variable2<0, 1, 1>(r, s);
+    auto addvr = flx::add(a, b);
+    TTS_ULP_EQUAL(flx::e0(addvr), r+s, 0.5);
+    TTS_ULP_EQUAL(flx::e1(addvr), T(1), 0.5);
+    TTS_ULP_EQUAL(flx::e2(addvr), T(1), 0.5);
+    TTS_ULP_EQUAL(flx::e12(addvr),T(0), 0.5);
   }
 };
