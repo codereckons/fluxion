@@ -45,7 +45,7 @@
 // #include <fluxion/functions/am.hpp>
 #include <fluxion/functions/atan2.hpp>
 #include <fluxion/functions/atanpi.hpp>
-// #include <fluxion/functions/acsc.hpp>
+#include <fluxion/functions/acsc.hpp>
 // #include <fluxion/functions/acscpi.hpp>
 // #include <fluxion/functions/acsch.hpp>
 // #include <fluxion/functions/asec.hpp>
@@ -61,11 +61,10 @@
 #include <fluxion/functions/average.hpp>
 
 // #include <fluxion/functions/beta.hpp>
-// #include <fluxion/functions/ceil.hpp>
+#include <fluxion/functions/ceil.hpp>
 // #include <fluxion/functions/chi.hpp>
-// #include <fluxion/functions/commutator.hpp>
 #include <fluxion/functions/cos.hpp>
-// #include <fluxion/functions/cosh.hpp>
+#include <fluxion/functions/cosh.hpp>
 // #include <fluxion/functions/cospi.hpp>
 // #include <fluxion/functions/cot.hpp>
 // #include <fluxion/functions/cotpi.hpp>
@@ -77,7 +76,7 @@
 // #include <fluxion/functions/deta.hpp>
 // #include <fluxion/functions/digamma.hpp>
 #include <fluxion/functions/dist.hpp>
-// #include <fluxion/functions/div.hpp>
+#include <fluxion/functions/div.hpp>
 // #include <fluxion/functions/dot.hpp>
 // #include <fluxion/functions/ellint_fe.hpp>
 // #include <fluxion/functions/ellint_rc.hpp>
