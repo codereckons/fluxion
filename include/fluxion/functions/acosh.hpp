@@ -57,6 +57,12 @@ namespace flx
 //!
 //!     Returns the arc cosine of the argument.
 //!
+//!   **Derivative values of order 1 to 4**
+//!     1. \f$\frac{1}{ \sqrt{x-1}\sqrt{x+1} }\f$
+//!     2. \f$\frac{-x}{((x-1)^{3/2}(x+1)^{3/2}}\f$
+//!     3. \f$\frac{2 x^2 + 1}{(x - 1)^{5/2}(x + 1)^{5/2}}\f$
+//!     4. \f$-\frac{3 x (2 x^2 + 3)}{((x-1)^{7/2}(x+1)^{7/2}}\f$
+//!
 //!  @groupheader{Example}
 //!
 //!  @godbolt{doc/acosh.cpp}

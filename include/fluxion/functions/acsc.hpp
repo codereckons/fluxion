@@ -29,7 +29,7 @@ namespace flx
 //! @addtogroup functions
 //! @{
 //!   @var acsc
-//!   @brief Computes the arc cosine of the argument.
+//!   @brief Computes the arc cosecant of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -52,7 +52,15 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc cosine of the argument.
+//!     Returns the arc cosecant of the argument.
+//!
+//!
+//!   **Derivative values of order 1 to 4**
+//!
+//!     1. \f$\frac{-1}{ x^2\sqrt{1-1/x^2}}\f$
+//!     2. \f$\frac{2x2-1}{x^3(x^2-1)\sqrt{1-1/x^2}}\f$
+//!     3. \f$\frac{-6x^4+5x^2-2}{x^3(x^2-1)^2\sqrt{1-1/x^2}}\f$
+//!     4. \f$-\frac{3(8x^6-8x^4+7x^2-2}{x^5(x^2-1^3)\sqrt{1-1/x^2}}\f$
 //!
 //!  @groupheader{Example}
 //!

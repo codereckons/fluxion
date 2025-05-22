@@ -54,6 +54,13 @@ namespace flx
 //!
 //!     Returns the arc cosine of the argument.
 //!
+//!   **Derivative values of order 1 to 4**
+//!
+//!     1. \f$\frac{-1}{\sqrt(1-x^2)}\f$
+//!     2. \f$\frac{-x}{(1-x^2)^{3/2}}\f$
+//!     3. \f$\frac{-2 x^2-1}{(1 - x^2)^{5/2}}\f$
+//!     4. \f$-\frac{6x^3+9x}{(1 - x^2)^{7/2}}\f$
+//!
 //!  @groupheader{Example}
 //!
 //!  @godbolt{doc/acos.cpp}
