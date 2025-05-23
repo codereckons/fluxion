@@ -26,9 +26,8 @@ namespace flx
     template<std::size_t Order, typename T> [[nodiscard]]
     FLX_FORCEINLINE constexpr auto powersof2() noexcept
     {
-      using t_t = std::remove_cvref_t<T>;
-      t_t z(0);
-      t_t o(1);
+      T z(0);
+      T o(1);
 //       auto gen = [o, z](auto i){
 //         return std::has_single_bit(i) ? o : z;
 //     };

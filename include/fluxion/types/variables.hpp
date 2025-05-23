@@ -129,7 +129,7 @@ namespace flx
   requires((sizeof...(Xs) > I) && sizeof...(Xs) > J)
   {
     auto k = kumi::tuple{xi...};
-    using t_t = decltype((xi+...));
+    using t_t = std::remove_cvref_t<decltype((xi+...))>;
     using r_t = flx::as_hyperdual_n_t<2, t_t>;
     auto h = flx::_::powersof2<2, t_t>();
     auto x = get<I>(k);
