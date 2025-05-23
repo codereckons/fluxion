@@ -124,14 +124,14 @@ namespace flx
   //====================================================================================================================
 
 
-  template <auto I,  auto J, unsigned short Order, typename ...Xs>
+  template <auto I,  auto J, typename ...Xs>
   constexpr auto variable2(Xs... xi) noexcept
-  requires((sizeof...(Xs) >= 2) || ((I == J && (sizeof...(Xs) >= 1) )))
+  requires((sizeof...(Xs) > I) && sizeof...(Xs) > J)
   {
     auto k = kumi::tuple{xi...};
     using t_t = decltype((xi+...));
-    using r_t = flx::as_hyperdual_n_t<Order+1, t_t>;
-    auto h = flx::_::powersof2<Order+1, t_t>();
+    using r_t = flx::as_hyperdual_n_t<2, t_t>;
+    auto h = flx::_::powersof2<2, t_t>();
     auto x = get<I>(k);
     if constexpr(I == J)
     {
@@ -153,33 +153,85 @@ namespace flx
       auto kx = kumi::replace<I>(k, hvx, kumi::index<I>);
       auto kxy = kumi::replace<J>(kx, hvy, kumi::index<J>);
       return kxy;
-//       auto y = get<J>(k);
-//       auto hx = h;
-//       auto hy = h;
-//       kumi::get<0>(hx) = x;
-//       kumi::get<0>(hy) = y;
-//       r_t hvx(hx);
-//       r_t hvy(hy);
-//       auto kx = kumi::replace<I>(k, hvx, kumi::index<I>);
-//       auto kxy = kumi::replace<J>(kx, hvy, kumi::index<J>);
-//       return kxy;
     }
   }
+
+
+  template <auto II,  auto JJ,  auto KK, typename ...Xs>
+  constexpr auto variable3(Xs... xi) noexcept
+  requires((sizeof...(Xs) > II) && sizeof...(Xs) > JJ &&  sizeof...(Xs) > KK )
+  {
+    // order II, JJ, KK
+    constexpr auto I = std::min(std::min(II, JJ), KK);
+    constexpr auto K = std::max(std::max(II, JJ), KK);
+    constexpr auto J = II+JJ+KK-I-K;
+    //    now I <= J <= K
+    auto k = kumi::tuple{xi...};
+    using b_t = decltype((xi+...));
+    using r_t = flx::as_hyperdual_n_t<3, b_t>;
+    auto x = get<I>(k);
+    if constexpr((I == J) && (J == K))
+    {
+      r_t h3{};
+      e1(h3) = eve::one(eve::as<b_t>());
+      e2(h3) = eve::one(eve::as<b_t>());
+      e3(h3) = eve::one(eve::as<b_t>());
+      e0(h3) = x;
+      auto kx = kumi::replace<I>(k, h3, kumi::index<I>);
+      return kx;
+    }
+    else if constexpr((I == J))
+    {
+
+      r_t h1{};
+      r_t h2{};
+      e1(h1) = eve::one(eve::as<b_t>());
+      e2(h1) = eve::one(eve::as<b_t>());
+      e3(h2) = eve::one(eve::as<b_t>());
+      auto y = get<K>(k);
+      e0(h1) = x;
+      e0(h2) = y;
+      auto kx = kumi::replace<I>(k, h1, kumi::index<I>);
+      auto kxy = kumi::replace<K>(kx, h2, kumi::index<K>);
+      return kxy;
+    }
+    else if constexpr((J == K))
+    {
+      r_t h1{};
+      r_t h2{};
+      e3(h1) = eve::one(eve::as<b_t>());
+      e1(h2) = eve::one(eve::as<b_t>());
+      e2(h2) = eve::one(eve::as<b_t>());
+      auto y = get<J>(k);
+      e0(h1) = x;
+      e0(h2) = y;
+      auto kx = kumi::replace<I>(k, h2, kumi::index<I>);
+      auto kxy = kumi::replace<K>(kx, h1, kumi::index<K>);
+      return kxy;
+    }
+    else // I !=  J && J !=  K
+    {
+      r_t h11{};
+      r_t h12{};
+      r_t h13{};
+      e1(h11) = eve::one(eve::as<b_t>());
+      e2(h12) = eve::one(eve::as<b_t>());
+      e3(h13) = eve::one(eve::as<b_t>());
+      auto y = get<J>(k);
+      auto z = get<K>(k);
+      e0(h13) = z;
+      e0(h12) = y;
+      e0(h11) = x;
+      auto kx = kumi::replace<I>(k, h11, kumi::index<I>);
+      auto kxy = kumi::replace<J>(kx, h12, kumi::index<J>);
+      auto kxyz = kumi::replace<K>(kxy, h13, kumi::index<K>);
+      return kxyz;
+    }
+  }
+
+
 
   //====================================================================================================================
   //! @}
   //====================================================================================================================
 }
-
-
-//       auto y = get<J>(k);
-//       auto h0 = kumi::fill<flx::dimension_v<r_t>/2>(eve::zero(eve::as<t_t>()));
-//       auto hx = cat(kumi::extract(h, kumi::index<0>, kumi::index<flx::dimension_v<r_t>/2>), h0);
-//       auto hy = cat(h0, kumi::extract(h, kumi::index<flx::dimension_v<r_t>/2>));
-//       kumi::get<0>(hx) = x;
-//       kumi::get<0>(hy) = y;
-//       r_t hvx(hx);
-//       r_t hvy(hy);
-//       auto kx = kumi::replace<I>(k, hvx, kumi::index<I>);
-//       auto kxy = kumi::replace<J>(kx, hvy, kumi::index<J>);
-//       return kxy;

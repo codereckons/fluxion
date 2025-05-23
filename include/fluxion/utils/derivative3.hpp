@@ -36,7 +36,7 @@ namespace flx
   //!   @code
   //!   namespace flx
   //!   {
-  //!     template < unsigned short I, unsigned short J> constexpr auto D2(Func f)       noexcept;
+  //!     template < unsigned short I, unsigned short J, unsigned short K> constexpr auto D2(Func f)       noexcept;
   //!   }
   //!   @endcode
   //!
@@ -44,6 +44,7 @@ namespace flx
   //!
   //!   * `I`: index of the first variable of derivation from 0
   //!   * `J`: index of the second variable of derivation from 0
+  //!   * `K`: index of the third variable of derivation from 0
   //!
   //!   **Parameters**
   //!
@@ -51,17 +52,17 @@ namespace flx
   //!
   //!   **Return value**
   //!
-  //!     Returns the callable \f$ (x_i) \leadsto \partial^2 f}{\partial x_I\partial x_J} `.
+  //!     Returns the callable \f$ (x_i) \leadsto \partial^3 f}{\partial x_I\partial x_J\partial x_K} `.
   //!
   //!  @groupheader{Example}
   //!
   //!  @godbolt{doc/D2.cpp}
   //====================================================================================================================
 
-  template < auto I, auto J, typename Func> auto D2(Func f) noexcept
+  template < auto I, auto J, auto K, typename Func> auto D3(Func f) noexcept
   {
     return [&](auto ... xi){
-      return flx::e12(kumi::apply(f, variable2<I, J>(xi...)));
+      return flx::e123(kumi::apply(f, variable3<I, J, K>(xi...)));
     };
   }
 };
