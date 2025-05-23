@@ -24,9 +24,9 @@ TTS_CASE_WITH ( "Check flx::atan2 over hyperduals"
     auto d22f= [](auto x,  auto y){return -2*x*y/eve::sqr((x*x+y*y)); };
     TTS_ULP_EQUAL((flx::D<0,1>(f)(x, y)),    d1f(x, y), 20);
     TTS_ULP_EQUAL((flx::D<1,1>(f)(x, y)),    d2f(x, y), 20);
-    TTS_ULP_EQUAL((flx::D2<0,1,1>(f)(x, y)), d12f(x, y), 300);
-    TTS_ULP_EQUAL((flx::D2<1,1,1>(f)(x, y)), d22f(x, y), 20);
-    TTS_ULP_EQUAL((flx::D2<0,0,1>(f)(x, y)), d11f(x, y), 20);
+    TTS_ULP_EQUAL((flx::D2<0,1>(f)(x, y)), d12f(x, y), 300);
+    TTS_ULP_EQUAL((flx::D2<1,1>(f)(x, y)), d22f(x, y), 20);
+    TTS_ULP_EQUAL((flx::D2<0,0>(f)(x, y)), d11f(x, y), 20);
     TTS_ULP_EQUAL((flx::D<0,2>(f)(x, y)),    d11f(x, y), 20);
     TTS_ULP_EQUAL((flx::D<1,2>(f)(x, y)),    d22f(x, y), 20);
   }

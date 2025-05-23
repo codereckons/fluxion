@@ -84,7 +84,7 @@ TTS_CASE_WITH ( "Check flx::div over hyperduals"
   }
 
   {
-    auto [a, b] = flx::variable2<0, 1, 1>(r, s);
+    auto [a, b] = flx::variable2<0, 1>(r, s);
     auto divvr = flx::div(a, b);
     TTS_ULP_EQUAL(flx::e0(divvr), r/s, 0.5);
     TTS_ULP_EQUAL(flx::e1(divvr), eve::rec(s), 0.5);

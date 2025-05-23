@@ -80,7 +80,7 @@ TTS_CASE_WITH ( "Check flx::average over hyperduals"
   }
 
   {
-    auto [a, b] = flx::variable2<0, 1, 1>(r, s);
+    auto [a, b] = flx::variable2<0, 1>(r, s);
     auto averagevr = flx::average(a, b);
     TTS_ULP_EQUAL(flx::e0(averagevr), (r+s)/2, 0.5);
     TTS_ULP_EQUAL(flx::e1(averagevr), T(0.5), 0.5);

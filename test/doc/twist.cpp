@@ -13,7 +13,7 @@ int main()
 
   double x = 10.0;
   double y = -2.3;
-  // auto [a, b] =  flx::variable2<0, 1, 1>(x, y);
+  // auto [a, b] =  flx::variable2<0, 1>(x, y);
   auto a = flx::variable<3>(x);
   auto b = flx::variable<3>(y);
   std::cout << a << std::endl;
@@ -27,7 +27,7 @@ int main()
   std::cout << flx::e12(d12f) <<  "==" << D12f << std::endl;
 
   std::cout << " ================================= " << std::endl;
-  auto ab =  flx::variable2<1, 1, 1>(x, y);
+  auto ab =  flx::variable2<1, 1>(x, y);
   auto D22f =  0.0;
   auto d22f = kumi::apply(f, ab);
 
@@ -36,7 +36,7 @@ int main()
   std::cout << flx::e12(d22f) <<  "==" << D22f << std::endl;
   {
   std::cout << " ================================= " << std::endl;
-  auto ab =  flx::variable2<0, 0, 1>(x, y);
+  auto ab =  flx::variable2<0, 0>(x, y);
   auto D11f =  2*y;
   auto d11f = kumi::apply(f, ab);
 

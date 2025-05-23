@@ -79,7 +79,7 @@ TTS_CASE_WITH ( "Check flx::add over hyperduals"
     TTS_ULP_EQUAL(flx::d4(addvr), T(0), 0.5);
   }
   {
-    auto [a, b] = flx::variable2<0, 1, 1>(r, s);
+    auto [a, b] = flx::variable2<0, 1>(r, s);
     auto addvr = flx::add(a, b);
     TTS_ULP_EQUAL(flx::e0(addvr), r+s, 0.5);
     TTS_ULP_EQUAL(flx::e1(addvr), T(1), 0.5);
