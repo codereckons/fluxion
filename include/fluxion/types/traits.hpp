@@ -113,7 +113,7 @@ constexpr unsigned short max_order = 4;
   struct as_hyperdual_n<Ord, T>
   {
     static constexpr auto card = eve::cardinal_v<T>;
-    using cd_t  = hyperdual<eve::as_floating_point_t<eve::underlying_type_t<T>>,
+    using cd_t  = hyperdual<eve::as_floating_point_t<eve::underlying_type_t<std::remove_cvref_t<T>>>,
                             Ord>;
     using type  = std::conditional_t<card != 1ULL, eve::wide<cd_t,eve::fixed<card>>, cd_t>;
   };
