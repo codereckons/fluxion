@@ -54,7 +54,6 @@ namespace flx
 //!
 //!     Returns the arc cosecant of the argument.
 //!
-//!
 //!   **Derivative values of order 1 to 4**
 //!
 //!     1. \f$\frac{-1}{ x^2\sqrt{1-1/x^2}}\f$

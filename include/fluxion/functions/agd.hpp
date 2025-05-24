@@ -55,6 +55,13 @@ namespace flx
 //!
 //!     Returns the arc cosine of the argument.
 //!
+//!   **Derivative values of order 1 to 4**
+//!
+//!     1. \f$\sec(x)\f$
+//!     2. \f$\sec(x)\tan(x)\f$
+//!     3. \f$\sec(x)(\tan^2(x)+\sec^2(x))\f$
+//!     4. \f$\sec(x)\tan(x)(\tan^2(x)+5\sec^2(x))\f$
+//!
 //!  @groupheader{Example}
 //!
 //!  @godbolt{doc/agd.cpp}

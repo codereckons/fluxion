@@ -29,7 +29,7 @@ namespace flx
 //! @addtogroup functions
 //! @{
 //!   @var atan
-//!   @brief Computes the arc cosine of the argument.
+//!   @brief Computes the arc tangent of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -52,8 +52,15 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc cosine of the argument.
+//!     Returns the arc tangent of the argument.
 //!
+//!   **Derivative values of order 1 to 4**
+//!
+//!     1. \f$\frac{1}{1+x^2}\f$
+//!     2. \f$\frac{-2x}{(1+x^2)^2}\f$
+//!     3. \f$\frac{6x^2-2}{(1+x^2)^3}\f$
+//!     4. \f$\frac{-24x(x^2-1)}{(1+x^2)^4}\f$
+///!
 //!  @groupheader{Example}
 //!
 //!  @godbolt{doc/atan.cpp}

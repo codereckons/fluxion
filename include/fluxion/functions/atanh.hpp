@@ -29,7 +29,7 @@ namespace flx
 //! @addtogroup functions
 //! @{
 //!   @var atanh
-//!   @brief Computes the arc cosine of the argument.
+//!   @brief Computes the argument tangent hyperbolic of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -52,7 +52,7 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc cosine of the argument.
+//!     Returns the  argument tangent hyperbolic of the argument.
 //!
 //!  @groupheader{Example}
 //!
