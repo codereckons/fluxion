@@ -71,13 +71,28 @@ namespace flx
   //====================================================================================================================
 
   template <auto I, unsigned short Order, typename ...Xs>
-  constexpr auto variable1(Xs... xi) noexcept
+  constexpr auto variable(Xs... xi) noexcept
   requires(sizeof...(Xs) >= 1)
   {
     auto k = kumi::tuple{xi...};
     using t_t = decltype((xi+...));
     using r_t = as_hyperdual_n_t<Order, t_t>;
     auto h = _::powersof2<Order, t_t>();
+    auto x = get<I>(k);
+    kumi::get<0>(h) = x;
+    r_t hv(h);
+    auto kx = kumi::replace<I>(k, hv, kumi::index<I>);
+    return kx;
+  }
+
+  template <auto I, typename ...Xs>
+  constexpr auto variable1(Xs... xi) noexcept
+  requires(sizeof...(Xs) >= 1)
+  {
+    auto k = kumi::tuple{xi...};
+    using t_t = decltype((xi+...));
+    using r_t = as_hyperdual_n_t<1, t_t>;
+    auto h = _::powersof2<1, t_t>();
     auto x = get<I>(k);
     kumi::get<0>(h) = x;
     r_t hv(h);
@@ -128,6 +143,7 @@ namespace flx
   constexpr auto variable2(Xs... xi) noexcept
   requires((sizeof...(Xs) > I) && sizeof...(Xs) > J)
   {
+    std::cout << "variable2" << std::endl;
     auto k = kumi::tuple{xi...};
     using t_t = std::remove_cvref_t<decltype((xi+...))>;
     using r_t = flx::as_hyperdual_n_t<2, t_t>;
