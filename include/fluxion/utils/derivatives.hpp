@@ -17,13 +17,13 @@
 
 namespace flx
 {
-//   template<int N>
-//   using vars = std::array<int,N>;
+  template<int N>
+  using vars = std::array<int,N>;
 
-  template<int N> struct vars : std::array<int,N>{};
+//   template<int N> struct vars : std::array<int,N>{};
 
-  template<class... U>
-  vars(U...) -> vars<1 + sizeof...(U)>;
+//   template<class... U>
+//   vars(U...) -> vars<1 + sizeof...(U)>;
 
   namespace _
   {
