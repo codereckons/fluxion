@@ -59,7 +59,7 @@ namespace flx
     auto as_index = kumi::generate<N>([](auto i) { return kumi::index<i>; });
     return kumi::map(   [&](auto e)
                         {
-                          return kumi::apply([f](auto i, auto j) { return flx::D<flx::vars{static_cast<int>(i),static_cast<int>(j)}>{}(f); }, e);
+                          return kumi::apply([f](auto i, auto j) { return flx::D<flx::vars{i,j}>(f); }, e);
                         }
                     ,   kumi::cartesian_product(as_index,as_index)
                     );

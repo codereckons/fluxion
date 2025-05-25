@@ -87,7 +87,7 @@ namespace flx
   auto agradient(auto f, Xn... xn)
   {
     constexpr size_t N = sizeof...(Xn);
-    auto h = kumi::map(   [&](auto e) { return D<static_cast<int>(e),1>{}(f); }
+    auto h = kumi::map(   [&](auto e) { return D<vars{e}>(f); }
                     ,   kumi::generate<N>([](auto i) { return kumi::index<i>; })
                     );
     using r_t = decltype(f(xn...));
