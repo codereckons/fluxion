@@ -101,6 +101,6 @@ namespace flx
   template < int I,  int Order, typename Func,  typename ... Xs> constexpr auto
   derivate(Func f, Xs... xs) noexcept
   {
-    return flx::d<Order>{}(kumi::apply(f, flx::variable<I, Order>(xs...)));
+    return flx::d<Order>(kumi::apply(f, flx::variable<I, Order>(xs...)));
   }
 }
