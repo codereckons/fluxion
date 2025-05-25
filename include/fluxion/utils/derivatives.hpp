@@ -80,18 +80,12 @@ namespace flx
       {
         if constexpr(N == 1)
         {
-          std::cout << "icitte0" << std::endl;
-          std::cout << Vars[0]  << std::endl;
-          std::cout << f(1.0, 2.0, 3.0) <<  std::endl;
           return [f](auto ... xi){
             return flx::e1(kumi::apply(f, flx::variable1<Vars[0]>(xi...)));
           };
         }
         else if constexpr(N == 2)
         {
-          std::cout << "icitte1" << std::endl;
-          std::cout << Vars[0] << "  " << Vars[1] << std::endl;
-          std::cout << f(1.0, 2.0, 3.0) <<  std::endl;
           return [f](auto ... xi){
             return flx::e12(kumi::apply(f, flx::variable2<Vars[0], Vars[1]>(xi...)));
           };
@@ -102,7 +96,6 @@ namespace flx
             return flx::e123(kumi::apply(f, flx::variable3<Vars[0], Vars[1], Vars[2]>(xi...)));
           };
         }
-        //return f;
       }
     };
 
@@ -112,23 +105,22 @@ namespace flx
       template<typename Func> constexpr auto operator()(Func f) noexcept
       {
         return [f](auto ... xi){
-          return flx::e123(kumi::apply(f, flx::variable<I, Order>(xi...)));
+          return flx::d<Order>{}(kumi::apply(f, flx::variable<I, Order>(xi...)));
         };
       }
     };
 
   }
 
-
   template<auto ...Vars>
-  struct DDD;
+  struct D;
 
   template<std::size_t N, vars<N> Vars>
-  struct DDD<Vars> : _::DD<Vars, N>
+  struct D<Vars> : _::DD<Vars, N>
   {};
 
-  template<std::size_t N, size_t Order>
-  struct DDD<N, Order> : _::DD<N, Order>
+  template<std::size_t N, int Order>
+  struct D<N, Order> : _::DD<N, Order>
   {};
 
 

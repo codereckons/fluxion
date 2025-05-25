@@ -143,7 +143,6 @@ namespace flx
   constexpr auto variable2(Xs... xi) noexcept
   requires((sizeof...(Xs) > I) && sizeof...(Xs) > J)
   {
-    std::cout << "variable2" << std::endl;
     auto k = kumi::tuple{xi...};
     using t_t = std::remove_cvref_t<decltype((xi+...))>;
     using r_t = flx::as_hyperdual_n_t<2, t_t>;

@@ -12,9 +12,9 @@
 //! @brief Classes and structs defining gradients and differentials.
 //======================================================================================================================
 #include <fluxion/utils/derivatives.hpp>
-#include <fluxion/utils/derivative.hpp>
-#include <fluxion/utils/derivative2.hpp>
-#include <fluxion/utils/derivative3.hpp>
+// #include <fluxion/utils/derivative.hpp>
+// #include <fluxion/utils/derivative2.hpp>
+// #include <fluxion/utils/derivative3.hpp>
 #include <fluxion/utils/gradient.hpp>
 #include <fluxion/utils/hessian.hpp>
 #include <fluxion/utils/differential.hpp>

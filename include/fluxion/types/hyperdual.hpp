@@ -28,10 +28,6 @@ namespace flx
     {
       T z(0);
       T o(1);
-//       auto gen = [o, z](auto i){
-//         return std::has_single_bit(i) ? o : z;
-//     };
-//      return kumi::generate<1 << Order>(gen);
       return [&]<std::size_t... I>(std::index_sequence<I...>) {
         return kumi::tuple{(std::has_single_bit(I) ? o : z)...};
       }(std::make_index_sequence<1 << Order>{});
@@ -140,7 +136,6 @@ namespace flx
     friend constexpr eve::as_logical_t<Type>
     operator==(hyperdual const& a, hyperdual const& b) noexcept
     {
-     std::cout << "latte" << std::endl;
      return get<0>(a.contents) == get<0>(b.contents);
     }
 
