@@ -8,13 +8,13 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <fluxion/functions/acos.hpp>
+#include <fluxion/functions/acsc.hpp>
 #include <array>
 
 namespace flx
 {
   template<typename Options>
-  struct acospi_t : eve::elementwise_callable<acospi_t, Options>
+  struct acscpi_t : eve::elementwise_callable<acscpi_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -22,14 +22,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(acospi_t, acospi_);
+    flx_CALLABLE_OBJECT(acscpi_t, acscpi_);
 };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var acospi
-//!   @brief Computes the arc cosine in pi multiples of the argument.
+//!   @var acscpi
+//!   @brief Computes the arc cosecant in pi multiples of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -42,7 +42,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT acospi(T z) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT acscpi(T z) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -52,17 +52,17 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc cosine of the argument.
+//!     Returns the arc cosecant of the argument.
 //!
 //!   **Derivative values of order 1 to 4**
 //!
-//!     Those of [acos](@ref acos) multiplied by the inverse of pi
+//!     Those of [acos](@ref acsc) multiplied by the inverse of pi
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/acospi.cpp}
+//!  @godbolt{doc/acscpi.cpp}
 //======================================================================================================================
-  inline constexpr auto acospi = eve::functor<acospi_t>;
+  inline constexpr auto acscpi = eve::functor<acscpi_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -72,8 +72,8 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto acospi_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto acscpi_(flx_DELAY(), O const&, Z z) noexcept
   {
-    return flx::acos(z)*eve::inv_pi(eve::as(e0(z)));
+    return flx::acsc(z)*eve::inv_pi(eve::as(e0(z)));
   }
 }

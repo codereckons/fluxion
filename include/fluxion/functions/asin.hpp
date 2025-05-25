@@ -14,7 +14,7 @@
 namespace flx
 {
   template<typename Options>
-  struct acos_t : eve::elementwise_callable<acos_t, Options>
+  struct asin_t : eve::elementwise_callable<asin_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -22,14 +22,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(acos_t, acos_);
+    flx_CALLABLE_OBJECT(asin_t, asin_);
 };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var acos
-//!   @brief Computes the arc cosine of the argument.
+//!   @var asin
+//!   @brief Computes the arc sine of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -42,7 +42,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT acos(T z) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT asin(T z) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -52,20 +52,20 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc cosine of the argument.
+//!     Returns the arc sine of the argument.
 //!
 //!   **Derivative values of order 1 to 4**
 //!
-//!     1. \f$\frac{-1}{\sqrt(1-x^2)}\f$
-//!     2. \f$\frac{-x}{(1-x^2)^{3/2}}\f$
-//!     3. \f$\frac{-2x^2-1}{(1-x^2)^{5/2}}\f$
-//!     4. \f$-\frac{6x^3+9x}{(1-x^2)^{7/2}}\f$
+//!     1. \f$\frac{1}{\sqrt(1-x^2)}\f$
+//!     2. \f$\frac{x}{(1-x^2)^{3/2}}\f$
+//!     3. \f$\frac{2 x^2+1}{(1 - x^2)^{5/2}}\f$
+//!     4. \f$\frac{6x^3+9x}{(1 - x^2)^{7/2}}\f$
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/acos.cpp}
+//!  @godbolt{doc/asin.cpp}
 //======================================================================================================================
-  inline constexpr auto acos = eve::functor<acos_t>;
+  inline constexpr auto asin = eve::functor<asin_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -75,9 +75,9 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto acos_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto asin_(flx_DELAY(), O const&, Z z) noexcept
   {
-    auto val = eve::acos(e0(z));
+    auto val = eve::asin(e0(z));
     if constexpr(concepts::base<Z>)
     {
       return val;
@@ -91,7 +91,7 @@ namespace flx::_
         constexpr auto ord = flx::order_v<Z>;
         auto x2 = eve::sqr(x);
         auto r = eve::rec(eve::oneminus(x2));
-        ders[1] = -eve::sqrt(r);
+        ders[1] = eve::rsqrt(r);
         if constexpr(ord == 1) return;
         else
         {

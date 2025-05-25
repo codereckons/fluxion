@@ -46,12 +46,12 @@
 #include <fluxion/functions/atan2.hpp>
 #include <fluxion/functions/atanpi.hpp>
 #include <fluxion/functions/acsc.hpp>
-// #include <fluxion/functions/acscpi.hpp>
-// #include <fluxion/functions/acsch.hpp>
+#include <fluxion/functions/acscpi.hpp>
+#include <fluxion/functions/acsch.hpp>
 // #include <fluxion/functions/asec.hpp>
 // #include <fluxion/functions/asecpi.hpp>
 // #include <fluxion/functions/asech.hpp>
-// #include <fluxion/functions/asin.hpp>
+#include <fluxion/functions/asin.hpp>
 // #include <fluxion/functions/asinpi.hpp>
 // #include <fluxion/functions/asinh.hpp>
 // #include <fluxion/functions/associator.hpp>
