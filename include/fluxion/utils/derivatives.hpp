@@ -17,7 +17,7 @@
 
 namespace flx
 {
-  template<std::size_t N>
+  template<int N>
   using vars = std::array<int,N>;
 
   namespace _
@@ -73,7 +73,7 @@ namespace flx
     struct DD;
 
 
-    template<std::size_t N, vars<N> Vars, int Order>
+    template<int N, vars<N> Vars, int Order>
     struct DD<Vars, Order>
     {
       template<typename Func> constexpr auto operator()(Func f) noexcept
@@ -99,29 +99,34 @@ namespace flx
       }
     };
 
-    template<std::size_t I, int Order>
-    struct DD<I, Order>
-    {
-      template<typename Func> constexpr auto operator()(Func f) noexcept
-      {
-        return [f](auto ... xi){
-          return flx::d<Order>{}(kumi::apply(f, flx::variable<I, Order>(xi...)));
-        };
-      }
-    };
+//     template<int I, int Order>
+//     struct DD<I, Order>
+//     {
+//       template<typename Func> constexpr auto operator()(Func f) noexcept
+//       {
+//         return [f](auto ... xi){
+//           return flx::d<Order>{}(kumi::apply(f, flx::variable<I, Order>(xi...)));
+//         };
+//       }
+//     };
 
   }
 
   template<auto ...Vars>
   struct D;
 
-  template<std::size_t N, vars<N> Vars>
+  template<int N, vars<N> Vars>
   struct D<Vars> : _::DD<Vars, N>
   {};
 
-  template<std::size_t N, int Order>
-  struct D<N, Order> : _::DD<N, Order>
-  {};
+//   template<int N, int Order>
+//   struct D<N, Order> : _::DD<N, Order>
+//   {};
 
 
+  template < int I,  int Order, typename Func,  typename ... Xs> constexpr auto
+  derivate(Func f, Xs... xs) noexcept
+  {
+    return flx::d<Order>{}(kumi::apply(f, flx::variable<I, Order>(xs...)));
+  }
 }

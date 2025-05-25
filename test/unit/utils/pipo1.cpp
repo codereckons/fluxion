@@ -65,11 +65,11 @@ int main()
   std::cout<< z(1.0,2.0,3.0) << std::endl;
   auto z1 = c(f);
   std::cout<< z1(1.0,2.0,3.0) << std::endl;
-  std::cout<< flx::D<0, 1>{}(f)(1.0, 2.0, 3.0)<< std::endl;
+//   std::cout<< flx::D<0, 1>{}(f)(1.0, 2.0, 3.0)<< std::endl;
   flx::D<flx::vars{0, 1}> d;
   std::cout<< d(f)(1.0,2.0,3.0) << std::endl;
   std::cout<< flx::D<flx::vars{0, 1}>{}(f)(1.0,2.0,3.0) << std::endl;
-  std::cout<< flx::D<0, 3>{}(f)(1.0,2.0,3.0) << std::endl;
+//   std::cout<< flx::D<0, 3>{}(f)(1.0,2.0,3.0) << std::endl;
 
   return 0;
 }
