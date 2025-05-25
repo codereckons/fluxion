@@ -12,12 +12,19 @@
 #include <fluxion/types/traits.hpp>
 #include <fluxion/functions/parts.hpp>
 #include <fluxion/types/variables.hpp>
-#include <array>
 
 namespace flx
 {
   template<std::size_t N>
-  using vars = std::array<int,N>;
+  struct vars
+  {
+    constexpr int&  operator[](int i)       noexcept { return data[i]; }
+    constexpr int   operator[](int i) const noexcept { return data[i]; }
+    int data[N];
+  };
+
+  template<typename T, typename... U >
+  vars(T, U... ) -> vars<1 + sizeof...(U)>;
 
   namespace _
   {

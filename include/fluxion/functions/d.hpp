@@ -58,7 +58,7 @@ namespace flx
   //!  @godbolt{doc/d0.cpp}
   //====================================================================================================================
   template<unsigned short Ord>
-  inline constexpr d = extractor<(1<<Ord)-1>{};
+  inline constexpr auto d = extractor<(1<<Ord)-1>{};
 
   //====================================================================================================================
   //! @addtogroup functions
