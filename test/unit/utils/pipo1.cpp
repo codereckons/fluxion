@@ -57,9 +57,9 @@
 
 int main()
 {
-  flx::DD<flx::vars{0},1> a;
-//  flx::DD<0,2>       b;
-  flx::DD<flx::vars{0, 1},2> c;
+  flx::_::DD<flx::vars{0},1> a;
+//  flx::_::DD<0,2>       b;
+  flx::_::DD<flx::vars{0, 1},2> c;
   auto f = [](auto x, auto y, auto z){return x*x*x*y+y*y*y*x+z*z*y; };
   auto z = a(f);
   std::cout<< z(1.0,2.0,3.0) << std::endl;
@@ -84,6 +84,6 @@ int main()
 // <typename T>(T , T , T )
 // {
 //    auto f = [](auto x, auto y, auto z){return x*x+y*y+z*z*y; };
-//    auto zz = flx::flx::DD<2, flx::flx::vars{0, 1}>{}(f);
+//    auto zz = flx::flx::_::DD<2, flx::flx::vars{0, 1}>{}(f);
 
 //   TTS_EQUAL(0, 0);
