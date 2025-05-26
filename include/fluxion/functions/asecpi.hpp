@@ -14,7 +14,7 @@
 namespace flx
 {
   template<typename Options>
-  struct atanpi_t : eve::elementwise_callable<atanpi_t, Options>
+  struct asecpi_t : eve::elementwise_callable<asecpi_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -22,14 +22,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(atanpi_t, atanpi_);
+    flx_CALLABLE_OBJECT(asecpi_t, asecpi_);
 };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var atanpi
-//!   @brief Computes the arc tangent in pi multiples of the argument.
+//!   @var asecpi
+//!   @brief Computes the arc secant in pi multiples of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -42,7 +42,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT atanpi(T z) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT asecpi(T z) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -52,17 +52,17 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc tangent of the argument.
+//!     Returns the arc secant of the argument.
 //!
 //!   **Derivative values of order 1 to 4**
 //!
-//!     Those of [acos](@ref atan) multiplied by the inverse of pi
+//!     Those of [asec](@ref asec) multiplied by the inverse of pi
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/atanpi.cpp}
+//!  @godbolt{doc/asecpi.cpp}
 //======================================================================================================================
-  inline constexpr auto atanpi = eve::functor<atanpi_t>;
+  inline constexpr auto asecpi = eve::functor<asecpi_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -72,8 +72,8 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto atanpi_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto asecpi_(flx_DELAY(), O const&, Z z) noexcept
   {
-    return flx::atan(z)*eve::inv_pi(eve::as(e0(z)));
+    return flx::asec(z)*eve::inv_pi(eve::as(e0(z)));
   }
 }

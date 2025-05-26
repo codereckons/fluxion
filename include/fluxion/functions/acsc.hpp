@@ -58,7 +58,7 @@ namespace flx
 //!   **Derivative values of order 1 to 4**
 //!
 //!     1. \f$\frac{-1}{\sqrt{1-1/x^2}} x^2,
-//!     2. \f$\frac{2 x^2 - 1/{\sqrt{1-/x^2}x^3(x^2-1)},
+//!     2. \f$\frac{2x^2-1}/{\sqrt{1-/x^2}x^3(x^2-1)},
 //!     3. \f$\frac{-6x^4+5x^2-2}{\sqrt{1-1/x^2}x^4(x^2-1)^2},
 //!     4. \f$\frac{3(8x^6-8x^4+7x^2-2){(\sqrt{1-1/x^2}x^5(x^2-1)^3)}
 //!

@@ -8,13 +8,16 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <fluxion/functions/acos.hpp>
+#include <eve/module/math.hpp>
+#include <fluxion/functions/log.hpp>
+#include <fluxion/functions/sqr.hpp>
+#include <fluxion/functions/sqrt.hpp>
 #include <array>
 
 namespace flx
 {
   template<typename Options>
-  struct atanpi_t : eve::elementwise_callable<atanpi_t, Options>
+  struct asinh_t : eve::elementwise_callable<asinh_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -22,14 +25,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(atanpi_t, atanpi_);
+    flx_CALLABLE_OBJECT(asinh_t, asinh_);
 };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var atanpi
-//!   @brief Computes the arc tangent in pi multiples of the argument.
+//!   @var asinh
+//!   @brief Computes the arc sine of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -42,7 +45,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT atanpi(T z) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT asinh(T z) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -52,17 +55,19 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc tangent of the argument.
+//!     Returns the arc sine of the argument.
 //!
 //!   **Derivative values of order 1 to 4**
-//!
-//!     Those of [acos](@ref atan) multiplied by the inverse of pi
+//!     1. \f$\frac{1}{ \sqrt{x^2+1}}\f$
+//!     2. \f$\frac{x}{(1+x^2)^{3/2}}\f$
+//!     3. \f$\frac{2x^2-1}{(1+x^2)^{5/2}}\f$
+//!     4. \f$-\frac{3x(3-2x^2)}{(1+x^2)^{7/2}}\f$
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/atanpi.cpp}
+//!  @godbolt{doc/asinh.cpp}
 //======================================================================================================================
-  inline constexpr auto atanpi = eve::functor<atanpi_t>;
+  inline constexpr auto asinh = eve::functor<asinh_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -72,8 +77,16 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto atanpi_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto asinh_(flx_DELAY(), O const&, Z z) noexcept
   {
-    return flx::atan(z)*eve::inv_pi(eve::as(e0(z)));
+    auto val = eve::asinh(e0(z));
+    if constexpr(concepts::base<Z>)
+    {
+      return val;
+    }
+    else
+    {
+      return flx::log(z+flx::sqrt(z*z-1));
+    }
   }
 }

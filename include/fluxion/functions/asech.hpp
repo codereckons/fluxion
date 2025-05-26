@@ -8,13 +8,16 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <fluxion/functions/acos.hpp>
+#include <eve/module/math.hpp>
+#include <fluxion/functions/log.hpp>
+#include <fluxion/functions/sqr.hpp>
+#include <fluxion/functions/sqrt.hpp>
 #include <array>
 
 namespace flx
 {
   template<typename Options>
-  struct atanpi_t : eve::elementwise_callable<atanpi_t, Options>
+  struct asech_t : eve::elementwise_callable<asech_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -22,14 +25,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(atanpi_t, atanpi_);
+    flx_CALLABLE_OBJECT(asech_t, asech_);
 };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var atanpi
-//!   @brief Computes the arc tangent in pi multiples of the argument.
+//!   @var asech
+//!   @brief Computes the arg hyperbolic secant of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -42,7 +45,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT atanpi(T z) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT asech(T z) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -52,17 +55,19 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the arc tangent of the argument.
+//!     Returns the arg hyperbolic secant of the argument.
 //!
 //!   **Derivative values of order 1 to 4**
-//!
-//!     Those of [acos](@ref atan) multiplied by the inverse of pi
+//!     1. \f$\frac{-1}{\sqrt{1/x-1}\sqrt{1/x+1}x^2}\f$
+//!     2. \f$\frac{2 x^2 + 1}{\sqrt{1/x-1}\sqrt{1/x+1}x^3(x^2-1)^}\f$
+//!     3. \f$\frac{-6x^4+5x^2-2)}{\sqrt{1/x-1}\sqrt{1/x+1}x^4(x^2-1)^2}\f$
+//!     4. \f$\frac{3(8x^6-8x^4+7x^2-2)}{\sqrt{1/x-1}\sqrt{1/x+1}x^5(x^2-1)^3}\f$
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/atanpi.cpp}
+//!  @godbolt{doc/asech.cpp}
 //======================================================================================================================
-  inline constexpr auto atanpi = eve::functor<atanpi_t>;
+  inline constexpr auto asech = eve::functor<asech_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -72,8 +77,16 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto atanpi_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto asech_(flx_DELAY(), O const&, Z z) noexcept
   {
-    return flx::atan(z)*eve::inv_pi(eve::as(e0(z)));
+    auto val = eve::asech(e0(z));
+    if constexpr(concepts::base<Z>)
+    {
+      return val;
+    }
+    else
+    {
+      return flx::log(rec(z)+flx::sqrt(flx::rec(z)-1)*sqrt(flx::rec(z)+1));
+    }
   }
 }

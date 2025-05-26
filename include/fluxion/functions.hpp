@@ -46,23 +46,22 @@
 #include <fluxion/functions/acsc.hpp>
 #include <fluxion/functions/acscpi.hpp>
 #include <fluxion/functions/acsch.hpp>
-// #include <fluxion/functions/asec.hpp>
-// #include <fluxion/functions/asecpi.hpp>
-// #include <fluxion/functions/asech.hpp>
+#include <fluxion/functions/asec.hpp>
+#include <fluxion/functions/asecpi.hpp>
+#include <fluxion/functions/asech.hpp>
 #include <fluxion/functions/asin.hpp>
-// #include <fluxion/functions/asinpi.hpp>
-// #include <fluxion/functions/asinh.hpp>
-// #include <fluxion/functions/associator.hpp>
+#include <fluxion/functions/asinpi.hpp>
+#include <fluxion/functions/asinh.hpp>
 #include <fluxion/functions/atan.hpp>
 #include <fluxion/functions/atan2.hpp>
 #include <fluxion/functions/atanh.hpp>
 #include <fluxion/functions/atanpi.hpp>
-// #include <fluxion/functions/atanpi.hpp>
+#include <fluxion/functions/atanpi.hpp>
 #include <fluxion/functions/average.hpp>
 
-// #include <fluxion/functions/beta.hpp>
+// #include <fluxion/functions/beta.hpp>  //needs tgamma
 #include <fluxion/functions/ceil.hpp>
-// #include <fluxion/functions/chi.hpp>
+#include <fluxion/functions/chi.hpp>
 #include <fluxion/functions/cos.hpp>
 #include <fluxion/functions/cosh.hpp>
 // #include <fluxion/functions/cospi.hpp>
@@ -196,7 +195,7 @@
 // #include <fluxion/functions/tanpi.hpp>
 // #include <fluxion/functions/tanh.hpp>
 // #include <fluxion/functions/tchebytchev.hpp>
-// #include <fluxion/functions/tgamma.hpp>
+// #include <fluxion/functions/tgamma.hpp>           //needs polygamma
 // #include <fluxion/functions/tgamma_inv.hpp>
 // #include <fluxion/functions/to_cylindrical.hpp>
 #include <fluxion/functions/to_dual.hpp>
