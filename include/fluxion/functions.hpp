@@ -64,7 +64,7 @@
 #include <fluxion/functions/chi.hpp>
 #include <fluxion/functions/cos.hpp>
 #include <fluxion/functions/cosh.hpp>
-// #include <fluxion/functions/cospi.hpp>
+#include <fluxion/functions/cospi.hpp>
 // #include <fluxion/functions/cot.hpp>
 // #include <fluxion/functions/cotpi.hpp>
 // #include <fluxion/functions/coth.hpp>

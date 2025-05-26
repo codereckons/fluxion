@@ -89,7 +89,7 @@ namespace flx
 namespace flx::_
 {
   template<typename Z, typename T1,  typename T2, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto chi_(flx_DELAY(), O const&, Z , T1 l, T2 h) noexcept
+  FLX_FORCEINLINE constexpr auto chi_(flx_DELAY(), O const&, Z z, T1 l, T2 h) noexcept
   {
     auto val = eve::chi(e0(z), l, h);
     if constexpr(concepts::base<Z>)
@@ -106,7 +106,7 @@ namespace flx::_
   }
 
   template<typename Z, typename B, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto chi_(flx_DELAY(), O const&, Z , B const & b) noexcept
+  FLX_FORCEINLINE constexpr auto chi_(flx_DELAY(), O const&, Z z , B const & b) noexcept
   {
     auto val = eve::chi(e0(z), b);
     if constexpr(concepts::base<Z>)
