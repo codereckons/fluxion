@@ -42,9 +42,7 @@
 #include <fluxion/functions/acotpi.hpp>
 #include <fluxion/functions/add.hpp>
 #include <fluxion/functions/agd.hpp>
-// #include <fluxion/functions/am.hpp>
-#include <fluxion/functions/atan2.hpp>
-#include <fluxion/functions/atanpi.hpp>
+#include <fluxion/functions/am.hpp>
 #include <fluxion/functions/acsc.hpp>
 #include <fluxion/functions/acscpi.hpp>
 #include <fluxion/functions/acsch.hpp>
@@ -56,7 +54,9 @@
 // #include <fluxion/functions/asinh.hpp>
 // #include <fluxion/functions/associator.hpp>
 #include <fluxion/functions/atan.hpp>
+#include <fluxion/functions/atan2.hpp>
 #include <fluxion/functions/atanh.hpp>
+#include <fluxion/functions/atanpi.hpp>
 // #include <fluxion/functions/atanpi.hpp>
 #include <fluxion/functions/average.hpp>
 
