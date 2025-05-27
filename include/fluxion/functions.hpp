@@ -43,7 +43,7 @@
 #include <fluxion/functions/acsch.hpp>
 #include <fluxion/functions/add.hpp>
 #include <fluxion/functions/agd.hpp>
-#include <fluxion/functions/am.hpp>
+//#include <fluxion/functions/am.hpp> g++ pb ?
 #include <fluxion/functions/asec.hpp>
 #include <fluxion/functions/asecpi.hpp>
 #include <fluxion/functions/asech.hpp>
