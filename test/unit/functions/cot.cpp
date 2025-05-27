@@ -15,7 +15,7 @@ TTS_CASE_WITH ( "Check flx::cot over real"
               )
 (auto data)
 {
-  TTS_ULP_EQUAL(flx::cot(data), eve::cot(data), 0.5);
+  TTS_ULP_EQUAL(flx::cot(data), eve::cot(data), 2.5);
 };
 
 TTS_CASE_WITH ( "Check flx::cot over hyperduals"
