@@ -8,6 +8,7 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
+#include <fluxion/details/mula.hpp>
 #include <eve/module/math.hpp>
 #include <array>
 
@@ -89,7 +90,8 @@ namespace flx::_
       }
       else
       {
-        std::array<b_t, flx::max_order+1> ders{c, -s*pi, -c*pi*pi, s*pi*pi*pi, c*pi*pi*pi*pi};
+        std::array<b_t, flx::max_order+1> ders{c, -s, -c, s, c};
+        _::mul_by<flx::order_v<Z>>(ders, pi);
         return taylor(z, ders);
       }
     }

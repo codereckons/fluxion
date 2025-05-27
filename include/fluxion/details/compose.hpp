@@ -80,21 +80,26 @@ namespace flx::_
   {
     return flx::as_hyperdual_t<T>
       (val
-      , der*e1(z)
-      , der*e2(z)
-      , der*e12(z)+acc*e1(z)*e2(z)
-      , der*e3(z)
-      , der*e13(z)+acc*e1(z)*e3(z)
-      , der*e23(z)+acc*e2(z)*e3(z)
-      , der*e123(z)+ acc*(e1(z)*e23(z)+e3(z)*e12(z)+ e2(z)*e13(z))+jrk*e1(z)*e2(z)*e3(z)
-      , der*e4(z)
-      , der*e14(z)+acc*e1(z)*e4(z)
-      , der*e24(z)+acc*e2(z)*e4(z)
-      , der*e34(z)+acc*e3(z)*e4(z)
+      , der*e1(z)//e1
+      , der*e2(z)//e2
+      , der*e12(z)+acc*e1(z)*e2(z)//e12
+
+      , der*e3(z)//e3
+      , der*e13(z)+acc*e1(z)*e3(z)//e13
+      , der*e23(z)+acc*e2(z)*e3(z)//e23
+      , der*e123(z)+ acc*(e1(z)*e23(z)+e3(z)*e12(z)+ e2(z)*e13(z))+jrk*e1(z)*e2(z)*e3(z)//e123
+
+      , der*e4(z)//e4
+      , der*e14(z)+acc*e1(z)*e4(z)//e14
+      , der*e24(z)+acc*e2(z)*e4(z)//e24
+
       , der*e124(z)+ acc*(e1(z)*e24(z)+e4(z)*e12(z)+ e2(z)*e14(z))+jrk*e1(z)*e2(z)*e4(z)
+      , der*e34(z)+acc*e3(z)*e4(z)
       , der*e134(z)+ acc*(e1(z)*e34(z)+e4(z)*e13(z)+ e3(z)*e14(z))+jrk*e1(z)*e3(z)*e4(z)
       , der*e234(z)+ acc*(e2(z)*e34(z)+e4(z)*e23(z)+ e3(z)*e24(z))+jrk*e2(z)*e3(z)*e4(z)
-      , der*e1234(z)+ acc*(e12(z)*e34(z)+e13(z)*e24(z)+ e14(z)*e23(z))+jrk*(e1(z)*e234(z)+e2(z)*e134(z)+e3(z)*e124(z)+e4(z)*e123(z))+snp*e1(z)*e2(z)*e3(z)*e4(z)
+      , der*e1234(z)+ acc*(e12(z)*e34(z)+e13(z)*e24(z)+ e14(z)*e23(z)) +jrk*(e1(z)*e234(z)+e2(z)*e134(z)+e3(z)*e124(z)+e4(z)*e123(z))
+       +der*(e1(z)*e2(z)*e34(z)+e1(z)*e3(z)*e24(z)+ e1(z)*e4(z)*e23(z)+ e2(z)*e3(z)*e14(z)+ e2(z)*e4(z)*e13(z)+  e3(z)*e4(z)*e12(z))
+      +snp*e1(z)*e2(z)*e3(z)*e4(z)
       );
   }
 

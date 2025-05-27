@@ -25,11 +25,9 @@
 #include <fluxion/functions/parts.hpp>
 #include <fluxion/functions/d.hpp>
 #include <fluxion/functions/abs.hpp>
-// #include <fluxion/functions/conj.hpp>
 #include <fluxion/functions/convert.hpp>
 #include <fluxion/functions/pure.hpp>
 #include <fluxion/functions/if_else.hpp>
-// #include <fluxion/functions/arg.hpp>
 
 //======================================================================================================================
 // Arithmetic and math
@@ -40,12 +38,12 @@
 #include <fluxion/functions/acot.hpp>
 #include <fluxion/functions/acoth.hpp>
 #include <fluxion/functions/acotpi.hpp>
-#include <fluxion/functions/add.hpp>
-#include <fluxion/functions/agd.hpp>
-#include <fluxion/functions/am.hpp>
 #include <fluxion/functions/acsc.hpp>
 #include <fluxion/functions/acscpi.hpp>
 #include <fluxion/functions/acsch.hpp>
+#include <fluxion/functions/add.hpp>
+#include <fluxion/functions/agd.hpp>
+#include <fluxion/functions/am.hpp>
 #include <fluxion/functions/asec.hpp>
 #include <fluxion/functions/asecpi.hpp>
 #include <fluxion/functions/asech.hpp>
@@ -65,7 +63,7 @@
 #include <fluxion/functions/cos.hpp>
 #include <fluxion/functions/cosh.hpp>
 #include <fluxion/functions/cospi.hpp>
-// #include <fluxion/functions/cot.hpp>
+#include <fluxion/functions/cot.hpp>
 // #include <fluxion/functions/cotpi.hpp>
 // #include <fluxion/functions/coth.hpp>
 // #include <fluxion/functions/csc.hpp>
@@ -73,7 +71,7 @@
 // #include <fluxion/functions/csch.hpp>
 #include <fluxion/functions/dec.hpp>
 // #include <fluxion/functions/deta.hpp>
-// #include <fluxion/functions/digamma.hpp>
+// #include <fluxion/functions/digamma.hpp> // needs polygamma
 #include <fluxion/functions/dist.hpp>
 #include <fluxion/functions/div.hpp>
 // #include <fluxion/functions/dot.hpp>

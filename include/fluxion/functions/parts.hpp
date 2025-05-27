@@ -323,8 +323,8 @@ namespace flx
   inline constexpr auto e4     = extractor<8>{};
   inline constexpr auto e14    = extractor<9>{};
   inline constexpr auto e24    = extractor<10>{};
-  inline constexpr auto e34    = extractor<11>{};
-  inline constexpr auto e124   = extractor<12>{};
+  inline constexpr auto e124   = extractor<11>{};
+  inline constexpr auto e34    = extractor<12>{};
   inline constexpr auto e134   = extractor<13>{};
   inline constexpr auto e234   = extractor<14>{};
   inline constexpr auto e1234  = extractor<15>{};

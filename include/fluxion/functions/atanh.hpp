@@ -105,10 +105,10 @@ namespace flx::_
       {
         return chain(z, ders[0], ders[1], ders[2], ders[3]);
       }
-      else if constexpr(flx::order_v<Z> == 4)
-      {
-        return chain(z, ders[0], ders[1], ders[2], ders[3], ders[4]);
-      }
+//       else if constexpr(flx::order_v<Z> == 4)
+//       {
+//         return chain(z, ders[0], ders[1], ders[2], ders[3], ders[4]);
+//       }
       else
       {
         return taylor(z, ders);
