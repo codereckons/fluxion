@@ -86,7 +86,7 @@ namespace flx::_
     }
     else
     {
-      return flx::log(z+flx::sqrt(z*z-1));
+      return flx::log(z+flx::sqrt(z*z+1));
     }
   }
 }

@@ -79,10 +79,7 @@ namespace flx::_
     }
     else
     {
-      using b_t = flx::as_base_type_t<Z>;
-      auto z(b_t(0));
-      e0(z) = val;
-      return z;
+      return Z(val);
     }
   }
 }

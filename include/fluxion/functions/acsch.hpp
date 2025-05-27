@@ -12,6 +12,7 @@
 #include <fluxion/functions/log.hpp>
 #include <fluxion/functions/sqr.hpp>
 #include <fluxion/functions/sqrt.hpp>
+#include <fluxion/functions/asinh.hpp>
 #include <array>
 
 namespace flx
@@ -88,8 +89,7 @@ namespace flx::_
     }
     else
     {
-      return flx::log(flx::sqrt(1+flx::rec(flx::sqr(z))) +sqrt(flx::rec(z)));
-//      return flx::asinh(flx::rec(x));
+      return flx::asinh(flx::rec(z));
     }
   }
 }
