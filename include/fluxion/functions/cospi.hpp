@@ -86,7 +86,7 @@ namespace flx::_
       }
       else if constexpr(flx::order_v<Z> == 2)
       {
-        return  Z(c, -s*pie1(z), -s*pie2(z), pi*pi(-e12(z)*s-c*e1(z)*e2(z)));
+        return  Z(c, -s*pi*e1(z), -s*pi*e2(z), pi*pi*(-e12(z)*s-c*e1(z)*e2(z)));
       }
       else
       {

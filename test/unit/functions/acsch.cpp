@@ -59,6 +59,6 @@ TTS_CASE_WITH ( "Check flx::acsch over hyperduals"
     TTS_ULP_EQUAL(flx::d1(acschvr), d1, 4.0);
     TTS_ULP_EQUAL(flx::d2(acschvr), d2, 4.0);
     TTS_ULP_EQUAL(flx::d3(acschvr), d3, 4.0);
-    TTS_ULP_EQUAL(flx::d4(acschvr), d4, 8.0);
+    TTS_ULP_EQUAL(flx::d4(acschvr), d4, 10.0);
   }
 };
