@@ -110,4 +110,21 @@ namespace flx
   {
     return flx::d<Order>(kumi::apply(f, flx::variable<I, Order>(xs...)));
   }
+
+  template < int I,  unsigned short Order, typename Func,  typename ... Xs> constexpr auto
+  derivatives(Func f, Xs... xs) noexcept
+  {
+    using v_t = decltype(f(xs...));
+    std::array<v_t, Order+1> that = {};
+    auto hd = kumi::apply(f, flx::variable<I, Order>(xs...));
+    kumi::for_each_index([&](auto i, auto )
+                         {
+                           if constexpr(i < Order+1) that[i] = d<i>(hd);
+                         }, hd);
+    return that;
+  }
+
+
+
+
 }
