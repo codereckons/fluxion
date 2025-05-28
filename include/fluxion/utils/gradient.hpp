@@ -53,38 +53,35 @@ namespace flx
 //======================================================================================================================
 // }
 
-//   namespace flx::_
+//  template<typename Func, typename ... Xs>
+//   FLX_FORCEINLINE constexpr auto kgradient(Func f, Xs const &... xs) noexcept
 //   {
+//     using v_t = decltype(f(flx::e0(xs)...));
+//     constexpr size_t S =  sizeof...(Xs);
 
-  template<typename Func, typename ... Xs>
-  FLX_FORCEINLINE constexpr auto gradient(Func f, Xs const &... xs) noexcept
-  {
-    using v_t = decltype(f(flx::e0(xs)...));
-    constexpr size_t S =  sizeof...(Xs);
+//     auto values = kumi::tuple{xs...};
 
-    auto values = kumi::tuple{xs...};
+//     auto var_or_val = []<typename Pos, typename N>(Pos, N, auto x){
+//       if constexpr(Pos::value==N::value) return flx::variable<1>(x); else return x;
+//     };
 
-    auto var_or_val = []<typename Pos, typename N>(Pos, N, auto x){
-      if constexpr(Pos::value==N::value) return flx::variable<1>(x); else return x;
-    };
+//     return [&]<std::size_t... N>(std::index_sequence<N...>)
+//     {
+//       using kumi::index;
+//       return kumi::tuple{ (flx::d1(kumi::apply( f
+//                                               , kumi::map_index( [&](auto idx, auto v)
+//                                                                  {
+//                                                                    return var_or_val(idx,index<N>, v);
+//                                                                  }
+//                                                                , values
+//                                                                )
+//                                               )))...};
+//     }(std::index_sequence_for<Xs...>{});
 
-    return [&]<std::size_t... N>(std::index_sequence<N...>)
-    {
-      using kumi::index;
-      return kumi::tuple{ (flx::d1(kumi::apply( f
-                                              , kumi::map_index( [&](auto idx, auto v)
-                                                                 {
-                                                                   return var_or_val(idx,index<N>, v);
-                                                                 }
-                                                               , values
-                                                               )
-                                              )))...};
-    }(std::index_sequence_for<Xs...>{});
-
-  }
+//   }
 
   template<typename ... Xn>
-  auto agradient(auto f, Xn... xn)
+  auto gradient(auto f, Xn... xn)
   {
     constexpr size_t N = sizeof...(Xn);
     auto h = kumi::map(   [&](auto e) { return D<vars{e}>(f); }

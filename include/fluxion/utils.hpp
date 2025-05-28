@@ -17,4 +17,5 @@
 // #include <fluxion/utils/derivative3.hpp>
 #include <fluxion/utils/gradient.hpp>
 #include <fluxion/utils/hessian.hpp>
+#include <fluxion/utils/laplacian.hpp>
 #include <fluxion/utils/differential.hpp>
