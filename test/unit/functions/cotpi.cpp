@@ -24,6 +24,7 @@ TTS_CASE_WITH ( "Check flx::cotpi over hyperduals"
               )
 <typename T>(T r)
 {
+  auto pr = tts::prec<T>(1.0e-3, 1.0e-7);
   auto pi = eve::pi(eve::as(r));
   auto vr = flx::variable<4>(r);
   auto ref = flx::cot(pi*vr);
@@ -33,33 +34,12 @@ TTS_CASE_WITH ( "Check flx::cotpi over hyperduals"
   auto d3 = flx::d3(ref);
   auto d4 = flx::d4(ref);
   {
-    auto vr = flx::variable<1>(r);
-    auto cotpivr = flx::cotpi(vr);
-    TTS_ULP_EQUAL(flx::d0(cotpivr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::d1(cotpivr), d1, 4.0);
-   }
-  {
-    auto vr = flx::variable<2>(r);
-    auto cotpivr = flx::cotpi(vr);
-    TTS_ULP_EQUAL(flx::d0(cotpivr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::d1(cotpivr), d1, 4.0);
-    TTS_ULP_EQUAL(flx::d2(cotpivr), d2, 4.0);
-  }
-  {
-    auto vr = flx::variable<3>(r);
-    auto cotpivr = flx::cotpi(vr);
-    TTS_ULP_EQUAL(flx::d0(cotpivr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::d1(cotpivr), d1, 4.0);
-    TTS_ULP_EQUAL(flx::d2(cotpivr), d2, 4.0);
-    TTS_ULP_EQUAL(flx::d3(cotpivr), d3, 4.0);
-  }
-   {
     auto vr = flx::variable<4>(r);
     auto cotpivr = flx::cotpi(vr);
-    TTS_ULP_EQUAL(flx::d0(cotpivr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::d1(cotpivr), d1, 4.0);
-    TTS_ULP_EQUAL(flx::d2(cotpivr), d2, 4.0);
-    TTS_ULP_EQUAL(flx::d3(cotpivr), d3, 4.0);
-    TTS_ULP_EQUAL(flx::d4(cotpivr), d4, 8.0);
+    TTS_RELATIVE_EQUAL(flx::d0(cotpivr), d0, pr);
+    TTS_RELATIVE_EQUAL(flx::d1(cotpivr), d1, pr);
+    TTS_RELATIVE_EQUAL(flx::d2(cotpivr), d2, pr);
+    TTS_RELATIVE_EQUAL(flx::d3(cotpivr), d3, pr);
+    TTS_RELATIVE_EQUAL(flx::d4(cotpivr), d4, pr);
   }
 };

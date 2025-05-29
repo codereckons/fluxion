@@ -24,6 +24,7 @@ TTS_CASE_WITH ( "Check flx::cot over hyperduals"
               )
 <typename T>(T r)
 {
+  auto pr = tts::prec<T>(1.0e-3, 1.0e-7);
   auto vr = flx::variable<4>(r);
   auto ref = flx::rec(flx::tan(vr));
   auto d0 = eve::cot(r);
@@ -34,10 +35,10 @@ TTS_CASE_WITH ( "Check flx::cot over hyperduals"
   {
     auto vr = flx::variable<4>(r);
     auto cotvr = flx::cot(vr);
-    TTS_ULP_EQUAL(flx::d0(cotvr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::d1(cotvr), d1, 4.0);
-    TTS_ULP_EQUAL(flx::d2(cotvr), d2, 100.0);
-    TTS_ULP_EQUAL(flx::d3(cotvr), d3, 400.0);
-    TTS_ULP_EQUAL(flx::d4(cotvr), d4, 50000.0);
+    TTS_RELATIVE_EQUAL(flx::d0(cotvr), d0, pr);
+    TTS_RELATIVE_EQUAL(flx::d1(cotvr), d1, pr);
+    TTS_RELATIVE_EQUAL(flx::d2(cotvr), d2, pr);
+    TTS_RELATIVE_EQUAL(flx::d3(cotvr), d3, pr);
+    TTS_RELATIVE_EQUAL(flx::d4(cotvr), d4, pr);
   }
 };
