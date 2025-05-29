@@ -7,12 +7,15 @@
 //======================================================================================================================
 #pragma once
 #include <fluxion/details/callable.hpp>
+#include <fluxion/details/compose.hpp>
 #include <eve/module/math.hpp>
+#include <fluxion/functions/sinh.hpp>
+#include <array>
 
 namespace flx
 {
   template<typename Options>
-  struct exp_t : eve::elementwise_callable<exp_t, Options>
+  struct csch_t : eve::elementwise_callable<csch_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -20,14 +23,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(exp_t, exp_);
+    flx_CALLABLE_OBJECT(csch_t, csch_);
 };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var exp
-//!   @brief Computes the inverse of the argument.
+//!   @var csch
+//!   @brief Computes the hyperbolic cosecant of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -40,7 +43,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexpr T exp(T z) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT csch(T z) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -50,33 +53,25 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the inverse of the argument.
+//!     Returns the hyperbolic cosecant of the argument.
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/exp.cpp}
+//!  @godbolt{doc/csch.cpp}
 //======================================================================================================================
-  inline constexpr auto exp = eve::functor<exp_t>;
+  inline constexpr auto csch = eve::functor<csch_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
 }
 
+
 namespace flx::_
 {
+
   template<typename Z, eve::callable_options O>
-   FLX_FORCEINLINE constexpr auto exp_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto csch_(flx_DELAY(), O const&, Z z) noexcept
   {
-   if constexpr(concepts::base<Z>)
-    {
-      return eve::exp(z);
-    }
-    else
-    {
-      using b_t = flx::as_base_type_t<Z>;
-      auto e = eve::exp(e0(z));
-      std::array<b_t, flx::max_order+1> ders{e, e, e, e, e};
-      return _::evaluate<order_v<Z>>(ders, z);
-    }
+    return flx::rec(flx::sinh(z));
   }
 }

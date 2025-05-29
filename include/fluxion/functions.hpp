@@ -68,13 +68,13 @@
 #include <fluxion/functions/coth.hpp>
 #include <fluxion/functions/csc.hpp>
 #include <fluxion/functions/cscpi.hpp>
-// #include <fluxion/functions/csch.hpp>
+#include <fluxion/functions/csch.hpp>
 #include <fluxion/functions/dec.hpp>
-// #include <fluxion/functions/deta.hpp>
+// #include <fluxion/functions/deta.hpp>    // complex needed
 // #include <fluxion/functions/digamma.hpp> // needs polygamma
 #include <fluxion/functions/dist.hpp>
 #include <fluxion/functions/div.hpp>
-// #include <fluxion/functions/dot.hpp>
+#include <fluxion/functions/dot.hpp>
 // #include <fluxion/functions/ellint_fe.hpp>
 // #include <fluxion/functions/ellint_rc.hpp>
 // #include <fluxion/functions/ellint_rd.hpp>
