@@ -107,10 +107,8 @@ namespace flx::_
           }
         }
       };
-
       comp_ders(e0(z));
       return _::evaluate(ders, z);
-//    return flx::rec(flx::tan(z));
     }
   }
 }

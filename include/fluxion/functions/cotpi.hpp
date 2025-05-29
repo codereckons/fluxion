@@ -80,10 +80,33 @@ namespace flx::_
     {
       using b_t = flx::as_base_type_t<Z>;
       auto pi = eve::pi(eve::as<eve::underlying_type_t<b_t>>());
-
-      auto r = flx::rec(flx::tan(pi*z));
-      e0(r) = val;
-      return r;
+      constexpr auto ord = flx::order_v<Z>;
+      std::array<b_t,ord+1> ders;
+      ders[0] = val;
+      auto comp_ders = [&](auto  x){
+        auto cscp2 = eve::sqr(eve::cscpi(x));
+        ders[1] = -pi*cscp2;
+        if constexpr(ord == 1) return;
+        else
+        {
+          ders[2] = 2*pi*pi*val*cscp2;
+          if constexpr(ord == 2) return;
+          else
+          {
+            auto val2 =  eve::sqr(val);
+            auto pi2 = eve::pi2(eve::as<eve::underlying_type_t<b_t>>());
+            ders[3] = -2*pi*pi2*cscp2*(2*val2+cscp2);
+            if constexpr(ord == 3) return;
+            else
+            {
+              ders[4] = 8*eve::sqr(pi2)*val*cscp2*(val2+2*cscp2);
+              return;
+            }
+          }
+        }
+      };
+      comp_ders(e0(z));
+      return _::evaluate(ders, z);
     }
   }
 }
