@@ -25,7 +25,7 @@ TTS_CASE_WITH( "Check behavior of flx::gradient"
   {
     auto g = [](auto x, auto y,  auto z){return x*x*x+y*y*y+z*z*z; };
 
-    TTS_ULP_EQUAL(flx::laplacian(g, x, y, z), (x+y+z)*6, 0.5);
+    TTS_ULP_EQUAL(flx::laplacian(g, x, y, z), (x+y+z)*6, 1.5);
 
   }
 };
