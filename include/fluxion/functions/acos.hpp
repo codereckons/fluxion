@@ -101,33 +101,20 @@ namespace flx::_
           }
           ders[2] *= x;
           if constexpr(ord == 2)   return;
-          ders[3] *= (eve::inc(2*x2));
-          if constexpr(ord == 3)   return;
-          ders[4] *= (6*x2+9)*x;
-          return;
+          else
+          {
+            ders[3] *= (eve::inc(2*x2));
+            if constexpr(ord == 3)   return;
+            else
+            {
+              ders[4] *= (6*x2+9)*x;
+              return;
+            }
+          }
         }
       };
       comp_ders(e0(z));
-      if constexpr(flx::order_v<Z> == 1)
-      {
-        return Z(ders[0], ders[1]*e1(z));
-      }
-      else if constexpr(flx::order_v<Z> == 2)
-      {
-        return chain(z, ders[0], ders[1], ders[2]);
-      }
-      else if constexpr(flx::order_v<Z> == 3)
-      {
-        return chain(z, ders[0], ders[1], ders[2], ders[3]);
-      }
-//       else if constexpr(flx::order_v<Z> == 4)
-//       {
-//         return chain(z, ders[0], ders[1], ders[2], ders[3], ders[4]);
-//       }
-      else
-      {
-        return taylor(z, ders);
-      }
+      return _::evaluate(ders, z);
     }
   }
 }

@@ -80,20 +80,9 @@ namespace flx::_
       using b_t = flx::as_base_type_t<Z>;
       auto [s, c] = eve::sinpicospi(e0(z));
       auto pi = eve::pi(eve::as<b_t>());
-      if constexpr(flx::order_v<Z> == 1)
-      {
-        return Z(c, -s*pi*e1(z));
-      }
-      else if constexpr(flx::order_v<Z> == 2)
-      {
-        return  Z(c, -s*pi*e1(z), -s*pi*e2(z), pi*pi*(-e12(z)*s-c*e1(z)*e2(z)));
-      }
-      else
-      {
-        std::array<b_t, flx::max_order+1> ders{c, -s, -c, s, c};
-        _::mul_by<flx::order_v<Z>>(ders, pi);
-        return taylor(z, ders);
-      }
+      std::array<b_t, flx::max_order+1> ders{c, -s, -c, s, c};
+      _::mul_by<flx::order_v<Z>>(ders, pi);
+      return _::evaluate<order_v<Z>>(ders, z);
     }
   }
 }

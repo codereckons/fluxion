@@ -65,45 +65,30 @@ namespace flx
 
 namespace flx::_
 {
-
-  template <typename T> FLX_FORCEINLINE auto sqrt_ders(T const & z) noexcept
-  {
-    using b_t = flx::as_base_type_t<T>;
-    using u_t = eve::underlying_type_t<b_t>;
-    std::array<b_t, flx::order_v<T>+1> ders{};
-    const auto e0z = e0(z);
-    ders[0] = eve::sqrt(e0z);
-    auto rz = eve::rec(e0z);
-    auto m = u_t(0.5);
-    for(unsigned short i=1; (i <= flx::order_v<T>) && eve::is_nez(m); ++i, m -= 1)
-    {
-      ders[i] = ders[i-1]*rz*m;
-    }
-    return ders;
-  }
-
   template<typename Z, eve::callable_options O>
-   FLX_FORCEINLINE constexpr auto sqrt_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto sqrt_(flx_DELAY(), O const&, Z z) noexcept
   {
+    auto val = eve::sqrt(e0(z));
     if constexpr(concepts::base<Z>)
     {
-      return eve::sqrt(z);
+      return val;
     }
     else
     {
       using b_t = flx::as_base_type_t<Z>;
-      using u_t = eve::underlying_type_t<b_t>;
-      auto sq0  = eve::sqrt(e0(z));
-      auto hrsq0 = u_t(0.5)*eve::rec(sq0);
-      if constexpr(flx::order_v<Z> == 1)
-      {
-        return Z(sq0, hrsq0*e1(z));
-      }
-      else
-      {
-        auto ders = sqrt_ders(z);
-        return taylor(z, ders);
-      }
+      std::array<b_t,flx::order_v<Z>+1> ders;
+      ders[0] = val;
+      auto comp_ders = [&ders](auto  r){
+        auto rz = eve::rec(r);
+        using u_t = eve::underlying_type_t<b_t>;
+        auto m = u_t(0.5);
+        for(unsigned short i=1; (i <= flx::order_v<Z>); ++i, m -= 1)
+        {
+          ders[i] = ders[i-1]*rz*m;
+        }
+      };
+      comp_ders(e0(z));
+      return _::evaluate(ders, z);
     }
   }
 }

@@ -1,20 +1,35 @@
 //======================================================================================================================
 /*
   FLUXION - Post-Modern Automatic Derivation
-  Copyright : FLUXION Contributors & Maintainers
+  Copyright: FLUXION Contributors & Maintainers
   SPDX-License-Identifier: BSL-1.0
 */
 //======================================================================================================================
 #pragma once
+#include <fluxion/details/callable.hpp>
+#include <fluxion/details/compose.hpp>
+#include <eve/module/math.hpp>
+#include <array>
 
 namespace flx
 {
+  template<typename Options>
+  struct sinh_t : eve::elementwise_callable<sinh_t, Options>
+  {
+    template<concepts::hyperdual_like Z>
+    FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
+    {
+      return  flx_CALL(z);
+    }
+
+    flx_CALLABLE_OBJECT(sinh_t, sinh_);
+};
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var differential
-//!   @brief Computes the differential of \f$f\f$ at \f$(z_i)_i\f$.
+//!   @var sinh
+//!   @brief Computes the hyperbolic sine of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -27,7 +42,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<typename Func,  typename ... Xi> constexpr auto differential(Func f, Xi const &... xi ) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT sinh(T z) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -37,28 +52,35 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the callable \f$( (dx_i...) \rightarrow \sum_i \frac{\partial f}{\partial x_i}|_(x_0, ...,  x_n)( (dx_0, ...,  dx_n))\f$.
+//!     Returns the hyperbolic sine of the argument.
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/differential.cpp}
+//!  @godbolt{doc/sinh.cpp}
 //======================================================================================================================
-//  inline constexpr auto differential = eve::functor<differential_t>;
+  inline constexpr auto sinh = eve::functor<sinh_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
+}
 
-  template<typename Func, typename ... Zs>
-  FLX_FORCEINLINE constexpr auto differential(Func f, Zs const &... xs) noexcept
+
+namespace flx::_
+{
+
+  template<typename Z, eve::callable_options O>
+  FLX_FORCEINLINE constexpr auto sinh_(flx_DELAY(), O const&, Z z) noexcept
   {
+    if constexpr(concepts::base<Z>)
     {
-      auto g = kgradient(f, xs...);
-      auto df = [g](auto const &... dxs){
-        auto tdxs = kumi::tuple{dxs...};
-        auto prod = [](auto l,  auto r){ return l*r; };
-        return kumi::sum(kumi::map(prod, g, tdxs));
-      };
-      return df;
+      return eve::sinh(z);
+    }
+    else
+    {
+      using b_t = flx::as_base_type_t<Z>;
+      auto [s, c] = eve::sinhcosh(e0(z));
+      std::array<b_t, flx::max_order+1> ders{s, c, s, c, s};
+      return _::evaluate<order_v<Z>>(ders, z);
     }
   }
 }

@@ -64,10 +64,10 @@
 #include <fluxion/functions/cosh.hpp>
 #include <fluxion/functions/cospi.hpp>
 #include <fluxion/functions/cot.hpp>
-// #include <fluxion/functions/cotpi.hpp>
-// #include <fluxion/functions/coth.hpp>
-// #include <fluxion/functions/csc.hpp>
-// #include <fluxion/functions/cscpi.hpp>
+#include <fluxion/functions/cotpi.hpp>
+#include <fluxion/functions/coth.hpp>
+#include <fluxion/functions/csc.hpp>
+#include <fluxion/functions/cscpi.hpp>
 // #include <fluxion/functions/csch.hpp>
 #include <fluxion/functions/dec.hpp>
 // #include <fluxion/functions/deta.hpp>
@@ -181,7 +181,7 @@
 // #include <fluxion/functions/sincos.hpp>
 // #include <fluxion/functions/sinpi.hpp>
 // #include <fluxion/functions/sinpicospi.hpp>
-// #include <fluxion/functions/sinh.hpp>
+#include <fluxion/functions/sinh.hpp>
 // #include <fluxion/functions/sinhc.hpp>
 // #include <fluxion/functions/sinhcosh.hpp>
 // #include <fluxion/functions/slerp.hpp>

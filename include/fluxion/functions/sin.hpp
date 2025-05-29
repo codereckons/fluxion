@@ -79,19 +79,8 @@ namespace flx::_
     {
       using b_t = flx::as_base_type_t<Z>;
       auto [s, c] = eve::sincos(e0(z));
-      if constexpr(flx::order_v<Z> == 1)
-      {
-        return chain(z, s, c);
-      }
-      else if constexpr(flx::order_v<Z> == 2)
-      {
-        return  chain(z, s, c, -s);
-      }
-      else
-      {
-        std::array<b_t, flx::max_order+1> ders{s, c, -s, -c, s};
-        return taylor(z, ders);
-      }
+      std::array<b_t, flx::max_order+1> ders{s, c, -s, -c, s};
+      return _::evaluate<order_v<Z>>(ders, z);
     }
   }
 }

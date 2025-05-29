@@ -9,35 +9,37 @@
 #include <test.hpp>
 #include <eve/module/math.hpp>
 
-TTS_CASE_WITH ( "Check flx::cot over real"
+TTS_CASE_WITH ( "Check flx::cscpi over real"
               , flx::real_types
-              , tts::generate(tts::randoms(1,10))
+              , tts::generate(tts::randoms(-10, 10))
               )
 (auto data)
 {
-  TTS_ULP_EQUAL(flx::cot(data), eve::cot(data), 2.5);
+  TTS_ULP_EQUAL(flx::cscpi(data), eve::cscpi(data), 2.5);
 };
 
-TTS_CASE_WITH ( "Check flx::cot over hyperduals"
+TTS_CASE_WITH ( "Check flx::cscpi over hyperduals"
               , flx::real_types
-              , tts::generate(tts::randoms(2, 5))
+              , tts::generate(tts::randoms(-10, 10))
               )
 <typename T>(T r)
 {
+  auto pi = eve::pi(eve::as(r));
   auto vr = flx::variable<4>(r);
-  auto ref = flx::rec(flx::tan(vr));
-  auto d0 = eve::cot(r);
+  auto ref = flx::csc(pi*vr);
+  auto d0 = eve::cscpi(r);
   auto d1 = flx::d1(ref);
   auto d2 = flx::d2(ref);
   auto d3 = flx::d3(ref);
   auto d4 = flx::d4(ref);
-  {
+
+   {
     auto vr = flx::variable<4>(r);
-    auto cotvr = flx::cot(vr);
-    TTS_ULP_EQUAL(flx::d0(cotvr), d0, 4.0);
-    TTS_ULP_EQUAL(flx::d1(cotvr), d1, 4.0);
-    TTS_ULP_EQUAL(flx::d2(cotvr), d2, 100.0);
-    TTS_ULP_EQUAL(flx::d3(cotvr), d3, 400.0);
-    TTS_ULP_EQUAL(flx::d4(cotvr), d4, 50000.0);
+    auto cscpivr = flx::cscpi(vr);
+    TTS_ULP_EQUAL(flx::d0(cscpivr), d0, 4.0);
+    TTS_ULP_EQUAL(flx::d1(cscpivr), d1, 4.0);
+    TTS_ULP_EQUAL(flx::d2(cscpivr), d2, 4.0);
+    TTS_ULP_EQUAL(flx::d3(cscpivr), d3, 4.0);
+    TTS_ULP_EQUAL(flx::d4(cscpivr), d4, 8.0);
   }
 };

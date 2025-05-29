@@ -103,4 +103,32 @@ namespace flx::_
       );
   }
 
+
+  //evaluate using prepared derivatives
+  template <int order = -1, concepts::hyperdual Z> FLX_FORCEINLINE
+  constexpr auto evaluate(auto const & ders, Z const & z) noexcept
+  {
+    constexpr int ord = order == -1 ? flx::order_v<Z> : order;
+    if constexpr(ord == 1)
+    {
+      return Z(ders[0], ders[1]*e1(z));
+    }
+    else if constexpr(ord == 2)
+    {
+      return chain(z, ders[0], ders[1], ders[2]);
+    }
+    else if constexpr(ord == 3)
+    {
+      return chain(z, ders[0], ders[1], ders[2], ders[3]);
+    }
+//       else if constexpr(flx::order_v<Z> == 4)
+//       {
+//         return chain(z, ders[0], ders[1], ders[2], ders[3], ders[4]);
+//       }
+    else
+    {
+      return taylor(z, ders);
+    }
+
+  }
 }

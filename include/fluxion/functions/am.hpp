@@ -117,26 +117,7 @@ namespace flx::_
         }
       };
       comp_ders(e0(u));
-      if constexpr(flx::order_v<Z> == 1)
-      {
-        return Z(ders[0], ders[1]*e1(u));
-      }
-      else if constexpr(flx::order_v<Z> == 2)
-      {
-        return chain(u, ders[0], ders[1], ders[2]);
-      }
-      else if constexpr(flx::order_v<Z> == 3)
-      {
-        return chain(u, ders[0], ders[1], ders[2], ders[3]);
-      }
-//       else if constexpr(flx::order_v<Z> == 4)
-//       {
-//         return chain(u, ders[0], ders[1], ders[2], ders[3], ders[4]);
-//       }
-      else
-      {
-        return taylor(u, ders);
-      }
+      return _::evaluate(ders, z);
     }
   }
 }

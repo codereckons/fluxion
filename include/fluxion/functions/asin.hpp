@@ -85,34 +85,30 @@ namespace flx::_
     else
     {
       using b_t = flx::as_base_type_t<Z>;
-      std::array<b_t,5> ders;
+      std::array<b_t,flx::order_v<Z>+1> ders;
       ders[0] = val;
-      auto r = e0(z);
-      ders[1] = eve::rsqrt(r);
-      ders[1] = eve::rsqrt(eve::oneminus(eve::sqr(r)));
-      ders[2] = r*eve::pow(eve::rsqrt(eve::oneminus(eve::sqr(r))), 3);
-      ders[3] = (eve::inc(2*eve::sqr(r)))*eve::pow(eve::rsqrt(eve::oneminus(eve::sqr(r))), 5);
-      ders[4] = (6*eve::sqr(r)+9)*r* eve::pow(eve::rsqrt(eve::oneminus(eve::sqr(r))), 7);
-      if constexpr(flx::order_v<Z> == 1)
-      {
-        return Z(ders[0], ders[1]*e1(z));
-      }
-      else if constexpr(flx::order_v<Z> == 2)
-      {
-        return chain(z, ders[0], ders[1], ders[2]);
-      }
-      else if constexpr(flx::order_v<Z> == 3)
-      {
-        return chain(z, ders[0], ders[1], ders[2], ders[3]);
-      }
-//       else if constexpr(flx::order_v<Z> == 4)
-//       {
-//         return chain(z, ders[0], ders[1], ders[2], ders[3], ders[4]);
-//       }
-      else
-      {
-        return taylor(z, ders);
-      }
+      auto comp_ders = [&ders](auto  r){
+        constexpr auto ord = flx::order_v<Z>;
+        ders[1] = eve::rsqrt(eve::oneminus(eve::sqr(r)));
+        if constexpr(ord == 1)   return;
+        else
+        {
+          ders[2] = r*eve::pow(eve::rsqrt(eve::oneminus(eve::sqr(r))), 3);
+          if constexpr(ord == 2)   return;
+          else
+          {
+            ders[3] = (eve::inc(2*eve::sqr(r)))*eve::pow(eve::rsqrt(eve::oneminus(eve::sqr(r))), 5);
+            if constexpr(ord == 3)   return;
+            else
+            {
+              ders[4] = (6*eve::sqr(r)+9)*r* eve::pow(eve::rsqrt(eve::oneminus(eve::sqr(r))), 7);
+              return;
+            }
+          }
+        }
+      };
+      comp_ders(e0(z));
+      return _::evaluate(ders, z);
     }
   }
 }

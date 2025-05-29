@@ -95,19 +95,8 @@ namespace flx::_
       b_t a= eve::abs(e0(z));
       b_t s = eve::signnz(e0(z));
       b_t zer(0);
-      if constexpr(flx::order_v<Z> == 1)
-      {
-        return Z(a, s*e1(z));
-      }
-      else if constexpr(flx::order_v<Z> == 2)
-      {
-        return  Z(a, s*e1(z), s*e2(z), zer);
-      }
-      else
-      {
-        std::array<b_t, 5> ders{a, s, zer, zer, zer};
-        return taylor(z, ders);
-      }
+      std::array<b_t, 5> ders{a, s, zer, zer, zer};
+      return _::evaluate<order_v<Z>>(ders, z);
     }
   }
 }
