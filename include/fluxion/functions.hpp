@@ -75,16 +75,18 @@
 #include <fluxion/functions/dist.hpp>
 #include <fluxion/functions/div.hpp>
 #include <fluxion/functions/dot.hpp>
+// #include <fluxion/functions/ellint_e.hpp> // can be done
 // #include <fluxion/functions/ellint_fe.hpp>
 // #include <fluxion/functions/ellint_rc.hpp>
 // #include <fluxion/functions/ellint_rd.hpp>
 // #include <fluxion/functions/ellint_rf.hpp>
 // #include <fluxion/functions/ellint_rg.hpp>
 // #include <fluxion/functions/ellint_rj.hpp>
-// #include <fluxion/functions/erf.hpp>
-// #include <fluxion/functions/erfcx.hpp>
-// #include <fluxion/functions/erfi.hpp>
-// #include <fluxion/functions/eta.hpp>
+#include <fluxion/functions/erf.hpp>
+#include <fluxion/functions/erfc.hpp>
+#include <fluxion/functions/erfcx.hpp>
+// #include <fluxion/functions/erfi.hpp>  // complex needed
+// #include <fluxion/functions/eta.hpp>   // complex needed
 #include <fluxion/functions/exp.hpp>
 // #include <fluxion/functions/exp10.hpp>
 // #include <fluxion/functions/exp2.hpp>

@@ -8,13 +8,14 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <eve/module/math.hpp>
-#include <fluxion/functions/tan.hpp>
+#include <fluxion/functions/sqr.hpp>
+#include <fluxion/functions/exp.hpp>
+#include <eve/module/special.hpp>
 
 namespace flx
 {
   template<typename Options>
-  struct cot_t : eve::elementwise_callable<cot_t, Options>
+  struct erfcx_t : eve::elementwise_callable<erfcx_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -22,14 +23,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(cot_t, cot_);
-};
+    flx_CALLABLE_OBJECT(erfcx_t, erfcx_);
+  };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var cot
-//!   @brief Computes the cotangentt of the argument.
+//!   @var erfcx
+//!   @brief Computes the normalized complementary error function.
 //!
 //!   @groupheader{Header file}
 //!
@@ -39,33 +40,27 @@ namespace flx
 //!
 //!   @groupheader{Callable Signatures}
 //!
+//!
 //!   @code
-//!   namespace flx
+//!   namespace eve
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT cot(T z) noexcept;
+//!      // Regular overload
+//!      constexpr auto erfcx(floating_value auto x)   noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `z`: Value to process.
+//!     * `x`: argument.
 //!
-//!   **Return value**
+//!    **Return value**
 //!
-//!     Returns the arc cotangent of the argument.
+//!     The value of  the normalized complementary error function
 //!
-//!   **Derivative values of order 1 to 4**
-//!
-//!     1. \f$-\csc^2(x)\f$
-//!     2. \f$2 \cot(x) \csc^2(x)\f$
-//!     3. \f$-2 (\csc^4(x) + 2 \cot^2(x) \csc^2(x))\f$
-//!     4. \f$8 \cot(x) \csc^2(x) (\cot^2(x) + 2 \csc^2(x))\f$
-//!
-//!  @groupheader{Example}
-//!
-//!  @godbolt{doc/cot.cpp}
+//!   @groupheader{Example}
+//!   @godbolt{doc/special/erfcx.cpp}
 //======================================================================================================================
-  inline constexpr auto cot = eve::functor<cot_t>;
+  inline constexpr auto erfcx = eve::functor<erfcx_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -75,9 +70,9 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto cot_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto erfcx_(flx_DELAY(), O const&, Z z) noexcept
   {
-    auto val = eve::cot(e0(z));
+    auto val= eve::erfcx(e0(z));
     if constexpr(concepts::base<Z>)
     {
       return val;
@@ -86,31 +81,31 @@ namespace flx::_
     {
       using b_t = flx::as_base_type_t<Z>;
       constexpr auto ord = flx::order_v<Z>;
-      std::array<b_t,ord+1> ders;
+      constexpr auto tosqtpi = eve::two_o_sqrt_pi(eve::as<eve::underlying_type_t<b_t>>()); ;
+      std::array<b_t,flx::order_v<Z>+1> ders;
       ders[0] = val;
-      auto comp_ders = [&ders](auto  x){
-        ders[1] = -eve::sqr(eve::csc(x));
+      auto comp_ders = [&](auto x){
+        ders[1] = 2*x*ders[0]-tosqtpi;
         if constexpr(ord == 1) return;
         else
         {
-          ders[2] = -2*ders[0]*ders[1];
+          auto twox2 = 2*x*x;
+          ders[2] = 2*ders[0]*flx::inc(twox2)-2*x*tosqtpi;
           if constexpr(ord == 2) return;
           else
           {
-            ders[3] = 2*eve::fsm(eve::sqr(ders[1]), 2*eve::sqr(ders[0]), ders[1]);
+            ders[3] = 4*ders[0]*x*(twox2+3)-tosqtpi*2*(twox2+2);
             if constexpr(ord == 3) return;
             else
             {
-              ders[4] = -8*ders[0]*ders[1]*eve::fms(ders[0], ders[0], 2*ders[1]);
+              ders[4] =4*ders[0]*(3+twox2*(6+twox2))-tosqtpi*4*x*(twox2+5);
               return;
             }
           }
         }
       };
-
       comp_ders(e0(z));
       return _::evaluate(ders, z);
-//    return flx::rec(flx::tan(z));
     }
   }
 }
