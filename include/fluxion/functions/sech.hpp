@@ -8,14 +8,14 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <eve/module/special.hpp>
-
-
+#include <eve/module/math.hpp>
+#include <fluxion/functions/sinh.hpp>
+#include <array>
 
 namespace flx
 {
   template<typename Options>
-  struct erfc_t : eve::elementwise_callable<erfc_t, Options>
+  struct sech_t : eve::elementwise_callable<sech_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -23,14 +23,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(erfc_t, erfc_);
-  };
+    flx_CALLABLE_OBJECT(sech_t, sech_);
+};
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var erfc
-//!   @brief Computes the complementary error function.
+//!   @var sech
+//!   @brief Computes the hyperbolic secant of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -40,48 +40,38 @@ namespace flx
 //!
 //!   @groupheader{Callable Signatures}
 //!
-//!
 //!   @code
-//!   namespace eve
+//!   namespace flx
 //!   {
-//!      // Regular overload
-//!      constexpr auto erfc(floating_value auto x)   noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT sech(T z) noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `x`: argument.
+//!     * `z`: Value to process.
 //!
-//!    **Return value**
+//!   **Return value**
 //!
-//!     The value of the complementary error function
+//!     Returns the hyperbolic secant of the argument.
 //!
-//!   @groupheader{Example}
-//!   @godbolt{doc/special/erfc.cpp}
+//!  @groupheader{Example}
+//!
+//!  @godbolt{doc/sech.cpp}
 //======================================================================================================================
-  inline constexpr auto erfc = eve::functor<erfc_t>;
+  inline constexpr auto sech = eve::functor<sech_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
 }
 
+
 namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto erfc_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto sech_(flx_DELAY(), O const&, Z z) noexcept
   {
-    auto val= eve::erfc(e0(z));
-    if constexpr(concepts::base<Z>)
-    {
-      return val;
-    }
-    else
-    {
-      auto r = -flx::erf(z);
-      e0(r) = val;
-      return r;
-    }
+    return flx::rec(flx::cosh(z));
   }
 }

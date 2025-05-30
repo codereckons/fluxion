@@ -1,36 +1,35 @@
 //======================================================================================================================
 /*
   FLUXION - Post-Modern Automatic Derivation
-  Copyright: FLUXION Contributors & Maintainers
+  Copyright : FLUXION Contributors & Maintainers
   SPDX-License-Identifier: BSL-1.0
 */
 //======================================================================================================================
 #pragma once
+
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <eve/module/special.hpp>
-
-
+#include <eve/module/core.hpp>
 
 namespace flx
 {
   template<typename Options>
-  struct erfc_t : eve::elementwise_callable<erfc_t, Options>
+  struct frac_t : eve::elementwise_callable<frac_t, Options>
   {
     template<concepts::hyperdual_like Z>
-    FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
+    FLX_FORCEINLINE constexpr Z operator()(Z z) const noexcept
     {
-      return  flx_CALL(z);
+      return flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(erfc_t, erfc_);
+    flx_CALLABLE_OBJECT(frac_t, frac_);
   };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var erfc
-//!   @brief Computes the complementary error function.
+//!   @var frac
+//!   @brief Computes the frac value of the parameter.
 //!
 //!   @groupheader{Header file}
 //!
@@ -40,27 +39,29 @@ namespace flx
 //!
 //!   @groupheader{Callable Signatures}
 //!
-//!
 //!   @code
-//!   namespace eve
+//!   namespace flx
 //!   {
-//!      // Regular overload
-//!      constexpr auto erfc(floating_value auto x)   noexcept;
+//!      //regular calls
+//!      template<flx::concepts::hyperdual_like T> constexpr as_base_type_t<T> frac(T z) noexcept;       // 1
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `x`: argument.
+//!   * `z`: Value to process.
 //!
-//!    **Return value**
+//!   **Return value**
 //!
-//!     The value of the complementary error function
+//!    1. The  least integral value greater than z
 //!
-//!   @groupheader{Example}
-//!   @godbolt{doc/special/erfc.cpp}
+//!  @groupheader{External references}
+//!   *  [C++ standard reference: complex frac](https://en.cppreference.com/w/cpp/numeric/complex/frac)
+//!
+//!  @groupheader{Example}
+//!  @godbolt{doc/frac.cpp}
 //======================================================================================================================
-  inline constexpr auto erfc = eve::functor<erfc_t>;
+  inline constexpr auto frac = eve::functor<frac_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -68,20 +69,17 @@ namespace flx
 
 namespace flx::_
 {
-
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto erfc_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto frac_(flx_DELAY(), O const&, Z z) noexcept
   {
-    auto val= eve::erfc(e0(z));
+    auto val = eve::frac(e0(z));
     if constexpr(concepts::base<Z>)
     {
       return val;
     }
     else
     {
-      auto r = -flx::erf(z);
-      e0(r) = val;
-      return r;
+      return Z(val);
     }
   }
 }

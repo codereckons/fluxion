@@ -96,16 +96,16 @@
 #include <fluxion/functions/expmx2.hpp>
 #include <fluxion/functions/expx2.hpp>
 // #include <fluxion/functions/faddeeva.hpp> // complex needed
-// #include <fluxion/functions/fam.hpp>
+#include <fluxion/functions/fam.hpp>
 #include <fluxion/functions/floor.hpp>
 #include <fluxion/functions/fma.hpp>
-// #include <fluxion/functions/fms.hpp>
-// #include <fluxion/functions/fnma.hpp>
-// #include <fluxion/functions/fnms.hpp>
-// #include <fluxion/functions/frac.hpp>
-// #include <fluxion/functions/from_polar.hpp>
-// #include <fluxion/functions/fsm.hpp>
-// #include <fluxion/functions/gd.hpp>
+#include <fluxion/functions/fms.hpp>
+#include <fluxion/functions/fnma.hpp>
+#include <fluxion/functions/fnms.hpp>
+#include <fluxion/functions/frac.hpp>
+// #include <fluxion/functions/from_polar.hpp> //by no means
+#include <fluxion/functions/fsm.hpp>
+#include <fluxion/functions/gd.hpp>
 // #include <fluxion/functions/gegenbauer.hpp>
 // #include <fluxion/functions/hypergeometric.hpp>
 // #include <fluxion/functions/hypot.hpp>
@@ -176,7 +176,7 @@
 #include <fluxion/functions/rsqrt.hpp>
 // #include <fluxion/functions/sec.hpp>
 // #include <fluxion/functions/secpi.hpp>
-// #include <fluxion/functions/sech.hpp>
+#include <fluxion/functions/sech.hpp>
 // #include <fluxion/functions/sign.hpp>
 #include <fluxion/functions/sin.hpp>
 // #include <fluxion/functions/sinc.hpp>
@@ -204,7 +204,7 @@
 #include <fluxion/functions/to_dual4.hpp>
 // #include <fluxion/functions/to_polar.hpp>
 // #include <fluxion/functions/tricomi.hpp>
-// #include <fluxion/functions/trunc.hpp>
+#include <fluxion/functions/trunc.hpp>
 // #include <fluxion/functions/zeta.hpp>
 
 // #include <fluxion/functions/bessel_j.hpp>

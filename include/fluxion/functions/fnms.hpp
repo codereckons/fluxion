@@ -1,36 +1,33 @@
 //======================================================================================================================
 /*
-  FLUXION - Post-Modern Automatic Derivation
-  Copyright: FLUXION Contributors & Maintainers
+  Kyosu - Hyperdual numbers
+  Copyright: KYOSU Contributors & Maintainers
   SPDX-License-Identifier: BSL-1.0
 */
 //======================================================================================================================
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <eve/module/special.hpp>
-
-
 
 namespace flx
 {
   template<typename Options>
-  struct erfc_t : eve::elementwise_callable<erfc_t, Options>
+  struct fnms_t : eve::callable<fnms_t, Options>
   {
-    template<concepts::hyperdual_like Z>
-    FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
+    template<concepts::hyperdual_like Z0, concepts::hyperdual_like Z1, concepts::hyperdual_like Z2 >
+    FLX_FORCEINLINE constexpr flx::as_hyperdual_like_t<Z0, Z1, Z2> operator()(Z0 const& z0, Z1 const& z1, Z2 const& z2) const noexcept
     {
-      return  flx_CALL(z);
+      return  flx_CALL(z0, z1, z2);
     }
 
-    flx_CALLABLE_OBJECT(erfc_t, erfc_);
+    flx_CALLABLE_OBJECT(fnms_t, fnms_);
   };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var erfc
-//!   @brief Computes the complementary error function.
+//!   @var fnms
+//!   @brief Computes -z0*z1-z2
 //!
 //!   @groupheader{Header file}
 //!
@@ -40,27 +37,26 @@ namespace flx
 //!
 //!   @groupheader{Callable Signatures}
 //!
-//!
 //!   @code
-//!   namespace eve
+//!   namespace flx
 //!   {
-//!      // Regular overload
-//!      constexpr auto erfc(floating_value auto x)   noexcept;
+//!      template<concepts::hyperdual_like T0, oncepts::hyperdual_like ... Ts > constexprT fnms(T0 z0,  Ts... zs) noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `x`: argument.
+//!     * `z0`, `z1`, `z2`: Values to process.
 //!
-//!    **Return value**
+//!   **Return value**
 //!
-//!     The value of the complementary error function
+//!     Returns  -z0+z1-z2.
 //!
-//!   @groupheader{Example}
-//!   @godbolt{doc/special/erfc.cpp}
+//!  @groupheader{Example}
+//!
+//!  @godbolt{doc/fnms.cpp}
 //======================================================================================================================
-  inline constexpr auto erfc = eve::functor<erfc_t>;
+  inline constexpr auto fnms = eve::functor<fnms_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -69,19 +65,11 @@ namespace flx
 namespace flx::_
 {
 
-  template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto erfc_(flx_DELAY(), O const&, Z z) noexcept
+  template<typename Z0, typename Z1, typename Z2, eve::callable_options O>
+  FLX_FORCEINLINE constexpr auto fnms_(flx_DELAY(), O const&, Z0 z0, Z1 z1, Z2 z2) noexcept
   {
-    auto val= eve::erfc(e0(z));
-    if constexpr(concepts::base<Z>)
-    {
-      return val;
-    }
-    else
-    {
-      auto r = -flx::erf(z);
-      e0(r) = val;
-      return r;
-    }
+    auto r = -z0*z1-z2;
+    flx::e0(r) = eve::fnms(e0(z0), e0(z1), e0(z2));
+    return r;
   }
 }

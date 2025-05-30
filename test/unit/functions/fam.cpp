@@ -21,15 +21,15 @@ TTS_CASE_WITH ( "Check flx::add over hyperduals"
     auto vr = flx::variable<1>(r);
     auto vs = flx::variable<1>(s);
     auto vt = flx::variable<1>(t);
-    auto fmavr = flx::fma(vr, s, t);
-    auto fmavs = flx::fma( r,vs, t);
-    auto fmavt = flx::fma(r, s, vt);
-    TTS_ULP_EQUAL(flx::d0(fmavr), eve::fma(r, s, t), 0.5);
-    TTS_ULP_EQUAL(flx::d1(fmavr), s, 0.5);
-    TTS_ULP_EQUAL(flx::d0(fmavs), eve::fma(r, s, t), 0.5);
-    TTS_ULP_EQUAL(flx::d1(fmavs), r, 0.5);
-    TTS_ULP_EQUAL(flx::d0(fmavt), eve::fma(r, s, t), 0.5);
-    TTS_ULP_EQUAL(flx::d1(fmavt), T(1), 0.5);
+    auto famvr = flx::fam(vr, s, t);
+    auto famvs = flx::fam( r,vs, t);
+    auto famvt = flx::fam(r, s, vt);
+    TTS_ULP_EQUAL(flx::d0(famvr), eve::fam(r, s, t), 0.5);
+    TTS_ULP_EQUAL(flx::d1(famvr), T(1), 0.5);
+    TTS_ULP_EQUAL(flx::d0(famvs), eve::fam(r, s, t), 0.5);
+    TTS_ULP_EQUAL(flx::d1(famvs), t, 0.5);
+    TTS_ULP_EQUAL(flx::d0(famvt), eve::fam(r, s, t), 0.5);
+    TTS_ULP_EQUAL(flx::d1(famvt), s, 0.5);
   }
 
 };
