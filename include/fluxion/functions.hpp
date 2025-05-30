@@ -107,9 +107,10 @@
 #include <fluxion/functions/fsm.hpp>
 #include <fluxion/functions/gd.hpp>
 // #include <fluxion/functions/gegenbauer.hpp>
-// #include <fluxion/functions/hypergeometric.hpp>
-// #include <fluxion/functions/hypot.hpp>
-// #include <fluxion/functions/horner.hpp>
+// #include <fluxion/functions/hypergeometric.hpp> // complex neededhttps:
+                       //functions.wolfram.com/HypergeometricFunctions/Hypergeometric1F1/20/01/04/
+// #include <fluxion/functions/hypot.hpp> // to be seen
+#include <fluxion/functions/horner.hpp>
 #include <fluxion/functions/inc.hpp>
 // #include <fluxion/functions/is_cinf.hpp>
 // #include <fluxion/functions/is_denormal.hpp>
@@ -194,7 +195,7 @@
 #include <fluxion/functions/tan.hpp>
 // #include <fluxion/functions/tanpi.hpp>
 // #include <fluxion/functions/tanh.hpp>
-// #include <fluxion/functions/tchebytchev.hpp>
+// #include <fluxion/functions/tchebytchev.hpp>      // can be done
 // #include <fluxion/functions/tgamma.hpp>           //needs polygamma
 // #include <fluxion/functions/tgamma_inv.hpp>
 // #include <fluxion/functions/to_cylindrical.hpp>
