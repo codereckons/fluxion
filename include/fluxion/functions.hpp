@@ -88,12 +88,12 @@
 // #include <fluxion/functions/erfi.hpp>  // complex needed
 // #include <fluxion/functions/eta.hpp>   // complex needed
 #include <fluxion/functions/exp.hpp>
-// #include <fluxion/functions/exp10.hpp>
-// #include <fluxion/functions/exp2.hpp>
-// #include <fluxion/functions/exp_i.hpp>
-// #include <fluxion/functions/exp_ipi.hpp>
-// #include <fluxion/functions/expm1.hpp>
-// #include <fluxion/functions/expmx2.hpp>
+#include <fluxion/functions/exp10.hpp>
+#include <fluxion/functions/exp2.hpp>
+// #include <fluxion/functions/exp_i.hpp> // complex needed
+// #include <fluxion/functions/exp_ipi.hpp> // complex needed
+#include <fluxion/functions/expm1.hpp>
+#include <fluxion/functions/expmx2.hpp>
 // #include <fluxion/functions/expx2.hpp>
 // #include <fluxion/functions/faddeeva.hpp>
 // #include <fluxion/functions/fam.hpp>

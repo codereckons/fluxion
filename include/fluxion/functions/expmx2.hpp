@@ -8,11 +8,12 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <eve/module/math.hpp>
+#include <fluxion/details/mula.hpp>
 
 namespace flx
 {
   template<typename Options>
-  struct exp_t : eve::elementwise_callable<exp_t, Options>
+  struct expmx2_t : eve::elementwise_callable<expmx2_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -20,14 +21,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(exp_t, exp_);
+    flx_CALLABLE_OBJECT(expmx2_t, expmx2_);
 };
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var exp
-//!   @brief Computes the exponential of the argument.
+//!   @var expmx2
+//!   @brief Computes the  exponential minus one of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -40,7 +41,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexpr T exp(T z) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexpmx2r T expmx2(T z) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -50,13 +51,13 @@ namespace flx
 //!
 //!   **Return value**
 //!
-//!     Returns the exponential of the argument.
+//!     Returns the base 2 exponential minus one of the argument.
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/exp.cpp}
+//!  @godbolt{doc/expmx2.cpp}
 //======================================================================================================================
-  inline constexpr auto exp = eve::functor<exp_t>;
+  inline constexpr auto expmx2 = eve::functor<expmx2_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -65,18 +66,41 @@ namespace flx
 namespace flx::_
 {
   template<typename Z, eve::callable_options O>
-   FLX_FORCEINLINE constexpr auto exp_(flx_DELAY(), O const&, Z z) noexcept
+   FLX_FORCEINLINE constexpr auto expmx2_(flx_DELAY(), O const&, Z z) noexcept
   {
-   if constexpr(concepts::base<Z>)
+    auto val =eve::expmx2(e0(z));
+    if constexpr(concepts::base<Z>)
     {
-      return eve::exp(z);
+      return val;
     }
     else
     {
-      using b_t = flx::as_base_type_t<Z>;
-      auto e = eve::exp(e0(z));
-      std::array<b_t, flx::max_order+1> ders{e, e, e, e, e};
-      return _::evaluate<order_v<Z>>(ders, z);
+     using b_t = flx::as_base_type_t<Z>;
+      constexpr auto ord = flx::order_v<Z>;
+      std::array<b_t,ord+1> ders;
+      ders[0] = val;
+      auto comp_ders = [&](auto  x){
+        ders[1] =  -2*x*val;
+        if constexpr(ord == 1) return;
+        else
+        {
+          auto x2 = x*x;
+          ders[2] = 2*val*(2*x2-1);
+          if constexpr(ord == 2) return;
+          else
+          {
+            ders[3] = -4*val*x*(2*x2-3);
+            if constexpr(ord == 3) return;
+            else
+            {
+              ders[4] = 4*val*(3+x2*(-12+4*x2));
+              return;
+            }
+          }
+        }
+      };
+      comp_ders(e0(z));
+      return _::evaluate(ders, z);
     }
   }
 }
