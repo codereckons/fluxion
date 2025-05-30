@@ -94,10 +94,10 @@
 // #include <fluxion/functions/exp_ipi.hpp> // complex needed
 #include <fluxion/functions/expm1.hpp>
 #include <fluxion/functions/expmx2.hpp>
-// #include <fluxion/functions/expx2.hpp>
-// #include <fluxion/functions/faddeeva.hpp>
+#include <fluxion/functions/expx2.hpp>
+// #include <fluxion/functions/faddeeva.hpp> // complex needed
 // #include <fluxion/functions/fam.hpp>
-// #include <fluxion/functions/floor.hpp>
+#include <fluxion/functions/floor.hpp>
 #include <fluxion/functions/fma.hpp>
 // #include <fluxion/functions/fms.hpp>
 // #include <fluxion/functions/fnma.hpp>
