@@ -151,7 +151,7 @@ namespace flx
   using as_hyperdual_t = typename as_hyperdual<Ts...>::type;
 
   template<auto Callable, typename... Ts>
-  using expected_result_t = as_hyperdual_n_t < std::min( {dimension_v<Ts>...} )
+  using expected_result_t = as_hyperdual_n_t < std::min( {order_v<Ts>...} )
                                                   , decltype( Callable( std::declval<as_base_type_t<Ts>>()...) )
                                                   >;
 

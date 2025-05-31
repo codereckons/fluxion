@@ -87,19 +87,19 @@ namespace flx::_
                               , flx::convert(t, eve::as_element<type>{})
                               , flx::convert(f, eve::as_element<type>{})
                               )
-                  };
+          };
     }
     else
     {
       auto parts = [&]()
-      {
-        auto cst = []<typename I>(auto x, I const&) { if constexpr(I::value == 0) return x; else return eve::zero; };
+        {
+          auto cst = []<typename I>(auto x, I const&) { if constexpr(I::value == 0) return x; else return eve::zero; };
 
-        if      constexpr(!concepts::hyperdual<Z2>)
+          if      constexpr(!concepts::hyperdual<Z2>)
           return kumi::map_index([&](auto i, auto e) { return eve::if_else(m, e, cst(f, i)); }, t);
-        else if constexpr(!concepts::hyperdual<Z1>)
+          else if constexpr(!concepts::hyperdual<Z1>)
           return kumi::map_index([&](auto i, auto e) { return eve::if_else(m, cst(t, i), e); }, f);
-      }();
+        }();
 
       return eve::as_wide_as_t<std::conditional_t<!concepts::hyperdual<Z2>,Z1,Z2>,M>{parts};
     }

@@ -112,14 +112,22 @@
 #include <fluxion/functions/is_eqz.hpp>
 #include <fluxion/functions/is_finite.hpp>
 #include <fluxion/functions/is_flint.hpp>
+#include <fluxion/functions/is_greater.hpp>
+#include <fluxion/functions/is_greater_equal.hpp>
 #include <fluxion/functions/is_infinite.hpp>
+#include <fluxion/functions/is_less.hpp>
+#include <fluxion/functions/is_less_equal.hpp>
 #include <fluxion/functions/is_nan.hpp>
 #include <fluxion/functions/is_nez.hpp>
 #include <fluxion/functions/is_not_denormal.hpp>
 #include <fluxion/functions/is_not_equal.hpp>
 #include <fluxion/functions/is_not_finite.hpp>
 #include <fluxion/functions/is_not_flint.hpp>
+#include <fluxion/functions/is_not_greater.hpp>
+#include <fluxion/functions/is_not_greater_equal.hpp>
 #include <fluxion/functions/is_not_infinite.hpp>
+#include <fluxion/functions/is_not_less.hpp>
+#include <fluxion/functions/is_not_less_equal.hpp>
 #include <fluxion/functions/is_not_nan.hpp>
 
 
@@ -132,22 +140,22 @@
 #include <fluxion/functions/log.hpp>
 #include <fluxion/functions/log10.hpp>
 #include <fluxion/functions/log1p.hpp>
-// #include <fluxion/functions/log_abs.hpp>
-// #include <fluxion/functions/log_abs_gamma.hpp>
-// #include <fluxion/functions/log_gamma.hpp>
+#include <fluxion/functions/log_abs.hpp>
+
+// #include <fluxion/functions/log_abs_gamma.hpp> //needs polygamma
+// #include <fluxion/functions/log_gamma.hpp>> //needs polygamma
 #include <fluxion/functions/log2.hpp>
 // #include <fluxion/functions/lpnorm.hpp>
-// #include <fluxion/functions/lrising_factorial.hpp>
-// #include <fluxion/functions/rising_factorial.hpp>
+// #include <fluxion/functions/lrising_factorial.hpp> //needs polygamma
+// #include <fluxion/functions/rising_factorial.hpp> //needs polygamma
 // #include <fluxion/functions/manhattan.hpp>
+#include <fluxion/functions/max.hpp>
 // #include <fluxion/functions/maxabs.hpp>
 // #include <fluxion/functions/maxmag.hpp>
 // #include <fluxion/functions/minabs.hpp>
 // #include <fluxion/functions/minmag.hpp>
 // #include <fluxion/functions/minus.hpp>
 #include <fluxion/functions/mul.hpp>
-// #include <fluxion/functions/muli.hpp>
-// #include <fluxion/functions/mulmi.hpp>
 // #include <fluxion/functions/nearest.hpp>
 // #include <fluxion/functions/negmaxabs.hpp>
 // #include <fluxion/functions/negminabs.hpp>
@@ -229,6 +237,8 @@
 // #include <fluxion/functions/is_unitary.hpp>
 // #include <fluxion/functions/kummer.hpp>
 // #include <fluxion/functions/lambda.hpp>
+// #include <fluxion/functions/muli.hpp>
+// #include <fluxion/functions/mulmi.hpp>
 
 // //======================================================================================================================
 // // Functions performing computations over quaternion complex or real elements only.
