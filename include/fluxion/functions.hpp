@@ -152,6 +152,7 @@
 #include <fluxion/functions/max.hpp>
 // #include <fluxion/functions/maxabs.hpp>
 // #include <fluxion/functions/maxmag.hpp>
+#include <fluxion/functions/min.hpp>
 // #include <fluxion/functions/minabs.hpp>
 // #include <fluxion/functions/minmag.hpp>
 // #include <fluxion/functions/minus.hpp>
