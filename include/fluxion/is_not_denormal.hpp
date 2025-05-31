@@ -97,33 +97,41 @@
 #include <fluxion/functions/fnma.hpp>
 #include <fluxion/functions/fnms.hpp>
 #include <fluxion/functions/frac.hpp>
-// #include <fluxion/functions/from_polar.hpp> //by no means
 #include <fluxion/functions/fsm.hpp>
 #include <fluxion/functions/gd.hpp>
 // #include <fluxion/functions/gegenbauer.hpp>
-// #include <fluxion/functions/hypergeometric.hpp> // complex neededhttps:
-                       //functions.wolfram.com/HypergeometricFunctions/Hypergeometric1F1/20/01/04/
 #include <fluxion/functions/hypot.hpp>
 #include <fluxion/functions/horner.hpp>
 #include <fluxion/functions/inc.hpp>
 
 
+
+#include <fluxion/functions/is_denormal.hpp>
 #include <fluxion/functions/is_equal.hpp>
 #include <fluxion/functions/is_eqz.hpp>
 #include <fluxion/functions/is_finite.hpp>
 #include <fluxion/functions/is_flint.hpp>
+// #include <fluxion/functions/is_fnan.hpp>
 #include <fluxion/functions/is_infinite.hpp>
+// #include <fluxion/functions/is_imag.hpp>
 #include <fluxion/functions/is_nan.hpp>
 #include <fluxion/functions/is_nez.hpp>
-#include <fluxion/functions/is_not_denormal.hpp>
+// #include <fluxion/functions/is_not_cinf.hpp>
+// #include <fluxion/functions/is_not_denormal.hpp>
 #include <fluxion/functions/is_not_equal.hpp>
-#include <fluxion/functions/is_not_finite.hpp>
-#include <fluxion/functions/is_not_flint.hpp>
-#include <fluxion/functions/is_not_infinite.hpp>
-#include <fluxion/functions/is_not_nan.hpp>
+// #include <fluxion/functions/is_not_finite.hpp>
+// #include <fluxion/functions/is_not_flint.hpp>
+// #include <fluxion/functions/is_not_fnan.hpp>
+// #include <fluxion/functions/is_not_infinite.hpp>
+// #include <fluxion/functions/is_not_nan.hpp>
+// #include <fluxion/functions/is_not_real.hpp>
+// #include <fluxion/functions/is_pure.hpp>
+// #include <fluxion/functions/is_real.hpp>
+// #include <fluxion/functions/is_unitary.hpp>
 
 
 // #include <fluxion/functions/jacobi_elliptic.hpp>
+// #include <fluxion/functions/kummer.hpp>
 // #include <fluxion/functions/lambda.hpp>
 // #include <fluxion/functions/lbeta.hpp>
 // #include <fluxion/functions/ldiv.hpp>
@@ -217,17 +225,9 @@
 
 // #include <fluxion/functions/tricomi.hpp>
 // #include <fluxion/functions/zeta.hpp>
+// #include <fluxion/functions/hypergeometric.hpp> // complex neededhttps:
+                       //functions.wolfram.com/HypergeometricFunctions/Hypergeometric1F1/20/01/04/
 // #include <fluxion/functions/is_cinf.hpp>
-// #include <fluxion/functions/is_denormal.hpp>
-// #include <fluxion/functions/is_fnan.hpp>
-// #include <fluxion/functions/is_imag.hpp>
-// #include <fluxion/functions/is_not_cinf.hpp>
-// #include <fluxion/functions/is_not_fnan.hpp>
-// #include <fluxion/functions/is_not_real.hpp>
-// #include <fluxion/functions/is_pure.hpp>
-// #include <fluxion/functions/is_real.hpp>
-// #include <fluxion/functions/is_unitary.hpp>
-// #include <fluxion/functions/kummer.hpp>
 
 
 // //======================================================================================================================
