@@ -123,19 +123,19 @@
 #include <fluxion/functions/is_not_nan.hpp>
 
 
-// #include <fluxion/functions/jacobi_elliptic.hpp>
-// #include <fluxion/functions/lambda.hpp>
-// #include <fluxion/functions/lbeta.hpp>
-// #include <fluxion/functions/ldiv.hpp>
+// #include <fluxion/functions/jacobi_elliptic.hpp> //to see
+// #include <fluxion/functions/lbeta.hpp> //needs polygamma
+
+#include <fluxion/functions/ldiv.hpp>
 // #include <fluxion/functions/legendre.hpp>
-// #include <fluxion/functions/lerp.hpp>
+#include <fluxion/functions/lerp.hpp>
 #include <fluxion/functions/log.hpp>
-// #include <fluxion/functions/log10.hpp>
-// #include <fluxion/functions/log1p.hpp>
+#include <fluxion/functions/log10.hpp>
+#include <fluxion/functions/log1p.hpp>
 // #include <fluxion/functions/log_abs.hpp>
 // #include <fluxion/functions/log_abs_gamma.hpp>
 // #include <fluxion/functions/log_gamma.hpp>
-// #include <fluxion/functions/log2.hpp>
+#include <fluxion/functions/log2.hpp>
 // #include <fluxion/functions/lpnorm.hpp>
 // #include <fluxion/functions/lrising_factorial.hpp>
 // #include <fluxion/functions/rising_factorial.hpp>
@@ -228,7 +228,7 @@
 // #include <fluxion/functions/is_real.hpp>
 // #include <fluxion/functions/is_unitary.hpp>
 // #include <fluxion/functions/kummer.hpp>
-
+// #include <fluxion/functions/lambda.hpp>
 
 // //======================================================================================================================
 // // Functions performing computations over quaternion complex or real elements only.

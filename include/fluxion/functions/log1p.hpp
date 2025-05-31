@@ -1,33 +1,35 @@
 //======================================================================================================================
 /*
-  Kyosu - Hyperdual numbers
-  Copyright: KYOSU Contributors & Maintainers
+  FLUXION - Post-Modern Automatic Derivation
+  Copyright: FLUXION Contributors & Maintainers
   SPDX-License-Identifier: BSL-1.0
 */
 //======================================================================================================================
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
+#include <eve/module/math.hpp>
+#include <array>
 
 namespace flx
 {
   template<typename Options>
-  struct fma_t : eve::callable<fma_t, Options>
+  struct log1p_t : eve::elementwise_callable<log1p_t, Options>
   {
-    template<concepts::hyperdual_like Z0, concepts::hyperdual_like Z1, concepts::hyperdual_like Z2 >
-    FLX_FORCEINLINE constexpr flx::as_hyperdual_like_t<Z0, Z1, Z2> operator()(Z0 const& z0, Z1 const& z1, Z2 const& z2) const noexcept
+    template<concepts::hyperdual_like Z>
+    FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
     {
-      return  flx_CALL(z0, z1, z2);
+      return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(fma_t, fma_);
-  };
+    flx_CALLABLE_OBJECT(log1p_t, log1p_);
+};
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var fma
-//!   @brief Computes z0*z1+z2
+//!   @var log1p
+//!   @brief Computes the log1p of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -40,36 +42,48 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      constexpr auto fma(hyperdual_like z0,  hyperdual_like z1,  hyperdual_like z2) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT log1p(T z) noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `z0`, `z1`, `z2`: Values to process.
+//!     * `z`: Value to process.
 //!
 //!   **Return value**
 //!
-//!     Returns  z0*z1+z2.
+//!     Returns the log1p of the argument.
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/fma.cpp}
+//!  @godbolt{doc/log1p.cpp}
 //======================================================================================================================
-  inline constexpr auto fma = eve::functor<fma_t>;
+  inline constexpr auto log1p = eve::functor<log1p_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
 }
+#include <span>
 
 namespace flx::_
 {
 
-  template<typename Z0, typename Z1, typename Z2, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto fma_(flx_DELAY(), O const&, Z0 z0, Z1 z1, Z2 z2) noexcept
+  template<typename Z, eve::callable_options O>
+  FLX_FORCEINLINE constexpr auto log1p_(flx_DELAY(), O const&, Z z) noexcept
   {
-    auto r = z0*z1+z2;
-    flx::e0(r) = eve::fma(e0(z0), e0(z1), e0(z2));
-    return r;
+    auto val = eve::log1p(e0(z));
+    if constexpr(concepts::base<Z>)
+    {
+      return val;
+    }
+    else
+    {
+      using b_t = flx::as_base_type_t<Z>;
+      std::array<b_t,flx::order_v<Z>+1> ders;
+      ders[0] = val;
+      auto der = [](auto x){ return flx::rec(flx::inc(x)); };
+      dersfromder<0, flx::order_v<Z>>(ders, der, e0(z));
+      return _::evaluate(ders, z);
+    }
   }
 }

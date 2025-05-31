@@ -1,33 +1,34 @@
 //======================================================================================================================
 /*
-  Kyosu - Hyperdual numbers
-  Copyright: KYOSU Contributors & Maintainers
+  FLUXION - Post-Modern Automatic Derivation
+  Copyright: FLUXION Contributors & Maintainers
   SPDX-License-Identifier: BSL-1.0
 */
 //======================================================================================================================
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
+#include <fluxion/types/operators.hpp>
 
 namespace flx
 {
   template<typename Options>
-  struct fma_t : eve::callable<fma_t, Options>
+  struct ldiv_t : eve::callable<ldiv_t, Options>
   {
-    template<concepts::hyperdual_like Z0, concepts::hyperdual_like Z1, concepts::hyperdual_like Z2 >
-    FLX_FORCEINLINE constexpr flx::as_hyperdual_like_t<Z0, Z1, Z2> operator()(Z0 const& z0, Z1 const& z1, Z2 const& z2) const noexcept
+    template<concepts::hyperdual_like Z0, concepts::hyperdual_like ... Zs>
+    FLX_FORCEINLINE constexpr flx::as_hyperdual_like_t<Z0, Zs...> operator()(Z0 const& z0, Zs const& ... zs) const noexcept
     {
-      return  flx_CALL(z0, z1, z2);
+      return  flx_CALL(z0, zs...);
     }
 
-    flx_CALLABLE_OBJECT(fma_t, fma_);
+    flx_CALLABLE_OBJECT(ldiv_t, ldiv_);
   };
 
 //======================================================================================================================
-//! @addtogroup functions
+//! @ldivtogroup functions
 //! @{
-//!   @var fma
-//!   @brief Computes z0*z1+z2
+//!   @var ldiv
+//!   @brief Computes the  product of all elements but the first divided by the first.
 //!
 //!   @groupheader{Header file}
 //!
@@ -40,23 +41,23 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      constexpr auto fma(hyperdual_like z0,  hyperdual_like z1,  hyperdual_like z2) noexcept;
+//!      template<concepts::hyperdual_like T0, oncepts::hyperdual_like ... Ts > constexprT ldiv(T0 z0,  Ts... zs) noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `z0`, `z1`, `z2`: Values to process.
+//!     * `z0`,  `zs...`: Values to process.
 //!
 //!   **Return value**
 //!
-//!     Returns  z0*z1+z2.
+//!     Returns the   product of all elements but the first divided by the first.
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/fma.cpp}
+//!  @godbolt{doc/ldiv.cpp}
 //======================================================================================================================
-  inline constexpr auto fma = eve::functor<fma_t>;
+  inline constexpr auto ldiv = eve::functor<ldiv_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -65,11 +66,9 @@ namespace flx
 namespace flx::_
 {
 
-  template<typename Z0, typename Z1, typename Z2, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto fma_(flx_DELAY(), O const&, Z0 z0, Z1 z1, Z2 z2) noexcept
+  template<typename Z0, typename ... Zs, eve::callable_options O>
+  FLX_FORCEINLINE constexpr auto ldiv_(flx_DELAY(), O const&, Z0 z0, Zs... zs) noexcept
   {
-    auto r = z0*z1+z2;
-    flx::e0(r) = eve::fma(e0(z0), e0(z1), e0(z2));
-    return r;
+    return (zs*...)/z0;
   }
 }

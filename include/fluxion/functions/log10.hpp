@@ -8,17 +8,13 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <fluxion/details/dersfromder.hpp>
-#include <fluxion/functions/sqr.hpp>
-#include <fluxion/functions/exp.hpp>
-#include <eve/module/special.hpp>
-
-
+#include <eve/module/math.hpp>
+#include <array>
 
 namespace flx
 {
   template<typename Options>
-  struct erf_t : eve::elementwise_callable<erf_t, Options>
+  struct log10_t : eve::elementwise_callable<log10_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -26,14 +22,14 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(erf_t, erf_);
-  };
+    flx_CALLABLE_OBJECT(log10_t, log10_);
+};
 
 //======================================================================================================================
 //! @addtogroup functions
 //! @{
-//!   @var erf
-//!   @brief Computes the error function.
+//!   @var log10
+//!   @brief Computes the log10 of the argument.
 //!
 //!   @groupheader{Header file}
 //!
@@ -43,39 +39,39 @@ namespace flx
 //!
 //!   @groupheader{Callable Signatures}
 //!
-//!
 //!   @code
-//!   namespace eve
+//!   namespace flx
 //!   {
-//!      // Regular overload
-//!      constexpr auto erf(floating_value auto x)   noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT log10(T z) noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `x`: argument.
+//!     * `z`: Value to process.
 //!
-//!    **Return value**
+//!   **Return value**
 //!
-//!     The value of the error function
+//!     Returns the log10 of the argument.
 //!
-//!   @groupheader{Example}
-//!   @godbolt{doc/special/erf.cpp}
+//!  @groupheader{Example}
+//!
+//!  @godbolt{doc/log10.cpp}
 //======================================================================================================================
-  inline constexpr auto erf = eve::functor<erf_t>;
+  inline constexpr auto log10 = eve::functor<log10_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
 }
+#include <span>
 
 namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto erf_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto log10_(flx_DELAY(), O const&, Z z) noexcept
   {
-    auto val= eve::erf(e0(z));
+    auto val = eve::log10(e0(z));
     if constexpr(concepts::base<Z>)
     {
       return val;
@@ -83,10 +79,10 @@ namespace flx::_
     else
     {
       using b_t = flx::as_base_type_t<Z>;
-      constexpr auto tosqtpi = eve::two_o_sqrt_pi(eve::as<eve::underlying_type_t<b_t>>()); ;
+      constexpr auto invlog_10 = eve::invlog_10(eve::as<eve::underlying_type_t<b_t>>()); ;
       std::array<b_t,flx::order_v<Z>+1> ders;
       ders[0] = val;
-      auto der = [tosqtpi](auto x){ return tosqtpi*flx::exp(-flx::sqr(x)); };
+      auto der = [invlog_10](auto x){ return invlog_10*flx::rec(x); };
       dersfromder<0, flx::order_v<Z>>(ders, der, e0(z));
       return _::evaluate(ders, z);
     }
