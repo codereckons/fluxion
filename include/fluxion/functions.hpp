@@ -70,7 +70,6 @@
 #include <fluxion/functions/cscpi.hpp>
 #include <fluxion/functions/csch.hpp>
 #include <fluxion/functions/dec.hpp>
-// #include <fluxion/functions/deta.hpp>    // complex needed
 // #include <fluxion/functions/digamma.hpp> // needs polygamma
 #include <fluxion/functions/dist.hpp>
 #include <fluxion/functions/div.hpp>
@@ -85,17 +84,12 @@
 #include <fluxion/functions/erf.hpp>
 #include <fluxion/functions/erfc.hpp>
 #include <fluxion/functions/erfcx.hpp>
-// #include <fluxion/functions/erfi.hpp>  // complex needed
-// #include <fluxion/functions/eta.hpp>   // complex needed
 #include <fluxion/functions/exp.hpp>
 #include <fluxion/functions/exp10.hpp>
 #include <fluxion/functions/exp2.hpp>
-// #include <fluxion/functions/exp_i.hpp> // complex needed
-// #include <fluxion/functions/exp_ipi.hpp> // complex needed
 #include <fluxion/functions/expm1.hpp>
 #include <fluxion/functions/expmx2.hpp>
 #include <fluxion/functions/expx2.hpp>
-// #include <fluxion/functions/faddeeva.hpp> // complex needed
 #include <fluxion/functions/fam.hpp>
 #include <fluxion/functions/floor.hpp>
 #include <fluxion/functions/fma.hpp>
@@ -109,9 +103,11 @@
 // #include <fluxion/functions/gegenbauer.hpp>
 // #include <fluxion/functions/hypergeometric.hpp> // complex neededhttps:
                        //functions.wolfram.com/HypergeometricFunctions/Hypergeometric1F1/20/01/04/
-// #include <fluxion/functions/hypot.hpp> // to be seen
+#include <fluxion/functions/hypot.hpp>
 #include <fluxion/functions/horner.hpp>
 #include <fluxion/functions/inc.hpp>
+
+
 // #include <fluxion/functions/is_cinf.hpp>
 // #include <fluxion/functions/is_denormal.hpp>
 #include <fluxion/functions/is_equal.hpp>
@@ -135,6 +131,8 @@
 // #include <fluxion/functions/is_pure.hpp>
 // #include <fluxion/functions/is_real.hpp>
 // #include <fluxion/functions/is_unitary.hpp>
+
+
 // #include <fluxion/functions/jacobi_elliptic.hpp>
 // #include <fluxion/functions/kummer.hpp>
 // #include <fluxion/functions/lambda.hpp>
@@ -188,7 +186,7 @@
 // #include <fluxion/functions/sinhc.hpp>
 // #include <fluxion/functions/sinhcosh.hpp>
 // #include <fluxion/functions/slerp.hpp>
-// #include <fluxion/functions/sqr.hpp>
+#include <fluxion/functions/sqr.hpp>
 // #include <fluxion/functions/sqr_abs.hpp>
 #include <fluxion/functions/sqrt.hpp>
 // #include <fluxion/functions/sub.hpp>
@@ -198,15 +196,12 @@
 // #include <fluxion/functions/tchebytchev.hpp>      // can be done
 // #include <fluxion/functions/tgamma.hpp>           //needs polygamma
 // #include <fluxion/functions/tgamma_inv.hpp>
-// #include <fluxion/functions/to_cylindrical.hpp>
 #include <fluxion/functions/to_dual.hpp>
 #include <fluxion/functions/to_dual2.hpp>
 #include <fluxion/functions/to_dual3.hpp>
 #include <fluxion/functions/to_dual4.hpp>
-// #include <fluxion/functions/to_polar.hpp>
-// #include <fluxion/functions/tricomi.hpp>
 #include <fluxion/functions/trunc.hpp>
-// #include <fluxion/functions/zeta.hpp>
+
 
 // #include <fluxion/functions/bessel_j.hpp>
 // #include <fluxion/functions/bessel_y.hpp>
@@ -218,9 +213,28 @@
 // #include <fluxion/functions/airy_ai.hpp>
 // #include <fluxion/functions/airy_bi.hpp>
 
+
+
+
+// //======================================================================================================================
+// // complex needed.
+// //======================================================================================================================
+// #include <fluxion/functions/deta.hpp>
+// #include <fluxion/functions/erfi.hpp>
+// #include <fluxion/functions/eta.hpp>
+// #include <fluxion/functions/exp_i.hpp>
+// #include <fluxion/functions/exp_ipi.hpp>
+// #include <fluxion/functions/faddeeva.hpp>
+
+// #include <fluxion/functions/tricomi.hpp>
+// #include <fluxion/functions/zeta.hpp>
+
+
 // //======================================================================================================================
 // // Functions performing computations over quaternion complex or real elements only.
 // //======================================================================================================================
+// #include <fluxion/functions/to_cylindrical.hpp>
+// #include <fluxion/functions/to_polar.hpp>
 
 // #include <fluxion/functions/align.hpp>
 // #include <fluxion/functions/from_angle_axis.hpp>
