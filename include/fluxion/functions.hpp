@@ -145,7 +145,7 @@
 // #include <fluxion/functions/log_abs_gamma.hpp> //needs polygamma
 // #include <fluxion/functions/log_gamma.hpp>> //needs polygamma
 #include <fluxion/functions/log2.hpp>
-//#include <fluxion/functions/lpnorm.hpp>
+#include <fluxion/functions/lpnorm.hpp>
 // #include <fluxion/functions/lrising_factorial.hpp> //needs polygamma
 // #include <fluxion/functions/rising_factorial.hpp> //needs polygamma
 #include <fluxion/functions/manhattan.hpp>
@@ -163,9 +163,8 @@
 #include <fluxion/functions/oneminus.hpp>
 #include <fluxion/functions/pow.hpp>
 #include <fluxion/functions/pow1p.hpp>
-// #include <fluxion/functions/pow_abs.hpp>
+#include <fluxion/functions/pow_abs.hpp>
 // #include <fluxion/functions/powm1.hpp>
-// #include <fluxion/functions/proj.hpp>
 // #include <fluxion/functions/radinpi.hpp>
 #include <fluxion/functions/rec.hpp>
 // #include <fluxion/functions/reldist.hpp>
@@ -240,6 +239,7 @@
 // #include <fluxion/functions/lambda.hpp>
 // #include <fluxion/functions/muli.hpp>
 // #include <fluxion/functions/mulmi.hpp>
+// #include <fluxion/functions/proj.hpp>
 
 // //======================================================================================================================
 // // Functions performing computations over quaternion complex or real elements only.
