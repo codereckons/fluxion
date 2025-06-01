@@ -145,10 +145,10 @@
 // #include <fluxion/functions/log_abs_gamma.hpp> //needs polygamma
 // #include <fluxion/functions/log_gamma.hpp>> //needs polygamma
 #include <fluxion/functions/log2.hpp>
-// #include <fluxion/functions/lpnorm.hpp>
+//#include <fluxion/functions/lpnorm.hpp>
 // #include <fluxion/functions/lrising_factorial.hpp> //needs polygamma
 // #include <fluxion/functions/rising_factorial.hpp> //needs polygamma
-// #include <fluxion/functions/manhattan.hpp>
+#include <fluxion/functions/manhattan.hpp>
 #include <fluxion/functions/max.hpp>
 // #include <fluxion/functions/maxabs.hpp>
 // #include <fluxion/functions/maxmag.hpp>
@@ -161,7 +161,7 @@
 // #include <fluxion/functions/negmaxabs.hpp>
 // #include <fluxion/functions/negminabs.hpp>
 #include <fluxion/functions/oneminus.hpp>
-// #include <fluxion/functions/pow.hpp>
+#include <fluxion/functions/pow.hpp>
 // #include <fluxion/functions/pow1p.hpp>
 // #include <fluxion/functions/pow_abs.hpp>
 // #include <fluxion/functions/powm1.hpp>
