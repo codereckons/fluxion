@@ -162,7 +162,7 @@
 // #include <fluxion/functions/negminabs.hpp>
 #include <fluxion/functions/oneminus.hpp>
 #include <fluxion/functions/pow.hpp>
-// #include <fluxion/functions/pow1p.hpp>
+#include <fluxion/functions/pow1p.hpp>
 // #include <fluxion/functions/pow_abs.hpp>
 // #include <fluxion/functions/powm1.hpp>
 // #include <fluxion/functions/proj.hpp>
