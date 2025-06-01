@@ -150,11 +150,11 @@
 // #include <fluxion/functions/rising_factorial.hpp> //needs polygamma
 #include <fluxion/functions/manhattan.hpp>
 #include <fluxion/functions/max.hpp>
-// #include <fluxion/functions/maxabs.hpp>
-// #include <fluxion/functions/maxmag.hpp>
+#include <fluxion/functions/maxabs.hpp>
+#include <fluxion/functions/maxmag.hpp>
 #include <fluxion/functions/min.hpp>
-// #include <fluxion/functions/minabs.hpp>
-// #include <fluxion/functions/minmag.hpp>
+#include <fluxion/functions/minabs.hpp>
+#include <fluxion/functions/minmag.hpp>
 // #include <fluxion/functions/minus.hpp>
 #include <fluxion/functions/mul.hpp>
 // #include <fluxion/functions/nearest.hpp>
@@ -164,7 +164,7 @@
 #include <fluxion/functions/pow.hpp>
 #include <fluxion/functions/pow1p.hpp>
 #include <fluxion/functions/pow_abs.hpp>
-// #include <fluxion/functions/powm1.hpp>
+#include <fluxion/functions/powm1.hpp>
 // #include <fluxion/functions/radinpi.hpp>
 #include <fluxion/functions/rec.hpp>
 // #include <fluxion/functions/reldist.hpp>
