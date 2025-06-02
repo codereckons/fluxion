@@ -71,15 +71,15 @@ namespace flx::_
   template<typename Z0, typename Z1, eve::callable_options O>
   FLX_FORCEINLINE constexpr auto pow1p_(flx_DELAY(), O const& o, Z0 x, Z1 y) noexcept
   {
-    auto val = eve::pow[o](e0(x), e0(y));
+    auto val = eve::pow1p[o](e0(x), e0(y));
     if constexpr(concepts::base<Z0> && concepts::base<Z1>)
     {
-      return val+1;
+      return val;
     }
     else
     {
-      auto r = flx::pow[o](x, y);
-      e0(r) = val+1;
+      auto r = flx::pow[o](x+1, y);
+      e0(r) = val;
       return r;
     }
   }

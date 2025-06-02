@@ -78,7 +78,7 @@ namespace flx::_
     }
     else
     {
-      auto r = flx::pow[o](flx::inc(x), y);
+      auto r = flx::pow[o](x, y);
       e0(r) = val;
       return r;
     }
