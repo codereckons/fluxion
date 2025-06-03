@@ -32,6 +32,8 @@
 //======================================================================================================================
 // Arithmetic and math
 //======================================================================================================================
+#include <fluxion/functions/absmax.hpp>
+#include <fluxion/functions/absmin.hpp>
 #include <fluxion/functions/acos.hpp>
 #include <fluxion/functions/acosh.hpp>
 #include <fluxion/functions/acospi.hpp>
@@ -97,7 +99,6 @@
 #include <fluxion/functions/fnma.hpp>
 #include <fluxion/functions/fnms.hpp>
 #include <fluxion/functions/frac.hpp>
-// #include <fluxion/functions/from_polar.hpp> //by no means
 #include <fluxion/functions/fsm.hpp>
 #include <fluxion/functions/gd.hpp>
 // #include <fluxion/functions/gegenbauer.hpp>
@@ -155,20 +156,20 @@
 #include <fluxion/functions/min.hpp>
 #include <fluxion/functions/minabs.hpp>
 #include <fluxion/functions/minmag.hpp>
-// #include <fluxion/functions/minus.hpp>
+#include <fluxion/functions/minus.hpp>
 #include <fluxion/functions/mul.hpp>
-// #include <fluxion/functions/nearest.hpp>
-// #include <fluxion/functions/negmaxabs.hpp>
-// #include <fluxion/functions/negminabs.hpp>
+#include <fluxion/functions/nearest.hpp>
+#include <fluxion/functions/negmaxabs.hpp>
+#include <fluxion/functions/negminabs.hpp>
 #include <fluxion/functions/oneminus.hpp>
 #include <fluxion/functions/pow.hpp>
 #include <fluxion/functions/pow1p.hpp>
 #include <fluxion/functions/pow_abs.hpp>
 #include <fluxion/functions/powm1.hpp>
-// #include <fluxion/functions/radinpi.hpp>
+#include <fluxion/functions/radinpi.hpp>
 #include <fluxion/functions/rec.hpp>
-// #include <fluxion/functions/reldist.hpp>
-// #include <fluxion/functions/reverse_horner.hpp>
+#include <fluxion/functions/reldist.hpp>
+#include <fluxion/functions/reverse_horner.hpp>
 #include <fluxion/functions/rsqrt.hpp>
 // #include <fluxion/functions/sec.hpp>
 // #include <fluxion/functions/secpi.hpp>
@@ -192,7 +193,7 @@
 // #include <fluxion/functions/tanh.hpp>
 // #include <fluxion/functions/tchebytchev.hpp>      // can be done
 // #include <fluxion/functions/tgamma.hpp>           //needs polygamma
-// #include <fluxion/functions/tgamma_inv.hpp>
+// #include <fluxion/functions/tgamma_inv.hpp>  //needs polygamma
 #include <fluxion/functions/to_dual.hpp>
 #include <fluxion/functions/to_dual2.hpp>
 #include <fluxion/functions/to_dual3.hpp>

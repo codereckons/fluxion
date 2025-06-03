@@ -9,6 +9,8 @@
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
 #include <fluxion/types/operators.hpp>
+#include <fluxion/functions/is_less.hpp>
+
 
 namespace flx
 {
