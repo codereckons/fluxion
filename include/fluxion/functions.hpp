@@ -171,10 +171,11 @@
 #include <fluxion/functions/reldist.hpp>
 #include <fluxion/functions/reverse_horner.hpp>
 #include <fluxion/functions/rsqrt.hpp>
-// #include <fluxion/functions/sec.hpp>
-// #include <fluxion/functions/secpi.hpp>
+#include <fluxion/functions/sec.hpp>
+#include <fluxion/functions/secpi.hpp>
 #include <fluxion/functions/sech.hpp>
-// #include <fluxion/functions/sign.hpp>
+#include <fluxion/functions/sign.hpp>
+#include <fluxion/functions/signnz.hpp>
 #include <fluxion/functions/sin.hpp>
 // #include <fluxion/functions/sinc.hpp>
 // #include <fluxion/functions/sincos.hpp>
