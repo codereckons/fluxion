@@ -177,7 +177,7 @@
 #include <fluxion/functions/sign.hpp>
 #include <fluxion/functions/signnz.hpp>
 #include <fluxion/functions/sin.hpp>
-// #include <fluxion/functions/sinc.hpp>
+#include <fluxion/functions/sinc.hpp>
 // #include <fluxion/functions/sincos.hpp>
 // #include <fluxion/functions/sinpi.hpp>
 // #include <fluxion/functions/sinpicospi.hpp>
