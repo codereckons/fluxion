@@ -10,6 +10,7 @@
 #include <fluxion/functions/pow.hpp>
 #include <fluxion/functions/pow_abs.hpp>
 #include <fluxion/functions/manhattan.hpp>
+#include <fluxion/functions/maxabs.hpp>
 
 namespace flx
 {
@@ -81,6 +82,11 @@ namespace flx::_
       }
     }
     else
-      return flx::pow(flx::pow_abs(z0, p)+ (flx::pow_abs(zs, p)+...), flx::rec(p));
+    {
+      if (eve::all(p == 1)) return flx::manhattan(z0, zs...);
+      else if (eve::all(p == 2)) return flx::hypot(z0, zs...);
+      else if (eve::all(eve::is_pinf(p))) return flx::maxabs(z0, zs...);
+      else return flx::pow_abs(flx::pow_abs(z0, p)+ (flx::pow_abs(zs, p)+...), flx::rec(p));
+    }
   }
 }
