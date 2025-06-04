@@ -182,7 +182,7 @@
 #include <fluxion/functions/sinpi.hpp>
 #include <fluxion/functions/sinpicospi.hpp>
 #include <fluxion/functions/sinh.hpp>
-// #include <fluxion/functions/sinhc.hpp>
+#include <fluxion/functions/sinhc.hpp>
 #include <fluxion/functions/sinhcosh.hpp>
 // #include <fluxion/functions/slerp.hpp>
 #include <fluxion/functions/sqr.hpp>
