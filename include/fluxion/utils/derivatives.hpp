@@ -10,7 +10,7 @@
 #include <fluxion/details/callable.hpp>
 #include <fluxion/types/concepts.hpp>
 #include <fluxion/types/traits.hpp>
-#include <fluxion/functions/parts.hpp>
+#include <fluxion/module/core/parts.hpp>
 #include <fluxion/types/variables.hpp>
 
 namespace flx

@@ -8,11 +8,11 @@
 #pragma once
 
 #include <fluxion/types/concepts.hpp>
-#include <fluxion/functions/if_else.hpp>
-#include <fluxion/functions/is_infinite.hpp>
-#include <fluxion/functions/is_eqz.hpp>
-#include <fluxion/functions/parts.hpp>
-#include <fluxion/functions/rec.hpp>
+#include <fluxion/module/core/if_else.hpp>
+#include <fluxion/module/core/is_infinite.hpp>
+#include <fluxion/module/core/is_eqz.hpp>
+#include <fluxion/module/core/parts.hpp>
+#include <fluxion/module/core/rec.hpp>
 #include <iostream>
 
 namespace flx

@@ -8,9 +8,9 @@
 #pragma once
 
 #include <fluxion/types/compounds.hpp>
-#include <fluxion/functions/convert.hpp>
-#include <fluxion/functions/rec.hpp>
-#include <fluxion/functions/is_equal.hpp>
+#include <fluxion/module/core/convert.hpp>
+#include <fluxion/module/core/rec.hpp>
+#include <fluxion/module/core/is_equal.hpp>
 
 namespace flx
 {
