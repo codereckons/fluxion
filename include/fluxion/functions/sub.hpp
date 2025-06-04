@@ -8,30 +8,27 @@
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <eve/module/math.hpp>
-#include <fluxion/functions/exp.hpp>
-#include <fluxion/functions/inc.hpp>
-#include <fluxion/functions/oneminus.hpp>
+#include <fluxion/types/operators.hpp>
 
 namespace flx
 {
   template<typename Options>
-  struct coth_t : eve::elementwise_callable<coth_t, Options>
+  struct sub_t : eve::callable<sub_t, Options>
   {
-    template<concepts::hyperdual_like Z>
-    FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
+    template<concepts::hyperdual_like Z0, concepts::hyperdual_like ... Zs>
+    FLX_FORCEINLINE constexpr flx::as_hyperdual_like_t<Z0, Zs...> operator()(Z0 const& z0, Zs const& ... zs) const noexcept
     {
-      return  flx_CALL(z);
+      return  flx_CALL(z0, zs...);
     }
 
-    flx_CALLABLE_OBJECT(coth_t, coth_);
-};
+    flx_CALLABLE_OBJECT(sub_t, sub_);
+  };
 
 //======================================================================================================================
-//! @addtogroup functions
+//! @subtogroup functions
 //! @{
-//!   @var coth
-//!   @brief Computes the hyperbolic cocotgent of the argument.
+//!   @var sub
+//!   @brief Computes he difference between the first argument and the sum of the other.
 //!
 //!   @groupheader{Header file}
 //!
@@ -44,42 +41,34 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT coth(T z) noexcept;
+//!      template<concepts::hyperdual_like T0, oncepts::hyperdual_like ... Ts > constexprT sub(T0 z0,  Ts... zs) noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `z`: Value to process.
+//!     * `z0`,  `zs...`: Values to process.
 //!
 //!   **Return value**
 //!
-//!     Returns the hyperbolic cocotgent of the argument.
+//!     Returns the difference between the first argument and the sum of the other.
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/coth.cpp}
+//!  @godbolt{doc/sub.cpp}
 //======================================================================================================================
-  inline constexpr auto coth = eve::functor<coth_t>;
+  inline constexpr auto sub = eve::functor<sub_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
 }
 
-
 namespace flx::_
 {
 
-  template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto coth_(flx_DELAY(), O const&, Z z) noexcept
+  template<typename Z0, typename ... Zs, eve::callable_options O>
+  FLX_FORCEINLINE constexpr auto sub_(flx_DELAY(), O const&, Z0 z0, Zs... zs) noexcept
   {
-    if constexpr(concepts::base<Z>)
-    {
-      return eve::coth(z);
-    }
-    else
-    {
-      return flx::inc(flx::exp(-2*z))/flx::oneminus(flx::exp(-2*z));
-    }
+    return z0-(zs+...);
   }
 }

@@ -184,14 +184,13 @@
 #include <fluxion/functions/sinh.hpp>
 #include <fluxion/functions/sinhc.hpp>
 #include <fluxion/functions/sinhcosh.hpp>
-// #include <fluxion/functions/slerp.hpp>
 #include <fluxion/functions/sqr.hpp>
-// #include <fluxion/functions/sqr_abs.hpp>
+#include <fluxion/functions/sqr_abs.hpp>
 #include <fluxion/functions/sqrt.hpp>
-// #include <fluxion/functions/sub.hpp>
+#include <fluxion/functions/sub.hpp>
 #include <fluxion/functions/tan.hpp>
-// #include <fluxion/functions/tanpi.hpp>
-// #include <fluxion/functions/tanh.hpp>
+#include <fluxion/functions/tanpi.hpp>
+#include <fluxion/functions/tanh.hpp>
 // #include <fluxion/functions/tchebytchev.hpp>      // can be done
 // #include <fluxion/functions/tgamma.hpp>           //needs polygamma
 // #include <fluxion/functions/tgamma_inv.hpp>  //needs polygamma
@@ -243,29 +242,3 @@
 // #include <fluxion/functions/mulmi.hpp>
 // #include <fluxion/functions/proj.hpp>
 
-// //======================================================================================================================
-// // Functions performing computations over quaternion complex or real elements only.
-// //======================================================================================================================
-// #include <fluxion/functions/to_cylindrical.hpp>
-// #include <fluxion/functions/to_polar.hpp>
-
-// #include <fluxion/functions/align.hpp>
-// #include <fluxion/functions/from_angle_axis.hpp>
-// #include <fluxion/functions/from_cylindrical.hpp>
-// #include <fluxion/functions/from_cylindrospherical.hpp>
-// #include <fluxion/functions/from_euler.hpp>
-// #include <fluxion/functions/from_multipolar.hpp>
-// #include <fluxion/functions/from_rotation_matrix.hpp>
-// #include <fluxion/functions/from_semipolar.hpp>
-// #include <fluxion/functions/from_spherical.hpp>
-// #include <fluxion/functions/rot_angle.hpp>
-// #include <fluxion/functions/rot_axis.hpp>
-// #include <fluxion/functions/rotate_vec.hpp>
-// #include <fluxion/functions/to_angle_axis.hpp>
-// #include <fluxion/functions/to_cylindrical.hpp>
-// #include <fluxion/functions/to_cylindrospherical.hpp>
-// #include <fluxion/functions/to_euler.hpp>
-// #include <fluxion/functions/to_multipolar.hpp>
-// #include <fluxion/functions/to_rotation_matrix.hpp>
-// #include <fluxion/functions/to_semipolar.hpp>
-// #include <fluxion/functions/to_spherical.hpp>
