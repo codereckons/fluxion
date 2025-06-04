@@ -178,12 +178,12 @@
 #include <fluxion/functions/signnz.hpp>
 #include <fluxion/functions/sin.hpp>
 #include <fluxion/functions/sinc.hpp>
-// #include <fluxion/functions/sincos.hpp>
-// #include <fluxion/functions/sinpi.hpp>
-// #include <fluxion/functions/sinpicospi.hpp>
+#include <fluxion/functions/sincos.hpp>
+#include <fluxion/functions/sinpi.hpp>
+#include <fluxion/functions/sinpicospi.hpp>
 #include <fluxion/functions/sinh.hpp>
 // #include <fluxion/functions/sinhc.hpp>
-// #include <fluxion/functions/sinhcosh.hpp>
+#include <fluxion/functions/sinhcosh.hpp>
 // #include <fluxion/functions/slerp.hpp>
 #include <fluxion/functions/sqr.hpp>
 // #include <fluxion/functions/sqr_abs.hpp>
