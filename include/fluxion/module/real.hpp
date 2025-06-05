@@ -29,12 +29,17 @@
 #include <fluxion/module/real/dist.hpp>
 #include <fluxion/module/real/floor.hpp>
 #include <fluxion/module/real/frac.hpp>
+#include <fluxion/module/real/heaviside.hpp>
 #include <fluxion/module/real/hypot.hpp>
 
+#include <fluxion/module/real/is_gez.hpp>
+#include <fluxion/module/real/is_gtz.hpp>
 #include <fluxion/module/real/is_greater.hpp>
 #include <fluxion/module/real/is_greater_equal.hpp>
 #include <fluxion/module/real/is_less.hpp>
 #include <fluxion/module/real/is_less_equal.hpp>
+#include <fluxion/module/real/is_lez.hpp>
+#include <fluxion/module/real/is_ltz.hpp>
 #include <fluxion/module/real/is_not_greater.hpp>
 #include <fluxion/module/real/is_not_greater_equal.hpp>
 #include <fluxion/module/real/is_not_less.hpp>

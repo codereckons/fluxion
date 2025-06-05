@@ -1,38 +1,38 @@
 //======================================================================================================================
 /*
-  Kyosu - Hyperdual numbers
-  Copyright: KYOSU Contributors & Maintainers
+  FLUXION - Post-Modern Automatic Derivation
+  Copyright: FLUXION Contributors & Maintainers
   SPDX-License-Identifier: BSL-1.0
 */
 //======================================================================================================================
 #pragma once
+
 #include <fluxion/details/callable.hpp>
-#include <fluxion/details/compose.hpp>
 
 namespace flx
 {
   template<typename Options>
-  struct fms_t : eve::callable<fms_t, Options>
+  struct is_gtz_t : eve::strict_elementwise_callable<is_gtz_t, Options>
   {
-    template<concepts::hyperdual_like Z0, concepts::hyperdual_like Z1, concepts::hyperdual_like Z2 >
-    FLX_FORCEINLINE constexpr flx::as_hyperdual_like_t<Z0, Z1, Z2> operator()(Z0 const& z0, Z1 const& z1, Z2 const& z2) const noexcept
+   template<concepts::hyperdual_like Z0>
+   FLX_FORCEINLINE constexpr auto operator()(Z0 c0) const noexcept// -> decltype(flx::e0(c0) == flx::e0(c1))
     {
-      return  flx_CALL(z0, z1, z2);
+      return flx_CALL(c0);
     }
 
-    flx_CALLABLE_OBJECT(fms_t, fms_);
+    flx_CALLABLE_OBJECT(is_gtz_t, is_gtz_);
   };
 
 //======================================================================================================================
-//! @addtogroup functions
+//! @addtogroup real
 //! @{
-//!   @var fms
-//!   @brief Computes z0*z1+z2
+//!   @var is_gtz
+//!   @brief Computes z > 0.
 //!
 //!   @groupheader{Header file}
 //!
 //!   @code
-//!   #include <fluxion/functions.hpp>
+//!   #include <fluxion/real.hpp>
 //!   @endcode
 //!
 //!   @groupheader{Callable Signatures}
@@ -40,23 +40,24 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<concepts::hyperdual_like T0, oncepts::hyperdual_like ... Ts > constexprT fms(T0 z0,  Ts... zs) noexcept;
+//!     // regular call
+//!     constexpr auto is_gtz(auto z)           noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `z0`, `z1`, `z2`: Values to process.
+//!     * `z`: Value to process.
 //!
 //!   **Return value**
 //!
-//!     Returns  z0*z1-z2.
+//!      Returns z > 0
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/fms.cpp}
+//!  @godbolt{doc/is_gtz.cpp}
 //======================================================================================================================
-  inline constexpr auto fms = eve::functor<fms_t>;
+  inline constexpr auto is_gtz = eve::functor<is_gtz_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -64,12 +65,11 @@ namespace flx
 
 namespace flx::_
 {
-
-  template<typename Z0, typename Z1, typename Z2, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto fms_(flx_DELAY(), O const&, Z0 z0, Z1 z1, Z2 z2) noexcept
+  template<typename Z, typename Z1, eve::callable_options O>
+  FLX_FORCEINLINE constexpr auto is_gtz_(flx_DELAY(), O const &, Z c) noexcept
   {
-    auto r = z0*z1-z2;
-    flx::e0(r) = eve::fms(e0(z0), e0(z1), e0(z2));
-    return r;
+    {
+      return eve::is_gtz(flx::e0(c));
+    }
   }
 }
