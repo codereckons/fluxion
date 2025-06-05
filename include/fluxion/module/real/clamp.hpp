@@ -73,7 +73,7 @@ namespace flx::_
   {
     {
       auto val =  eve::clamp(flx::e0(a), flx::e0(l), flx::e0(h));
-      if constexpr(concepts::base<Z0> &&  concepts::base<Z1>)
+      if constexpr(concepts::base<Z0> &&  concepts::base<Z1> &&  concepts::base<Z2>)
         return val;
       else
       {
