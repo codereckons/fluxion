@@ -25,6 +25,7 @@
 #include <fluxion/module/real/absmin.hpp>
 #include <fluxion/module/real/ceil.hpp>
 #include <fluxion/module/real/chi.hpp>
+#include <fluxion/module/real/clamp.hpp>
 #include <fluxion/module/real/copysign.hpp>
 #include <fluxion/module/real/dist.hpp>
 #include <fluxion/module/real/floor.hpp>
