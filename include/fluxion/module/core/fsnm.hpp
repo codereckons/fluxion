@@ -1,40 +1,38 @@
 //======================================================================================================================
 /*
-  FLUXION - Post-Modern Automatic Derivation
-  Copyright: FLUXION Contributors & Maintainers
+  Kyosu - Hyperdual numbers
+  Copyright: KYOSU Contributors & Maintainers
   SPDX-License-Identifier: BSL-1.0
 */
 //======================================================================================================================
 #pragma once
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
-#include <fluxion/types/operators.hpp>
-#include <fluxion/module/core/min.hpp>
 
 namespace flx
 {
   template<typename Options>
-  struct minabs_t : eve::callable<minabs_t, Options>
+  struct fsnm_t : eve::callable<fsnm_t, Options>
   {
-    template<concepts::hyperdual_like Z0, concepts::hyperdual_like ... Zs>
-    FLX_FORCEINLINE constexpr flx::as_hyperdual_like_t<Z0, Zs...> operator()(Z0 const& z0, Zs const& ... zs) const noexcept
+    template<concepts::hyperdual_like Z0, concepts::hyperdual_like Z1, concepts::hyperdual_like Z2 >
+    FLX_FORCEINLINE constexpr flx::as_hyperdual_like_t<Z0, Z1, Z2> operator()(Z0 const& z0, Z1 const& z1, Z2 const& z2) const noexcept
     {
-      return  flx_CALL(z0, zs...);
+      return  flx_CALL(z0, z1, z2);
     }
 
-    flx_CALLABLE_OBJECT(minabs_t, minabs_);
+    flx_CALLABLE_OBJECT(fsnm_t, fsnm_);
   };
 
 //======================================================================================================================
-//! @minabstogroup real
+//! @addtogroup functions
 //! @{
-//!   @var minabs
-//!   @brief Computes the sum of the arguments.
+//!   @var fsnm
+//!   @brief Computes z0+z1*z2
 //!
 //!   @groupheader{Header file}
 //!
 //!   @code
-//!   #include <fluxion/real.hpp>
+//!   #include <fluxion/functions.hpp>
 //!   @endcode
 //!
 //!   @groupheader{Callable Signatures}
@@ -42,23 +40,23 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<concepts::hyperdual_like T0, oncepts::hyperdual_like ... Ts > constexprT minabs(T0 z0,  Ts... zs) noexcept;
+//!      template<concepts::hyperdual_like T0, oncepts::hyperdual_like ... Ts > constexprT fsnm(T0 z0,  Ts... zs) noexcept;
 //!   }
 //!   @endcode
 //!
 //!   **Parameters**
 //!
-//!     * `z0`,  `zs...`: Values to process.
+//!     * `z0`, `z1`, `z2`: Values to process.
 //!
 //!   **Return value**
 //!
-//!     Returns the sum of the arguments.
+//!     Returns  z0+z1*z2.
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/minabs.cpp}
+//!  @godbolt{doc/fsnm.cpp}
 //======================================================================================================================
-  inline constexpr auto minabs = eve::functor<minabs_t>;
+  inline constexpr auto fsnm = eve::functor<fsnm_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -67,9 +65,11 @@ namespace flx
 namespace flx::_
 {
 
-  template<typename T0, typename T1, typename ... Ts, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto minabs_(flx_DELAY(), O const& o, T0 z0, T1 z1, Ts... zs) noexcept
+  template<typename Z0, typename Z1, typename Z2, eve::callable_options O>
+  FLX_FORCEINLINE constexpr auto fsnm_(flx_DELAY(), O const&, Z0 z0, Z1 z1, Z2 z2) noexcept
   {
-    return flx::min(flx::abs(z0), flx::abs(z1), flx::abs(zs)...);
+    auto r = -z0-z1*z2;
+    flx::e0(r) = eve::fsnm(e0(z0), e0(z1), e0(z2));
+    return r;
   }
 }

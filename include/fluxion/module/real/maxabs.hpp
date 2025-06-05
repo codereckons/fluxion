@@ -9,7 +9,7 @@
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
 #include <fluxion/types/operators.hpp>
-#include <fluxion/module/real/max.hpp>
+#include <fluxion/module/core/max.hpp>
 
 namespace flx
 {

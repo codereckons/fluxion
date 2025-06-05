@@ -11,9 +11,6 @@
 
 #include <eve/module/core.hpp>
 
-// #include <eve/module/special.hpp>
-// #include <eve/module/bessel.hpp>
-
 //======================================================================================================================
 //! @defgroup functions Hyperdual Functions
 //! @brief Functions performing computations over all hyperdual types
@@ -43,14 +40,15 @@
 #include <fluxion/module/core/div.hpp>
 #include <fluxion/module/core/dot.hpp>
 #include <fluxion/module/core/fam.hpp>
+#include <fluxion/module/core/fanm.hpp>
 #include <fluxion/module/core/fma.hpp>
 #include <fluxion/module/core/fms.hpp>
 #include <fluxion/module/core/fnma.hpp>
 #include <fluxion/module/core/fnms.hpp>
 #include <fluxion/module/core/fsm.hpp>
+#include <fluxion/module/core/fsnm.hpp>
 #include <fluxion/module/core/horner.hpp>
 #include <fluxion/module/core/inc.hpp>
-
 
 #include <fluxion/module/core/is_equal.hpp>
 #include <fluxion/module/core/is_eqz.hpp>
@@ -68,7 +66,11 @@
 
 #include <fluxion/module/core/ldiv.hpp>
 #include <fluxion/module/core/lerp.hpp>
+#include <fluxion/module/core/max.hpp>
+#include <fluxion/module/core/maxmag.hpp>
+#include <fluxion/module/core/min.hpp>
 #include <fluxion/module/core/minus.hpp>
+#include <fluxion/module/core/minmag.hpp>
 #include <fluxion/module/core/mul.hpp>
 #include <fluxion/module/core/oneminus.hpp>
 #include <fluxion/module/core/rec.hpp>

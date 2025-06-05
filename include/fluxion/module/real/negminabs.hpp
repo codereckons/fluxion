@@ -9,7 +9,7 @@
 #include <fluxion/details/callable.hpp>
 #include <fluxion/details/compose.hpp>
 #include <fluxion/types/operators.hpp>
-#include <fluxion/module/real/min.hpp>
+#include <fluxion/module/core/min.hpp>
 
 namespace flx
 {

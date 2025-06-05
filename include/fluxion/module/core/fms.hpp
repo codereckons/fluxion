@@ -68,7 +68,7 @@ namespace flx::_
   template<typename Z0, typename Z1, typename Z2, eve::callable_options O>
   FLX_FORCEINLINE constexpr auto fms_(flx_DELAY(), O const&, Z0 z0, Z1 z1, Z2 z2) noexcept
   {
-    auto r = z0+z1*z2;
+    auto r = z0*z1-z2;
     flx::e0(r) = eve::fms(e0(z0), e0(z1), e0(z2));
     return r;
   }
