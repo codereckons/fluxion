@@ -57,6 +57,7 @@
 #include <fluxion/module/real/negminabs.hpp>
 #include <fluxion/module/real/pow_abs.hpp>
 #include <fluxion/module/real/reldist.hpp>
+#include <fluxion/module/real/round.hpp>
 #include <fluxion/module/real/sign.hpp>
 #include <fluxion/module/real/signnz.hpp>
 #include <fluxion/module/real/sqr_abs.hpp>
