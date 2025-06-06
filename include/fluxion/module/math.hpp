@@ -64,6 +64,7 @@
 #include <fluxion/module/math/log10.hpp>
 #include <fluxion/module/math/log1p.hpp>
 #include <fluxion/module/math/log2.hpp>
+#include <fluxion/module/math/nthroot.hpp>
 #include <fluxion/module/math/pow.hpp>
 #include <fluxion/module/math/pow1p.hpp>
 #include <fluxion/module/math/powm1.hpp>

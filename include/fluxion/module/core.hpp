@@ -37,6 +37,7 @@
 #include <fluxion/module/core/add.hpp>
 #include <fluxion/module/core/average.hpp>
 #include <fluxion/module/core/dec.hpp>
+#include <fluxion/module/core/diff_of_prod.hpp>
 #include <fluxion/module/core/div.hpp>
 #include <fluxion/module/core/dot.hpp>
 #include <fluxion/module/core/fam.hpp>
@@ -76,3 +77,4 @@
 #include <fluxion/module/core/rec.hpp>
 #include <fluxion/module/core/reverse_horner.hpp>
 #include <fluxion/module/core/sub.hpp>
+#include <fluxion/module/core/sum_of_prod.hpp>
