@@ -13,6 +13,8 @@
 //! @defgroup functions Hyperdual Functions
 //! @brief Functions performing computations over all hyperdual types with floating point real base
 //!        i.e. real,  not complex derivatives.
+//! these functions have no meromorphic behaviour in the complex plane or no interest as trigonometric functions
+//! in degrees or are related to real line ordering.
 //======================================================================================================================
 
 #include<fluxion/module/math.hpp>
@@ -23,6 +25,7 @@
 #include <fluxion/module/real/abs.hpp>
 #include <fluxion/module/real/absmax.hpp>
 #include <fluxion/module/real/absmin.hpp>
+#include <fluxion/module/real/acosd.hpp>
 #include <fluxion/module/real/ceil.hpp>
 #include <fluxion/module/real/chi.hpp>
 #include <fluxion/module/real/clamp.hpp>

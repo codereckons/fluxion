@@ -29,7 +29,7 @@ TTS_CASE_WITH ( "Check flx::nthroot over hyperduals"
   auto n = 5;
   auto d1 = d0/(n*r);
   auto d2 = -d1*(n-1)/(n*r);
-  auto d3 = d2*(2*n-11)/(r*n);
+  auto d3 = d2*(2*n-1)/(r*n);
   auto d4 = -d3*(3*n-1)/(r*n);
   {
     auto vr = flx::variable<4>(r);

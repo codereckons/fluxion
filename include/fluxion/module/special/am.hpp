@@ -9,14 +9,15 @@
 
 #include <fluxion/details/callable.hpp>
 #include <fluxion/module/math/atan.hpp>
-#include <eve/module/math.hpp>
+#include <eve/module/elliptic.hpp>
+
 namespace flx
 {
   template<typename Options>
-  struct am_t : eve::strict_elementwise_callable<am_t, Options, threshold_option, modular_option, eccentric_option>
+  struct am_t : eve::callable<am_t, Options, eve::threshold_option, eve::modular_option, eve::eccentric_option>
   {
    template<concepts::hyperdual_like Z0, concepts::base U >
-    FLX_FORCEINLINE constexpr as_hyperdual_like_t<Z0,U> operator()(Z0 z, U m) const noexcept
+   FLX_FORCEINLINE constexpr /*as_hyperdual_like_t<Z0,U>*/ auto operator()(Z0 z, U m) const noexcept
     {
       return flx_CALL(z, m);
     }
@@ -79,14 +80,7 @@ namespace flx::_
   template<typename Z, typename M, eve::callable_options O>
   FLX_FORCEINLINE constexpr auto am_(flx_DELAY(), O const& o, Z u, M x) noexcept
   {
-    auto tol = [&](){
-      if constexpr (O::contains(threshold)) return o[threshold].value(x);
-      else                                  return eps(as(element_type_t<M>()));
-    }();
-    x =  abs(e0(x));
-    if constexpr(O::contains(modular)) x = eve::sin(x);
-    else if constexpr(O::contains(eccentric)) x = eve::sqrt(x);
-    auto phi = am[eve::threshold = tol](u, x);
+    auto phi = eve::am[o](e0(u), x);
     auto m =  x*x;
     if constexpr(concepts::base<Z>)
     {
@@ -95,11 +89,10 @@ namespace flx::_
     else
     {
       constexpr auto ord = flx::order_v<Z>;
-      auto [sn, cn] = eve::sincos(phi);
-      auto dn = eve::sqrt(eve::oneminus(m*eve::sqr(sn)));
+      auto [sn, cn, dn] = eve::jacobi_elliptic[o](e0(u), x);
       using b_t = flx::as_base_type_t<Z>;
       std::array<b_t,ord+1> ders;
-      ders[0] = am;
+      ders[0] = phi;
       ders[1] = dn;
       if constexpr(ord == 1) return;
       else
@@ -108,16 +101,16 @@ namespace flx::_
         if constexpr(ord == 2) return;
         else
         {
-          ders[3] = -m*dn(cn*cn-sn*sn);
+          auto cn2msn2 = eve::diff_of_prod(cn, cn, sn, sn);
+          ders[3] = -m*dn*cn2msn2;
           if constexpr(ord == 3) return;
           else
           {
-            ders[4] = m*cn*sn*(m*(cn*cn-sn*sn)+4*dn*dn);
+            ders[4] = m*cn*sn*eve::sum_of_prod(m, cn2msn2, 2*dn, 2*dn);
           }
         }
       };
-      comp_ders(e0(u));
-      return _::evaluate(ders, z);
-    }
+      return _::evaluate(ders, u);
+   }
   }
 }

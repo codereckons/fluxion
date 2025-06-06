@@ -20,7 +20,7 @@
 //! @brief Functions performing computations over all hyperdual types
 //!   relative to "special" functions
 //======================================================================================================================
-//#include <fluxion/module/special/am.hpp> g++ pb ?
+#include <fluxion/module/special/am.hpp>
 // #include <fluxion/module/special/beta.hpp>  //needs tgamma
 // #include <fluxion/module/special/digamma.hpp> // needs polygamma
 // #include <fluxion/module/special/ellint_e.hpp> // can be done

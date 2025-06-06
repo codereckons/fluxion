@@ -68,6 +68,7 @@
 #include <fluxion/module/math/pow.hpp>
 #include <fluxion/module/math/pow1p.hpp>
 #include <fluxion/module/math/powm1.hpp>
+#include <fluxion/module/math/radindeg.hpp>
 #include <fluxion/module/math/radinpi.hpp>
 #include <fluxion/module/math/rsqrt.hpp>
 #include <fluxion/module/math/sec.hpp>
