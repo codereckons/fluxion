@@ -73,6 +73,6 @@ namespace flx::_
   template<typename Z, eve::callable_options O>
   FLX_FORCEINLINE constexpr auto asecd_(flx_DELAY(), O const&, Z z) noexcept
   {
-    return flx::radindeg(flx::asecd(z));
+    return flx::radindeg(flx::asec(z));
   }
 }

@@ -13,7 +13,7 @@
 namespace flx
 {
   template<typename Options>
-  struct asindd_t : eve::elementwise_callable<asindd_t, Options>
+  struct asind_t : eve::elementwise_callable<asind_t, Options>
   {
     template<concepts::hyperdual_like Z>
     FLX_FORCEINLINE constexpr Z operator()(Z const& z) const noexcept
@@ -21,13 +21,13 @@ namespace flx
       return  flx_CALL(z);
     }
 
-    flx_CALLABLE_OBJECT(asindd_t, asindd_);
+    flx_CALLABLE_OBJECT(asind_t, asind_);
 };
 
 //======================================================================================================================
-//! @addtogroup functions
+//! @adtogroup functions
 //! @{
-//!   @var asindd
+//!   @var asind
 //!   @brief Computes the arc sine in degree of the argument.
 //!
 //!   @groupheader{Header file}
@@ -41,7 +41,7 @@ namespace flx
 //!   @code
 //!   namespace flx
 //!   {
-//!      template<flx::concepts::hyperdual_like T> constexprT asindd(T z) noexcept;
+//!      template<flx::concepts::hyperdual_like T> constexprT asind(T z) noexcept;
 //!   }
 //!   @endcode
 //!
@@ -59,9 +59,9 @@ namespace flx
 //!
 //!  @groupheader{Example}
 //!
-//!  @godbolt{doc/asindd.cpp}
+//!  @godbolt{doc/asind.cpp}
 //======================================================================================================================
-  inline constexpr auto asindd = eve::functor<asindd_t>;
+  inline constexpr auto asind = eve::functor<asind_t>;
 //======================================================================================================================
 //! @}
 //======================================================================================================================
@@ -71,7 +71,7 @@ namespace flx::_
 {
 
   template<typename Z, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto asindd_(flx_DELAY(), O const&, Z z) noexcept
+  FLX_FORCEINLINE constexpr auto asind_(flx_DELAY(), O const&, Z z) noexcept
   {
     return flx::radindeg(flx::asin(z));
   }
