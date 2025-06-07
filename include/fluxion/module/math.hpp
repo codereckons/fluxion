@@ -53,6 +53,7 @@
 #include <fluxion/module/math/csc.hpp>
 #include <fluxion/module/math/cscpi.hpp>
 #include <fluxion/module/math/csch.hpp>
+#include <fluxion/module/math/deginrad.hpp>
 #include <fluxion/module/math/exp.hpp>
 #include <fluxion/module/math/exp10.hpp>
 #include <fluxion/module/math/exp2.hpp>
