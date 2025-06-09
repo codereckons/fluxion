@@ -37,11 +37,11 @@
                        //functions.wolfram.com/HypergeometricFunctions/Hypergeometric1F1/20/01/04/
 // #include <fluxion/module/special/jacobi_elliptic.hpp> //to see
 // #include <fluxion/module/special/lbeta.hpp> //needs polygamma
-// #include <fluxion/module/special/log_abs_gamma.hpp> //needs polygamma
-// #include <fluxion/module/special/log_gamma.hpp>> //needs polygamma
+#include <fluxion/module/special/log_abs_gamma.hpp> //needs polygamma
+#include <fluxion/module/special/log_gamma.hpp>> //needs polygamma
 // #include <fluxion/module/special/lrising_factorial.hpp> //needs polygamma
 // #include <fluxion/module/special/rising_factorial.hpp> //needs polygamma
-// #include <fluxion/module/special/tgamma.hpp>           //needs polygamma
+#include <fluxion/module/special/tgamma.hpp>           //first derivative only
 // #include <fluxion/module/special/tgamma_inv.hpp>  //needs polygamma
 // #include <fluxion/module/special/bessel_j.hpp>
 // #include <fluxion/module/special/bessel_y.hpp>
