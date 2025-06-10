@@ -7,6 +7,7 @@
 //======================================================================================================================
 #pragma once
 #include <fluxion/details/callable.hpp>
+#include <fluxion/types/helpers.hpp>
 #include <eve/module/math.hpp>
 
 namespace flx
@@ -23,7 +24,7 @@ namespace flx
     template<concepts::hyperdual_like Z, kumi::non_empty_product_type Tup>
     FLX_FORCEINLINE constexpr
     auto
-    operator()(Z z, eve::coefficients<Tup> const& t) const noexcept
+    operator()(Z z, coefficients<Tup> const& t) const noexcept
     { return EVE_DISPATCH_CALL(z, t); }
 
     flx_CALLABLE_OBJECT(horner_t, horner_);
@@ -118,7 +119,7 @@ namespace flx::_
 
   template<typename X, kumi::product_type Tuple, eve::callable_options O>
   FLX_FORCEINLINE constexpr auto
-  horner_(flx_DELAY(), O const & o, X x, eve::coefficients<Tuple> const& tup) noexcept
+  horner_(flx_DELAY(), O const & o, X x, coefficients<Tuple> const& tup) noexcept
   {
     return kumi::apply( [&](auto... m) { return horner[o](x, m...); }, tup);
   }

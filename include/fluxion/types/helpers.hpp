@@ -9,7 +9,7 @@
 
 #include <eve/traits/helpers.hpp>
 
-namespace kyosu
+namespace flx
 {
   using eve::coefficients;
   using eve::nodes;
