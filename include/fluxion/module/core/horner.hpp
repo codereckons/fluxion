@@ -23,7 +23,7 @@ namespace flx
     template<concepts::hyperdual_like Z, kumi::non_empty_product_type Tup>
     FLX_FORCEINLINE constexpr
     auto
-    operator()(Z z, Tup const& t) const noexcept
+    operator()(Z z, eve::coefficients<Tup> const& t) const noexcept
     { return EVE_DISPATCH_CALL(z, t); }
 
     flx_CALLABLE_OBJECT(horner_t, horner_);
@@ -55,7 +55,7 @@ namespace flx
 //!   {
 //!      // Regular overloads
 //!      constexpr auto horner(floating_value auto x, value auto ...ci)                      noexcept; // 1
-//!      constexpr auto horner(floating_value auto x, kumi::non_empty_product_type auto tci) noexcept; // 2
+//!      constexpr auto horner(floating_value auto x, coefficients tci)                      noexcept; // 2
 //!
 //!      // Semantic options
 //!      constexpr auto horner[pedantic](/*any of the above overloads*/)                     noexcept; // 4
@@ -118,7 +118,7 @@ namespace flx::_
 
   template<typename X, kumi::product_type Tuple, eve::callable_options O>
   FLX_FORCEINLINE constexpr auto
-  horner_(flx_DELAY(), O const & o, X x, Tuple const& tup) noexcept
+  horner_(flx_DELAY(), O const & o, X x, eve::coefficients<Tuple> const& tup) noexcept
   {
     return kumi::apply( [&](auto... m) { return horner[o](x, m...); }, tup);
   }

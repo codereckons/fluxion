@@ -23,7 +23,7 @@ namespace flx
     template<concepts::hyperdual_like Z, kumi::non_empty_product_type Tup>
     FLX_FORCEINLINE constexpr
     auto
-    operator()(Z z, Tup const& t) const noexcept
+    operator()(Z z, eve::coefficients<Tup> const& t) const noexcept
     { return EVE_DISPATCH_CALL(z, t); }
 
     flx_CALLABLE_OBJECT(reverse_horner_t, reverse_horner_);
@@ -110,7 +110,7 @@ namespace flx::_
 
   template<typename X, kumi::product_type Tuple, eve::callable_options O>
   FLX_FORCEINLINE constexpr auto
-  reverse_horner_(flx_DELAY(), O const & o, X x, Tuple  tup) noexcept
+  reverse_horner_(flx_DELAY(), O const & o, X x, eve::coefficients<Tuple>  tup) noexcept
   {
     return flx::horner[o](x, kumi::reverse(tup));
   }
