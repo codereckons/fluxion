@@ -34,7 +34,7 @@ jobs:
           mkdir build && cd build
           cmake .. -G Ninja -DCMAKE_CXX_COMPILER=${{ matrix.cfg.compiler }} -DCMAKE_CXX_FLAGS="${{ matrix.cfg.opts }}"
       - name: Running Unit Tests
-        run:  cd build && ninja fluxion-test -j 8 && ctest --output-on-failure -j 8
+        run:  cd build && ninja fluxion-test -j 4 && ctest --output-on-failure -j 4
 
   macosx:
     runs-on: [macos-14]
