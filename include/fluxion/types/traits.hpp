@@ -8,6 +8,7 @@
 #pragma once
 
 #include <eve/as.hpp>
+#include <fluxion/types/helpers.hpp>
 #include <bit>
 
 namespace flx
@@ -202,9 +203,18 @@ namespace flx
   //!
   //! @tparam Ts Types used to compute the Hyperdual_like common type.
   //====================================================================================================================
-
   template<typename... Ts>       struct as_hyperdual_like        : as_hyperdual<Ts...> {};
+
+  template<typename T, typename Ts>
+  struct  as_hyperdual_like<T, coefficients<Ts>>
+  : as_hyperdual_like<T,kumi::apply_traits_t<as_hyperdual_like, Ts>>
+  {};
+
+  template<typename T, typename Ts>
+  struct  as_hyperdual_like<T, nodes<Ts>>
+  : as_hyperdual_like<T,kumi::apply_traits_t<as_hyperdual_like, Ts>>
+  {};
+
   template<concepts::base... Ts> struct as_hyperdual_like<Ts...> : eve::common_value<Ts...> {};
   template<typename... Ts> using as_hyperdual_like_t = typename as_hyperdual_like<Ts...>::type;
-
 }
