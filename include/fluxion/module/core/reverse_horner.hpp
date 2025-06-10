@@ -23,7 +23,7 @@ namespace flx
 
     template<concepts::hyperdual_like Z, kumi::non_empty_product_type Tup>
     FLX_FORCEINLINE constexpr
-    auto
+    as_hyperdual_like_t<Z,coefficients<Tup>>
     operator()(Z z, coefficients<Tup> const& t) const noexcept
     { return EVE_DISPATCH_CALL(z, t); }
 
@@ -101,6 +101,14 @@ namespace flx
 
 namespace flx::_
 {
+
+  template<typename X, kumi::non_empty_product_type Tuple, eve::callable_options O>
+  FLX_FORCEINLINE constexpr auto
+  reverse_horner_(flx_DELAY(), O const & o, X x, coefficients<Tuple>  tup) noexcept
+  {
+    return flx::horner[o](x, coefficients(kumi::reverse(tup)));
+  }
+
   template<typename X, typename C, typename... Cs, eve::callable_options O>
   FLX_FORCEINLINE constexpr auto
   reverse_horner_(flx_DELAY(), O const & o, X x, C c0, Cs... cs) noexcept
@@ -109,10 +117,4 @@ namespace flx::_
     return  flx::horner[o](x, coefficients(kumi::reverse(tup)));
   }
 
-  template<typename X, kumi::product_type Tuple, eve::callable_options O>
-  FLX_FORCEINLINE constexpr auto
-  reverse_horner_(flx_DELAY(), O const & o, X x, coefficients<Tuple>  tup) noexcept
-  {
-    return flx::horner[o](x, coefficients(kumi::reverse(tup)));
-  }
 }
