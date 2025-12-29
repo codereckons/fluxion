@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['sec_0',['sec',['../group__functions_ga2e85223f51bad80fe0c44dc4aaa0bd82.html#ga2e85223f51bad80fe0c44dc4aaa0bd82',1,'flx']]],
+  ['secd_1',['secd',['../group__functions_gaa468fb7309d2090bb0e6288ddad50e3c.html#gaa468fb7309d2090bb0e6288ddad50e3c',1,'flx']]],
+  ['sech_2',['sech',['../group__functions_ga969b4a24fbb8dc5909899b37c9474a7e.html#ga969b4a24fbb8dc5909899b37c9474a7e',1,'flx']]],
+  ['secpi_3',['secpi',['../group__functions_ga06a46aec8569f2a55f14bbe5f500c78d.html#ga06a46aec8569f2a55f14bbe5f500c78d',1,'flx']]],
+  ['sign_4',['sign',['../group__real_ga4e0904b6902e72628c8f4c95c895885a.html#ga4e0904b6902e72628c8f4c95c895885a',1,'flx']]],
+  ['signnz_5',['signnz',['../group__real_gad805157fde7ad156a152d2a01e5bdc36.html#gad805157fde7ad156a152d2a01e5bdc36',1,'flx']]],
+  ['sin_6',['sin',['../group__functions_ga7e67821e02d80a10a3564452a4a49d27.html#ga7e67821e02d80a10a3564452a4a49d27',1,'flx']]],
+  ['sinc_7',['sinc',['../group__functions_ga9c56ba371e55f1d33f23c84cfb604141.html#ga9c56ba371e55f1d33f23c84cfb604141',1,'flx']]],
+  ['sincos_8',['sincos',['../group__functions_ga6ca929fa8675218135595fdc854088a2.html#ga6ca929fa8675218135595fdc854088a2',1,'flx']]],
+  ['sind_9',['sind',['../group__functions_ga701abf10954e838e05c9b2b9f102725d.html#ga701abf10954e838e05c9b2b9f102725d',1,'flx']]],
+  ['sinh_10',['sinh',['../group__functions_ga7cc5ad281feb2d821104045e6eca53b2.html#ga7cc5ad281feb2d821104045e6eca53b2',1,'flx']]],
+  ['sinhc_11',['sinhc',['../group__functions_ga644638f3b545fe3ca1e7e0a6cb6514a4.html#ga644638f3b545fe3ca1e7e0a6cb6514a4',1,'flx']]],
+  ['sinpi_12',['sinpi',['../group__functions_ga17b5ff6e4bc2b722a1892d3a68d751cc.html#ga17b5ff6e4bc2b722a1892d3a68d751cc',1,'flx']]],
+  ['sinpicospi_13',['sinpicospi',['../group__functions_gab9e33f68eefe02e4bbbf74f335ade464.html#gab9e33f68eefe02e4bbbf74f335ade464',1,'flx']]],
+  ['sqr_14',['sqr',['../group__functions_gaab4f4cabec7f1e66c647a692af8e1e32.html#gaab4f4cabec7f1e66c647a692af8e1e32',1,'flx']]],
+  ['sqr_5fabs_15',['sqr_abs',['../group__real_ga7549b0c6271db23bd59fe7c26660320d.html#ga7549b0c6271db23bd59fe7c26660320d',1,'flx']]],
+  ['sqrt_16',['sqrt',['../group__functions_gae24e13d0d4df33797828e6600422bc79.html#gae24e13d0d4df33797828e6600422bc79',1,'flx']]],
+  ['sub_17',['sub',['../namespaceflx_ad93afda131a60e12c403e38acb1177e3.html#ad93afda131a60e12c403e38acb1177e3',1,'flx']]],
+  ['sum_5fof_5fprod_18',['sum_of_prod',['../group__real_ga6acdb3298595bd1b04e585f8d73ba1ec.html#ga6acdb3298595bd1b04e585f8d73ba1ec',1,'flx']]]
+];

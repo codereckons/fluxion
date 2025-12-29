@@ -1,0 +1,8 @@
+var searchData=
+[
+  ['heaviside_0',['heaviside',['../group__real_gaebfb25c8ac291610a5d9a196004a508b.html#gaebfb25c8ac291610a5d9a196004a508b',1,'flx']]],
+  ['horner_1',['horner',['../group__functions_ga064d9598ef1c19c106c8a589c7d40230.html#ga064d9598ef1c19c106c8a589c7d40230',1,'flx']]],
+  ['hyperdual_2',['hyperdual',['../structflx_1_1hyperdual.html',1,'flx::hyperdual&lt; Type, Ord &gt;'],['../structflx_1_1hyperdual.html#ad4a8aa2eda7859f0d815ab51d6854c2f',1,'flx::hyperdual::hyperdual() noexcept'],['../structflx_1_1hyperdual.html#a5da0a2da1f6ea132148226407bf073de',1,'flx::hyperdual::hyperdual(T v) noexcept'],['../structflx_1_1hyperdual.html#a6a2b86643e08d12d2eaec186430db0f3',1,'flx::hyperdual::hyperdual(T v, as_var) noexcept'],['../structflx_1_1hyperdual.html#a551cd12ca506d5625794762988e38b29',1,'flx::hyperdual::hyperdual(T0 v0, Ts... vs) noexcept'],['../structflx_1_1hyperdual.html#a450b1dffb834259693466b6b41678169',1,'flx::hyperdual::hyperdual(kumi::sized_product_type&lt; static_dimension &gt; auto const &amp;vs)'],['../structflx_1_1hyperdual.html#a4452e5429defb2c9f71c6b2715aecc15',1,'flx::hyperdual::hyperdual(hyperdual&lt; Type, M &gt; const &amp;a) noexcept'],['../structflx_1_1hyperdual.html#a81eb3f0e6db4fdf9d305759d3efa9390',1,'flx::hyperdual::hyperdual(Tuple const &amp;) -&gt; hyperdual&lt; kumi::element_t&lt; 0, Tuple &gt;, kumi::size_v&lt; Tuple &gt; &gt;'],['../structflx_1_1hyperdual.html#a262588726fa2d1e651c59ead72650de5',1,'flx::hyperdual::hyperdual(T0, Ts...) -&gt; hyperdual&lt; T0, 1+sizeof...(Ts)&gt;']]],
+  ['hyperdual_20functions_3',['Hyperdual Functions',['../group__functions.html',1,'']]],
+  ['hypot_4',['hypot',['../namespaceflx_a7ad723354fe6b955e050cfa0bf551720.html#a7ad723354fe6b955e050cfa0bf551720',1,'flx']]]
+];
