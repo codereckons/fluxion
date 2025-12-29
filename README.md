@@ -1,13 +1,19 @@
-# fluxion
-Post-Modern Automatic Derivation
+<img src="https://github.com/jfalcou/fluxion/raw/main/doc/logo.png" alt="" data-canonical-src="https://github.com/jfalcou/fluxion/main/doc/logo.png" align="left"  width="15%" height="15%" />
+
+# FLUXION
+Post-Modern Automatic Derivation based on generalized hyperdual numbers
 
 ## About Fluxion
-**Fluxion** is C++20 implementation of various numeric and automatic derivation:
+**Fluxion** is a C++20 implementation  of various numeric and automatic derivation:
 
 - A generic customization point for declaring functions and their derivatives
-- Integration with the [EVE](https://jfalcou.github.io/eve/) SIMD library
-- Value-based automatic, forward derivation
+- Integration with the [EVE](https://jfalcou.github.io/eve/) SIMD library and the  [KYOSU](https://jfalcou.github.io/kyosu/)
+  complex numbers SIMD library.
+- Value-based automatic, forward derivation based on generalized hyperdual numbers provides partial derivatives of functions
+  up to fourth order.
 - Expression-based analytical formula derivation
+- traditionnal finite difference implementation, just in case for first and second order partial derivatives
+- complex increment derivation for first order partial derivatives for real functions which are restriction of implemented complex ones.
 
 ## Licence
 This library is licensed under the [MIT License](http://opensource.org/licenses/MIT):
