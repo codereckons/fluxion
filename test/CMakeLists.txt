@@ -46,3 +46,6 @@ copa_glob_unit( PATTERN "unit/forward_automatic/special/*.cpp"
 ##======================================================================================================================
 ## Documentation tests
 ##======================================================================================================================
+copa_glob_unit( PATTERN "doc/forward_automatic/*.cpp"
+                QUIET RELATIVE ${root} INTERFACE fluxion_test PCH flx-doc_pch
+              )

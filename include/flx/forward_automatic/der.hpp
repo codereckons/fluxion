@@ -13,7 +13,7 @@
 namespace flx
 {
   //================================================================================================
-  //! @addtogroup complex
+  //! @addtogroup forward_automatic
   //! @{
   //! @var imag
   //!
