@@ -36,8 +36,8 @@ TTS_CASE_WITH( "Check behavior of flx::fdim(eve::wide)"
   TTS_EQUAL(der(eve::fdim(a0, vda1))  , derivative_2nd(eve::fdim)(a0, a1));
 
 
-//   TTS_EQUAL(val(eve::fdim[mask](vda0, a1))  , eve::fdim[mask](a0, a1));
-//   TTS_EQUAL(val(eve::fdim[mask](a0, vda1))  , eve::fdim[mask](a0, a1));
-//   TTS_EQUAL(der(eve::fdim[mask](vda0, a1))  , eve::if_else(mask, derivative_1st(eve::fdim)(a0, a1), eve::one));
-//   TTS_EQUAL(der(eve::fdim[mask](a0, vda1))  , eve::if_else(mask, derivative_2nd(eve::fdim)(a0, a1), eve::zero));
+// //   TTS_EQUAL(val(eve::fdim[mask](vda0, a1))  , eve::fdim[ mask ](a0, a1)); 
+// //   TTS_EQUAL(val(eve::fdim[mask](a0, vda1))  , eve::fdim[ mask ](a0, a1)); 
+// //   TTS_EQUAL(der(eve::fdim[mask](vda0, a1))  , eve::if_else( mask , derivative_1st(eve::fdim)(a0, a1), eve::one)); 
+// //   TTS_EQUAL(der(eve::fdim[mask](a0, vda1))  , eve::if_else( mask , derivative_2nd(eve::fdim)(a0, a1), eve::zero)); 
 };

@@ -10,10 +10,16 @@
 #include <flx/forward_automatic/is_derivable.hpp>
 #include <flx/forward_automatic/der.hpp>
 #include <flx/forward_automatic/val.hpp>
+#include <flx/forward_automatic/var.hpp>
 
 #include <eve/module/core.hpp>
 
 // Those functions have a specific derivation specified here
+template<> struct flx::has_optimized_derivative<eve::tag::add_>         : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::div_>         : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::mul_>         : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::sub_>         : std::true_type {};
+template<> struct flx::has_optimized_derivative<eve::tag::convert_>     : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::dist_>        : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::exponent_>    : std::true_type {};
 template<> struct flx::has_optimized_derivative<eve::tag::if_else_>     : std::true_type {};
@@ -31,6 +37,15 @@ namespace flx::detail
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// add, mul, sub, div
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //// convert
+  template<typename Z1, typename Z2>
+  EVE_FORCEINLINE auto
+  valder_binary_dispatch(eve::tag::convert_, Z1 const& z1, eve::as<valder<Z2>> tgt) noexcept
+  {
+    return var(eve::convert(val(z1),eve::as<Z2>{}), eve::convert(der(z1),eve::as<Z2>{}));
+  }
+
   template<typename Z1, typename Z2>
   EVE_FORCEINLINE auto
   valder_binary_dispatch(eve::tag::add_, Z1 const& z1, Z2 const& z2) noexcept
@@ -44,6 +59,7 @@ namespace flx::detail
   {
     return z1 - z2;
   }
+
 
   template<typename Z1, typename Z2>
   EVE_FORCEINLINE auto
@@ -98,10 +114,10 @@ namespace flx::detail
   }
 
   //// if_else
-  template < typename Z1,  typename Z2>
+  template < eve::conditional_expr C, typename Z1,  typename Z2>
   EVE_FORCEINLINE auto
   valder_ternary_dispatch ( eve::tag::if_else_
-                       , auto const & vc
+                       , C const & vc
                        , Z1 const & a
                        , Z2 const & b
                        ) noexcept
@@ -240,6 +256,7 @@ template<> struct flx::is_derivable<eve::tag::gather_>                : std::fal
 template<> struct flx::is_derivable<eve::tag::hi_>                    : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_denormal_>           : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_equal_>              : std::false_type {};
+template<> struct flx::is_derivable<eve::tag::is_imag_>               : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_not_equal_>          : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_less_>               : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_less_equal_>         : std::false_type {};
@@ -277,6 +294,7 @@ template<> struct flx::is_derivable<eve::tag::is_not_nan_>            : std::fal
 template<> struct flx::is_derivable<eve::tag::is_odd_>                : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_positive_>           : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::is_pow2_>               : std::false_type {};
+template<> struct flx::is_derivable<eve::tag::is_real_>               : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::lo_>                    : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::lohi_>                  : std::false_type {};
 template<> struct flx::is_derivable<eve::tag::lookup_>                : std::false_type {};
