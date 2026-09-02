@@ -94,16 +94,7 @@ namespace flx
       kumi::get<0>(contents) = v;
     }
 
-    /// Construct a hyperdual instance from a sequences of base values
-    template<std::convertible_to<Type> T0, std::convertible_to<Type>... Ts>
-      requires((sizeof...(Ts)) >= static_dimension)
-    constexpr hyperdual(T0 v0, Ts... vs) noexcept
-        : contents {kumi::extract(kumi::tuple {static_cast<Type>(v0), static_cast<Type>(vs)...},
-                                  kumi::index<0>,
-                                  kumi::index<static_dimension>)}
-    {
-    }
-
+    /// Construct a hyperdual instance from exactly as many base values as it has components
     template<std::convertible_to<Type> T0, std::convertible_to<Type>... Ts>
       requires((1 + sizeof...(Ts)) == static_dimension)
     constexpr hyperdual(T0 v0, Ts... vs) noexcept
