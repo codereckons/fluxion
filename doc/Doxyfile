@@ -9,6 +9,7 @@
 ##======================================================================================================================
 
 PROJECT_BRIEF          = "Post-Modern Automatic Derivation based on generalized hyperdual numbers"
+PROJECT_LOGO           = logo.svg
 
 ## What to read, and where the @include of a snippet looks for its file
 INPUT                  = ../include .

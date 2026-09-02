@@ -65,8 +65,9 @@ if(FLUXION_BUILD_DOCUMENTATION)
     TARGET fluxion-doxygen
     DESTINATION "${PROJECT_BINARY_DIR}/doc"
     GODBOLT_LIBRARIES fluxion tts
-    COLOR_HUE 293
-    COLOR_SATURATION 40)
+    COLOR_HUE 167
+    COLOR_SATURATION 19
+    COLOR_LIGHTNESS 38)
 endif()
 
 ##======================================================================================================================
