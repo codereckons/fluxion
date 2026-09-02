@@ -59,10 +59,10 @@ jobs:
   ##################################################################################################
   linux-tests:
     name: Linux
-    needs: [precommit, standalone-generation, sanitizer-tests]
+    needs: [precommit, sanitizer-tests]
     uses: ./.github/workflows/linux.yml
 
   macos-tests:
     name: MacOS
-    needs: [precommit, standalone-generation, sanitizer-tests]
+    needs: [precommit, sanitizer-tests]
     uses: ./.github/workflows/macos.yml
