@@ -17,12 +17,13 @@
 namespace flx::_
 {
   constexpr unsigned int maxrank = std::numeric_limits<unsigned int>::max();
-  template<typename T>                    inline constexpr unsigned int rank = 0;
-  template<eve::floating_value T>         inline constexpr unsigned int rank<T> = maxrank;
-  template<eve::integral_scalar_value T>  inline constexpr unsigned int rank<T> = maxrank;
+  template<typename T> inline constexpr unsigned int                   rank    = 0;
+  template<eve::floating_value T> inline constexpr unsigned int        rank<T> = maxrank;
+  template<eve::integral_scalar_value T> inline constexpr unsigned int rank<T> = maxrank;
   // rationale
   // hyperdual numbers of order M (rank 2^M) keep track of derivatives up to the Mth.
-  // base field numbers keep the values of all derivatives as except for the order 0 (the value), they are all zero
+  // base field numbers keep the values of all derivatives as except for the order 0 (the value),
+  // they are all zero
 }
 
 namespace flx::concepts
@@ -43,7 +44,8 @@ namespace flx::concepts
 
   /// General hyperdual concept
   template<typename T>
-  concept hyperdual = hyperdual_like<T> && ( _::rank<std::remove_cvref_t<T>> > 1) && (_::rank<std::remove_cvref_t<T>> !=  _::maxrank);
+  concept hyperdual = hyperdual_like<T> && (_::rank<std::remove_cvref_t<T>> > 1) &&
+                      (_::rank<std::remove_cvref_t<T>> != _::maxrank);
 
   template<typename T>
   concept scalar_hyperdual = hyperdual<T> && eve::scalar_value<T>;
@@ -57,15 +59,15 @@ namespace flx::concepts
 
   /// dual/dual1 number concept
   template<typename T>
-  concept dual     = hyperdual<T> && _::rank<std::remove_cvref_t<T>> == 2;
+  concept dual = hyperdual<T> && _::rank<std::remove_cvref_t<T>> == 2;
   template<typename T>
-  concept dual1    = hyperdual<T> && _::rank<std::remove_cvref_t<T>> == 2;
+  concept dual1 = hyperdual<T> && _::rank<std::remove_cvref_t<T>> == 2;
 
   /// dual2 concept
   template<typename T>
-  concept dual2    = hyperdual<T> && _::rank<std::remove_cvref_t<T>> == 4;
+  concept dual2 = hyperdual<T> && _::rank<std::remove_cvref_t<T>> == 4;
 
   /// dual3 concept
   template<typename T>
-  concept dual3    = hyperdual<T> && _::rank<std::remove_cvref_t<T>> == 8;
+  concept dual3 = hyperdual<T> && _::rank<std::remove_cvref_t<T>> == 8;
 }
