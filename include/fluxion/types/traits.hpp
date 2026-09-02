@@ -54,7 +54,9 @@ namespace flx
   //! @addtogroup traits
   //! @{
   //====================================================================================================================
+  /// Widest algebra the library builds, sixteen components
   constexpr unsigned int max_dimension_v = 16;
+  /// Highest derivative order the library carries
   constexpr unsigned int max_order       = 4;
 
 #if !defined(flx_DOXYGEN_INVOKED)
@@ -68,8 +70,8 @@ namespace flx
   //====================================================================================================================
   //! @brief Obtains the number of dimensions of the algebra containing a given type
   //!
-  //!
-  //! If `T` models a value of \f$\mathbb{R}\f$, evaluates to 1.
+  //! If `T` models a value of \f$\mathbb{R}\f$, evaluates to max_dimension_v: a base value
+  //! never narrows what it meets.
   //!
   //! @tparam T Type to analyze.
   //====================================================================================================================
@@ -81,8 +83,8 @@ namespace flx
   //====================================================================================================================
   //! @brief Obtains the order of derivation obtained in the algebra containing a given type
   //!
-  //!
-  //! If `T` models a value of \f$\mathbb{R}\f$, evaluates to 1.
+  //! If `T` models a value of \f$\mathbb{R}\f$, evaluates to max_order: a base value loses
+  //! nothing at any order, and the min over a mixed pack then ignores it.
   //!
   //! @tparam T Type to analyze.
   //====================================================================================================================

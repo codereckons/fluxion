@@ -30,14 +30,22 @@ namespace flx::concepts
 {
   // Value of the Hyperdual  algebra encompass
   // actual real/complex values
+  /// Anything with a place in the algebra: a base value or a hyperdual, scalar or wide alike
   template<typename T>
   concept hyperdual_like = _::rank<std::remove_cvref_t<T>> != 0;
+
+  /// Usable where one order of derivatives is expected: an order of at least one, or a base value,
+  /// which loses nothing at any order
 
   template<typename T>
   concept dual_like = hyperdual_like<T> && _::rank<std::remove_cvref_t<T>> >= 2;
 
+  /// Usable where two orders of derivatives are expected
+
   template<typename T>
   concept dual2_like = hyperdual_like<T> && _::rank<std::remove_cvref_t<T>> >= 4;
+
+  /// Usable where three orders of derivatives are expected
 
   template<typename T>
   concept dual3_like = hyperdual_like<T> && _::rank<std::remove_cvref_t<T>> >= 8;
@@ -47,12 +55,16 @@ namespace flx::concepts
   concept hyperdual = hyperdual_like<T> && (_::rank<std::remove_cvref_t<T>> > 1) &&
                       (_::rank<std::remove_cvref_t<T>> != _::maxrank);
 
+  /// A hyperdual that is not wide
+
   template<typename T>
   concept scalar_hyperdual = hyperdual<T> && eve::scalar_value<T>;
 
   /// General base concept
   template<typename T>
   concept base = hyperdual_like<T> && _::rank<std::remove_cvref_t<T>> == _::maxrank;
+
+  /// A base value that is not wide
 
   template<typename T>
   concept scalar_base = base<T> && eve::scalar_value<T>;

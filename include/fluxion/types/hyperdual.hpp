@@ -22,6 +22,8 @@ namespace flx
 
   namespace _
   {
+    // The seed of a variable: a one at every index that is a power of two, the single unit slots,
+    // and zero elsewhere.
     template<std::size_t Order, typename T>
     [[nodiscard]]
     FLX_FORCEINLINE constexpr auto powersof2() noexcept
@@ -36,10 +38,16 @@ namespace flx
 
   }
 
+  //! @brief Tag requesting a variable rather than a constant
+  //!
+  //! Passed beside the value, it seeds a one in front of each nilpotent unit, which is what makes
+  //! the derivatives flow from that argument.
   struct as_var
   {
   };
-  as_var var;
+
+  /// The tag instance, ready to pass
+  inline constexpr as_var var = {};
 
   //====================================================================================================================
   //! @class hyperdual
@@ -176,6 +184,10 @@ namespace flx
   //! @}
   //====================================================================================================================
 
+  //! @brief Access the Ith component of a hyperdual
+  //!
+  //! The layout is binary: bit i of I set means the component carries the nilpotent unit i, so
+  //! index zero is the value and the indices that are powers of two are the first order parts.
   template<std::size_t I, typename T, unsigned int N>
   constexpr auto& get(hyperdual<T, N>& c) noexcept
   {
@@ -219,6 +231,7 @@ namespace flx
 
 namespace flx::_
 {
+  // What the concepts read: the component count of a hyperdual, seen through a wide as well.
   template<typename T, unsigned int Order>
   inline constexpr unsigned int rank<hyperdual<T, Order>> = 1 << Order;
 
