@@ -8,6 +8,7 @@
 #pragma once
 
 #include <fluxion/types/hyperdual.hpp>
+#include <fluxion/types/variables.hpp>
 
 //! @brief Root namespace for FLUXION
 namespace fluxion

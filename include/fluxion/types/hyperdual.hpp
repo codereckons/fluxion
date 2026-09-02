@@ -213,29 +213,18 @@ namespace flx
   //! @related hyperdual
   //! @{
   //====================================================================================================================
-  /// Deduction guide for constructing from a product type of as many components as an order asks for
+  /// Deduction guide from a product type whose component count names an order
   template<eve::product_type Tuple>
     requires(std::has_single_bit(kumi::size_v<Tuple>))
   hyperdual(Tuple const&) -> hyperdual<kumi::element_t<0, Tuple>, _::order_of(kumi::size_v<Tuple>)>;
 
-  /// Deduction guide for constructing from a sequence of values, at least two and a power of two of them
+  /// Deduction guide from a sequence of values whose count names an order
   template<typename T0, std::convertible_to<T0>... Ts>
     requires(sizeof...(Ts) > 0 && std::has_single_bit(1 + sizeof...(Ts)))
   hyperdual(T0, Ts...) -> hyperdual<T0, _::order_of(1 + sizeof...(Ts))>;
   //====================================================================================================================
   //! @}
   //====================================================================================================================
-
-  /// create a hyperdual variable from a base value
-  template<unsigned int Order, concepts::base T>
-  constexpr as_hyperdual_n_t<Order, T> variable(T v) noexcept
-  {
-    using r_t       = as_hyperdual_n_t<Order, T>;
-    auto d          = _::powersof2<Order, T>();
-    kumi::get<0>(d) = v;
-    r_t hv(d);
-    return hv;
-  }
 
 }
 
