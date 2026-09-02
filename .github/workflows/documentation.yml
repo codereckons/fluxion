@@ -1,0 +1,23 @@
+##======================================================================================================================
+##  FLUXION - Post-Modern Automatic Derivation based on generalized hyperdual numbers
+##  Copyright : FLUXION Project Contributors
+##  SPDX-License-Identifier: BSL-1.0
+##======================================================================================================================
+name: FLUXION Documentation Generation
+on:
+  push:
+    branches:
+      - main
+  ## Builds nothing to deploy here: it reports what Doxygen said while generating the pages.
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  documentation:
+    permissions:
+      contents: write
+    uses: jfalcou/copacabana/.github/workflows/documentation.yml@468da45ac73a026a4bca4510840ebe635aa66c2c # v6
+    with:
+      project: fluxion
+      coverage: true

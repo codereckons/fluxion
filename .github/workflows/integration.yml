@@ -1,0 +1,22 @@
+##======================================================================================================================
+##  FLUXION - Post-Modern Automatic Derivation based on generalized hyperdual numbers
+##  Copyright : FLUXION Project Contributors
+##  SPDX-License-Identifier: BSL-1.0
+##======================================================================================================================
+name: FLUXION Integration Tests
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: fluxion-integration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integration:
+    uses: jfalcou/copacabana/.github/workflows/integration.yml@468da45ac73a026a4bca4510840ebe635aa66c2c # v6
+    with:
+      project: fluxion
+      cxx-compiler: clang++
+      cxx-flags: -std=c++20
