@@ -13,5 +13,5 @@ int main()
 {
   std::cout << "fluxion " << fluxion::version << "\n";
 
-  return fluxion::version.empty() ? 1 : 0;
+  return fluxion::version[ 0 ] == '\0' ? 1 : 0;
 }

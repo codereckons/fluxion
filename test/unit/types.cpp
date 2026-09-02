@@ -8,6 +8,7 @@
 #include <fluxion/fluxion.hpp>
 
 #include <iostream>
+#include <sstream>
 
 // The types exist, carry the right shape, and eve::wide falls out of the tuple protocol. Everything
 // a static_assert can say is said here; what needs to run is checked in main below.
@@ -53,7 +54,7 @@ int           main()
   check(get<3>(constant) == 0.0, "cross part of a constant");
 
   // A variable seeds a one in front of each nilpotent unit, and nowhere else
-  flx::hyperdual<double, 2> variable(2.5, flx::as_var{});
+  flx::hyperdual<double, 2> variable(2.5, flx::as_var {});
   check(get<0>(variable) == 2.5, "value of a variable");
   check(get<1>(variable) == 1.0, "unit-1 part of a variable");
   check(get<2>(variable) == 1.0, "unit-2 part of a variable");
@@ -64,6 +65,11 @@ int           main()
   check(eve::all(get<0>(broad) == 2.5), "value of a broadcast wide");
   check(eve::all(get<1>(broad) == 1.0), "unit-1 part of a broadcast wide");
   check(eve::all(get<3>(broad) == 0.0), "cross part of a broadcast wide");
+
+  // Streaming instantiates the operator declared over <iosfwd> alone, which is the whole point
+  std::ostringstream stream;
+  stream << variable;
+  check(stream.str() == "2.5 + 1e1 + 1e2 + 0e12", "streamed form of a variable");
 
   return broken;
 }
