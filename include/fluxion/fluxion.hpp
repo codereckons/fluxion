@@ -7,6 +7,8 @@
 //======================================================================================================================
 #pragma once
 
+#include <fluxion/types/hyperdual.hpp>
+
 #include <string_view>
 
 //! @brief Root namespace for FLUXION

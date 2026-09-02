@@ -11,6 +11,8 @@ add_library(fluxion_tests INTERFACE)
 
 target_compile_features(fluxion_tests INTERFACE cxx_std_20)
 
+target_link_libraries(fluxion_tests INTERFACE eve::eve)
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   if(CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
     target_compile_options(fluxion_tests INTERFACE $<$<COMPILE_LANGUAGE:CXX>:/W3 /EHsc>)
