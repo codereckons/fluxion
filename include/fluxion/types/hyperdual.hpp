@@ -36,6 +36,14 @@ namespace flx
       }(std::make_index_sequence<1 << Order> {});
     }
 
+    // The order a count of components comes from. Dimension is 1 << order, so the order is one less
+    // than the width of the count, and a count that is not a power of two names no order at all.
+    [[nodiscard]]
+    constexpr unsigned int order_of(std::size_t count) noexcept
+    {
+      return static_cast<unsigned int>(std::bit_width(count) - 1);
+    }
+
   }
 
   //! @brief Tag requesting a variable rather than a constant
@@ -205,13 +213,15 @@ namespace flx
   //! @related hyperdual
   //! @{
   //====================================================================================================================
-  /// Deduction guide for constructing from product type
+  /// Deduction guide for constructing from a product type of as many components as an order asks for
   template<eve::product_type Tuple>
-  hyperdual(Tuple const&) -> hyperdual<kumi::element_t<0, Tuple>, kumi::size_v<Tuple>>;
+    requires(std::has_single_bit(kumi::size_v<Tuple>))
+  hyperdual(Tuple const&) -> hyperdual<kumi::element_t<0, Tuple>, _::order_of(kumi::size_v<Tuple>)>;
 
-  /// Deduction guide for constructing from sequence of values
+  /// Deduction guide for constructing from a sequence of values, at least two and a power of two of them
   template<typename T0, std::convertible_to<T0>... Ts>
-  hyperdual(T0, Ts...) -> hyperdual<T0, 1 + sizeof...(Ts)>;
+    requires(sizeof...(Ts) > 0 && std::has_single_bit(1 + sizeof...(Ts)))
+  hyperdual(T0, Ts...) -> hyperdual<T0, _::order_of(1 + sizeof...(Ts))>;
   //====================================================================================================================
   //! @}
   //====================================================================================================================

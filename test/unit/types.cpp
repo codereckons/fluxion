@@ -34,6 +34,13 @@ template<typename T> void shape()
 template void shape<float>();
 template void shape<double>();
 
+// The guides read an order out of a count of values, and an order is bit_width(count) - 1. The
+// second parameter is the order here where it is the component count at kyosu, so a port that
+// carried the count over asked for sixteen components on being handed four values.
+static_assert(std::same_as<decltype(flx::hyperdual {1.0, 2.0}), flx::hyperdual<double, 1>>);
+static_assert(std::same_as<decltype(flx::hyperdual {1.0f, 2.0f, 3.0f, 4.0f}), flx::hyperdual<float, 2>>);
+static_assert(std::same_as<decltype(flx::hyperdual {kumi::tuple {1.0, 2.0, 3.0, 4.0}}), flx::hyperdual<double, 2>>);
+
 int           main()
 {
   int  broken = 0;
