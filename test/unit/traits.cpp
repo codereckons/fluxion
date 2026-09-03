@@ -151,9 +151,7 @@ using bases = list<double,
                    eve::wide<float, eve::fixed<2>>>;
 
 // A hyperdual counts as a scalar where the lanes are counted, its cardinal being one, and as a wide
-// where the element is read. The first half is EVE's own rule for a scalar met by a wide. The
-// second is where fluxion is deliberately stricter than the analogy, and the last line says so out
-// loud: EVE takes a lone double into a wide of floats, an algebra of doubles refuses it.
+// where the element is read. So it takes the lanes of a wide it meets, and refuses its element.
 template<unsigned int Ord> void hyperdual_roles()
 {
   using hd = flx::hyperdual<double, Ord>;
@@ -161,13 +159,19 @@ template<unsigned int Ord> void hyperdual_roles()
   static_assert(eve::cardinal_v<hd> == 1);
   static_assert(mixes<wide_of<double>, hd>);
   static_assert(!mixes<wide_of<float>, hd>);
-  static_assert(requires { eve::add(std::declval<wide_of<float>>(), std::declval<double>()); });
 }
 
 template void hyperdual_roles<1>();
 template void hyperdual_roles<4>();
 
-int           main()
+// The rule fluxion does not follow, pinned here so that it stops being a claim: EVE takes a lone
+// double into a wide of floats and brings it down to float. Carried over to hyperduals it would
+// bring an algebra of doubles down the same way, which is why the refusal above is a decision and
+// not an oversight. Should EVE ever stop accepting this, the sentence needs rewriting, and this
+// says so instead of letting it quietly become false.
+static_assert(requires { eve::add(std::declval<wide_of<float>>(), std::declval<double>()); });
+
+int main()
 {
   square<bases>::run();
   return 0;
