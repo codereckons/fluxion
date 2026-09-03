@@ -200,6 +200,28 @@ namespace flx
   }
 
   //====================================================================================================================
+  //! @brief Restrict a value to a lower order
+  //!
+  //! Keeps the components that carry none of the units being dropped, which the binary layout of
+  //! the indices makes a prefix: the first `1 << Ord` components are exactly the subsets of the
+  //! first `Ord` units. The wide form goes through the same call, where the converting constructor
+  //! cannot, `eve::wide` being none of ours to add one to.
+  //!
+  //! @tparam Ord Order to restrict to, at most the one carried
+  //! @param  x   Value to restrict
+  //====================================================================================================================
+  template<unsigned int Ord, concepts::hyperdual T>
+    requires(Ord >= 1 && Ord <= order_v<T>)
+  [[nodiscard]]
+  FLX_FORCEINLINE constexpr auto restrict_to(T const& x) noexcept
+  {
+    using r_t = as_hyperdual_n_t<Ord, T>;
+
+    return [ & ]<std::size_t... I>(std::index_sequence<I...>)
+    { return r_t {get<I>(x)...}; }(std::make_index_sequence<1 << Ord> {});
+  }
+
+  //====================================================================================================================
   //! @name Deduction Guides
   //! @related hyperdual
   //! @{
