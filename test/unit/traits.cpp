@@ -29,12 +29,20 @@ template<unsigned int Ord> void mixing()
   // An integer reaches the algebra through its floating point counterpart
   static_assert(std::same_as<flx::as_hyperdual_t<int, hd>, hd>);
 
-  // A narrower base is taken up by the wider one it is mixed with
+  // The hyperdual decides what the components are made of, and the base value converts into it, in
+  // either direction. EVE promotes nothing between element types, so there is no wider of the two
+  // to pick: what the pack computes in is the algebra it was handed.
   static_assert(std::same_as<flx::as_hyperdual_t<float, hd>, hd>);
+  static_assert(std::same_as<flx::as_hyperdual_t<double, hf>, hf>);
 
   // A wide argument installs its cardinal, and the hyperdual becomes a structure of arrays
   static_assert(std::same_as<flx::as_hyperdual_t<wide_of<double>, hd>, widened<double, hd>>);
   static_assert(std::same_as<flx::as_hyperdual_t<wide_of<float>, hf>, widened<float, hf>>);
+
+  // The two are read from where they belong even when they disagree: the lanes from the wide base,
+  // the components from the hyperdual.
+  static_assert(std::same_as<flx::as_hyperdual_t<wide_of<float>, hd>, widened<float, hd>>);
+  static_assert(std::same_as<flx::as_hyperdual_t<wide_of<double>, hf>, widened<double, hf>>);
 
   // A cardinal already carried by one argument survives meeting a scalar one
   static_assert(
@@ -90,5 +98,13 @@ constexpr bool mixes = requires { typename flx::as_hyperdual<Ts...>::type; };
 
 static_assert(mixes<wide_of<double>, flx::hyperdual<double, 2>>);
 static_assert(!mixes<wide_of<double>, wide_of<float>>);
+
+// Two hyperduals that disagree on what their components are made of have no common type either, for
+// the same reason: nothing promotes a float algebra into a double one.
+static_assert(!mixes<flx::hyperdual<double, 2>, flx::hyperdual<float, 2>>);
+static_assert(!mixes<widened<float, flx::hyperdual<float, 2>>, flx::hyperdual<double, 2>>);
+
+// Lanes carried by two different arguments have to agree, whoever carries them
+static_assert(mixes<widened<float, flx::hyperdual<double, 2>>, wide_of<float>>);
 
 int main() { return 0; }

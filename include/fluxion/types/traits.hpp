@@ -8,6 +8,8 @@
 #pragma once
 
 #include <eve/as.hpp>
+#include <eve/concept/same_lanes.hpp>
+#include <fluxion/types/concepts.hpp>
 #include <fluxion/types/helpers.hpp>
 #include <bit>
 
@@ -20,25 +22,67 @@ namespace flx
 
 namespace flx::_
 {
-  // Force a type to be looked at as a wide so we can apply wide-like type preserving semantic in
-  // type computations
-  template<typename T> struct sema
+  // The arithmetic semantics of a type: the scalar its components are made of, whatever wraps them.
+  // Lanes are none of its business, widen puts them back below from the cardinal each type really
+  // has. Reading them here through a wide of the element's native cardinal, as this used to,
+  // invents a lane count that then acts as a constraint, and refuses a pack whose real lanes agree.
+  template<typename T> using sema_t = eve::underlying_type_t<T>;
+
+  // What the hyperduals of a pack agree their components are made of, void when it holds none. Two
+  // that disagree have no common element: EVE promotes nothing between element types, at any width.
+  template<typename A, typename B> struct agree
   {
-    using type = T;
   };
-  template<typename T> struct sema<eve::logical<T>> : sema<T>
+  template<typename A> struct agree<A, void>
   {
+    using type = A;
   };
-  template<typename T, typename N> struct sema<eve::wide<T, N>>
+  template<typename B> struct agree<void, B>
   {
-    using type = eve::wide<eve::underlying_type_t<T>>;
+    using type = B;
   };
-  template<concepts::hyperdual T> struct sema<T>
+  template<> struct agree<void, void>
   {
-    using type = eve::wide<eve::underlying_type_t<T>>;
+    using type = void;
+  };
+  template<typename A> struct agree<A, A>
+  {
+    using type = A;
   };
 
-  template<typename T> using sema_t = typename sema<T>::type;
+  template<typename... Ts> struct hyperdual_element
+  {
+    using type = void;
+  };
+  template<typename T, typename... Ts>
+  struct hyperdual_element<T, Ts...>
+      : agree<std::conditional_t<concepts::hyperdual<T>, sema_t<T>, void>,
+              typename hyperdual_element<Ts...>::type>
+  {
+  };
+
+  template<typename... Ts> using hyperdual_element_t = typename hyperdual_element<Ts...>::type;
+
+  // A hyperdual in the pack decides the element type, a base value converting into the algebra it
+  // meets the way a scalar converts into a wide under EVE. Where the pack holds none, EVE decides
+  // among the base values alone, which is why the two cases cannot share one expression.
+  template<typename Element, typename... Ts> struct pack_element
+  {
+    using type = Element;
+  };
+  template<typename... Ts> struct pack_element<void, Ts...>
+  {
+    using type = sema_t<decltype(eve::add(std::declval<Ts>()...))>;
+  };
+
+  template<typename... Ts>
+  using pack_element_t = typename pack_element<hyperdual_element_t<Ts...>, Ts...>::type;
+
+  // Mixable when that element type exists, and when the arguments that really are wide agree on how
+  // many lanes they carry. The second half is what sema_t no longer says.
+  template<typename... Ts>
+  concept mixable = eve::same_lanes_or_scalar<Ts...> &&
+                    requires { typename pack_element<hyperdual_element_t<Ts...>, Ts...>::type; };
 
   // Convert a Base type to a potential wide if any appear in T...
   template<typename Base, typename... T>
@@ -115,17 +159,17 @@ namespace flx
   template<unsigned int Ord, typename... Ts> struct as_hyperdual_n;
 
   template<unsigned int Ord, typename... Ts>
-    requires(Ord > 0 && requires(Ts... ts) { eve::add(std::declval<_::sema_t<Ts>>()...); })
+    requires(Ord > 0 && _::mixable<Ts...>)
   struct as_hyperdual_n<Ord, Ts...>
 #if !defined(flx_DOXYGEN_INVOKED)
-      : as_hyperdual_n<Ord, _::widen<decltype(eve::add(std::declval<_::sema_t<Ts>>()...)), Ts...>>
+      : as_hyperdual_n<Ord, _::widen<_::pack_element_t<Ts...>, Ts...>>
 #endif
   {
   };
 
 #if !defined(flx_DOXYGEN_INVOKED)
   template<unsigned int Ord, typename... Ts>
-    requires(Ord > 0 && !requires(Ts... ts) { eve::add(std::declval<_::sema_t<Ts>>()...); })
+    requires(Ord > 0 && !_::mixable<Ts...>)
   struct as_hyperdual_n<Ord, Ts...>
   {
   };
