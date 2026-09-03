@@ -28,8 +28,9 @@ namespace flx::_
   // invents a lane count that then acts as a constraint, and refuses a pack whose real lanes agree.
   template<typename T> using sema_t = eve::underlying_type_t<T>;
 
-  // What the hyperduals of a pack agree their components are made of, void when it holds none. Two
-  // that disagree have no common element: EVE promotes nothing between element types, at any width.
+  // What the arguments that hold a structure, a hyperdual or a wide, agree their components are
+  // made of, void when the pack holds only lone scalars. Two that disagree have no common element:
+  // EVE promotes nothing between element types, at any width, and a wide converts to nothing.
   template<typename A, typename B> struct agree
   {
   };
@@ -50,22 +51,28 @@ namespace flx::_
     using type = A;
   };
 
-  template<typename... Ts> struct hyperdual_element
+  // A lone scalar base value speaks for nobody: it converts into whatever it is mixed with, the way
+  // a scalar converts into a wide under EVE. Everything else states an element and has to be agreed
+  // with, a wide of floats being no more convertible to an algebra of doubles than to a wide of
+  // them.
+  template<typename T>
+  inline constexpr bool adapts = !concepts::hyperdual<T> && eve::cardinal_v<T> == 1;
+
+  template<typename... Ts> struct declared_element
   {
     using type = void;
   };
   template<typename T, typename... Ts>
-  struct hyperdual_element<T, Ts...>
-      : agree<std::conditional_t<concepts::hyperdual<T>, sema_t<T>, void>,
-              typename hyperdual_element<Ts...>::type>
+  struct declared_element<T, Ts...>
+      : agree<std::conditional_t<adapts<T>, void, sema_t<T>>,
+              typename declared_element<Ts...>::type>
   {
   };
 
-  template<typename... Ts> using hyperdual_element_t = typename hyperdual_element<Ts...>::type;
+  template<typename... Ts> using declared_element_t = typename declared_element<Ts...>::type;
 
-  // A hyperdual in the pack decides the element type, a base value converting into the algebra it
-  // meets the way a scalar converts into a wide under EVE. Where the pack holds none, EVE decides
-  // among the base values alone, which is why the two cases cannot share one expression.
+  // Where every argument adapts, nothing has been stated and EVE decides among the scalars alone,
+  // which is why the two cases cannot share one expression.
   template<typename Element, typename... Ts> struct pack_element
   {
     using type = Element;
@@ -76,13 +83,13 @@ namespace flx::_
   };
 
   template<typename... Ts>
-  using pack_element_t = typename pack_element<hyperdual_element_t<Ts...>, Ts...>::type;
+  using pack_element_t = typename pack_element<declared_element_t<Ts...>, Ts...>::type;
 
   // Mixable when that element type exists, and when the arguments that really are wide agree on how
   // many lanes they carry. The second half is what sema_t no longer says.
   template<typename... Ts>
   concept mixable = eve::same_lanes_or_scalar<Ts...> &&
-                    requires { typename pack_element<hyperdual_element_t<Ts...>, Ts...>::type; };
+                    requires { typename pack_element<declared_element_t<Ts...>, Ts...>::type; };
 
   // Convert a Base type to a potential wide if any appear in T...
   template<typename Base, typename... T>

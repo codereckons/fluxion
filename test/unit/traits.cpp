@@ -14,6 +14,12 @@ template<typename T> using wide_of = eve::wide<T>;
 template<typename B, typename H>
 using widened = eve::wide<H, eve::fixed<eve::cardinal_v<wide_of<B>>>>;
 
+// A pack with no common type answers by having no member, so the question is asked through a
+// variable template, where the pack stays dependent and the absence is a false rather than an
+// error.
+template<typename... Ts>
+constexpr bool                  mixes = requires { typename flx::as_hyperdual<Ts...>::type; };
+
 template<unsigned int Ord> void mixing()
 {
   using hd = flx::hyperdual<double, Ord>;
@@ -29,9 +35,9 @@ template<unsigned int Ord> void mixing()
   // An integer reaches the algebra through its floating point counterpart
   static_assert(std::same_as<flx::as_hyperdual_t<int, hd>, hd>);
 
-  // The hyperdual decides what the components are made of, and the base value converts into it, in
-  // either direction. EVE promotes nothing between element types, so there is no wider of the two
-  // to pick: what the pack computes in is the algebra it was handed.
+  // A lone scalar converts into whatever it is mixed with, in either direction, the way it converts
+  // into a wide under EVE. There is no wider of the two to pick: EVE promotes nothing between
+  // element types, so what the pack computes in is the algebra it was handed.
   static_assert(std::same_as<flx::as_hyperdual_t<float, hd>, hd>);
   static_assert(std::same_as<flx::as_hyperdual_t<double, hf>, hf>);
 
@@ -39,16 +45,17 @@ template<unsigned int Ord> void mixing()
   static_assert(std::same_as<flx::as_hyperdual_t<wide_of<double>, hd>, widened<double, hd>>);
   static_assert(std::same_as<flx::as_hyperdual_t<wide_of<float>, hf>, widened<float, hf>>);
 
-  // The two are read from where they belong even when they disagree: the lanes from the wide base,
-  // the components from the hyperdual.
-  static_assert(std::same_as<flx::as_hyperdual_t<wide_of<float>, hd>, widened<float, hd>>);
-  static_assert(std::same_as<flx::as_hyperdual_t<wide_of<double>, hf>, widened<double, hf>>);
-
   // A cardinal already carried by one argument survives meeting a scalar one
   static_assert(
       std::same_as<flx::as_hyperdual_t<widened<double, hd>, double>, widened<double, hd>>);
   static_assert(
       std::same_as<flx::as_hyperdual_t<widened<double, hd>, wide_of<double>>, widened<double, hd>>);
+
+  // A wide states what its lanes are made of and converts to nothing, so meeting an algebra of
+  // another element is a refusal rather than a choice between the two. That is what EVE itself
+  // answers when two wides of different elements meet, at any width.
+  static_assert(!mixes<wide_of<float>, hd>);
+  static_assert(!mixes<wide_of<double>, hf>);
 }
 
 template void                                 mixing<1>();
@@ -89,22 +96,15 @@ static_assert(
 static_assert(std::same_as<flx::as_hyperdual_t<wide_of<double>, double>,
                            widened<double, flx::hyperdual<double, flx::max_order>>>);
 
-// Two genuinely wide arguments of different lane counts have no common type, and saying so beats
-// picking one of the two counts. The trait answers by having no member, so the question is asked
-// through a variable template, where the pack stays dependent and the absence is a false rather
-// than an error.
-template<typename... Ts>
-constexpr bool mixes = requires { typename flx::as_hyperdual<Ts...>::type; };
-
+// Two genuinely wide arguments have to agree on their element, and on how many lanes they carry
 static_assert(mixes<wide_of<double>, flx::hyperdual<double, 2>>);
 static_assert(!mixes<wide_of<double>, wide_of<float>>);
+static_assert(mixes<widened<double, flx::hyperdual<double, 2>>, wide_of<double>>);
+static_assert(!mixes<widened<float, flx::hyperdual<double, 2>>, wide_of<float>>);
 
 // Two hyperduals that disagree on what their components are made of have no common type either, for
 // the same reason: nothing promotes a float algebra into a double one.
 static_assert(!mixes<flx::hyperdual<double, 2>, flx::hyperdual<float, 2>>);
 static_assert(!mixes<widened<float, flx::hyperdual<float, 2>>, flx::hyperdual<double, 2>>);
-
-// Lanes carried by two different arguments have to agree, whoever carries them
-static_assert(mixes<widened<float, flx::hyperdual<double, 2>>, wide_of<float>>);
 
 int main() { return 0; }
