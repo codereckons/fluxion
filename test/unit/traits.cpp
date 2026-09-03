@@ -107,4 +107,68 @@ static_assert(!mixes<widened<float, flx::hyperdual<double, 2>>, wide_of<float>>)
 static_assert(!mixes<flx::hyperdual<double, 2>, flx::hyperdual<float, 2>>);
 static_assert(!mixes<widened<float, flx::hyperdual<float, 2>>, flx::hyperdual<double, 2>>);
 
-int main() { return 0; }
+// EVE decides what a pack of base values computes in, and fluxion has to answer the same thing:
+// refusal for refusal, then the same element and the same number of lanes. The one step of its own
+// is to a floating point element, there being no algebra of integers here.
+template<typename A, typename B> void follows_eve()
+{
+  constexpr bool eve_says = requires { eve::add(std::declval<A>(), std::declval<B>()); };
+  static_assert(mixes<A, B> == eve_says);
+
+  if constexpr(eve_says)
+  {
+    using from_eve = decltype(eve::add(std::declval<A>(), std::declval<B>()));
+    using ours     = flx::as_hyperdual_t<A, B>;
+
+    static_assert(std::same_as<eve::as_floating_point_t<eve::underlying_type_t<from_eve>>,
+                               eve::underlying_type_t<ours>>);
+    static_assert(eve::cardinal_v<from_eve> == eve::cardinal_v<ours>);
+  }
+}
+
+template<typename... Ts> struct list
+{
+};
+template<typename A, typename L> struct row;
+template<typename A, typename... Ts> struct row<A, list<Ts...>>
+{
+  static void run() { (follows_eve<A, Ts>(), ...); }
+};
+template<typename L> struct square;
+template<typename... Ts> struct square<list<Ts...>>
+{
+  static void run() { (row<Ts, list<Ts...>>::run(), ...); }
+};
+
+// Odd cardinals as well as the natural ones, so that the lanes are read and not guessed
+using bases = list<double,
+                   float,
+                   int,
+                   wide_of<double>,
+                   wide_of<float>,
+                   eve::wide<double, eve::fixed<1>>,
+                   eve::wide<double, eve::fixed<4>>,
+                   eve::wide<float, eve::fixed<2>>>;
+
+// A hyperdual counts as a scalar where the lanes are counted, its cardinal being one, and as a wide
+// where the element is read. The first half is EVE's own rule for a scalar met by a wide. The
+// second is where fluxion is deliberately stricter than the analogy, and the last line says so out
+// loud: EVE takes a lone double into a wide of floats, an algebra of doubles refuses it.
+template<unsigned int Ord> void hyperdual_roles()
+{
+  using hd = flx::hyperdual<double, Ord>;
+
+  static_assert(eve::cardinal_v<hd> == 1);
+  static_assert(mixes<wide_of<double>, hd>);
+  static_assert(!mixes<wide_of<float>, hd>);
+  static_assert(requires { eve::add(std::declval<wide_of<float>>(), std::declval<double>()); });
+}
+
+template void hyperdual_roles<1>();
+template void hyperdual_roles<4>();
+
+int           main()
+{
+  square<bases>::run();
+  return 0;
+}

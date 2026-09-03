@@ -79,6 +79,11 @@ namespace flx::_
   };
   template<typename... Ts> struct pack_element<void, Ts...>
   {
+  };
+  template<typename... Ts>
+    requires requires { eve::add(std::declval<Ts>()...); }
+  struct pack_element<void, Ts...>
+  {
     using type = sema_t<decltype(eve::add(std::declval<Ts>()...))>;
   };
 
