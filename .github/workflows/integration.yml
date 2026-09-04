@@ -8,8 +8,6 @@ on:
   push:
     branches:
       - main
-      ## Temporary, while this branch is not yet main.
-      - infra/phoenix
 
 concurrency:
   group: fluxion-integration-${{ github.ref }}
