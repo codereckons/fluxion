@@ -251,7 +251,7 @@ namespace flx::_
   inline constexpr unsigned int rank<eve::wide<hyperdual<T, Order>, L>> = 1 << Order;
 }
 
-#if !defined(flx_DOXYGEN_INVOKED)
+#if !defined(FLUXION_DOXYGEN_INVOKED)
 // std::tuple adaptation
 template<typename T, unsigned int Order>
 struct std::tuple_size<flx::hyperdual<T, Order>> : std::integral_constant<std::size_t, 1 << Order>

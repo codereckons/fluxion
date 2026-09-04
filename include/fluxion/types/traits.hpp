@@ -123,7 +123,7 @@ namespace flx
   //!
   //! @tparam T Type to analyze.
   //=====================================================================================================
-#if !defined(flx_DOXYGEN_INVOKED)
+#if !defined(FLUXION_DOXYGEN_INVOKED)
   template<typename T> inline constexpr unsigned int dimension_v = max_dimension_v;
 #else
   template<typename T> inline constexpr unsigned int dimension_v = *implementation - defined*;
@@ -137,7 +137,7 @@ namespace flx
   //!
   //! @tparam T Type to analyze.
   //=====================================================================================================
-#if !defined(flx_DOXYGEN_INVOKED)
+#if !defined(FLUXION_DOXYGEN_INVOKED)
   template<typename T> inline constexpr unsigned int order_v = max_order;
 #else
   template<typename T> inline constexpr unsigned int order_v = *implementation - defined*;
@@ -177,13 +177,13 @@ namespace flx
   template<unsigned int Ord, typename... Ts>
     requires(Ord > 0 && _::mixable<Ts...>)
   struct as_hyperdual_n<Ord, Ts...>
-#if !defined(flx_DOXYGEN_INVOKED)
+#if !defined(FLUXION_DOXYGEN_INVOKED)
       : as_hyperdual_n<Ord, _::widen<_::pack_element_t<Ts...>, Ts...>>
 #endif
   {
   };
 
-#if !defined(flx_DOXYGEN_INVOKED)
+#if !defined(FLUXION_DOXYGEN_INVOKED)
   template<unsigned int Ord, typename... Ts>
     requires(Ord > 0 && !_::mixable<Ts...>)
   struct as_hyperdual_n<Ord, Ts...>

@@ -88,7 +88,9 @@
       "inherits": [
         "unix-base"
       ],
-      "toolchainFile": "${sourceDir}/test/toolchain/clang.aarch64.cmake"
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++"
+      }
     },
     {
       "name": "gcc-sanitize",
