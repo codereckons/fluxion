@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['flx_0',['flx',['../namespaceflx.html',1,'']]]
+  ['fluxion_0',['fluxion',['../namespacefluxion.html',1,'']]]
 ];
