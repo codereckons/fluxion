@@ -11,7 +11,11 @@
 
 int main()
 {
-  std::cout << "fluxion " << fluxion::version << "\n";
+  auto x = flx::variable<2>(2.5);
 
-  return fluxion::version.empty() ? 1 : 0;
+  std::cout << "fluxion " << fluxion::version << "\n";
+  std::cout << "x           = " << x << "\n";
+  std::cout << "at order 1  = " << flx::restrict_to<1>(x) << "\n";
+
+  return 0;
 }
