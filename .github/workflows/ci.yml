@@ -5,10 +5,9 @@
 ##======================================================================================================================
 name: Unit Tests
 on:
-  ## Temporary, while this branch is not yet main: it is what makes the CI run at all here.
   push:
     branches:
-      - infra/phoenix
+      - main
   pull_request:
     branches:
       - main
