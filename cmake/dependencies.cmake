@@ -13,8 +13,11 @@ include(${CMAKE_CURRENT_LIST_DIR}/CPM.cmake)
 ## Retrieve dependencies
 ##======================================================================================================================
 CPMAddPackage(NAME COPACABANA GITHUB_REPOSITORY jfalcou/copacabana GIT_TAG v6)
+## SYSTEM YES: the tests are built with -Werror -Wdocumentation, which a dependency's headers have no
+## reason to satisfy.
 CPMAddPackage(
   NAME EVE
   GITHUB_REPOSITORY jfalcou/eve
   GIT_TAG main
+  SYSTEM YES
   OPTIONS "EVE_BUILD_TEST OFF" "EVE_BUILD_BENCHMARKS OFF" "EVE_BUILD_DOCUMENTATION OFF")

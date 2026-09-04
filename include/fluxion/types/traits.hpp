@@ -115,35 +115,39 @@ namespace flx
   /// Highest derivative order the library carries
   constexpr unsigned int max_order       = 4;
 
-#if !defined(flx_DOXYGEN_INVOKED)
-  template<typename T> inline constexpr unsigned int dimension_v = max_dimension_v;
-  template<typename T> inline constexpr unsigned int order_v     = max_order;
-#else
-  template<typename T> inline constexpr unsigned int dimension_v = *implementation - defined*;
-  template<typename T> inline constexpr unsigned int order_v     = *implementation - defined*;
-#endif
-
-  //====================================================================================================================
+  //=====================================================================================================
   //! @brief Obtains the number of dimensions of the algebra containing a given type
   //!
   //! If `T` models a value of \f$\mathbb{R}\f$, evaluates to max_dimension_v: a base value
   //! never narrows what it meets.
   //!
   //! @tparam T Type to analyze.
-  //====================================================================================================================
+  //=====================================================================================================
+#if !defined(flx_DOXYGEN_INVOKED)
+  template<typename T> inline constexpr unsigned int dimension_v = max_dimension_v;
+#else
+  template<typename T> inline constexpr unsigned int dimension_v = *implementation - defined*;
+#endif
 
-  template<concepts::hyperdual T>
-  inline constexpr auto dimension_v<T> =
-      eve::element_type_t<std::remove_cvref_t<T>>::static_dimension;
-
-  //====================================================================================================================
+  //=====================================================================================================
   //! @brief Obtains the order of derivation obtained in the algebra containing a given type
   //!
   //! If `T` models a value of \f$\mathbb{R}\f$, evaluates to max_order: a base value loses
   //! nothing at any order, and the min over a mixed pack then ignores it.
   //!
   //! @tparam T Type to analyze.
-  //====================================================================================================================
+  //=====================================================================================================
+#if !defined(flx_DOXYGEN_INVOKED)
+  template<typename T> inline constexpr unsigned int order_v = max_order;
+#else
+  template<typename T> inline constexpr unsigned int order_v = *implementation - defined*;
+#endif
+
+  // The parameters belong to the primary above; -Wdocumentation refuses a @tparam on a
+  // specialization.
+  template<concepts::hyperdual T>
+  inline constexpr auto dimension_v<T> =
+      eve::element_type_t<std::remove_cvref_t<T>>::static_dimension;
 
   template<concepts::hyperdual T>
   inline constexpr auto order_v<T> = eve::element_type_t<std::remove_cvref_t<T>>::order;
@@ -235,7 +239,6 @@ namespace flx
   using eve::as;
 
   //====================================================================================================================
-  //! @struct as_base
   //! @brief Lightweight type-wrapper of base value type
   //!
   //! Wraps the base type associated to `T` into a constexpr, trivially constructible empty class to
