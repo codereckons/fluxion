@@ -5,17 +5,18 @@
   SPDX-License-Identifier: BSL-1.0
 */
 //======================================================================================================================
-#include <iostream>
+// build error-gcc: hyperdual<double, 2>::hyperdual
+// build error-clang: no matching constructor for initialization of 'flx::hyperdual<double, 2>'
+
+// The product type form holds to the same count, a tuple being a list of components written another
+// way. Four components are asked for here, a tuple of two is given.
 
 #include <fluxion/fluxion.hpp>
 
 int main()
 {
-  auto x = flx::variable<2>(2.5);
-
-  std::cout << "fluxion " << fluxion::version << "\n";
-  std::cout << "x           = " << x << "\n";
-  std::cout << "at order 1  = " << flx::restrict_to<1>(x) << "\n";
-
-  return 0;
+  flx::hyperdual<double, 2> h {
+      kumi::tuple {1.0, 2.0}
+  };
+  return static_cast<int>(get<0>(h));
 }

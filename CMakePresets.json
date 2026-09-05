@@ -74,21 +74,29 @@
       "inherits": [
         "unix-base"
       ],
-      "toolchainFile": "${sourceDir}/test/toolchain/gcc.x86.cmake"
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc-14",
+        "CMAKE_CXX_COMPILER": "g++-14"
+      }
     },
     {
       "name": "clang",
       "inherits": [
         "unix-base"
       ],
-      "toolchainFile": "${sourceDir}/test/toolchain/clang.x86.cmake"
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++"
+      }
     },
     {
       "name": "clang-macos",
       "inherits": [
         "unix-base"
       ],
-      "toolchainFile": "${sourceDir}/test/toolchain/clang.aarch64.cmake"
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++"
+      }
     },
     {
       "name": "gcc-sanitize",

@@ -15,6 +15,8 @@
 //! #include <fluxion/fluxion.hpp>
 //! @endcode
 //!
+//! What the library computes, and the algebra it computes it in: @subpage background
+//!
 //! @section install Installing
 //!
 //! @code{.cmake}
