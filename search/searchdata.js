@@ -1,24 +1,39 @@
 var indexSectionsWithContent =
 {
-  0: "fgisv",
-  1: "f",
-  2: "v",
-  3: "fgis"
+  0: "abcdefghilmnopqrstuv",
+  1: "ah",
+  2: "f",
+  3: "hov",
+  4: "dmov",
+  5: "a",
+  6: "t",
+  7: "abcdefghilmnopqrstuv",
+  8: "bdhs"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "namespaces",
-  2: "variables",
-  3: "pages"
+  1: "classes",
+  2: "namespaces",
+  3: "functions",
+  4: "variables",
+  5: "typedefs",
+  6: "groups",
+  7: "pages",
+  8: "concepts"
 };
 
 var indexSectionLabels =
 {
   0: "All",
-  1: "Namespaces",
-  2: "Variables",
-  3: "Pages"
+  1: "Classes",
+  2: "Namespaces",
+  3: "Functions",
+  4: "Variables",
+  5: "Typedefs",
+  6: "Modules",
+  7: "Pages",
+  8: "Concepts"
 };
 

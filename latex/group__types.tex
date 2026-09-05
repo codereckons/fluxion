@@ -1,0 +1,86 @@
+\doxysection{Types }
+\hypertarget{group__types}{}\label{group__types}\index{Types@{Types}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structflx_1_1as__var}{flx::\+as\+\_\+var}}
+\begin{DoxyCompactList}\small\item\em Tag requesting a variable rather than a constant. \end{DoxyCompactList}\item 
+class \doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::\+hyperdual$<$ Type, Ord $>$}}
+\begin{DoxyCompactList}\small\item\em hyperdual numbers main abstraction It is built so that all operations can be done in a streamlined fashion \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$unsigned int Ord, concepts::\+base T$>$ }\\constexpr \doxymbox{\hyperlink{group__traits_ga168201d3b044c23a8d7073628fa779ac_ga168201d3b044c23a8d7073628fa779ac}{as\+\_\+hyperdual\+\_\+n\+\_\+t}}$<$ Ord, T $>$ \doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::\+variable}} (T v) noexcept
+\begin{DoxyCompactList}\small\item\em Turn a value into a variable of the given order. \end{DoxyCompactList}\item 
+{\footnotesize template$<$std::\+size\+\_\+t... Is, concepts::\+base... Xs$>$ }\\constexpr auto \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}} (Xs... xs) noexcept
+\begin{DoxyCompactList}\small\item\em Turn the arguments of a call into variables, each along the units it is differentiated by. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{group__types_ga02fcc261be278ce3a28010fe7f07b998}\label{group__types_ga02fcc261be278ce3a28010fe7f07b998} 
+constexpr \doxymbox{\hyperlink{structflx_1_1as__var}{as\+\_\+var}} {\bfseries flx::\+var} = \{\}
+\begin{DoxyCompactList}\small\item\em The tag instance, ready to pass. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+\label{doc-func-members}
+\Hypertarget{group__types_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}\index{Types@{Types}!variable@{variable}}
+\index{variable@{variable}!Types@{Types}}
+\doxysubsubsection{\texorpdfstring{variable()}{variable()}}
+{\footnotesize\ttfamily \label{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300} 
+template$<$unsigned int Ord, concepts::\+base T$>$ \\
+\doxymbox{\hyperlink{group__traits_ga168201d3b044c23a8d7073628fa779ac_ga168201d3b044c23a8d7073628fa779ac}{as\+\_\+hyperdual\+\_\+n\+\_\+t}}$<$ Ord, T $>$ flx::\+variable (\begin{DoxyParamCaption}\item[{T}]{v}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+variables.\+hpp$>$}
+
+
+
+Turn a value into a variable of the given order. 
+
+The value goes in the constant slot and a one in front of each of the {\ttfamily Ord} nilpotent units, so that every derivative up to {\ttfamily Ord} flows from it. It is {\ttfamily \doxylink{structflx_1_1hyperdual}{hyperdual}\texorpdfstring{$<$}{<}T, Ord\texorpdfstring{$>$}{>}\{v, \doxylink{structflx_1_1as__var}{as\+\_\+var}\{\}\}} with the type worked out rather than spelled, an order never being deducible from a value alone.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Ord} & Order of derivation this variable carries \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em v} & Value the variable takes \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}\index{Types@{Types}!variables@{variables}}
+\index{variables@{variables}!Types@{Types}}
+\doxysubsubsection{\texorpdfstring{variables()}{variables()}}
+{\footnotesize\ttfamily \label{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d} 
+template$<$std::\+size\+\_\+t... Is, concepts::\+base... Xs$>$ \\
+auto flx::\+variables (\begin{DoxyParamCaption}\item[{Xs...}]{xs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+variables.\+hpp$>$}
+
+
+
+Turn the arguments of a call into variables, each along the units it is differentiated by. 
+
+{\ttfamily Is...} is the list of derivations asked for, one entry per nilpotent unit:\+ entry {\ttfamily u} names the argument that unit {\ttfamily u} belongs to. Its length is therefore the order, {\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{variables}\texorpdfstring{$<$}{<}0, 0, 1\texorpdfstring{$>$}{>}(x, y, z)} asking for two derivations in {\ttfamily x}, one in {\ttfamily y}, and none in {\ttfamily z}.
+
+Every argument named at least once comes back as a hyperdual seeded on its own units, every other one comes back untouched, at its own type, so the result feeds a call straight through {\ttfamily kumi::\+apply}.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Is} & Argument each unit is differentiated along, in unit order \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em xs} & Arguments of the call \\
+\hline
+\end{DoxyParams}

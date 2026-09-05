@@ -1,0 +1,259 @@
+<!-- HTML header for doxygen 1.16.1-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Post-Modern Automatic Derivation based on generalized hyperdual numbers" />
+<link rel="canonical" href="https://codereckons.github.io/fluxion/" />
+<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+<meta property="og:title" content="FLUXION - Post-Modern Automatic Derivation" />
+<meta property="og:description" content="FLUXION computes exact derivatives of C++20 code through generalized hyperdual numbers, up to any order, on scalars and SIMD registers alike." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://codereckons.github.io/fluxion/" />
+<meta property="og:image" content="https://codereckons.github.io/fluxion/card.png" />
+<meta property="og:site_name" content="FLUXION Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="FLUXION - Post-Modern Automatic Derivation" />
+<meta name="twitter:description" content="FLUXION computes exact derivatives of C++20 code through generalized hyperdual numbers, up to any order, on scalars and SIMD registers alike." />
+<meta name="twitter:image" content="https://codereckons.github.io/fluxion/card.png" />
+<title>fluxion: Hyperdual Algebra</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="godbolt-config.js"></script>
+<script type="text/javascript" src="godbolt.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="copacabana.js"></script>
+<script type="text/javascript">
+  DoxygenAwesomeParagraphLink.init()
+  DoxygenAwesomeTabs.init()
+  DoxygenAwesomeFragmentCopyButton.init()
+  SendToGodbolt.init(GODBOLT_LIBRARIES, GODBOLT_COMPILER, GODBOLT_OPTIONS)
+  Copacabana.hideImplementationDefined()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="color.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<a href="https://github.com/codereckons/fluxion" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="logo.svg"/></td>
+  <td id="projectalign">
+   <div id="projectname">fluxion<span id="projectnumber">&#160;v0.1.0</span>
+   </div>
+   <div id="projectbrief">Post-Modern Automatic Derivation based on generalized hyperdual numbers</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('flx_algebra.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Hyperdual Algebra </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p><a class="anchor" id="md__2____w_2fluxion_2fluxion_2doc_2algebra"></a></p>
+<p><a class="el" href="flx_methods.html" title="Obtaining a Derivative">Obtaining a Derivative</a> ends on forward mode, which needs a place to keep a value together with the derivatives asked of it, and an arithmetic that updates both at every operation. A number carrying its own derivative is that place.</p>
+<p>Clifford's <em>dual numbers</em>, of 1873, carry one derivative. Fike and Alonso added a second unit in 2011 and named the result a <em>hyper-dual</em> number, the prefix marking the several units as it does for the hypercomplex numbers built on more than one imaginary unit. <b>FLUXION</b> takes \(n\) units rather than two, which is what <em>generalized</em> names here. They form an algebra, and each of its properties has a name in the library.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_one_unit"></a>
+One unit</h1>
+<p>Adjoin to the reals a symbol \(\varepsilon\) with \(\varepsilon \neq 0\) and \(\varepsilon^2 = 0\). An element is a pair \(a + b\varepsilon\), and products close on that form, since the \(\varepsilon^2\) term vanishes:</p>
+<p class="formulaDsp">
+\[ (a + b\varepsilon)(c + d\varepsilon) = ac + (ad + bc)\,\varepsilon. \]
+</p>
+<p>The coefficient of \(\varepsilon\) obeys the product rule of <a class="el" href="flx_derivation.html#flx_rules" title="Rules of computation">Rules of computation</a>, and for a function built from the arithmetic operations and the usual elementary functions,</p>
+<p class="formulaDsp">
+\[ f(a + \varepsilon) = f(a) + f&#39;(a)\,\varepsilon. \]
+</p>
+<p>This is the complex step made algebraic, with \(\varepsilon^2 = 0\) in place of \(i^2 = -1\). No \(h\) has to be chosen and nothing cancels, and the coefficient of \(\varepsilon\) is the derivative to the last bit the representation holds. In the library such a number is a type carrying its order:</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,1&gt;</a> z{2.5, 1.0};   <span class="comment">// 2.5 + e1</span></div>
+<div class="ttc" id="astructflx_1_1hyperdual_html"><div class="ttname"><a href="structflx_1_1hyperdual.html">flx::hyperdual</a></div><div class="ttdoc">hyperdual numbers main abstraction It is built so that all operations can be done in a streamlined fa...</div><div class="ttdef"><b>Definition</b> hyperdual.hpp:68</div></div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="flx_n_units"></a>
+Several units</h1>
+<p>A second unit brings \(\varepsilon_2\), and with it the product \(\varepsilon_1\varepsilon_2\), which does not vanish since the two units are distinct. That component is where the second derivative lands. Let \(\varepsilon_1, \dots, \varepsilon_n\) commute with each other and with the reals, and let each square to zero. The algebra they generate is</p>
+<p class="formulaDsp">
+\[ \mathcal{H}_n = \mathbb{R}[\varepsilon_1,\dots,\varepsilon_n] \big/
+    \left(\varepsilon_i\varepsilon_j - \varepsilon_j\varepsilon_i,\ \varepsilon_i^2\right), \]
+</p>
+<p>a Weil algebra, the \(n\)-fold tensor power of \(\mathbb{R}[\varepsilon]/(\varepsilon^2)\). A product of distinct units is not zero, and any product in which a unit appears twice is. The surviving products are therefore indexed by the subsets of \(\{1,\dots,n\}\). Writing \(\varepsilon_S = \prod_{i \in S} \varepsilon_i\), the basis is \((\varepsilon_S)_{S \subseteq \{1,\dots,n\}}\), the dimension is \(2^n\), and the product of two basis elements is</p>
+<p class="formulaDsp">
+\[ \varepsilon_S\,\varepsilon_T =
+    \begin{cases} \varepsilon_{S \cup T} &amp; \text{if } S \cap T = \emptyset, \\
+                  0 &amp; \text{otherwise.} \end{cases} \]
+</p>
+<p><b>FLUXION</b> calls \(n\) the <b>order</b> and carries it in the type. The order is bounded, each one doubling the number of components stored:</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,1&gt;</a> a;      <span class="comment">//  2 components: 1, e1</span></div>
+<div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,2&gt;</a> b;      <span class="comment">//  4 components: 1, e1, e2, e12</span></div>
+<div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,3&gt;</a> c;      <span class="comment">//  8 components: the subsets of three units</span></div>
+<div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,4&gt;</a> d;      <span class="comment">// 16 components: the subsets of four units</span></div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_variable" href="group__traits_ga19e1f7eedd2abd350aa54495a4440a51.html#ga19e1f7eedd2abd350aa54495a4440a51">flx::order_v</a>&lt;<span class="keyword">decltype</span>(c)&gt;;       <span class="comment">// 3</span></div>
+<div class="line"><a class="code hl_variable" href="group__traits_gae63eef1910d874d96ee7a977d8ec72ac.html#gae63eef1910d874d96ee7a977d8ec72ac">flx::dimension_v</a>&lt;<span class="keyword">decltype</span>(c)&gt;;   <span class="comment">// 8</span></div>
+<div class="line"><a class="code hl_variable" href="group__traits.html#gaed37f490e5110e8f701e14bc2ee3f960">flx::max_order</a>;                  <span class="comment">// 4</span></div>
+<div class="ttc" id="agroup__traits_ga19e1f7eedd2abd350aa54495a4440a51_html_ga19e1f7eedd2abd350aa54495a4440a51"><div class="ttname"><a href="group__traits_ga19e1f7eedd2abd350aa54495a4440a51.html#ga19e1f7eedd2abd350aa54495a4440a51">flx::order_v</a></div><div class="ttdeci">constexpr unsigned int order_v</div><div class="ttdoc">Obtains the order of derivation obtained in the algebra containing a given type.</div><div class="ttdef"><b>Definition</b> traits.hpp:143</div></div>
+<div class="ttc" id="agroup__traits_gae63eef1910d874d96ee7a977d8ec72ac_html_gae63eef1910d874d96ee7a977d8ec72ac"><div class="ttname"><a href="group__traits_gae63eef1910d874d96ee7a977d8ec72ac.html#gae63eef1910d874d96ee7a977d8ec72ac">flx::dimension_v</a></div><div class="ttdeci">constexpr unsigned int dimension_v</div><div class="ttdoc">Obtains the number of dimensions of the algebra containing a given type.</div><div class="ttdef"><b>Definition</b> traits.hpp:129</div></div>
+<div class="ttc" id="agroup__traits_html_gaed37f490e5110e8f701e14bc2ee3f960"><div class="ttname"><a href="group__traits.html#gaed37f490e5110e8f701e14bc2ee3f960">flx::max_order</a></div><div class="ttdeci">constexpr unsigned int max_order</div><div class="ttdoc">Highest derivative order the library carries.</div><div class="ttdef"><b>Definition</b> traits.hpp:116</div></div>
+</div><!-- fragment --><p>Four is where <b>FLUXION</b> stops. A value of order 4 holds sixteen components, every operation of the arithmetic works on all of them, and several of them answer the same derivative (see <a class="el" href="flx_seeding.html#flx_landing" title="Reading a result">Reading a result</a>).</p>
+<h1 class="doxsection"><a class="anchor" id="flx_components"></a>
+Component indexing</h1>
+<p>An element carries one coefficient per subset of the units, and is the sum of them:</p>
+<p class="formulaDsp">
+\[ z = \sum_{S \subseteq \{1,\dots,n\}} z_S\,\varepsilon_S
+      = z_\emptyset + z_{\{1\}}\varepsilon_1 + \dots + z_{\{1,\dots,n\}}\varepsilon_1\cdots
+        \varepsilon_n. \]
+</p>
+<p>The empty subset multiplies no unit, so \(z_\emptyset\) is the ordinary number the element is built around, and <b>FLUXION</b> calls it the <b>value</b>. The other \(2^n - 1\) coefficients form the <b>nilpotent part</b>.</p>
+<p>Each coefficient is a component of the stored value, and its index says which units it belongs to, one bit per unit: bit \(i\) set means the component carries \(\varepsilon_{i+1}\). Index zero holds the value, and the indices that are powers of two hold the coefficients of the single units.</p>
+<div class="fragment"><div class="line">flx::get&lt;0&gt;(z);   <span class="comment">// the value</span></div>
+<div class="line">flx::get&lt;1&gt;(z);   <span class="comment">// the coefficient of e1</span></div>
+<div class="line">flx::get&lt;3&gt;(z);   <span class="comment">// the coefficient of e1 e2, bits 0 and 1 both set</span></div>
+</div><!-- fragment --><p>Streaming a value prints the same names, the value unnamed and the others suffixed:</p>
+<div class="fragment"><div class="line">std::cout &lt;&lt; flx::hyperdual&lt;double,2&gt;{1.0, 2.0, 3.0, 4.0};   <span class="comment">// 1 + 2e1 + 3e2 + 4e12</span></div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="flx_constants"></a>
+Constants and variables</h1>
+<p>A value carrying no nilpotent part is a constant: differentiating anything against it returns zero. A value carrying a one in front of every unit is a variable, which is what makes derivatives flow from it.</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,2&gt;</a> k{2.5};              <span class="comment">// 2.5, a constant</span></div>
+<div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,2&gt;</a> x{2.5, <a class="code hl_variable" href="group__types.html#ga02fcc261be278ce3a28010fe7f07b998">flx::var</a>};    <span class="comment">// 2.5 + e1 + e2, a variable</span></div>
+<div class="ttc" id="agroup__types_html_ga02fcc261be278ce3a28010fe7f07b998"><div class="ttname"><a href="group__types.html#ga02fcc261be278ce3a28010fe7f07b998">flx::var</a></div><div class="ttdeci">constexpr as_var var</div><div class="ttdoc">The tag instance, ready to pass.</div><div class="ttdef"><b>Definition</b> hyperdual.hpp:58</div></div>
+</div><!-- fragment --><p>A hyperdual is filled exactly. The three forms above and a tuple of the exact size are the only ways to build one, a partial list being refused rather than completed:</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,2&gt;</a> z{1.0, 2.0, 3.0, 4.0};   <span class="comment">// four values for four components</span></div>
+<div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,2&gt;</a> w{1.0, 2.0};             <span class="comment">// refused at compile time</span></div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Completing by zeros would state that the missing derivatives vanish, which is an assertion about the function rather than a convention about storage.</dd></dl>
+<h1 class="doxsection"><a class="anchor" id="flx_arithmetic"></a>
+Sum, product, and inverse</h1>
+<p>\(\mathcal{H}_n\) is commutative and associative at every order, so an expression means what it is written to mean at order 4 as much as at order 1, and no parenthesis has to be watched. What grows is the size, doubling with each order, and every operation works on all of the components.</p>
+<p>It is not a division algebra. Every element whose value is zero is nilpotent, hence a zero divisor. An element is invertible exactly when its value is, and the inverse is then a finite sum, the nilpotent part \(N\) satisfying \(N^{n+1} = 0\):</p>
+<p class="formulaDsp">
+\[ \frac{1}{a + N} = \frac{1}{a}\sum_{k=0}^{n} \left(\frac{-N}{a}\right)^{k}. \]
+</p>
+<p>Every arithmetic operator and every elementary function applies to a hyperdual and returns one, its components being those the algebra prescribes:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> s = x + y;         <span class="comment">// added component by component</span></div>
+<div class="line"><span class="keyword">auto</span> p = x * y;         <span class="comment">// the product above, unit by unit</span></div>
+<div class="line"><span class="keyword">auto</span> q = x / y;         <span class="comment">// defined exactly when the value of y is</span></div>
+<div class="line"><span class="keyword">auto</span> e = flx::exp(x);   <span class="comment">// the value, and every derivative it carries</span></div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="flx_order_relation"></a>
+No order relation</h1>
+<p>An ordered ring has no nilpotent element other than zero: were \(\varepsilon &gt; 0\), squaring would give \(0 &gt; 0\). No comparison of two hyperduals can therefore extend the comparison of the reals, and the library compares values:</p>
+<div class="fragment"><div class="line">x == y;   <span class="comment">// compares the values alone</span></div>
+<div class="line">x &lt;  y;   <span class="comment">// absent</span></div>
+</div><!-- fragment --><p>Reading a derivative is done by component, by name or by index, and never by comparison.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_subalgebra"></a>
+Lower orders as prefixes</h1>
+<p>The units \(\varepsilon_1, \dots, \varepsilon_k\) generate a subalgebra of \(\mathcal{H}_n\) for \(k \le n\). The binary layout of the indices places it first: the first \(2^k\) components are exactly the subsets of the first \(k\) units, so reading an order \(k\) out of an order \(n\) is taking a prefix, component for component.</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="structflx_1_1hyperdual.html">flx::hyperdual&lt;double,4&gt;</a> z;</div>
+<div class="line"><span class="keyword">auto</span> y = flx::restrict_to&lt;2&gt;(z);   <span class="comment">// the first four components, unchanged</span></div>
+</div><!-- fragment --><p>The extraction is exact, and there is nothing that goes the other way: raising an order would fill components with zeros the operand never held.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_algebra_refs"></a>
+References</h1>
+<ul>
+<li>W. K. Clifford, <em>Preliminary Sketch of Biquaternions</em>, Proceedings of the London Mathematical Society, s1-4, 381-395, where the dual numbers appear. The volume is dated 1871 by the publisher and cited as 1873 nearly everywhere else. <a href="https://doi.org/10.1112/plms/s1-4.1.381">doi:10.1112/plms/s1-4.1.381</a></li>
+<li>J. A. Fike and J. J. Alonso, <em>The Development of Hyper-Dual Numbers for Exact Second-Derivative Calculations</em>, AIAA 2011-886, 49th AIAA Aerospace Sciences Meeting, 2011, which adds the second unit and the cross term. <a href="https://doi.org/10.2514/6.2011-886">doi:10.2514/6.2011-886</a></li>
+<li>M. Neuenhofen, <em>Review of Theory and Implementation of Hyper-Dual Numbers for First and Second Order Automatic Differentiation</em>, arXiv:1801.03614, 2018, which covers the same ground and is freely readable. <a href="https://arxiv.org/abs/1801.03614">arxiv.org/abs/1801.03614</a></li>
+</ul>
+<div class="section_buttons"></div><div class="section_buttons"><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadLeft">Previous  </th><th class="markdownTableHeadRight">Next  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><a class="el" href="flx_methods.html" title="Obtaining a Derivative">Obtaining a Derivative</a>  </td><td class="markdownTableBodyRight"><a class="el" href="flx_seeding.html" title="Seeding and Reading">Seeding and Reading</a>  </td></tr>
+</table>
+</div><div class="section_buttons"></div> </div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- HTML footer for doxygen 1.8.20-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="index.html">FLUXION</a></li><li class="navelem"><a href="background.html">Background</a></li>
+  </ul>
+</div>
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</body>
+</html>

@@ -1,0 +1,221 @@
+\doxysubsection{Examples }
+\hypertarget{flx_examples}{}\label{flx_examples}\index{Examples@{Examples}}
+\label{flx_examples_md__2____w_2fluxion_2fluxion_2doc_2examples}%
+\Hypertarget{flx_examples_md__2____w_2fluxion_2fluxion_2doc_2examples}%
+
+
+Each example is a complete program:\+ the function, the call, and what it prints. They are ordered by what each one asks of the library.\hypertarget{flx_examples_flx_ex_first}{}\doxysubsubsection{\texorpdfstring{First derivative}{First derivative}}\label{flx_examples_flx_ex_first}
+For $f(x) = x^2$, $f\textnormal{\textquotesingle}(x) = 2x$, so $f(3) = 9$ and $f\textnormal{\textquotesingle}(3) = 6$.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <fluxion/fluxion.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ f\ =\ [](\textcolor{keyword}{auto}\ x)\ \{\ \textcolor{keywordflow}{return}\ x\ *\ x;\ \};}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ z\ =\ f(\doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<1>}}(3.0));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ std::cout\ <<\ z\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 9\ +\ 6e1}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<1>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 6}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+The seeded value carries $3 + \varepsilon_1$, and the square gives $9 + 6\varepsilon_1$ because $\varepsilon_1^2 = 0$.\hypertarget{flx_examples_flx_ex_composition}{}\doxysubsubsection{\texorpdfstring{Composition}{Composition}}\label{flx_examples_flx_ex_composition}
+For $f(x) = \sin(x^2)$, the chain rule gives $f\textnormal{\textquotesingle}(x) = 2x\cos(x^2)$. Nothing of that expression is written anywhere.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <fluxion/fluxion.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ f\ =\ [](\textcolor{keyword}{auto}\ x)\ \{\ \textcolor{keywordflow}{return}\ flx::sin(x\ *\ x);\ \};}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ z\ =\ f(\doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<1>}}(0.7));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<0>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ sin(0.49)}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<1>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 1.4\ *\ cos(0.49)}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Each operation applies its own rule to what it receives, and the composition is performed by the evaluation itself.\hypertarget{flx_examples_flx_ex_orders}{}\doxysubsubsection{\texorpdfstring{Three derivatives in one pass}{Three derivatives in one pass}}\label{flx_examples_flx_ex_orders}
+Giving every unit of the order to one value returns the successive derivatives of that value. With $x = a + \varepsilon_1 + \varepsilon_2 + \varepsilon_3$, a component carrying $|S|$ units holds $f^{(|S|)}(a)$.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <fluxion/fluxion.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ z\ =\ flx::exp(\doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<3>}}(1.0));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<0>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ exp(1)}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<1>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ exp(1),\ the\ first\ derivative}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<3>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ exp(1),\ the\ second}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<7>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ exp(1),\ the\ third}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{flx_examples_flx_ex_gradient}{}\doxysubsubsection{\texorpdfstring{Gradient and mixed derivative}{Gradient and mixed derivative}}\label{flx_examples_flx_ex_gradient}
+For $f(x,y) = x^2 y + \sin y$, the partial derivatives are $2xy$ and $x^2 + \cos y$, and the mixed second derivative is $2x$. One unit per argument returns the three at once.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <fluxion/fluxion.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ f\ =\ [](\textcolor{keyword}{auto}\ x,\ \textcolor{keyword}{auto}\ y)\ \{\ \textcolor{keywordflow}{return}\ x\ *\ x\ *\ y\ +\ flx::sin(y);\ \};}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ z\ =\ kumi::apply(f,\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 1>}}(2.0,\ 0.5));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<1>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 2.0,\ the\ derivative\ in\ x}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<2>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 4.0\ +\ cos(0.5),\ the\ derivative\ in\ y}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<3>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 4.0,\ the\ mixed\ second\ derivative}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+The square terms are absent, since neither argument was given two units.\hypertarget{flx_examples_flx_ex_hessian}{}\doxysubsubsection{\texorpdfstring{Full Hessian}{Full Hessian}}\label{flx_examples_flx_ex_hessian}
+Two units per argument brings them in, at order 4.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <fluxion/fluxion.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ f\ =\ [](\textcolor{keyword}{auto}\ x,\ \textcolor{keyword}{auto}\ y)\ \{\ \textcolor{keywordflow}{return}\ x\ *\ x\ *\ y\ +\ flx::sin(y);\ \};}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ z\ =\ kumi::apply(f,\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 0,\ 1,\ 1>}}(2.0,\ 0.5));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<3>(z)\ \ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \textcolor{comment}{//\ the\ second\ derivative\ in\ x}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<5>(z)\ \ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \textcolor{comment}{//\ the\ mixed\ one}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<12>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \textcolor{comment}{//\ the\ second\ derivative\ in\ y}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Four arguments would need eight units for the same result, which exceeds {\ttfamily \doxylink{group__traits_gaed37f490e5110e8f701e14bc2ee3f960}{flx::\+max\+\_\+order}}, so a Hessian of more than two arguments is a sweep of evaluations at order 2, one per pair.\hypertarget{flx_examples_flx_ex_newton}{}\doxysubsubsection{\texorpdfstring{Newton, then Halley}{Newton, then Halley}}\label{flx_examples_flx_ex_newton}
+Newton\textquotesingle{}s method needs $f$ and $f\textnormal{\textquotesingle}$ at the current point, and both come out of one call. Halley\textquotesingle{}s method converges faster and needs $f\textnormal{\textquotesingle}\textnormal{\textquotesingle}$ as well:\+ the function is unchanged, and the order asked for is what differs.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <fluxion/fluxion.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ F>}
+\DoxyCodeLine{\textcolor{keywordtype}{double}\ newton(F\ f,\ \textcolor{keywordtype}{double}\ a)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 20;\ ++i)}
+\DoxyCodeLine{\ \ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{auto}\ z\ =\ f(\doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<1>}}(a));}
+\DoxyCodeLine{\ \ \ \ a\ -\/=\ flx::get<0>(z)\ /\ flx::get<1>(z);}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ a;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ F>}
+\DoxyCodeLine{\textcolor{keywordtype}{double}\ halley(F\ f,\ \textcolor{keywordtype}{double}\ a)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 20;\ ++i)}
+\DoxyCodeLine{\ \ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{auto}\ z\ \ =\ f(\doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<2>}}(a));}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{auto}\ v\ \ =\ flx::get<0>(z);}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{auto}\ d1\ =\ flx::get<1>(z);}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{auto}\ d2\ =\ flx::get<3>(z);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ a\ -\/=\ 2\ *\ v\ *\ d1\ /\ (2\ *\ d1\ *\ d1\ -\/\ v\ *\ d2);}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ a;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ f\ =\ [](\textcolor{keyword}{auto}\ x)\ \{\ \textcolor{keywordflow}{return}\ x\ *\ x\ -\/\ 2.0;\ \};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ std::cout\ <<\ newton(f,\ 1.0)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 1.41421356237}}
+\DoxyCodeLine{\ \ std::cout\ <<\ halley(f,\ 1.0)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 1.41421356237}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{flx_examples_flx_ex_loop}{}\doxysubsubsection{\texorpdfstring{Differentiating through a loop}{Differentiating through a loop}}\label{flx_examples_flx_ex_loop}
+Horner\textquotesingle{}s rule evaluates a polynomial whose degree is known at run time. No expression for its derivative exists in the program, and the sequence of operations the loop performs is what gets differentiated.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <fluxion/fluxion.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{T\ horner(T\ x,\ std::span<double\ const>\ c)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ T\ r\{c[0]\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ k\ :\ c.subspan(1))\ r\ =\ r\ *\ x\ +\ k;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ std::vector<double>\ c\ =\ \{3.0,\ -\/1.0,\ 0.0,\ 2.5\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ z\ =\ horner(\doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<2>}}(0.5),\ std::span<double\ const>\{c\});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<0>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ the\ value}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<1>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ the\ first\ derivative}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<3>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ the\ second}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+The coefficients enter as constants, carrying no nilpotent part, so nothing is differentiated against them.\hypertarget{flx_examples_flx_ex_wide}{}\doxysubsubsection{\texorpdfstring{Several points at once}{Several points at once}}\label{flx_examples_flx_ex_wide}
+A hyperdual whose components are SIMD registers holds one point per lane, and one evaluation returns the derivative at each of them.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <fluxion/fluxion.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <eve/wide.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ eve::wide<double>\ a\{[](\textcolor{keyword}{auto}\ i,\ \textcolor{keyword}{auto})\ \{\ \textcolor{keywordflow}{return}\ 0.5\ +\ 0.25\ *\ i;\ \}\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ x\ =\ \doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<1>}}(a);\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ eve::wide<flx::hyperdual<double,1>>}}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ z\ =\ flx::sin(x\ *\ x);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<0>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ the\ values,\ one\ per\ lane}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<1>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ the\ derivatives,\ one\ per\ lane}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+The order and the cardinal are independent:\+ {\ttfamily \doxylink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::\+variable}\texorpdfstring{$<$}{<}2\texorpdfstring{$>$}{>}} of the same wide gives second derivatives at every lane, at twice the storage.
+
+
+
+
+\begin{DoxyTable}{1}{}{}{1}
+\SetCell{bg=\tableheadbgcolor,font=\bfseries}Previous  \\
+\doxylink{flx_seeding}{Seeding and Reading}  \\
+\end{DoxyTable}
+
+
+ 

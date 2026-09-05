@@ -1,0 +1,22 @@
+\doxysection{flx::\+concepts::\+dual3\+\_\+like Concept Reference}
+\hypertarget{conceptflx_1_1concepts_1_1dual3__like}{}\label{conceptflx_1_1concepts_1_1dual3__like}\index{flx::concepts::dual3\_like@{flx::concepts::dual3\_like}}
+
+
+Usable where three orders of derivatives are expected.  
+
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+concepts.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\ \ \textcolor{keyword}{concept\ }\doxymbox{\hyperlink{conceptflx_1_1concepts_1_1dual3__like}{dual3\_like}}\ =\ \doxymbox{\hyperlink{conceptflx_1_1concepts_1_1hyperdual__like}{hyperdual\_like<T>}}\ \&\&\ fluxion\_implementation\_defined\ >=\ 8}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Usable where three orders of derivatives are expected. 

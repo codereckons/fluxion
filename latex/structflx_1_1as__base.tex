@@ -1,0 +1,25 @@
+\doxysection{flx::\+as\+\_\+base\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structflx_1_1as__base}{}\label{structflx_1_1as__base}\index{flx::as\_base$<$ T $>$@{flx::as\_base$<$ T $>$}}
+
+
+Lightweight type-\/wrapper of base value type.  
+
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+traits.\+hpp$>$}
+
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+struct flx::\+as\+\_\+base$<$ T $>$}
+Lightweight type-\/wrapper of base value type. 
+
+Wraps the base type associated to {\ttfamily T} into a constexpr, trivially constructible empty class to optimize passing type parameters via object instead of via template parameters.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type to wrap \\
+\hline
+\end{DoxyTemplParams}

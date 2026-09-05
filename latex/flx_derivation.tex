@@ -1,0 +1,68 @@
+\doxysubsection{Differentiating a Program }
+\hypertarget{flx_derivation}{}\label{flx_derivation}\index{Differentiating a Program@{Differentiating a Program}}
+\label{flx_derivation_md__2____w_2fluxion_2fluxion_2doc_2derivation}%
+\Hypertarget{flx_derivation_md__2____w_2fluxion_2fluxion_2doc_2derivation}%
+
+
+{\bfseries{FLUXION}} returns the derivatives of a C++ computation:\+ exact to the representation, up to order four, mixed partial derivatives included, on scalar values as on SIMD registers.\hypertarget{flx_derivation_flx_program}{}\doxysubsubsection{\texorpdfstring{Programs as compositions}{Programs as compositions}}\label{flx_derivation_flx_program}
+Evaluating a program on an input performs a finite sequence of elementary operations, each of them an addition, a multiplication, a comparison, or a call to an elementary function. Write $v_0 = a$ for the input, $N$ for the number of operations the evaluation performs, and $\varphi_i$ for the one performed at step $i$. Each step reads the values already computed, and the last one is the result:\+
+
+\[ v_i = \varphi_i(v_0, \dots, v_{i-1}) \quad (1 \le i \le N), \qquad f(a) = v_N. \]
+
+A program is therefore a composition, and differentiating what it computes requires two things:\+ the derivative of each elementary operation, and a rule giving the derivative of a composition from the derivatives of its parts. Nothing else enters.\hypertarget{flx_derivation_flx_derivative}{}\doxysubsubsection{\texorpdfstring{Derivative at a point}{Derivative at a point}}\label{flx_derivation_flx_derivative}
+For $f$ defined around $a$, the derivative at $a$ is the limit of the difference quotient,
+
+\[ f\textnormal{\textquotesingle}(a) = \lim_{h \to 0} \frac{f(a+h) - f(a)}{h}, \]
+
+when that limit exists. The same statement written as an expansion is the form used from here on:\+
+
+\[ f(a+h) = f(a) + f\textnormal{\textquotesingle}(a)\,h + o(h). \]
+
+Near $a$, $f$ agrees with an affine function, and $f\textnormal{\textquotesingle}(a)$ is the coefficient of its linear part. A derivative is a number attached to a point, and a formula for $f\textnormal{\textquotesingle}$ is one way of obtaining that number.
+
+For an elementary operation that formula is known in closed form. We know, for instance, that
+
+\[ (x^n)\textnormal{\textquotesingle} = n\,x^{n-1}, \qquad (\sin x)\textnormal{\textquotesingle} = \cos x, \qquad (e^x)\textnormal{\textquotesingle} = e^x, \qquad
+    (\log x)\textnormal{\textquotesingle} = \frac{1}{x} \ \ (x > 0), \]
+
+and each of these is evaluated as cheaply as the function it comes from. Every $\varphi_i$ of a program has such a formula, which settles the first of the two requirements.\hypertarget{flx_derivation_flx_rules}{}\doxysubsubsection{\texorpdfstring{Rules of computation}{Rules of computation}}\label{flx_derivation_flx_rules}
+Four rules give the derivative of a compound expression from the derivatives of its parts:\+
+
+\[ (u+v)\textnormal{\textquotesingle} = u\textnormal{\textquotesingle} + v\textnormal{\textquotesingle}, \qquad
+    (uv)\textnormal{\textquotesingle}   = u\textnormal{\textquotesingle}v + uv\textnormal{\textquotesingle}, \qquad
+    \left(\frac{u}{v}\right)\textnormal{\textquotesingle} = \frac{u\textnormal{\textquotesingle}v - uv\textnormal{\textquotesingle}}{v^2}, \qquad
+    (f \circ g)\textnormal{\textquotesingle}(a) = f\textnormal{\textquotesingle}\big(g(a)\big)\,g\textnormal{\textquotesingle}(a). \]
+
+The last of them settles the second requirement. It gives $(f \circ g)\textnormal{\textquotesingle}(a)$ from $g\textnormal{\textquotesingle}(a)$ and from $f\textnormal{\textquotesingle}$ taken at $g(a)$, two values of functions already known in closed form, at points that evaluating $f\big(g(a)\big)$ passes through anyway. No expression for $(f \circ g)\textnormal{\textquotesingle}$ is formed.\hypertarget{flx_derivation_flx_carry}{}\doxysubsubsection{\texorpdfstring{Carrying a derivative}{Carrying a derivative}}\label{flx_derivation_flx_carry}
+Applied to the sequence of \doxysectlink{flx_derivation_flx_program}{Programs as compositions}{1} once per operation, the chain rule produces a second sequence beside it,
+
+\[ d_0 = 1, \qquad
+    d_i = \sum_{j<i} \frac{\partial \varphi_i}{\partial v_j}(v_0,\dots,v_{i-1})\, d_j, \]
+
+with $d_N = f\textnormal{\textquotesingle}(a)$. Every partial derivative appearing there is that of a single elementary operation, taken from the closed forms above, and the sum has as many terms as that operation has arguments, so two at most for the arithmetic operations.
+
+The two sequences are computed together, $d_i$ needing the operands of $v_i$ and the $d_j$ already obtained. Each value therefore carries its own derivative, $f\textnormal{\textquotesingle}(a)$ is available when the program returns, and no expression for $f\textnormal{\textquotesingle}$ is written anywhere.
+
+What is differentiated is the sequence this input went through. A branch on a comparison, a loop whose count depends on the data, a value read from a table:\+ the execution selects one path, and what comes back is the derivative of that path. {\ttfamily abs} at zero returns $-1$ or $1$ according to the comparison it took, where the function itself has no derivative.\hypertarget{flx_derivation_flx_higher}{}\doxysubsubsection{\texorpdfstring{Higher orders, and several arguments}{Higher orders, and several arguments}}\label{flx_derivation_flx_higher}
+Differentiating $f\textnormal{\textquotesingle}$ gives $f\textnormal{\textquotesingle}\textnormal{\textquotesingle}$, and the operation repeats as long as what it returns stays differentiable. For a function of $m$ arguments, the partial derivative $\partial f/\partial x_j$ is the derivative of the function of $x_j$ alone obtained by holding the other arguments fixed. Two objects are built from these:\+
+
+
+\begin{DoxyItemize}
+\item the {\bfseries{gradient}}, the $m$ first partial derivatives at the point;
+\item the {\bfseries{Hessian}}, the $m^2$ second ones, of which $m(m+1)/2$ are distinct when the second partials are continuous, since $\partial^2 f/\partial x\,\partial y$ and $\partial^2 f/\partial y\,\partial x$ agree there.
+\end{DoxyItemize}
+
+A program takes several inputs, and one derivative rarely answers what is asked of it. Optimisation and the solution of nonlinear systems want the gradient at a point, a second-\/order method wants the Hessian as well, and an iteration wants them again at every step. Each of these is a set of numbers to be carried through the same evaluation, and how many there are fixes the size of the value the arithmetic works on.
+
+{\bfseries{FLUXION}} holds a value and the derivatives asked of it in one number, so the second sequence is computed by the arithmetic itself. \doxylink{flx_methods}{Obtaining a Derivative} weighs that choice against the other ways of obtaining the same result.
+
+
+
+
+\begin{DoxyTable}{2}{}{}{1}
+\SetCell{bg=\tableheadbgcolor,font=\bfseries}Previous  &\SetCell{r,bg=\tableheadbgcolor,font=\bfseries}Next  \\
+\doxylink{background}{Background}  &\SetCell{r}\doxylink{flx_methods}{Obtaining a Derivative}  \\
+\end{DoxyTable}
+
+
+ 

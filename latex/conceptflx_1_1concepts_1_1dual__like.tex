@@ -1,0 +1,17 @@
+\doxysection{flx::\+concepts::\+dual\+\_\+like Concept Reference}
+\hypertarget{conceptflx_1_1concepts_1_1dual__like}{}\label{conceptflx_1_1concepts_1_1dual__like}\index{flx::concepts::dual\_like@{flx::concepts::dual\_like}}
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+concepts.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\ \ \textcolor{keyword}{concept\ }\doxymbox{\hyperlink{conceptflx_1_1concepts_1_1dual__like}{dual\_like}}\ =\ \doxymbox{\hyperlink{conceptflx_1_1concepts_1_1hyperdual__like}{hyperdual\_like<T>}}\ \&\&\ fluxion\_implementation\_defined\ >=\ 2}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Usable where one order of derivatives is expected:\+ an order of at least one, or a base value, which loses nothing at any order 

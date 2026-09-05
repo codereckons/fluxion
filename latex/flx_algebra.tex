@@ -1,0 +1,160 @@
+\doxysubsection{Hyperdual Algebra }
+\hypertarget{flx_algebra}{}\label{flx_algebra}\index{Hyperdual Algebra@{Hyperdual Algebra}}
+\label{flx_algebra_md__2____w_2fluxion_2fluxion_2doc_2algebra}%
+\Hypertarget{flx_algebra_md__2____w_2fluxion_2fluxion_2doc_2algebra}%
+
+
+\doxylink{flx_methods}{Obtaining a Derivative} ends on forward mode, which needs a place to keep a value together with the derivatives asked of it, and an arithmetic that updates both at every operation. A number carrying its own derivative is that place.
+
+Clifford\textquotesingle{}s {\itshape dual numbers}, of 1873, carry one derivative. Fike and Alonso added a second unit in 2011 and named the result a {\itshape hyper-\/dual} number, the prefix marking the several units as it does for the hypercomplex numbers built on more than one imaginary unit. {\bfseries{FLUXION}} takes $n$ units rather than two, which is what {\itshape generalized} names here. They form an algebra, and each of its properties has a name in the library.\hypertarget{flx_algebra_flx_one_unit}{}\doxysubsubsection{\texorpdfstring{One unit}{One unit}}\label{flx_algebra_flx_one_unit}
+Adjoin to the reals a symbol $\varepsilon$ with $\varepsilon \neq 0$ and $\varepsilon^2 = 0$. An element is a pair $a + b\varepsilon$, and products close on that form, since the $\varepsilon^2$ term vanishes:\+
+
+\[ (a + b\varepsilon)(c + d\varepsilon) = ac + (ad + bc)\,\varepsilon. \]
+
+The coefficient of $\varepsilon$ obeys the product rule of \doxysectlink{flx_derivation_flx_rules}{Rules of computation}{1}, and for a function built from the arithmetic operations and the usual elementary functions,
+
+\[ f(a + \varepsilon) = f(a) + f\textnormal{\textquotesingle}(a)\,\varepsilon. \]
+
+This is the complex step made algebraic, with $\varepsilon^2 = 0$ in place of $i^2 = -1$. No $h$ has to be chosen and nothing cancels, and the coefficient of $\varepsilon$ is the derivative to the last bit the representation holds. In the library such a number is a type carrying its order:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,1>}}\ z\{2.5,\ 1.0\};\ \ \ \textcolor{comment}{//\ 2.5\ +\ e1}}
+
+\end{DoxyCode}
+\hypertarget{flx_algebra_flx_n_units}{}\doxysubsubsection{\texorpdfstring{Several units}{Several units}}\label{flx_algebra_flx_n_units}
+A second unit brings $\varepsilon_2$, and with it the product $\varepsilon_1\varepsilon_2$, which does not vanish since the two units are distinct. That component is where the second derivative lands. Let $\varepsilon_1, \dots, \varepsilon_n$ commute with each other and with the reals, and let each square to zero. The algebra they generate is
+
+\[ \mathcal{H}_n = \mathbb{R}[\varepsilon_1,\dots,\varepsilon_n] \big/
+    \left(\varepsilon_i\varepsilon_j - \varepsilon_j\varepsilon_i,\ \varepsilon_i^2\right), \]
+
+a Weil algebra, the $n$-\/fold tensor power of $\mathbb{R}[\varepsilon]/(\varepsilon^2)$. A product of distinct units is not zero, and any product in which a unit appears twice is. The surviving products are therefore indexed by the subsets of $\{1,\dots,n\}$. Writing $\varepsilon_S = \prod_{i \in S} \varepsilon_i$, the basis is $(\varepsilon_S)_{S \subseteq \{1,\dots,n\}}$, the dimension is $2^n$, and the product of two basis elements is
+
+\[ \varepsilon_S\,\varepsilon_T =
+    \begin{cases} \varepsilon_{S \cup T} & \text{if } S \cap T = \emptyset, \\
+                  0 & \text{otherwise.} \end{cases} \]
+
+{\bfseries{FLUXION}} calls $n$ the {\bfseries{order}} and carries it in the type. The order is bounded, each one doubling the number of components stored:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,1>}}\ a;\ \ \ \ \ \ \textcolor{comment}{//\ \ 2\ components:\ 1,\ e1}}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,2>}}\ b;\ \ \ \ \ \ \textcolor{comment}{//\ \ 4\ components:\ 1,\ e1,\ e2,\ e12}}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,3>}}\ c;\ \ \ \ \ \ \textcolor{comment}{//\ \ 8\ components:\ the\ subsets\ of\ three\ units}}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,4>}}\ d;\ \ \ \ \ \ \textcolor{comment}{//\ 16\ components:\ the\ subsets\ of\ four\ units}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\doxymbox{\hyperlink{group__traits_ga19e1f7eedd2abd350aa54495a4440a51_ga19e1f7eedd2abd350aa54495a4440a51}{flx::order\_v}}<\textcolor{keyword}{decltype}(c)>;\ \ \ \ \ \ \ \textcolor{comment}{//\ 3}}
+\DoxyCodeLine{\doxymbox{\hyperlink{group__traits_gae63eef1910d874d96ee7a977d8ec72ac_gae63eef1910d874d96ee7a977d8ec72ac}{flx::dimension\_v}}<\textcolor{keyword}{decltype}(c)>;\ \ \ \textcolor{comment}{//\ 8}}
+\DoxyCodeLine{\doxymbox{\hyperlink{group__traits_gaed37f490e5110e8f701e14bc2ee3f960}{flx::max\_order}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 4}}
+
+\end{DoxyCode}
+
+
+Four is where {\bfseries{FLUXION}} stops. A value of order 4 holds sixteen components, every operation of the arithmetic works on all of them, and several of them answer the same derivative (see \doxysectlink{flx_seeding_flx_landing}{Reading a result}{1}).\hypertarget{flx_algebra_flx_components}{}\doxysubsubsection{\texorpdfstring{Component indexing}{Component indexing}}\label{flx_algebra_flx_components}
+An element carries one coefficient per subset of the units, and is the sum of them:\+
+
+\[ z = \sum_{S \subseteq \{1,\dots,n\}} z_S\,\varepsilon_S
+      = z_\emptyset + z_{\{1\}}\varepsilon_1 + \dots + z_{\{1,\dots,n\}}\varepsilon_1\cdots
+        \varepsilon_n. \]
+
+The empty subset multiplies no unit, so $z_\emptyset$ is the ordinary number the element is built around, and {\bfseries{FLUXION}} calls it the {\bfseries{value}}. The other $2^n - 1$ coefficients form the {\bfseries{nilpotent part}}.
+
+Each coefficient is a component of the stored value, and its index says which units it belongs to, one bit per unit:\+ bit $i$ set means the component carries $\varepsilon_{i+1}$. Index zero holds the value, and the indices that are powers of two hold the coefficients of the single units.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{flx::get<0>(z);\ \ \ \textcolor{comment}{//\ the\ value}}
+\DoxyCodeLine{flx::get<1>(z);\ \ \ \textcolor{comment}{//\ the\ coefficient\ of\ e1}}
+\DoxyCodeLine{flx::get<3>(z);\ \ \ \textcolor{comment}{//\ the\ coefficient\ of\ e1\ e2,\ bits\ 0\ and\ 1\ both\ set}}
+
+\end{DoxyCode}
+
+
+Streaming a value prints the same names, the value unnamed and the others suffixed:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::cout\ <<\ flx::hyperdual<double,2>\{1.0,\ 2.0,\ 3.0,\ 4.0\};\ \ \ \textcolor{comment}{//\ 1\ +\ 2e1\ +\ 3e2\ +\ 4e12}}
+
+\end{DoxyCode}
+\hypertarget{flx_algebra_flx_constants}{}\doxysubsubsection{\texorpdfstring{Constants and variables}{Constants and variables}}\label{flx_algebra_flx_constants}
+A value carrying no nilpotent part is a constant:\+ differentiating anything against it returns zero. A value carrying a one in front of every unit is a variable, which is what makes derivatives flow from it.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,2>}}\ k\{2.5\};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 2.5,\ a\ constant}}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,2>}}\ x\{2.5,\ \doxymbox{\hyperlink{group__types_ga02fcc261be278ce3a28010fe7f07b998}{flx::var}}\};\ \ \ \ \textcolor{comment}{//\ 2.5\ +\ e1\ +\ e2,\ a\ variable}}
+
+\end{DoxyCode}
+
+
+A hyperdual is filled exactly. The three forms above and a tuple of the exact size are the only ways to build one, a partial list being refused rather than completed:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,2>}}\ z\{1.0,\ 2.0,\ 3.0,\ 4.0\};\ \ \ \textcolor{comment}{//\ four\ values\ for\ four\ components}}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,2>}}\ w\{1.0,\ 2.0\};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ refused\ at\ compile\ time}}
+
+\end{DoxyCode}
+
+
+\begin{DoxyNote}{Note}
+Completing by zeros would state that the missing derivatives vanish, which is an assertion about the function rather than a convention about storage.
+\end{DoxyNote}
+\hypertarget{flx_algebra_flx_arithmetic}{}\doxysubsubsection{\texorpdfstring{Sum, product, and inverse}{Sum, product, and inverse}}\label{flx_algebra_flx_arithmetic}
+$\mathcal{H}_n$ is commutative and associative at every order, so an expression means what it is written to mean at order 4 as much as at order 1, and no parenthesis has to be watched. What grows is the size, doubling with each order, and every operation works on all of the components.
+
+It is not a division algebra. Every element whose value is zero is nilpotent, hence a zero divisor. An element is invertible exactly when its value is, and the inverse is then a finite sum, the nilpotent part $N$ satisfying $N^{n+1} = 0$:\+
+
+\[ \frac{1}{a + N} = \frac{1}{a}\sum_{k=0}^{n} \left(\frac{-N}{a}\right)^{k}. \]
+
+Every arithmetic operator and every elementary function applies to a hyperdual and returns one, its components being those the algebra prescribes:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ s\ =\ x\ +\ y;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ added\ component\ by\ component}}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ p\ =\ x\ *\ y;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ product\ above,\ unit\ by\ unit}}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ q\ =\ x\ /\ y;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ defined\ exactly\ when\ the\ value\ of\ y\ is}}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ e\ =\ flx::exp(x);\ \ \ \textcolor{comment}{//\ the\ value,\ and\ every\ derivative\ it\ carries}}
+
+\end{DoxyCode}
+\hypertarget{flx_algebra_flx_order_relation}{}\doxysubsubsection{\texorpdfstring{No order relation}{No order relation}}\label{flx_algebra_flx_order_relation}
+An ordered ring has no nilpotent element other than zero:\+ were $\varepsilon > 0$, squaring would give $0 > 0$. No comparison of two hyperduals can therefore extend the comparison of the reals, and the library compares values:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{x\ ==\ y;\ \ \ \textcolor{comment}{//\ compares\ the\ values\ alone}}
+\DoxyCodeLine{x\ <\ \ y;\ \ \ \textcolor{comment}{//\ absent}}
+
+\end{DoxyCode}
+
+
+Reading a derivative is done by component, by name or by index, and never by comparison.\hypertarget{flx_algebra_flx_subalgebra}{}\doxysubsubsection{\texorpdfstring{Lower orders as prefixes}{Lower orders as prefixes}}\label{flx_algebra_flx_subalgebra}
+The units $\varepsilon_1, \dots, \varepsilon_k$ generate a subalgebra of $\mathcal{H}_n$ for $k \le n$. The binary layout of the indices places it first:\+ the first $2^k$ components are exactly the subsets of the first $k$ units, so reading an order $k$ out of an order $n$ is taking a prefix, component for component.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{structflx_1_1hyperdual}{flx::hyperdual<double,4>}}\ z;}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ y\ =\ flx::restrict\_to<2>(z);\ \ \ \textcolor{comment}{//\ the\ first\ four\ components,\ unchanged}}
+
+\end{DoxyCode}
+
+
+The extraction is exact, and there is nothing that goes the other way:\+ raising an order would fill components with zeros the operand never held.\hypertarget{flx_algebra_flx_algebra_refs}{}\doxysubsubsection{\texorpdfstring{References}{References}}\label{flx_algebra_flx_algebra_refs}
+
+\begin{DoxyItemize}
+\item W. K. Clifford, {\itshape Preliminary Sketch of Biquaternions}, Proceedings of the London Mathematical Society, s1-\/4, 381-\/395, where the dual numbers appear. The volume is dated 1871 by the publisher and cited as 1873 nearly everywhere else. \href{https://doi.org/10.1112/plms/s1-4.1.381}{\texttt{doi:\+10.\+1112/\+plms/\+s1-\/4.1.\+381}}
+\item J. A. Fike and J. J. Alonso, {\itshape The Development of Hyper-\/\+Dual Numbers for Exact Second-\/\+Derivative Calculations}, AIAA 2011-\/886, 49th AIAA Aerospace Sciences Meeting, 2011, which adds the second unit and the cross term. \href{https://doi.org/10.2514/6.2011-886}{\texttt{doi:\+10.\+2514/\+6.2011-\/886}}
+\item M. Neuenhofen, {\itshape Review of Theory and Implementation of Hyper-\/\+Dual Numbers for First and Second Order Automatic Differentiation}, ar\+Xiv:\+1801.\+03614, 2018, which covers the same ground and is freely readable. \href{https://arxiv.org/abs/1801.03614}{\texttt{arxiv.\+org/\+abs/\+1801.03614}}
+\end{DoxyItemize}
+
+
+
+
+\begin{DoxyTable}{2}{}{}{1}
+\SetCell{bg=\tableheadbgcolor,font=\bfseries}Previous  &\SetCell{r,bg=\tableheadbgcolor,font=\bfseries}Next  \\
+\doxylink{flx_methods}{Obtaining a Derivative}  &\SetCell{r}\doxylink{flx_seeding}{Seeding and Reading}  \\
+\end{DoxyTable}
+
+
+ 

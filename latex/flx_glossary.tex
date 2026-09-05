@@ -1,0 +1,32 @@
+\doxysubsection{Glossary }
+\hypertarget{flx_glossary}{}\label{flx_glossary}\index{Glossary@{Glossary}}
+\label{flx_glossary_md__2____w_2fluxion_2fluxion_2doc_2glossary}%
+\Hypertarget{flx_glossary_md__2____w_2fluxion_2fluxion_2doc_2glossary}%
+
+
+The terms these pages use.\hypertarget{flx_glossary_flx_gl_float}{}\doxysubsubsection{\texorpdfstring{Floating-\/point arithmetic}{Floating-\/point arithmetic}}\label{flx_glossary_flx_gl_float}
+\hypertarget{flx_glossary_autotoc_md0}{}\doxysubsubsubsection{\texorpdfstring{Unit roundoff}{Unit roundoff}}\label{flx_glossary_autotoc_md0}
+The largest relative error a single correctly rounded floating-\/point operation can make, written $u$. It is $2^{-24}$ for {\ttfamily float} and $2^{-53}$ for {\ttfamily double}, and it sets the number of digits any result can hold.\hypertarget{flx_glossary_autotoc_md1}{}\doxysubsubsubsection{\texorpdfstring{Cancellation}{Cancellation}}\label{flx_glossary_autotoc_md1}
+The loss of significant digits when two nearby values are subtracted. The difference is computed exactly, and the digits the two operands had in common are gone from it, so the error they already carried becomes the leading part of the result. It is what a difference quotient runs into as $h$ shrinks.\hypertarget{flx_glossary_autotoc_md2}{}\doxysubsubsubsection{\texorpdfstring{Truncation error}{Truncation error}}\label{flx_glossary_autotoc_md2}
+The part of a formula that is dropped. A forward difference omits a term of order $h$, which is its truncation error, and it shrinks with $h$ where the cancellation grows.\hypertarget{flx_glossary_flx_gl_algebra}{}\doxysubsubsection{\texorpdfstring{Algebra}{Algebra}}\label{flx_glossary_flx_gl_algebra}
+\hypertarget{flx_glossary_autotoc_md3}{}\doxysubsubsubsection{\texorpdfstring{Nilpotent}{Nilpotent}}\label{flx_glossary_autotoc_md3}
+An element whose power vanishes. The units of \doxylink{flx_algebra}{Hyperdual Algebra} satisfy $\varepsilon_i^2 = 0$, and any element with no real part satisfies $N^{n+1} = 0$ at order $n$.\hypertarget{flx_glossary_autotoc_md4}{}\doxysubsubsubsection{\texorpdfstring{Order}{Order}}\label{flx_glossary_autotoc_md4}
+In {\bfseries{FLUXION}}, the number of nilpotent units a value carries, written {\ttfamily Ord} in the types. A value of order $n$ holds $2^n$ components and answers derivatives up to the $n$-\/th.\hypertarget{flx_glossary_flx_gl_simd}{}\doxysubsubsection{\texorpdfstring{Vector registers}{Vector registers}}\label{flx_glossary_flx_gl_simd}
+\hypertarget{flx_glossary_autotoc_md5}{}\doxysubsubsubsection{\texorpdfstring{Cardinal}{Cardinal}}\label{flx_glossary_autotoc_md5}
+The number of lanes of a SIMD register, EVE\textquotesingle{}s term, read by {\ttfamily eve::\+cardinal\+\_\+v}. It counts the points evaluated together, where the order counts the derivatives one point carries.\hypertarget{flx_glossary_autotoc_md6}{}\doxysubsubsubsection{\texorpdfstring{Structure of arrays}{Structure of arrays}}\label{flx_glossary_autotoc_md6}
+A layout storing one array per field rather than one record per element. {\ttfamily eve::\+wide} of a hyperdual holds one register per component, so an operation on a component is one SIMD instruction.\hypertarget{flx_glossary_flx_gl_ad}{}\doxysubsubsection{\texorpdfstring{Automatic differentiation}{Automatic differentiation}}\label{flx_glossary_flx_gl_ad}
+\hypertarget{flx_glossary_autotoc_md7}{}\doxysubsubsubsection{\texorpdfstring{Seeding}{Seeding}}\label{flx_glossary_autotoc_md7}
+Giving a value the nilpotent units the derivatives against it will be indexed by. Griewank and Walther\textquotesingle{}s term for the same operation in the forward mode.\hypertarget{flx_glossary_autotoc_md8}{}\doxysubsubsubsection{\texorpdfstring{Forward mode}{Forward mode}}\label{flx_glossary_autotoc_md8}
+Automatic differentiation carrying the derivatives alongside the value, in the order the program computes. One pass returns the value and the derivatives with respect to whatever was seeded.\hypertarget{flx_glossary_autotoc_md9}{}\doxysubsubsubsection{\texorpdfstring{Reverse mode}{Reverse mode}}\label{flx_glossary_autotoc_md9}
+Automatic differentiation recording the operations of an evaluation, then walking the record backwards to accumulate derivatives. One forward pass and one backward pass return the gradient against every input, at the cost of storing the record.
+
+
+
+
+\begin{DoxyTable}{1}{}{}{1}
+\SetCell{bg=\tableheadbgcolor,font=\bfseries}Previous  \\
+\doxylink{background}{Background}  \\
+\end{DoxyTable}
+
+
+ 

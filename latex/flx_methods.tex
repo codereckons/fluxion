@@ -1,0 +1,70 @@
+\doxysubsection{Obtaining a Derivative }
+\hypertarget{flx_methods}{}\label{flx_methods}\index{Obtaining a Derivative@{Obtaining a Derivative}}
+\label{flx_methods_md__2____w_2fluxion_2fluxion_2doc_2methods}%
+\Hypertarget{flx_methods_md__2____w_2fluxion_2fluxion_2doc_2methods}%
+
+
+Four methods answer the question \doxylink{flx_derivation}{Differentiating a Program} ends on:\+ by what means is a derivative carried through an execution. They differ in what they are exact about, what they cost, and what they demand of the code. They come below in order, from the one that differentiates a formula to the one that evaluates the function twice and subtracts.\hypertarget{flx_methods_flx_symbolic}{}\doxysubsubsection{\texorpdfstring{Symbolic differentiation}{Symbolic differentiation}}\label{flx_methods_flx_symbolic}
+Differentiating the formula gives an exact expression, and evaluating it gives an exact value. It requires a formula:\+ a program with a loop, a branch or a call into a library is not one. It also forms the composed expression that \doxysectlink{flx_derivation_flx_rules}{Rules of computation}{1} avoids, and repeated differentiation makes that expression grow, each order multiplying the number of terms.\hypertarget{flx_methods_flx_automatic}{}\doxysubsubsection{\texorpdfstring{Automatic differentiation}{Automatic differentiation}}\label{flx_methods_flx_automatic}
+Both modes apply the chain rule to the sequence of operations the program actually performed, so both are exact to the representation.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Forward mode}}, what {\bfseries{FLUXION}} implements, carries the derivatives alongside the value. The cost of one evaluation is proportional to the number of components carried, and nothing is stored between evaluations. A gradient of $m$ arguments costs a number of passes growing with $m$.
+\item {\bfseries{Reverse mode}} records the operations of one evaluation, then walks the record backwards. A gradient of $m$ arguments costs one forward pass and one backward pass whatever $m$ is, and the record grows with the number of operations executed.
+\end{DoxyItemize}
+
+Each answers a different shape of problem. Forward mode suits few arguments or high orders, reverse mode a single output differentiated against many parameters at once.\hypertarget{flx_methods_flx_complex}{}\doxysubsubsection{\texorpdfstring{Complex step}{Complex step}}\label{flx_methods_flx_complex}
+Lyness and Moler noted in 1967, and Squire and Trapp made known in 1998, that $\Im\big(f(a + ih)\big)/h$ approximates $f\textnormal{\textquotesingle}(a)$ with no subtraction of nearby values. The cancellation disappears, $h$ may be taken as small as the representation allows, and the first derivative comes back to full precision.
+
+Beyond the first derivative it gives nothing, and it asks a great deal of the code.
+
+
+\begin{DoxyItemize}
+\item The second derivative comes back entangled with the first.
+\item The function has to be analytic.
+\item Its implementation has to accept complex arguments and stay analytic through every branch it takes.
+\end{DoxyItemize}\hypertarget{flx_methods_flx_quotient}{}\doxysubsubsection{\texorpdfstring{Difference quotient}{Difference quotient}}\label{flx_methods_flx_quotient}
+Evaluating $\big(f(a+h) - f(a)\big)/h$ for a small $h$ is wrong twice over. The quotient omits a term of order $h$, and the subtraction of two nearby values loses digits in proportion to $u/h$, with $u$ the unit roundoff. The two errors move in opposite directions, so the best $h$ is a compromise, around $\sqrt{u}$ for a forward difference, which leaves about half of the available digits. A central difference improves the truncation and leaves the cancellation where it was, and a second derivative divides by $h^2$ and keeps roughly a third of them.
+
+None of this is a defect of an implementation. The choice of $h$ is itself the error, and no care recovers the digits the subtraction has already spent. This is also the only method that ignores the chain rule:\+ it replays the whole program beside itself and reads the difference.\hypertarget{flx_methods_flx_summary}{}\doxysubsubsection{\texorpdfstring{Comparison}{Comparison}}\label{flx_methods_flx_summary}
+
+\begin{DoxyTable}{4}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Method  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Exactness  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Orders  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}What it needs  \\
+Symbolic  &full  &\SetCell{c}any, with expression growth  &a formula  \\
+Forward mode  &full  &\SetCell{c}any, at $2^n$ components  &the program, and a type it accepts  \\
+Reverse mode  &full  &\SetCell{c}first, higher by nesting  &the program, and a record of its execution  \\
+Complex step  &full  &\SetCell{c}first only  &an analytic function, and complex arithmetic  \\
+Difference quotient  &half the digits, at best  &\SetCell{c}any, degrading fast  &nothing  \\
+\end{DoxyTable}
+
+
+
+\begin{DoxyTable}{2}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Method  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}In the library  \\
+Symbolic differentiation  &Planned as a second layer:\+ an expression carrying its own derivative as another expression, differentiated once and evaluated as often as wanted.  \\
+Forward mode  &Yes, and it is the whole of the library:\+ hyperduals up to order 4, on scalars as on SIMD registers.  \\
+Reverse mode  &No. It answers the other shape of problem and is a design of its own.  \\
+Complex step  &No. The nilpotent units remove the step at any order, where this removes it at the first.  \\
+Difference quotient  &No. It approximates what an arithmetic carries exactly.  \\
+\end{DoxyTable}
+
+
+Forward mode is therefore the whole of the library, and \doxylink{flx_algebra}{Hyperdual Algebra} is the arithmetic it carries its derivatives in.\hypertarget{flx_methods_flx_methods_refs}{}\doxysubsubsection{\texorpdfstring{References}{References}}\label{flx_methods_flx_methods_refs}
+
+\begin{DoxyItemize}
+\item J. N. Lyness and C. B. Moler, {\itshape Numerical Differentiation of Analytic Functions}, SIAM Journal on Numerical Analysis, 4(2), 202-\/210, 1967. \href{https://doi.org/10.1137/0704019}{\texttt{doi:\+10.\+1137/\+0704019}}
+\item W. Squire and G. Trapp, {\itshape Using Complex Variables to Estimate Derivatives of Real Functions}, SIAM Review, 40(1), 110-\/112, 1998. \href{https://doi.org/10.1137/S003614459631241X}{\texttt{doi:\+10.\+1137/\+\+S003614459631241X}}
+\item A. Griewank and A. Walther, {\itshape Evaluating Derivatives:\+ Principles and Techniques of Algorithmic Differentiation}, SIAM, second edition, 2008, for both modes and what each costs. \href{https://doi.org/10.1137/1.9780898717761}{\texttt{doi:\+10.\+1137/\+1.9780898717761}}
+\end{DoxyItemize}
+
+
+
+
+\begin{DoxyTable}{2}{}{}{1}
+\SetCell{bg=\tableheadbgcolor,font=\bfseries}Previous  &\SetCell{r,bg=\tableheadbgcolor,font=\bfseries}Next  \\
+\doxylink{flx_derivation}{Differentiating a Program}  &\SetCell{r}\doxylink{flx_algebra}{Hyperdual Algebra}  \\
+\end{DoxyTable}
+
+
+ 

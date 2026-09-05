@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['version_0',['version',['../namespacefluxion.html#a7b4a8c80f54a1a3350f132de2c3fd8e1',1,'fluxion']]]
+  ['dimension_5fv_0',['dimension_v',['../group__traits_gae63eef1910d874d96ee7a977d8ec72ac.html#gae63eef1910d874d96ee7a977d8ec72ac',1,'flx']]]
 ];

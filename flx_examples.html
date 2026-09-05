@@ -1,0 +1,330 @@
+<!-- HTML header for doxygen 1.16.1-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Post-Modern Automatic Derivation based on generalized hyperdual numbers" />
+<link rel="canonical" href="https://codereckons.github.io/fluxion/" />
+<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+<meta property="og:title" content="FLUXION - Post-Modern Automatic Derivation" />
+<meta property="og:description" content="FLUXION computes exact derivatives of C++20 code through generalized hyperdual numbers, up to any order, on scalars and SIMD registers alike." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://codereckons.github.io/fluxion/" />
+<meta property="og:image" content="https://codereckons.github.io/fluxion/card.png" />
+<meta property="og:site_name" content="FLUXION Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="FLUXION - Post-Modern Automatic Derivation" />
+<meta name="twitter:description" content="FLUXION computes exact derivatives of C++20 code through generalized hyperdual numbers, up to any order, on scalars and SIMD registers alike." />
+<meta name="twitter:image" content="https://codereckons.github.io/fluxion/card.png" />
+<title>fluxion: Examples</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="godbolt-config.js"></script>
+<script type="text/javascript" src="godbolt.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="copacabana.js"></script>
+<script type="text/javascript">
+  DoxygenAwesomeParagraphLink.init()
+  DoxygenAwesomeTabs.init()
+  DoxygenAwesomeFragmentCopyButton.init()
+  SendToGodbolt.init(GODBOLT_LIBRARIES, GODBOLT_COMPILER, GODBOLT_OPTIONS)
+  Copacabana.hideImplementationDefined()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="color.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<a href="https://github.com/codereckons/fluxion" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="logo.svg"/></td>
+  <td id="projectalign">
+   <div id="projectname">fluxion<span id="projectnumber">&#160;v0.1.0</span>
+   </div>
+   <div id="projectbrief">Post-Modern Automatic Derivation based on generalized hyperdual numbers</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('flx_examples.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Examples </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p><a class="anchor" id="md__2____w_2fluxion_2fluxion_2doc_2examples"></a></p>
+<p>Each example is a complete program: the function, the call, and what it prints. They are ordered by what each one asks of the library.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_ex_first"></a>
+First derivative</h1>
+<p>For \(f(x) = x^2\), \(f&#39;(x) = 2x\), so \(f(3) = 9\) and \(f&#39;(3) = 6\).</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x * x; };</div>
+<div class="line">  <span class="keyword">auto</span> z = f(<a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;1&gt;</a>(3.0));</div>
+<div class="line"> </div>
+<div class="line">  std::cout &lt;&lt; z &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;                 <span class="comment">// 9 + 6e1</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 6</span></div>
+<div class="line">}</div>
+<div class="ttc" id="agroup__types_ga487d2e600f4745c7eae18474d9641300_html_ga487d2e600f4745c7eae18474d9641300"><div class="ttname"><a href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable</a></div><div class="ttdeci">constexpr as_hyperdual_n_t&lt; Ord, T &gt; variable(T v) noexcept</div><div class="ttdoc">Turn a value into a variable of the given order.</div><div class="ttdef"><b>Definition</b> variables.hpp:60</div></div>
+</div><!-- fragment --><p>The seeded value carries \(3 + \varepsilon_1\), and the square gives \(9 + 6\varepsilon_1\) because \(\varepsilon_1^2 = 0\).</p>
+<h1 class="doxsection"><a class="anchor" id="flx_ex_composition"></a>
+Composition</h1>
+<p>For \(f(x) = \sin(x^2)\), the chain rule gives \(f&#39;(x) = 2x\cos(x^2)\). Nothing of that expression is written anywhere.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> flx::sin(x * x); };</div>
+<div class="line">  <span class="keyword">auto</span> z = f(<a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;1&gt;</a>(0.7));</div>
+<div class="line"> </div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;0&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// sin(0.49)</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 1.4 * cos(0.49)</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Each operation applies its own rule to what it receives, and the composition is performed by the evaluation itself.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_ex_orders"></a>
+Three derivatives in one pass</h1>
+<p>Giving every unit of the order to one value returns the successive derivatives of that value. With \(x = a + \varepsilon_1 + \varepsilon_2 + \varepsilon_3\), a component carrying \(|S|\) units holds \(f^{(|S|)}(a)\).</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  <span class="keyword">auto</span> z = flx::exp(<a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;3&gt;</a>(1.0));</div>
+<div class="line"> </div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;0&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// exp(1)</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// exp(1), the first derivative</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;3&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// exp(1), the second</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;7&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// exp(1), the third</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="flx_ex_gradient"></a>
+Gradient and mixed derivative</h1>
+<p>For \(f(x,y) = x^2 y + \sin y\), the partial derivatives are \(2xy\) and \(x^2 + \cos y\), and the mixed second derivative is \(2x\). One unit per argument returns the three at once.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) { <span class="keywordflow">return</span> x * x * y + flx::sin(y); };</div>
+<div class="line">  <span class="keyword">auto</span> z = kumi::apply(f, <a class="code hl_function" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d">flx::variables&lt;0, 1&gt;</a>(2.0, 0.5));</div>
+<div class="line"> </div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 2.0, the derivative in x</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;2&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 4.0 + cos(0.5), the derivative in y</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;3&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 4.0, the mixed second derivative</span></div>
+<div class="line">}</div>
+<div class="ttc" id="agroup__types_gad882c0e62192532ad693d74ebdeb394d_html_gad882c0e62192532ad693d74ebdeb394d"><div class="ttname"><a href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d">flx::variables</a></div><div class="ttdeci">constexpr auto variables(Xs... xs) noexcept</div><div class="ttdoc">Turn the arguments of a call into variables, each along the units it is differentiated by.</div><div class="ttdef"><b>Definition</b> variables.hpp:85</div></div>
+</div><!-- fragment --><p>The square terms are absent, since neither argument was given two units.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_ex_hessian"></a>
+Full Hessian</h1>
+<p>Two units per argument brings them in, at order 4.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) { <span class="keywordflow">return</span> x * x * y + flx::sin(y); };</div>
+<div class="line">  <span class="keyword">auto</span> z = kumi::apply(f, <a class="code hl_function" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d">flx::variables&lt;0, 0, 1, 1&gt;</a>(2.0, 0.5));</div>
+<div class="line"> </div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;3&gt;(z)  &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;   <span class="comment">// the second derivative in x</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;5&gt;(z)  &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;   <span class="comment">// the mixed one</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;12&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;   <span class="comment">// the second derivative in y</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Four arguments would need eight units for the same result, which exceeds <span class="tt"><a class="el" href="group__traits.html#gaed37f490e5110e8f701e14bc2ee3f960" title="Highest derivative order the library carries.">flx::max_order</a></span>, so a Hessian of more than two arguments is a sweep of evaluations at order 2, one per pair.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_ex_newton"></a>
+Newton, then Halley</h1>
+<p>Newton's method needs \(f\) and \(f&#39;\) at the current point, and both come out of one call. Halley's method converges faster and needs \(f&#39;&#39;\) as well: the function is unchanged, and the order asked for is what differs.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> F&gt;</div>
+<div class="line"><span class="keywordtype">double</span> newton(F f, <span class="keywordtype">double</span> a)</div>
+<div class="line">{</div>
+<div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 20; ++i)</div>
+<div class="line">  {</div>
+<div class="line">    <span class="keyword">auto</span> z = f(<a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;1&gt;</a>(a));</div>
+<div class="line">    a -= flx::get&lt;0&gt;(z) / flx::get&lt;1&gt;(z);</div>
+<div class="line">  }</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">return</span> a;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> F&gt;</div>
+<div class="line"><span class="keywordtype">double</span> halley(F f, <span class="keywordtype">double</span> a)</div>
+<div class="line">{</div>
+<div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 20; ++i)</div>
+<div class="line">  {</div>
+<div class="line">    <span class="keyword">auto</span> z  = f(<a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;2&gt;</a>(a));</div>
+<div class="line">    <span class="keyword">auto</span> v  = flx::get&lt;0&gt;(z);</div>
+<div class="line">    <span class="keyword">auto</span> d1 = flx::get&lt;1&gt;(z);</div>
+<div class="line">    <span class="keyword">auto</span> d2 = flx::get&lt;3&gt;(z);</div>
+<div class="line"> </div>
+<div class="line">    a -= 2 * v * d1 / (2 * d1 * d1 - v * d2);</div>
+<div class="line">  }</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">return</span> a;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x * x - 2.0; };</div>
+<div class="line"> </div>
+<div class="line">  std::cout &lt;&lt; newton(f, 1.0) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 1.41421356237</span></div>
+<div class="line">  std::cout &lt;&lt; halley(f, 1.0) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 1.41421356237</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="flx_ex_loop"></a>
+Differentiating through a loop</h1>
+<p>Horner's rule evaluates a polynomial whose degree is known at run time. No expression for its derivative exists in the program, and the sequence of operations the loop performs is what gets differentiated.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;span&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">T horner(T x, std::span&lt;double const&gt; c)</div>
+<div class="line">{</div>
+<div class="line">  T r{c[0]};</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">for</span>(<span class="keyword">auto</span> k : c.subspan(1)) r = r * x + k;</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">return</span> r;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  std::vector&lt;double&gt; c = {3.0, -1.0, 0.0, 2.5};</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">auto</span> z = horner(<a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;2&gt;</a>(0.5), std::span&lt;double const&gt;{c});</div>
+<div class="line"> </div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;0&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// the value</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// the first derivative</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;3&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// the second</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p>The coefficients enter as constants, carrying no nilpotent part, so nothing is differentiated against them.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_ex_wide"></a>
+Several points at once</h1>
+<p>A hyperdual whose components are SIMD registers holds one point per lane, and one evaluation returns the derivative at each of them.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;eve/wide.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main()</div>
+<div class="line">{</div>
+<div class="line">  eve::wide&lt;double&gt; a{[](<span class="keyword">auto</span> i, <span class="keyword">auto</span>) { <span class="keywordflow">return</span> 0.5 + 0.25 * i; }};</div>
+<div class="line"> </div>
+<div class="line">  <span class="keyword">auto</span> x = <a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;1&gt;</a>(a);           <span class="comment">// eve::wide&lt;flx::hyperdual&lt;double,1&gt;&gt;</span></div>
+<div class="line">  <span class="keyword">auto</span> z = flx::sin(x * x);</div>
+<div class="line"> </div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;0&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// the values, one per lane</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// the derivatives, one per lane</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p>The order and the cardinal are independent: <span class="tt"><a class="el" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300" title="Turn a value into a variable of the given order.">flx::variable</a>&lt;2&gt;</span> of the same wide gives second derivatives at every lane, at twice the storage.</p>
+<div class="section_buttons"></div><div class="section_buttons"><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadLeft">Previous  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><a class="el" href="flx_seeding.html" title="Seeding and Reading">Seeding and Reading</a>  </td></tr>
+</table>
+</div><div class="section_buttons"></div> </div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- HTML footer for doxygen 1.8.20-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="index.html">FLUXION</a></li><li class="navelem"><a href="background.html">Background</a></li>
+  </ul>
+</div>
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</body>
+</html>

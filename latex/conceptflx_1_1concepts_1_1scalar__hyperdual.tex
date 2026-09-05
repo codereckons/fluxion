@@ -1,0 +1,22 @@
+\doxysection{flx::\+concepts::\+scalar\+\_\+hyperdual Concept Reference}
+\hypertarget{conceptflx_1_1concepts_1_1scalar__hyperdual}{}\label{conceptflx_1_1concepts_1_1scalar__hyperdual}\index{flx::concepts::scalar\_hyperdual@{flx::concepts::scalar\_hyperdual}}
+
+
+A hyperdual that is not wide.  
+
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+concepts.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\ \ \textcolor{keyword}{concept\ }\doxymbox{\hyperlink{conceptflx_1_1concepts_1_1scalar__hyperdual}{scalar\_hyperdual}}\ =\ \doxymbox{\hyperlink{conceptflx_1_1concepts_1_1hyperdual}{hyperdual<T>}}\ \&\&\ eve::scalar\_value<T>}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+A hyperdual that is not wide. 

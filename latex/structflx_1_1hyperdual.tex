@@ -1,0 +1,88 @@
+\doxysection{flx::\+hyperdual\texorpdfstring{$<$}{<} Type, Ord \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{structflx_1_1hyperdual}{}\label{structflx_1_1hyperdual}\index{flx::hyperdual$<$ Type, Ord $>$@{flx::hyperdual$<$ Type, Ord $>$}}
+
+
+hyperdual numbers main abstraction It is built so that all operations can be done in a streamlined fashion  
+
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+hyperdual.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structflx_1_1hyperdual_ad4a8aa2eda7859f0d815ab51d6854c2f}\label{structflx_1_1hyperdual_ad4a8aa2eda7859f0d815ab51d6854c2f} 
+constexpr {\bfseries hyperdual} () noexcept
+\begin{DoxyCompactList}\small\item\em Default hyperdual constructor. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_a24e249ec75b473f154385f820190ba15}\label{structflx_1_1hyperdual_a24e249ec75b473f154385f820190ba15} 
+constexpr {\bfseries hyperdual} (eve::\+sized\+\_\+product\+\_\+type$<$ static\+\_\+dimension $>$ auto const \&vs)
+\begin{DoxyCompactList}\small\item\em Construct a hyperdual instance from a properly sized product\+\_\+type. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_a1aa1b81d5d7241bec2fb712492a50fb5}\label{structflx_1_1hyperdual_a1aa1b81d5d7241bec2fb712492a50fb5} 
+{\footnotesize template$<$unsigned int M$>$ }\\constexpr {\bfseries hyperdual} (hyperdual$<$ Type, M $>$ const \&a) noexcept
+\begin{DoxyCompactList}\small\item\em Constructs a hyperdual instance from an hyperdual of greater order. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_a5da0a2da1f6ea132148226407bf073de}\label{structflx_1_1hyperdual_a5da0a2da1f6ea132148226407bf073de} 
+{\footnotesize template$<$std::\+convertible\+\_\+to$<$ Type $>$ T$>$ }\\constexpr {\bfseries hyperdual} (T v) noexcept
+\begin{DoxyCompactList}\small\item\em Construct a hyperdual constant from a base value. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_a6a2b86643e08d12d2eaec186430db0f3}\label{structflx_1_1hyperdual_a6a2b86643e08d12d2eaec186430db0f3} 
+{\footnotesize template$<$std::\+convertible\+\_\+to$<$ Type $>$ T$>$ }\\constexpr {\bfseries hyperdual} (T v, \doxymbox{\hyperlink{structflx_1_1as__var}{as\+\_\+var}}) noexcept
+\begin{DoxyCompactList}\small\item\em Construct a hyperdual variable from a base value. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_a525278fbe0d2ff74c30fb113f5671645}\label{structflx_1_1hyperdual_a525278fbe0d2ff74c30fb113f5671645} 
+{\footnotesize template$<$std::\+convertible\+\_\+to$<$ Type $>$ T0, std::\+convertible\+\_\+to$<$ Type $>$... Ts$>$ }\\constexpr {\bfseries hyperdual} (T0 v0, Ts... vs) noexcept
+\begin{DoxyCompactList}\small\item\em Construct a hyperdual instance from exactly as many base values as it has components. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_ae440e03fa9946b379687514576b6eac5}\label{structflx_1_1hyperdual_ae440e03fa9946b379687514576b6eac5} 
+FLX\+\_\+\+FORCEINLINE auto \& {\bfseries operator++} () noexcept
+\begin{DoxyCompactList}\small\item\em Pre-\/incrementation operator. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_ad5565db3360e425e19e1b81878c709d5}\label{structflx_1_1hyperdual_ad5565db3360e425e19e1b81878c709d5} 
+FLX\+\_\+\+FORCEINLINE auto {\bfseries operator++} (int) noexcept
+\begin{DoxyCompactList}\small\item\em Post-\/incrementation operator. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_a21fd4a357d47c851e8110bf5e90fd625}\label{structflx_1_1hyperdual_a21fd4a357d47c851e8110bf5e90fd625} 
+FLX\+\_\+\+FORCEINLINE auto \& {\bfseries operator-\/-\/} () noexcept
+\begin{DoxyCompactList}\small\item\em Pre-\/decrementation operator. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_a032098eaaf46a3e73196de7ead4752d8}\label{structflx_1_1hyperdual_a032098eaaf46a3e73196de7ead4752d8} 
+FLX\+\_\+\+FORCEINLINE auto {\bfseries operator-\/-\/} (int) noexcept
+\begin{DoxyCompactList}\small\item\em Post-\/decrementation operator. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_afa38ece4a318fe8f2c47eba0c6c66e05}\label{structflx_1_1hyperdual_afa38ece4a318fe8f2c47eba0c6c66e05} 
+{\footnotesize template$<$concepts::\+hyperdual T$>$ \newline
+requires (T::\+static\+\_\+dimension $>$ static\+\_\+dimension)}\\constexpr \doxymbox{\hyperlink{structflx_1_1hyperdual_ad4a8aa2eda7859f0d815ab51d6854c2f}{hyperdual}} \& {\bfseries operator=} (T const \&a) noexcept
+\begin{DoxyCompactList}\small\item\em Assign a greater order hyperdual to another. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Related Symbols}
+(Note that these are not member symbols.) \begin{Indent}\textbf{ Deduction Guides}\par
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structflx_1_1hyperdual_a756774a48a2b045ee2c3eae20287164a}\label{structflx_1_1hyperdual_a756774a48a2b045ee2c3eae20287164a} 
+{\footnotesize template$<$eve::\+product\+\_\+type Tuple$>$ }\\{\bfseries hyperdual} (Tuple const \&) -\/$>$ hyperdual$<$ kumi::\+element\+\_\+t$<$ 0, Tuple $>$, fluxion\+\_\+implementation\+\_\+defined(kumi::\+size\+\_\+v$<$ Tuple $>$)$>$
+\begin{DoxyCompactList}\small\item\em Deduction guide from a product type whose component count names an order. \end{DoxyCompactList}\item 
+\Hypertarget{structflx_1_1hyperdual_a80d3156783ba2282cd7701f61ad30d92}\label{structflx_1_1hyperdual_a80d3156783ba2282cd7701f61ad30d92} 
+{\footnotesize template$<$typename T0, std::\+convertible\+\_\+to$<$ T0 $>$... Ts$>$ }\\{\bfseries hyperdual} (T0, Ts...) -\/$>$ hyperdual$<$ T0, fluxion\+\_\+implementation\+\_\+defined(1+sizeof...(Ts))$>$
+\begin{DoxyCompactList}\small\item\em Deduction guide from a sequence of values whose count names an order. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Streaming Operators}\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename C, typename Ct, concepts::\+hyperdual CD$>$ }\\auto \& \doxymbox{\hyperlink{structflx_1_1hyperdual_a1d50add5f2f5370f64b20919751ccdcf_a1d50add5f2f5370f64b20919751ccdcf}{operator$<$$<$}} (std::\+basic\+\_\+ostream$<$ C, Ct $>$ \&os, CD const \&z)
+\begin{DoxyCompactList}\small\item\em Stream insertion for hyperdual based types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$concepts::\+scalar\+\_\+base Type, unsigned int Ord$>$\newline
+requires (Ord $>$= 1 \&\& Ord $<$= 4)\newline
+class flx::\+hyperdual$<$ Type, Ord $>$}
+hyperdual numbers main abstraction It is built so that all operations can be done in a streamlined fashion 
+
+\label{doc-related-members}
+\Hypertarget{structflx_1_1hyperdual_doc-related-members}
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{structflx_1_1hyperdual_a1d50add5f2f5370f64b20919751ccdcf_a1d50add5f2f5370f64b20919751ccdcf}\index{flx::hyperdual$<$ Type, Ord $>$@{flx::hyperdual$<$ Type, Ord $>$}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!flx::hyperdual$<$ Type, Ord $>$@{flx::hyperdual$<$ Type, Ord $>$}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+{\footnotesize\ttfamily \label{structflx_1_1hyperdual_a1d50add5f2f5370f64b20919751ccdcf_a1d50add5f2f5370f64b20919751ccdcf} 
+template$<$typename C, typename Ct, concepts::\+hyperdual CD$>$ \\
+auto \& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std::\+basic\+\_\+ostream$<$ C, Ct $>$ \&}]{os}{, }\item[{CD const \&}]{z}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [related]}}
+
+
+
+Stream insertion for hyperdual based types. 
+
+Templated on the stream so that {\ttfamily \texorpdfstring{$<$}{<}iosfwd\texorpdfstring{$>$}{>}} is enough here:\+ {\ttfamily \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<}} is only resolved where the operator is instantiated, which is wherever the caller already includes the real header. 

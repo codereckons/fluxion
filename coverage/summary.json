@@ -1,14 +1,51 @@
 {
-    "branch_covered": 0,
-    "branch_percent": 0.0,
-    "branch_total": 0,
-    "files": [],
-    "function_covered": 0,
-    "function_percent": 0.0,
-    "function_total": 0,
+    "branch_covered": 7,
+    "branch_percent": 77.8,
+    "branch_total": 9,
+    "files": [
+        {
+            "branch_covered": 0,
+            "branch_percent": null,
+            "branch_total": 0,
+            "filename": "include/fluxion/types/hyperdual.hpp",
+            "function_covered": 37,
+            "function_percent": 100.0,
+            "function_total": 37,
+            "line_covered": 22,
+            "line_percent": 100.0,
+            "line_total": 22
+        },
+        {
+            "branch_covered": 7,
+            "branch_percent": 77.8,
+            "branch_total": 9,
+            "filename": "include/fluxion/types/io.hpp",
+            "function_covered": 6,
+            "function_percent": 100.0,
+            "function_total": 6,
+            "line_covered": 7,
+            "line_percent": 87.5,
+            "line_total": 8
+        },
+        {
+            "branch_covered": 0,
+            "branch_percent": null,
+            "branch_total": 0,
+            "filename": "include/fluxion/types/variables.hpp",
+            "function_covered": 1,
+            "function_percent": 100.0,
+            "function_total": 1,
+            "line_covered": 3,
+            "line_percent": 100.0,
+            "line_total": 3
+        }
+    ],
+    "function_covered": 44,
+    "function_percent": 100.0,
+    "function_total": 44,
     "gcovr/summary_format_version": "0.6",
-    "line_covered": 0,
-    "line_percent": 0.0,
-    "line_total": 0,
+    "line_covered": 32,
+    "line_percent": 97.0,
+    "line_total": 33,
     "root": "../../.."
 }

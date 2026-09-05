@@ -1,0 +1,23 @@
+\doxysection{flx::\+concepts::\+hyperdual Concept Reference}
+\hypertarget{conceptflx_1_1concepts_1_1hyperdual}{}\label{conceptflx_1_1concepts_1_1hyperdual}\index{flx::concepts::hyperdual@{flx::concepts::hyperdual}}
+
+
+General hyperdual concept.  
+
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+concepts.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\ \ \textcolor{keyword}{concept\ }\doxymbox{\hyperlink{conceptflx_1_1concepts_1_1hyperdual}{hyperdual}}\ =\ \doxymbox{\hyperlink{conceptflx_1_1concepts_1_1hyperdual__like}{hyperdual\_like<T>}}\ \&\&\ (fluxion\_implementation\_defined\ >\ 1)\ \&\&}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (fluxion\_implementation\_defined\ !=\ fluxion\_implementation\_defined)}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+General hyperdual concept. 

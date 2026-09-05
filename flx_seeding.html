@@ -1,0 +1,244 @@
+<!-- HTML header for doxygen 1.16.1-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Post-Modern Automatic Derivation based on generalized hyperdual numbers" />
+<link rel="canonical" href="https://codereckons.github.io/fluxion/" />
+<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+<meta property="og:title" content="FLUXION - Post-Modern Automatic Derivation" />
+<meta property="og:description" content="FLUXION computes exact derivatives of C++20 code through generalized hyperdual numbers, up to any order, on scalars and SIMD registers alike." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://codereckons.github.io/fluxion/" />
+<meta property="og:image" content="https://codereckons.github.io/fluxion/card.png" />
+<meta property="og:site_name" content="FLUXION Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="FLUXION - Post-Modern Automatic Derivation" />
+<meta name="twitter:description" content="FLUXION computes exact derivatives of C++20 code through generalized hyperdual numbers, up to any order, on scalars and SIMD registers alike." />
+<meta name="twitter:image" content="https://codereckons.github.io/fluxion/card.png" />
+<title>fluxion: Seeding and Reading</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="godbolt-config.js"></script>
+<script type="text/javascript" src="godbolt.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="copacabana.js"></script>
+<script type="text/javascript">
+  DoxygenAwesomeParagraphLink.init()
+  DoxygenAwesomeTabs.init()
+  DoxygenAwesomeFragmentCopyButton.init()
+  SendToGodbolt.init(GODBOLT_LIBRARIES, GODBOLT_COMPILER, GODBOLT_OPTIONS)
+  Copacabana.hideImplementationDefined()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="color.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<a href="https://github.com/codereckons/fluxion" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="logo.svg"/></td>
+  <td id="projectalign">
+   <div id="projectname">fluxion<span id="projectnumber">&#160;v0.1.0</span>
+   </div>
+   <div id="projectbrief">Post-Modern Automatic Derivation based on generalized hyperdual numbers</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('flx_seeding.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Seeding and Reading </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p><a class="anchor" id="md__2____w_2fluxion_2fluxion_2doc_2seeding"></a></p>
+<p>The algebra of <a class="el" href="flx_algebra.html" title="Hyperdual Algebra">Hyperdual Algebra</a> returns every derivative of an evaluation at once. Which argument each of them differentiates is decided when the arguments are seeded.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_assignment"></a>
+Assigning units to arguments</h1>
+<p>Seeding a value is adding units to it. The argument a unit is given to is written in the call, and two forms write it. <span class="tt"><a class="el" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300" title="Turn a value into a variable of the given order.">flx::variable</a>&lt;Ord&gt;</span> gives every unit of the order to a single value, and <span class="tt"><a class="el" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d" title="Turn the arguments of a call into variables, each along the units it is differentiated by.">flx::variables</a>&lt;Is...&gt;</span> spreads the units of a call over its arguments:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> x        = <a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;2&gt;</a>(2.5);</div>
+<div class="line"><span class="keyword">auto</span> [ u, v ] = <a class="code hl_function" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d">flx::variables&lt;0, 1&gt;</a>(2.5, -1.0);</div>
+<div class="line"><span class="keyword">auto</span> [ p, q ] = <a class="code hl_function" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d">flx::variables&lt;0, 0, 1&gt;</a>(2.5, -1.0);</div>
+<div class="ttc" id="agroup__types_ga487d2e600f4745c7eae18474d9641300_html_ga487d2e600f4745c7eae18474d9641300"><div class="ttname"><a href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable</a></div><div class="ttdeci">constexpr as_hyperdual_n_t&lt; Ord, T &gt; variable(T v) noexcept</div><div class="ttdoc">Turn a value into a variable of the given order.</div><div class="ttdef"><b>Definition</b> variables.hpp:60</div></div>
+<div class="ttc" id="agroup__types_gad882c0e62192532ad693d74ebdeb394d_html_gad882c0e62192532ad693d74ebdeb394d"><div class="ttname"><a href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d">flx::variables</a></div><div class="ttdeci">constexpr auto variables(Xs... xs) noexcept</div><div class="ttdoc">Turn the arguments of a call into variables, each along the units it is differentiated by.</div><div class="ttdef"><b>Definition</b> variables.hpp:85</div></div>
+</div><!-- fragment --><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Result  </th><th class="markdownTableHeadNone">Type  </th><th class="markdownTableHeadNone">Value it holds  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt">x</span>  </td><td class="markdownTableBodyNone"><span class="tt"><a class="el" href="structflx_1_1hyperdual.html" title="hyperdual numbers main abstraction It is built so that all operations can be done in a streamlined fa...">flx::hyperdual</a>&lt;double,2&gt;</span>  </td><td class="markdownTableBodyNone">\(2.5 + \varepsilon_1 + \varepsilon_2\)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt">u</span>, <span class="tt">v</span>  </td><td class="markdownTableBodyNone"><span class="tt"><a class="el" href="structflx_1_1hyperdual.html" title="hyperdual numbers main abstraction It is built so that all operations can be done in a streamlined fa...">flx::hyperdual</a>&lt;double,2&gt;</span>  </td><td class="markdownTableBodyNone">\(2.5 + \varepsilon_1\) and \(-1 + \varepsilon_2\)  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt">p</span>, <span class="tt">q</span>  </td><td class="markdownTableBodyNone"><span class="tt"><a class="el" href="structflx_1_1hyperdual.html" title="hyperdual numbers main abstraction It is built so that all operations can be done in a streamlined fa...">flx::hyperdual</a>&lt;double,3&gt;</span>  </td><td class="markdownTableBodyNone">\(2.5 + \varepsilon_1 + \varepsilon_2\) and \(-1 + \varepsilon_3\)  </td></tr>
+</table>
+<p>The template list <span class="tt">Is...</span> holds one entry per unit, in unit order: its \(i\)-th entry is the index of the argument \(\varepsilon_i\) is given to, arguments being counted from zero and units from one. Its length is the order every seeded result comes back at. The third call above gives units 1 and 2 to the first argument and unit 3 to the second, hence an order 3 on both.</p>
+<p>An argument that is given no unit comes back unchanged, at its own type, so the result of a call to <span class="tt"><a class="el" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d" title="Turn the arguments of a call into variables, each along the units it is differentiated by.">flx::variables</a></span> feeds the function straight through <span class="tt">kumi::apply</span>.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_taylor"></a>
+Taylor identity</h1>
+<p>Substituting a nilpotent into an analytic function turns its series into a sum with finitely many terms, since every monomial of degree \(n+1\) in the units vanishes. That truncation is an identity, and no approximation.</p>
+<p>For a function \(f\) of \(m\) arguments, seed argument \(j\) with the units of a set \(U_j\), the sets \(U_1, \dots, U_m\) partitioning \(\{1,\dots,n\}\):</p>
+<p class="formulaDsp">
+\[ x_j = a_j + \sum_{i \in U_j} \varepsilon_i. \]
+</p>
+<p>Each unit then belongs to exactly one argument, and \(k\) denotes the map reading that assignment back, \(k(i) = j\) for the single \(j\) with \(i \in U_j\). It is the list <span class="tt">Is...</span> of the previous section. The evaluation gives</p>
+<p class="formulaDsp">
+\[ f(x_1,\dots,x_m) = \sum_{S \subseteq \{1,\dots,n\}}
+    \left(\frac{\partial^{|S|} f}{\prod_{i \in S} \partial x_{k(i)}}(a_1,\dots,a_m)\right)
+    \varepsilon_S. \]
+</p>
+<p>Every component of the result is a partial derivative of \(f\) at the point, and it carries no factorial: each unit appears to the first power, so the coefficient of \(\varepsilon_S\) is the derivative itself.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_landing"></a>
+Reading a result</h1>
+<p>A component is indexed by the units it carries, as <a class="el" href="flx_algebra.html#flx_components" title="Component indexing">Component indexing</a> states. With the seeding <span class="tt"><a class="el" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d" title="Turn the arguments of a call into variables, each along the units it is differentiated by.">flx::variables</a>&lt;0, 1&gt;(x, y)</span> and \(f\) evaluated on the pair, the four components hold</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadCenter">Component  </th><th class="markdownTableHeadNone">Units  </th><th class="markdownTableHeadNone">What it holds  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><span class="tt">get&lt;0&gt;</span>  </td><td class="markdownTableBodyNone">none  </td><td class="markdownTableBodyNone">\(f(x, y)\)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"><span class="tt">get&lt;1&gt;</span>  </td><td class="markdownTableBodyNone">\(\varepsilon_1\)  </td><td class="markdownTableBodyNone">\(\partial f/\partial x\)  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><span class="tt">get&lt;2&gt;</span>  </td><td class="markdownTableBodyNone">\(\varepsilon_2\)  </td><td class="markdownTableBodyNone">\(\partial f/\partial y\)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"><span class="tt">get&lt;3&gt;</span>  </td><td class="markdownTableBodyNone">\(\varepsilon_1\varepsilon_2\)  </td><td class="markdownTableBodyNone">\(\partial^2 f/\partial x\,\partial y\)  </td></tr>
+</table>
+<p>One evaluation returns the gradient and the mixed second derivative. Absent from it is \(\partial^2 f/\partial x^2\): a second derivative in one argument needs two units on that argument, which <span class="tt"><a class="el" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d" title="Turn the arguments of a call into variables, each along the units it is differentiated by.">flx::variables</a>&lt;0, 0&gt;</span> asks for.</p>
+<p>Two units per argument gives the square terms as well. Seeding two arguments that way costs order 4 and returns, in a single evaluation, the value, both first derivatives and the whole Hessian:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> [ x, y ] = <a class="code hl_function" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d">flx::variables&lt;0, 0, 1, 1&gt;</a>(2.5, -1.0);</div>
+</div><!-- fragment --><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadCenter">Component  </th><th class="markdownTableHeadNone">Units  </th><th class="markdownTableHeadNone">What it holds  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><span class="tt">get&lt;1&gt;</span>  </td><td class="markdownTableBodyNone">\(\varepsilon_1\)  </td><td class="markdownTableBodyNone">\(\partial f/\partial x\)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"><span class="tt">get&lt;3&gt;</span>  </td><td class="markdownTableBodyNone">\(\varepsilon_1\varepsilon_2\)  </td><td class="markdownTableBodyNone">\(\partial^2 f/\partial x^2\)  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><span class="tt">get&lt;5&gt;</span>  </td><td class="markdownTableBodyNone">\(\varepsilon_1\varepsilon_3\)  </td><td class="markdownTableBodyNone">\(\partial^2 f/\partial x\,\partial y\)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"><span class="tt">get&lt;12&gt;</span>  </td><td class="markdownTableBodyNone">\(\varepsilon_3\varepsilon_4\)  </td><td class="markdownTableBodyNone">\(\partial^2 f/\partial y^2\)  </td></tr>
+</table>
+<p>Several components hold the same derivative, \(\varepsilon_2\varepsilon_3\) answering \(\partial^2 f/\partial x\,\partial y\) as \(\varepsilon_1\varepsilon_3\) does. A symmetric object stored as a full set of subsets repeats itself, and that repetition is what caps the useful order at four.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_cost"></a>
+Cost of an order</h1>
+<p>An order \(n\) carries \(2^n\) components, so a single value of order 4 weighs sixteen <span class="tt">double</span>, and every operation of the arithmetic works on all of them. Two ways of spending that budget answer different questions.</p>
+<ul>
+<li><b>One unit per argument.</b> Order \(m\) over \(m\) arguments returns the gradient and every mixed partial up to the one of order \(m\), in one evaluation, and never a repeated derivative.</li>
+<li><b>Several units per argument.</b> Order \(n\) over one argument returns \(f&#39;, f&#39;&#39;, \dots, f^{(n)}\) of that argument in one evaluation, and says nothing of the others.</li>
+</ul>
+<p>A full Hessian of \(m\) arguments therefore comes out of one pass only when \(2m \le 4\). Past two arguments it is a sweep of \(m(m+1)/2\) evaluations at order 2, one per pair, which is the usual shape of a forward mode.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_mixing"></a>
+Mixed orders</h1>
+<p>An operand of order 2 carries nothing of a third derivative, and filling it with zeros would state that the third derivative vanishes. A mixed expression therefore computes at the <b>smallest</b> order present, and the extra components of the others are dropped. <span class="tt">flx::restrict_to&lt;Ord&gt;</span> performs that descent explicitly, on the scalar form as on the wide one.</p>
+<p>Only a lone scalar adapts to what it is mixed with. Everything that carries a structure states its own element type, and two operands stating different ones have no common type at all, which is a refusal rather than an arbitration.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_wide"></a>
+Several points at once</h1>
+<p>A component may be a SIMD register rather than a scalar, and the construction goes through unchanged. <span class="tt">eve::wide&lt;<a class="el" href="structflx_1_1hyperdual.html" title="hyperdual numbers main abstraction It is built so that all operations can be done in a streamlined fa...">flx::hyperdual</a>&lt;double,2&gt;&gt;</span> is a structure of arrays holding as many hyperduals as the machine has lanes, and seeding a wide value seeds every lane, so one evaluation returns the derivatives at as many points as there are lanes.</p>
+<p>This is a different axis from the order. The order says how many derivatives one point carries, the cardinal how many points travel together, and each is read where it is written: the order from the element type, the cardinal from <span class="tt">eve::cardinal_v</span>. Two operands that are genuinely wide have to agree on their number of lanes.</p>
+<div class="section_buttons"></div><div class="section_buttons"><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadLeft">Previous  </th><th class="markdownTableHeadRight">Next  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><a class="el" href="flx_algebra.html" title="Hyperdual Algebra">Hyperdual Algebra</a>  </td><td class="markdownTableBodyRight"><a class="el" href="flx_examples.html" title="Examples">Examples</a>  </td></tr>
+</table>
+</div><div class="section_buttons"></div> </div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- HTML footer for doxygen 1.8.20-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="index.html">FLUXION</a></li><li class="navelem"><a href="background.html">Background</a></li>
+  </ul>
+</div>
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</body>
+</html>

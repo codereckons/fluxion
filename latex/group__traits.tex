@@ -1,0 +1,148 @@
+\doxysection{Traits }
+\hypertarget{group__traits}{}\label{group__traits}\index{Traits@{Traits}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structflx_1_1as__base}{flx::\+as\+\_\+base$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Lightweight type-\/wrapper of base value type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T$>$ }\\using \doxymbox{\hyperlink{group__traits_ga8176776e24a43e80799f1a10067b6eb2_ga8176776e24a43e80799f1a10067b6eb2}{flx::\+as\+\_\+base\+\_\+type\+\_\+t}} = typename as\+\_\+base\+\_\+type$<$T$>$::\+type
+\begin{DoxyCompactList}\small\item\em Compute the base type associated to a Hyperdual-\/like type. \end{DoxyCompactList}\item 
+{\footnotesize template$<$unsigned int Ord, typename... Ts$>$ }\\using \doxymbox{\hyperlink{group__traits_ga168201d3b044c23a8d7073628fa779ac_ga168201d3b044c23a8d7073628fa779ac}{flx::\+as\+\_\+hyperdual\+\_\+n\+\_\+t}} = typename as\+\_\+hyperdual\+\_\+n$<$Ord, Ts...$>$::\+type
+\begin{DoxyCompactList}\small\item\em Computes a Hyperdual type of a given dimension. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Ts$>$ }\\using \doxymbox{\hyperlink{group__traits_gaac44af756975dec034912c4d9b007dc9_gaac44af756975dec034912c4d9b007dc9}{flx::\+as\+\_\+hyperdual\+\_\+t}} = typename as\+\_\+hyperdual$<$Ts...$>$::\+type
+\begin{DoxyCompactList}\small\item\em Computes the best fitting Hyperdual type from a series of types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T$>$ }\\constexpr unsigned int \doxymbox{\hyperlink{group__traits_gae63eef1910d874d96ee7a977d8ec72ac_gae63eef1910d874d96ee7a977d8ec72ac}{flx::\+dimension\+\_\+v}} = \texorpdfstring{$\ast$}{*}implementation -\/ defined\texorpdfstring{$\ast$}{*}
+\begin{DoxyCompactList}\small\item\em Obtains the number of dimensions of the algebra containing a given type. \end{DoxyCompactList}\item 
+\Hypertarget{group__traits_gabc13fe5cc0b8ef739122fe361007d77e}\label{group__traits_gabc13fe5cc0b8ef739122fe361007d77e} 
+constexpr unsigned int {\bfseries flx::\+max\+\_\+dimension\+\_\+v} = 16
+\begin{DoxyCompactList}\small\item\em Widest algebra the library builds, sixteen components. \end{DoxyCompactList}\item 
+\Hypertarget{group__traits_gaed37f490e5110e8f701e14bc2ee3f960}\label{group__traits_gaed37f490e5110e8f701e14bc2ee3f960} 
+constexpr unsigned int {\bfseries flx::\+max\+\_\+order} = 4
+\begin{DoxyCompactList}\small\item\em Highest derivative order the library carries. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T$>$ }\\constexpr unsigned int \doxymbox{\hyperlink{group__traits_ga19e1f7eedd2abd350aa54495a4440a51_ga19e1f7eedd2abd350aa54495a4440a51}{flx::\+order\+\_\+v}} = \texorpdfstring{$\ast$}{*}implementation -\/ defined\texorpdfstring{$\ast$}{*}
+\begin{DoxyCompactList}\small\item\em Obtains the order of derivation obtained in the algebra containing a given type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+\label{doc-typedef-members}
+\Hypertarget{group__traits_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{group__traits_ga8176776e24a43e80799f1a10067b6eb2_ga8176776e24a43e80799f1a10067b6eb2}\index{Traits@{Traits}!as\_base\_type\_t@{as\_base\_type\_t}}
+\index{as\_base\_type\_t@{as\_base\_type\_t}!Traits@{Traits}}
+\doxysubsubsection{\texorpdfstring{as\_base\_type\_t}{as\_base\_type\_t}}
+{\footnotesize\ttfamily \label{group__traits_ga8176776e24a43e80799f1a10067b6eb2_ga8176776e24a43e80799f1a10067b6eb2} 
+template$<$typename T$>$ \\
+using \doxymbox{\hyperlink{group__traits_ga8176776e24a43e80799f1a10067b6eb2_ga8176776e24a43e80799f1a10067b6eb2}{flx::\+as\+\_\+base\+\_\+type\+\_\+t}} = typename as\+\_\+base\+\_\+type$<$T$>$::\+type}
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+traits.\+hpp$>$}
+
+
+
+Compute the base type associated to a Hyperdual-\/like type. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type to convert to a base type. \\
+\hline
+\end{DoxyTemplParams}
+\Hypertarget{group__traits_ga168201d3b044c23a8d7073628fa779ac_ga168201d3b044c23a8d7073628fa779ac}\index{Traits@{Traits}!as\_hyperdual\_n\_t@{as\_hyperdual\_n\_t}}
+\index{as\_hyperdual\_n\_t@{as\_hyperdual\_n\_t}!Traits@{Traits}}
+\doxysubsubsection{\texorpdfstring{as\_hyperdual\_n\_t}{as\_hyperdual\_n\_t}}
+{\footnotesize\ttfamily \label{group__traits_ga168201d3b044c23a8d7073628fa779ac_ga168201d3b044c23a8d7073628fa779ac} 
+template$<$unsigned int Ord, typename... Ts$>$ \\
+using \doxymbox{\hyperlink{group__traits_ga168201d3b044c23a8d7073628fa779ac_ga168201d3b044c23a8d7073628fa779ac}{flx::\+as\+\_\+hyperdual\+\_\+n\+\_\+t}} = typename as\+\_\+hyperdual\+\_\+n$<$Ord, Ts...$>$::\+type}
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+traits.\+hpp$>$}
+
+
+
+Computes a Hyperdual type of a given dimension. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Ord} & order of the Hyperdual algebra to use. \\
+\hline
+{\em Ts} & Types used to compute the Hyperdual underlying type. \\
+\hline
+\end{DoxyTemplParams}
+\Hypertarget{group__traits_gaac44af756975dec034912c4d9b007dc9_gaac44af756975dec034912c4d9b007dc9}\index{Traits@{Traits}!as\_hyperdual\_t@{as\_hyperdual\_t}}
+\index{as\_hyperdual\_t@{as\_hyperdual\_t}!Traits@{Traits}}
+\doxysubsubsection{\texorpdfstring{as\_hyperdual\_t}{as\_hyperdual\_t}}
+{\footnotesize\ttfamily \label{group__traits_gaac44af756975dec034912c4d9b007dc9_gaac44af756975dec034912c4d9b007dc9} 
+template$<$typename... Ts$>$ \\
+using \doxymbox{\hyperlink{group__traits_gaac44af756975dec034912c4d9b007dc9_gaac44af756975dec034912c4d9b007dc9}{flx::\+as\+\_\+hyperdual\+\_\+t}} = typename as\+\_\+hyperdual$<$Ts...$>$::\+type}
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+traits.\+hpp$>$}
+
+
+
+Computes the best fitting Hyperdual type from a series of types. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Ts} & Types used to compute the Hyperdual underlying type. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-var-members}
+\Hypertarget{group__traits_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{group__traits_gae63eef1910d874d96ee7a977d8ec72ac_gae63eef1910d874d96ee7a977d8ec72ac}\index{Traits@{Traits}!dimension\_v@{dimension\_v}}
+\index{dimension\_v@{dimension\_v}!Traits@{Traits}}
+\doxysubsubsection{\texorpdfstring{dimension\_v}{dimension\_v}}
+{\footnotesize\ttfamily \label{group__traits_gae63eef1910d874d96ee7a977d8ec72ac_gae63eef1910d874d96ee7a977d8ec72ac} 
+template$<$typename T$>$ \\
+unsigned int flx::\+dimension\+\_\+v = \texorpdfstring{$\ast$}{*}implementation -\/ defined\texorpdfstring{$\ast$}{*}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+traits.\+hpp$>$}
+
+
+
+Obtains the number of dimensions of the algebra containing a given type. 
+
+If {\ttfamily T} models a value of $\mathbb{R}$, evaluates to max\+\_\+dimension\+\_\+v:\+ a base value never narrows what it meets.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type to analyze. \\
+\hline
+\end{DoxyTemplParams}
+\Hypertarget{group__traits_ga19e1f7eedd2abd350aa54495a4440a51_ga19e1f7eedd2abd350aa54495a4440a51}\index{Traits@{Traits}!order\_v@{order\_v}}
+\index{order\_v@{order\_v}!Traits@{Traits}}
+\doxysubsubsection{\texorpdfstring{order\_v}{order\_v}}
+{\footnotesize\ttfamily \label{group__traits_ga19e1f7eedd2abd350aa54495a4440a51_ga19e1f7eedd2abd350aa54495a4440a51} 
+template$<$typename T$>$ \\
+unsigned int flx::\+order\+\_\+v = \texorpdfstring{$\ast$}{*}implementation -\/ defined\texorpdfstring{$\ast$}{*}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+{\ttfamily \+\#include $<$fluxion/\+types/\+traits.\+hpp$>$}
+
+
+
+Obtains the order of derivation obtained in the algebra containing a given type. 
+
+If {\ttfamily T} models a value of $\mathbb{R}$, evaluates to max\+\_\+order:\+ a base value loses nothing at any order, and the min over a mixed pack then ignores it.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type to analyze. \\
+\hline
+\end{DoxyTemplParams}

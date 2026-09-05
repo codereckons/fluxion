@@ -1,0 +1,216 @@
+<!-- HTML header for doxygen 1.16.1-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Post-Modern Automatic Derivation based on generalized hyperdual numbers" />
+<link rel="canonical" href="https://codereckons.github.io/fluxion/" />
+<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+<meta property="og:title" content="FLUXION - Post-Modern Automatic Derivation" />
+<meta property="og:description" content="FLUXION computes exact derivatives of C++20 code through generalized hyperdual numbers, up to any order, on scalars and SIMD registers alike." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://codereckons.github.io/fluxion/" />
+<meta property="og:image" content="https://codereckons.github.io/fluxion/card.png" />
+<meta property="og:site_name" content="FLUXION Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="FLUXION - Post-Modern Automatic Derivation" />
+<meta name="twitter:description" content="FLUXION computes exact derivatives of C++20 code through generalized hyperdual numbers, up to any order, on scalars and SIMD registers alike." />
+<meta name="twitter:image" content="https://codereckons.github.io/fluxion/card.png" />
+<title>fluxion: Differentiating a Program</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="godbolt-config.js"></script>
+<script type="text/javascript" src="godbolt.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="copacabana.js"></script>
+<script type="text/javascript">
+  DoxygenAwesomeParagraphLink.init()
+  DoxygenAwesomeTabs.init()
+  DoxygenAwesomeFragmentCopyButton.init()
+  SendToGodbolt.init(GODBOLT_LIBRARIES, GODBOLT_COMPILER, GODBOLT_OPTIONS)
+  Copacabana.hideImplementationDefined()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="color.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<a href="https://github.com/codereckons/fluxion" class="github-corner" title="View source on GitHub" target="_blank">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="logo.svg"/></td>
+  <td id="projectalign">
+   <div id="projectname">fluxion<span id="projectnumber">&#160;v0.1.0</span>
+   </div>
+   <div id="projectbrief">Post-Modern Automatic Derivation based on generalized hyperdual numbers</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Search',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('flx_derivation.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Differentiating a Program </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p><a class="anchor" id="md__2____w_2fluxion_2fluxion_2doc_2derivation"></a></p>
+<p><b>FLUXION</b> returns the derivatives of a C++ computation: exact to the representation, up to order four, mixed partial derivatives included, on scalar values as on SIMD registers.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_program"></a>
+Programs as compositions</h1>
+<p>Evaluating a program on an input performs a finite sequence of elementary operations, each of them an addition, a multiplication, a comparison, or a call to an elementary function. Write \(v_0 = a\) for the input, \(N\) for the number of operations the evaluation performs, and \(\varphi_i\) for the one performed at step \(i\). Each step reads the values already computed, and the last one is the result:</p>
+<p class="formulaDsp">
+\[ v_i = \varphi_i(v_0, \dots, v_{i-1}) \quad (1 \le i \le N), \qquad f(a) = v_N. \]
+</p>
+<p>A program is therefore a composition, and differentiating what it computes requires two things: the derivative of each elementary operation, and a rule giving the derivative of a composition from the derivatives of its parts. Nothing else enters.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_derivative"></a>
+Derivative at a point</h1>
+<p>For \(f\) defined around \(a\), the derivative at \(a\) is the limit of the difference quotient,</p>
+<p class="formulaDsp">
+\[ f&#39;(a) = \lim_{h \to 0} \frac{f(a+h) - f(a)}{h}, \]
+</p>
+<p>when that limit exists. The same statement written as an expansion is the form used from here on:</p>
+<p class="formulaDsp">
+\[ f(a+h) = f(a) + f&#39;(a)\,h + o(h). \]
+</p>
+<p>Near \(a\), \(f\) agrees with an affine function, and \(f&#39;(a)\) is the coefficient of its linear part. A derivative is a number attached to a point, and a formula for \(f&#39;\) is one way of obtaining that number.</p>
+<p>For an elementary operation that formula is known in closed form. We know, for instance, that</p>
+<p class="formulaDsp">
+\[ (x^n)&#39; = n\,x^{n-1}, \qquad (\sin x)&#39; = \cos x, \qquad (e^x)&#39; = e^x, \qquad
+    (\log x)&#39; = \frac{1}{x} \ \ (x &gt; 0), \]
+</p>
+<p>and each of these is evaluated as cheaply as the function it comes from. Every \(\varphi_i\) of a program has such a formula, which settles the first of the two requirements.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_rules"></a>
+Rules of computation</h1>
+<p>Four rules give the derivative of a compound expression from the derivatives of its parts:</p>
+<p class="formulaDsp">
+\[ (u+v)&#39; = u&#39; + v&#39;, \qquad
+    (uv)&#39;   = u&#39;v + uv&#39;, \qquad
+    \left(\frac{u}{v}\right)&#39; = \frac{u&#39;v - uv&#39;}{v^2}, \qquad
+    (f \circ g)&#39;(a) = f&#39;\big(g(a)\big)\,g&#39;(a). \]
+</p>
+<p>The last of them settles the second requirement. It gives \((f \circ g)&#39;(a)\) from \(g&#39;(a)\) and from \(f&#39;\) taken at \(g(a)\), two values of functions already known in closed form, at points that evaluating \(f\big(g(a)\big)\) passes through anyway. No expression for \((f \circ g)&#39;\) is formed.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_carry"></a>
+Carrying a derivative</h1>
+<p>Applied to the sequence of <a class="el" href="#flx_program" title="Programs as compositions">Programs as compositions</a> once per operation, the chain rule produces a second sequence beside it,</p>
+<p class="formulaDsp">
+\[ d_0 = 1, \qquad
+    d_i = \sum_{j&lt;i} \frac{\partial \varphi_i}{\partial v_j}(v_0,\dots,v_{i-1})\, d_j, \]
+</p>
+<p>with \(d_N = f&#39;(a)\). Every partial derivative appearing there is that of a single elementary operation, taken from the closed forms above, and the sum has as many terms as that operation has arguments, so two at most for the arithmetic operations.</p>
+<p>The two sequences are computed together, \(d_i\) needing the operands of \(v_i\) and the \(d_j\) already obtained. Each value therefore carries its own derivative, \(f&#39;(a)\) is available when the program returns, and no expression for \(f&#39;\) is written anywhere.</p>
+<p>What is differentiated is the sequence this input went through. A branch on a comparison, a loop whose count depends on the data, a value read from a table: the execution selects one path, and what comes back is the derivative of that path. <span class="tt">abs</span> at zero returns \(-1\) or \(1\) according to the comparison it took, where the function itself has no derivative.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_higher"></a>
+Higher orders, and several arguments</h1>
+<p>Differentiating \(f&#39;\) gives \(f&#39;&#39;\), and the operation repeats as long as what it returns stays differentiable. For a function of \(m\) arguments, the partial derivative \(\partial f/\partial x_j\) is the derivative of the function of \(x_j\) alone obtained by holding the other arguments fixed. Two objects are built from these:</p>
+<ul>
+<li>the <b>gradient</b>, the \(m\) first partial derivatives at the point;</li>
+<li>the <b>Hessian</b>, the \(m^2\) second ones, of which \(m(m+1)/2\) are distinct when the second partials are continuous, since \(\partial^2 f/\partial x\,\partial y\) and \(\partial^2 f/\partial y\,\partial x\) agree there.</li>
+</ul>
+<p>A program takes several inputs, and one derivative rarely answers what is asked of it. Optimisation and the solution of nonlinear systems want the gradient at a point, a second-order method wants the Hessian as well, and an iteration wants them again at every step. Each of these is a set of numbers to be carried through the same evaluation, and how many there are fixes the size of the value the arithmetic works on.</p>
+<p><b>FLUXION</b> holds a value and the derivatives asked of it in one number, so the second sequence is computed by the arithmetic itself. <a class="el" href="flx_methods.html" title="Obtaining a Derivative">Obtaining a Derivative</a> weighs that choice against the other ways of obtaining the same result.</p>
+<div class="section_buttons"></div><div class="section_buttons"><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadLeft">Previous  </th><th class="markdownTableHeadRight">Next  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><a class="el" href="background.html" title="Background">Background</a>  </td><td class="markdownTableBodyRight"><a class="el" href="flx_methods.html" title="Obtaining a Derivative">Obtaining a Derivative</a>  </td></tr>
+</table>
+</div><div class="section_buttons"></div> </div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- HTML footer for doxygen 1.8.20-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="index.html">FLUXION</a></li><li class="navelem"><a href="background.html">Background</a></li>
+  </ul>
+</div>
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</div> <!-- DOXYSTRAP RELATED -->
+</body>
+</html>
