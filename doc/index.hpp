@@ -15,8 +15,6 @@
 //! #include <fluxion/fluxion.hpp>
 //! @endcode
 //!
-//! @section background_pages Background
-//!
 //! What the library computes, and the algebra it computes it in: @subpage background
 //!
 //! @section install Installing
