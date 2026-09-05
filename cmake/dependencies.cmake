@@ -12,7 +12,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/CPM.cmake)
 ##======================================================================================================================
 ## Retrieve dependencies
 ##======================================================================================================================
-CPMAddPackage(NAME COPACABANA GITHUB_REPOSITORY jfalcou/copacabana GIT_TAG v6)
+CPMAddPackage(NAME COPACABANA GITHUB_REPOSITORY jfalcou/copacabana GIT_TAG v8)
 ## SYSTEM YES: the tests are built with -Werror -Wdocumentation, which a dependency's headers have no
 ## reason to satisfy.
 CPMAddPackage(
