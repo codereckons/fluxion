@@ -86,13 +86,13 @@ built around, and **FLUXION** calls it the **value**. The other \f$2^n - 1\f$ co
 **nilpotent part**.
 
 Each coefficient is a component of the stored value, and its index says which units it belongs to,
-one bit per unit: bit \f$i\f$ set means the component carries \f$\varepsilon_{i+1}\f$. Index zero
+one bit per unit: bit \f$i\f$ set means the component carries \f$\varepsilon_{i}\f$. Index zero
 holds the value, and the indices that are powers of two hold the coefficients of the single units.
 
 ```cpp
 flx::get<0>(z);   // the value
 flx::get<1>(z);   // the coefficient of e1
-flx::get<3>(z);   // the coefficient of e1 e2, bits 0 and 1 both set
+flx::get<3>(z);   // the coefficient of e1 e2, bits 1 and 2 both set
 ```
 
 Streaming a value prints the same names, the value unnamed and the others suffixed:
@@ -131,7 +131,7 @@ is the size, doubling with each order, and every operation works on all of the c
 
 It is not a division algebra. Every element whose value is zero is nilpotent, hence a zero divisor.
 An element is invertible exactly when its value is, and the inverse is then a finite sum, the
-nilpotent part \f$N\f$ satisfying \f$N^{n+1} = 0\f$:
+nilpotent part \f$N\f$ satisfying \f$N^{n+1} = 0\f$. Assuming \f$a\f$ is an non null value:
 
 \f[ \frac{1}{a + N} = \frac{1}{a}\sum_{k=0}^{n} \left(\frac{-N}{a}\right)^{k}. \f]
 
@@ -141,22 +141,22 @@ components being those the algebra prescribes:
 ```cpp
 auto s = x + y;         // added component by component
 auto p = x * y;         // the product above, unit by unit
-auto q = x / y;         // defined exactly when the value of y is
-auto e = flx::exp(x);   // the value, and every derivative it carries
+auto q = x / y;         // defined exactly when the value of y is not 0
+auto e = flx::exp(x);   // the value, and every derivative it carries, as soon as x is a variable
 ```
 
-# No order relation {#flx_order_relation}
+# The order relation only considers the values {#flx_ordering}
 
-An ordered ring has no nilpotent element other than zero: were \f$\varepsilon > 0\f$, squaring would
-give \f$0 > 0\f$. No comparison of two hyperduals can therefore extend the comparison of the reals,
-and the library compares values:
+An ordered ring has no nilpotent element other than zero: as \f$\varepsilon\f$ is not 0
+ and \f$\varepsilon > 0\f$, squaring would
+give \f$0 > 0\f$ (and same for  \f$\varepsilon < 0\f$).
+No total ordering of two hyperduals can therefore extend the comparison of the reals.
+The library defines ordering of hyperduals as ordering of the values:
 
 ```cpp
 x == y;   // compares the values alone
-x <  y;   // absent
+x < y;    // compares the values alone
 ```
-
-Reading a derivative is done by component, by name or by index, and never by comparison.
 
 # Lower orders as prefixes {#flx_subalgebra}
 
