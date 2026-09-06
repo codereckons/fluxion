@@ -23,20 +23,8 @@ jobs:
   ## much heavier compiler matrix start.
   ##################################################################################################
   precommit:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-      - name: Set up Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: '3.x'
-      - name: Install pre-commit
-        # Pinned, and binary-only so no dependency gets to run a setup script during install
-        run: pip install --only-binary ":all:" pre-commit==4.6.2
-      - name: Run pre-commit checks
-        run: pre-commit run --all-files --show-diff-on-failure --color=always
-
+    name: Meta Checks
+    uses: jfalcou/copacabana/.github/workflows/precommit.yml@44053e713b1b57329ccbcbb8878c839024bf19ee # v8
 
   ##################################################################################################
   ## Sanitizers (ASan+UBSan)
@@ -60,9 +48,13 @@ jobs:
   linux-tests:
     name: Linux
     needs: [precommit, sanitizer-tests]
-    uses: ./.github/workflows/linux.yml
+    uses: jfalcou/copacabana/.github/workflows/matrix.yml@44053e713b1b57329ccbcbb8878c839024bf19ee # v8
+    with:
+      file: .github/matrices/linux.yml
 
   macos-tests:
     name: MacOS
     needs: [precommit, sanitizer-tests]
-    uses: ./.github/workflows/macos.yml
+    uses: jfalcou/copacabana/.github/workflows/matrix.yml@44053e713b1b57329ccbcbb8878c839024bf19ee # v8
+    with:
+      file: .github/matrices/macos.yml

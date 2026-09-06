@@ -84,6 +84,9 @@ if(FLUXION_BUILD_TEST)
     copa_setup_sanitizers(fluxion_tests ENABLE_ASAN ENABLE_UBSAN)
   endif()
 
+  ## include(CTest) before enable_testing: it is what writes DartConfiguration.tcl and finds
+  ## valgrind, without which ctest -T MemCheck stops on an unset memory checker.
+  include(CTest)
   enable_testing()
   add_subdirectory(test)
 

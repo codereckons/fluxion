@@ -1,0 +1,9 @@
+##======================================================================================================================
+##  FLUXION - Post-Modern Automatic Derivation based on generalized hyperdual numbers
+##  Copyright : FLUXION Project Contributors
+##  SPDX-License-Identifier: BSL-1.0
+##======================================================================================================================
+## Read by copacabana's matrix.yml: the rows below are the macos jobs, one per row and configuration.
+runs-on: macos-14
+rows:
+  - { name: "clang" , preset: "clang-macos" }
