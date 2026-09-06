@@ -5,10 +5,11 @@
 ##======================================================================================================================
 name: Unit Tests
 on:
-  ## Temporary, while this branch is not yet main: it is what makes the CI run at all here.
-  push:
-    branches:
-      - infra/phoenix
+  ## Main gets the matrix once a night rather than on every merge: a run of its own queued behind each merge held
+  ## the pull requests back. 01:40 UTC, off the hour that every other scheduled workflow on the platform asks for,
+  ## and off the 01:20 kumi takes.
+  schedule:
+    - cron: '40 1 * * *'
   pull_request:
     branches:
       - main
