@@ -53,8 +53,14 @@ copa_setup_precommit_hooks(${QUIET_OPTION})
 copa_setup_install(
   LIBRARY fluxion
   FEATURES cxx_std_20
+  CONFIG ${PROJECT_SOURCE_DIR}/cmake/fluxion-config.cmake.in
   DOC ${PROJECT_SOURCE_DIR}/LICENSE.md
   INCLUDE ${PROJECT_SOURCE_DIR}/include/fluxion)
+
+## The public headers include <eve/eve.hpp>, so the interface target has to hand EVE to whoever
+## links it. Without this, a consumer using FetchContent or CPM compiles against fluxion's headers
+## alone and stops on the first include.
+target_link_libraries(fluxion_lib INTERFACE eve::eve)
 
 ##======================================================================================================================
 ## Setup doxygen
