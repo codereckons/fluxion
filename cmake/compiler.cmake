@@ -9,9 +9,9 @@
 ##======================================================================================================================
 add_library(fluxion_tests INTERFACE)
 
-target_compile_features(fluxion_tests INTERFACE cxx_std_20)
-
-target_link_libraries(fluxion_tests INTERFACE eve::eve tts::tts)
+## fluxion::fluxion carries the standard it needs, its own headers and EVE, so the tests state only
+## what is theirs.
+target_link_libraries(fluxion_tests INTERFACE fluxion::fluxion tts::tts)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   if(CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
@@ -27,4 +27,4 @@ else()
                                                  -Wshadow>)
 endif()
 
-target_include_directories(fluxion_tests INTERFACE ${PROJECT_SOURCE_DIR}/test ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(fluxion_tests INTERFACE ${PROJECT_SOURCE_DIR}/test)
