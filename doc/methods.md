@@ -29,6 +29,21 @@ both are exact to the representation.
 Each answers a different shape of problem. Forward mode suits few arguments or high orders, reverse
 mode a single output differentiated against many parameters at once.
 
+
+# Difference quotient {#flx_quotient}
+
+Evaluating \f$\big(f(a+h) - f(a)\big)/h\f$ for a small \f$h\f$ is wrong twice over. The quotient
+omits a term of order \f$h\f$, and the subtraction of two nearby values loses digits in proportion
+to \f$u/h\f$, with \f$u\f$ the unit roundoff. The two errors move in opposite directions, so the
+best \f$h\f$ is a compromise (around \f$\sqrt{u}\f$ for a forward difference) which leaves about
+half of the available digits. A central difference improves the truncation and leaves the
+cancellation where it was, and a second derivative divides by \f$h^2\f$ and keeps roughly a third of
+them.
+
+None of this is a defect of an implementation. The choice of \f$h\f$ is itself the error, and no
+care recovers the digits the subtraction has already spent. This is also the only method that
+ignores the chain rule: it replays the whole program beside itself and reads the difference.
+
 # Complex step {#flx_complex}
 
 Lyness and Moler noted in 1967, and Squire and Trapp made known in 1998, that
@@ -39,23 +54,9 @@ derivative comes back to full precision.
 Beyond the first derivative it gives nothing, and it asks a great deal of the code.
 
   + The second derivative comes back entangled with the first.
-  + The function has to be analytic.
+  + The function has to be real analytic.
   + Its implementation has to accept complex arguments and stay analytic through every branch it
     takes.
-
-# Difference quotient {#flx_quotient}
-
-Evaluating \f$\big(f(a+h) - f(a)\big)/h\f$ for a small \f$h\f$ is wrong twice over. The quotient
-omits a term of order \f$h\f$, and the subtraction of two nearby values loses digits in proportion
-to \f$u/h\f$, with \f$u\f$ the unit roundoff. The two errors move in opposite directions, so the
-best \f$h\f$ is a compromise, around \f$\sqrt{u}\f$ for a forward difference, which leaves about
-half of the available digits. A central difference improves the truncation and leaves the
-cancellation where it was, and a second derivative divides by \f$h^2\f$ and keeps roughly a third of
-them.
-
-None of this is a defect of an implementation. The choice of \f$h\f$ is itself the error, and no
-care recovers the digits the subtraction has already spent. This is also the only method that
-ignores the chain rule: it replays the whole program beside itself and reads the difference.
 
 # Comparison {#flx_summary}
 
@@ -64,16 +65,16 @@ ignores the chain rule: it replays the whole program beside itself and reads the
 | Symbolic | full | any, with expression growth | a formula |
 | Forward mode | full | any, at \f$2^n\f$ components | the program, and a type it accepts |
 | Reverse mode | full | first, higher by nesting | the program, and a record of its execution |
-| Complex step | full | first only | an analytic function, and complex arithmetic |
 | Difference quotient | half the digits, at best | any, degrading fast | nothing |
+| Complex step | full | first only | a real analytic function, and complex arithmetic |
 
 | Method | In the library |
 |--------|----------------|
 | Symbolic differentiation | Planned as a second layer: an expression carrying its own derivative as another expression, differentiated once and evaluated as often as wanted. |
 | Forward mode | Yes, and it is the whole of the library: hyperduals up to order 4, on scalars as on SIMD registers. |
 | Reverse mode | No. It answers the other shape of problem and is a design of its own. |
-| Complex step | No. The nilpotent units remove the step at any order, where this removes it at the first. |
-| Difference quotient | No. It approximates what an arithmetic carries exactly. |
+| Complex step | No. The nilpotent units remove the step at any order, where this only removes it at the first. |
+| Difference quotient | No. It approximates what an arithmetic method carries exactly. |
 
 Forward mode is therefore the whole of the library, and @ref flx_algebra is the arithmetic it
 carries its derivatives in.

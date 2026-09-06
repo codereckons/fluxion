@@ -30,6 +30,28 @@ and 2 to the first argument and unit 3 to the second, hence an order 3 on both.
 An argument that is given no unit comes back unchanged, at its own type, so the result of a call to
 `flx::variables` feeds the function straight through `kumi::apply`.
 
+
+Je ne comprend pas ce paragraphe.En particulier:
+
+arguments being counted from zero and units from one
+pourquoi ce decalage ? ou le compte des units apparait-il ?
+
+est-ce que
+
+```cpp
+     auto p0= flx::variables<0, 0, 1>(2.5);
+```
+
+a un sens si oui lequel ?
+
+est-ce que
+
+```cpp
+    auto p1= flx::variables<0, 0, 0, 1>(2.5,-3.0);
+```
+
+  a un sens  si oui lequel ?
+
 # Taylor identity {#flx_taylor}
 
 Substituting a nilpotent into an analytic function turns its series into a sum with finitely many

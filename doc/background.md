@@ -1,7 +1,7 @@
 Background  {#background}
 =========================
 
-What **FLUXION** computes is a derivative, and it computes it by arithmetic rather than by
+What **FLUXION** computes are derivatives, and it computes them by arithmetic rather than by
 approximation. These pages follow that from the definition of a derivative to the code that returns
 one, in order:
 

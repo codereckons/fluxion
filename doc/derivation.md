@@ -25,7 +25,7 @@ quotient,
 
 \f[ f'(a) = \lim_{h \to 0} \frac{f(a+h) - f(a)}{h}, \f]
 
-when that limit exists. The same statement written as an expansion is the form used from here on:
+when that limit exists. The same statement written as an Taylor expansion is the form used from here on:
 
 \f[ f(a+h) = f(a) + f'(a)\,h + o(h). \f]
 
@@ -36,7 +36,7 @@ obtaining that number.
 For an elementary operation that formula is known in closed form. We know, for instance, that
 
 \f[ (x^n)' = n\,x^{n-1}, \qquad (\sin x)' = \cos x, \qquad (e^x)' = e^x, \qquad
-    (\log x)' = \frac{1}{x} \ \ (x > 0), \f]
+    (\log |x|)' = \frac{1}{x} \ \f]
 
 and each of these is evaluated as cheaply as the function it comes from. Every \f$\varphi_i\f$ of a
 program has such a formula, which settles the first of the two requirements.
@@ -57,7 +57,7 @@ that evaluating \f$f\big(g(a)\big)\f$ passes through anyway. No expression for
 
 # Carrying a derivative {#flx_carry}
 
-Applied to the sequence of @ref flx_program once per operation, the chain rule produces a second
+Applied to the [program](@ref flx_program) sequence once per operation, the chain rule produces a second
 sequence beside it,
 
 \f[ d_0 = 1, \qquad
@@ -94,7 +94,7 @@ Hessian as well, and an iteration wants them again at every step. Each of these 
 to be carried through the same evaluation, and how many there are fixes the size of the value the
 arithmetic works on.
 
-**FLUXION** holds a value and the derivatives asked of it in one number, so the second sequence is
+**FLUXION** holds a value and the derivatives asked of it in one "number", so the second sequence is
 computed by the arithmetic itself. @ref flx_methods weighs that choice against the other ways of
 obtaining the same result.
 
