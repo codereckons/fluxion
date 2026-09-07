@@ -11,6 +11,7 @@ option(FLUXION_BUILD_TEST "Build tests   for FLUXION" ON)
 option(FLUXION_BUILD_DOCUMENTATION "Build Doxygen for FLUXION" OFF)
 option(FLUXION_ENABLE_SANITIZERS "Build tests with AddressSanitizer + UndefinedBehaviorSanitizer" OFF)
 option(FLUXION_ENABLE_COVERAGE "Build tests with code coverage instrumentation" OFF)
+option(FLUXION_COMPILE_COST "Measure what every test unit costs to compile" OFF)
 
 ##======================================================================================================================
 include(${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake)
@@ -93,5 +94,10 @@ if(FLUXION_BUILD_TEST)
   # After the test targets exist, so the coverage targets can depend on them
   if(FLUXION_ENABLE_COVERAGE)
     copa_setup_coverage(fluxion_tests)
+  endif()
+
+  # clang only: -fproc-stat-report is its flag. After the test targets, as the measurement rebuilds them.
+  if(FLUXION_COMPILE_COST)
+    copa_setup_compile_cost(fluxion_tests)
   endif()
 endif()

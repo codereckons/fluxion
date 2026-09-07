@@ -70,6 +70,13 @@
       }
     },
     {
+      "name": "compile-cost",
+      "hidden": true,
+      "cacheVariables": {
+        "FLUXION_COMPILE_COST": "ON"
+      }
+    },
+    {
       "name": "gcc",
       "inherits": [
         "unix-base"
@@ -125,6 +132,13 @@
         "clang",
         "coverage"
       ]
+    },
+    {
+      "name": "clang-compile-cost",
+      "inherits": [
+        "clang",
+        "compile-cost"
+      ]
     }
   ],
   "buildPresets": [
@@ -164,6 +178,11 @@
       "name": "clang-coverage",
       "inherits": "base-build",
       "configurePreset": "clang-coverage"
+    },
+    {
+      "name": "clang-compile-cost",
+      "inherits": "base-build",
+      "configurePreset": "clang-compile-cost"
     },
     {
       "name": "clang-macos",
