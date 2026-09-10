@@ -17,6 +17,7 @@ option(FLUXION_COMPILE_COST "Measure what every test unit costs to compile" OFF)
 include(${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake)
 
 if(FLUXION_BUILD_TEST)
+  CPMGetPackage(TTS)
   include(${PROJECT_SOURCE_DIR}/cmake/compiler.cmake)
 endif()
 
