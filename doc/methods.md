@@ -32,17 +32,22 @@ mode a single output differentiated against many parameters at once.
 
 # Difference quotient {#flx_quotient}
 
-Evaluating \f$\big(f(a+h) - f(a)\big)/h\f$ for a small \f$h\f$ is wrong twice over. The quotient
-omits a term of order \f$h\f$, and the subtraction of two nearby values loses digits in proportion
-to \f$u/h\f$, with \f$u\f$ the unit roundoff. The two errors move in opposite directions, so the
-best \f$h\f$ is a compromise (around \f$\sqrt{u}\f$ for a forward difference) which leaves about
-half of the available digits. A central difference improves the truncation and leaves the
+For a small \f$h\f$, the forward difference carries two errors at once:
+
+\f[ \frac{f(a+h) - f(a)}{h} = f'(a) + \frac{h}{2}f''(\xi)
+    + O\!\left(\frac{u\,|f(a)|}{h}\right), \f]
+
+with \f$u\f$ the unit roundoff. The truncation grows with \f$h\f$ and the cancellation with
+\f$1/h\f$, so their sum is smallest near \f$h = \sqrt{u}\f$, which leaves about half of the
+available digits. A central difference improves the truncation and leaves the
 cancellation where it was, and a second derivative divides by \f$h^2\f$ and keeps roughly a third of
 them.
 
-None of this is a defect of an implementation. The choice of \f$h\f$ is itself the error, and no
-care recovers the digits the subtraction has already spent. This is also the only method that
-ignores the chain rule: it replays the whole program beside itself and reads the difference.
+None of this is a defect of an implementation: the choice of \f$h\f$ is itself the error, and the
+digits the cancellation removes cannot be restored afterwards.
+
+It is also the only method that ignores the chain rule: it replays the whole program beside itself
+and reads the difference.
 
 # Complex step {#flx_complex}
 
@@ -75,9 +80,6 @@ Beyond the first derivative it gives nothing, and it asks a great deal of the co
 | Reverse mode | No. It answers the other shape of problem and is a design of its own. |
 | Complex step | No. The nilpotent units remove the step at any order, where this only removes it at the first. |
 | Difference quotient | No. It approximates what an arithmetic method carries exactly. |
-
-Forward mode is therefore the whole of the library, and @ref flx_algebra is the arithmetic it
-carries its derivatives in.
 
 # References {#flx_methods_refs}
 

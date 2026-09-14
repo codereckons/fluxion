@@ -25,6 +25,13 @@ its truncation error, and it shrinks with \f$h\f$ where the cancellation grows.
 
 # Algebra {#flx_gl_algebra}
 
+## Unit
+
+A symbol \f$\varepsilon_i\f$ adjoined to the reals with \f$\varepsilon_i \neq 0\f$ and
+\f$\varepsilon_i^2 = 0\f$, the dual unit of the literature, defined in @ref flx_one_unit. A value of order \f$n\f$ carries
+\f$n\f$ of them, and each of its components is indexed by the set of units that component carries.
+The unit roundoff of @ref flx_gl_float is an unrelated term.
+
 ## Nilpotent
 
 An element whose power vanishes. The units of @ref flx_algebra satisfy \f$\varepsilon_i^2 = 0\f$,
@@ -52,7 +59,8 @@ holds one register per component, so an operation on a component is one SIMD ins
 ## Seeding
 
 Giving a value the nilpotent units the derivatives against it will be indexed by. Griewank and
-Walther's term for the same operation in the forward mode.
+Walther's term for the same operation in the forward mode. In **FLUXION** it is `flx::variable`,
+`flx::variables` and the `flx::var` constructor, see @ref flx_assignment.
 
 ## Forward mode
 

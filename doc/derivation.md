@@ -25,13 +25,13 @@ quotient,
 
 \f[ f'(a) = \lim_{h \to 0} \frac{f(a+h) - f(a)}{h}, \f]
 
-when that limit exists. The same statement written as an Taylor expansion is the form used from here on:
+when that limit exists. The same statement written as a Taylor expansion is the form used from here
+on:
 
 \f[ f(a+h) = f(a) + f'(a)\,h + o(h). \f]
 
-Near \f$a\f$, \f$f\f$ agrees with an affine function, and \f$f'(a)\f$ is the coefficient of its
-linear part. A derivative is a number attached to a point, and a formula for \f$f'\f$ is one way of
-obtaining that number.
+A derivative is a number attached to a point, and a formula for \f$f'\f$ is one way of obtaining
+that number.
 
 For an elementary operation that formula is known in closed form. We know, for instance, that
 
@@ -94,9 +94,8 @@ Hessian as well, and an iteration wants them again at every step. Each of these 
 to be carried through the same evaluation, and how many there are fixes the size of the value the
 arithmetic works on.
 
-**FLUXION** holds a value and the derivatives asked of it in one "number", so the second sequence is
-computed by the arithmetic itself. @ref flx_methods weighs that choice against the other ways of
-obtaining the same result.
+**FLUXION** holds a value and the derivatives asked of it in one object, so the second sequence is
+computed by the arithmetic itself.
 
 <div class="section_buttons">
 

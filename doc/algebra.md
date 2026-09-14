@@ -1,21 +1,20 @@
 Hyperdual Algebra  {#flx_algebra}
 =================================
 
-@ref flx_methods ends on forward mode, which needs a place to keep a value together with the
-derivatives asked of it, and an arithmetic that updates both at every operation. A number carrying
-its own derivative is that place.
+@ref flx_methods ends on forward mode, which needs a type holding a value together with the
+derivatives asked of it, and an arithmetic that updates both at every operation. Clifford's *dual
+numbers*, of 1873, carry one derivative. Fike and Alonso added a second unit in 2011 and named the
+result a *hyper-dual* number, the prefix marking the several units as it does for the hypercomplex
+numbers built on more than one imaginary unit. **FLUXION** takes \f$n\f$ units rather than two,
+which is what *generalized* names here. They form an algebra, and each of its properties has a name
+in the library.
 
-Clifford's *dual numbers*, of 1873, carry one derivative. Fike and Alonso added a second unit in
-2011 and named the result a *hyper-dual* number, the prefix marking the several units as it does for
-the hypercomplex numbers built on more than one imaginary unit. **FLUXION** takes \f$n\f$ units
-rather than two, which is what *generalized* names here. They form an algebra, and each of its
-properties has a name in the library.
-
-# One unit {#flx_one_unit}
+# Dual numbers {#flx_one_unit}
 
 Adjoin to the reals a symbol \f$\varepsilon\f$ with \f$\varepsilon \neq 0\f$ and
-\f$\varepsilon^2 = 0\f$. An element is a pair \f$a + b\varepsilon\f$, and products close on that
-form, since the \f$\varepsilon^2\f$ term vanishes:
+\f$\varepsilon^2 = 0\f$. That symbol is the **dual unit**, as \f$i\f$ is the imaginary unit of
+the complex numbers. An element is a pair \f$a + b\varepsilon\f$, and products close on that form,
+since the \f$\varepsilon^2\f$ term vanishes:
 
 \f[ (a + b\varepsilon)(c + d\varepsilon) = ac + (ad + bc)\,\varepsilon. \f]
 
@@ -33,7 +32,7 @@ a number is a type carrying its order:
 flx::hyperdual<double,1> z{2.5, 1.0};   // 2.5 + e1
 ```
 
-# Several units {#flx_n_units}
+# Hyperdual numbers {#flx_n_units}
 
 A second unit brings \f$\varepsilon_2\f$, and with it the product
 \f$\varepsilon_1\varepsilon_2\f$, which does not vanish since the two units are distinct. That
@@ -59,19 +58,19 @@ two basis elements is
 doubling the number of components stored:
 
 ```cpp
-flx::hyperdual<double,1> a;      //  2 components: 1, e1
-flx::hyperdual<double,2> b;      //  4 components: 1, e1, e2, e12
-flx::hyperdual<double,3> c;      //  8 components: the subsets of three units
-flx::hyperdual<double,4> d;      // 16 components: the subsets of four units
+flx::hyperdual<double,1> a;   // 1, e1
+flx::hyperdual<double,2> b;   // 1, e1, e2, e12
+flx::hyperdual<double,3> c;   // 1, e1, e2, e12, e3, e13, e23, e123
+flx::hyperdual<double,4> d;   // 1, e1, e2, e12, e3, e13, e23, e123, e4, e14, e24, e124, e34, e134, e234, e1234
 
-flx::order_v<decltype(c)>;       // 3
-flx::dimension_v<decltype(c)>;   // 8
-flx::max_order;                  // 4
+constexpr unsigned int order     = flx::order_v<decltype(c)>;       // 3
+constexpr unsigned int dimension = flx::dimension_v<decltype(c)>;   // 8
+constexpr unsigned int cap       = flx::max_order;                  // 4
 ```
 
-Four is where **FLUXION** stops. A value of order 4 holds sixteen components, every operation of the
-arithmetic works on all of them, and several of them answer the same derivative (see
-@ref flx_landing).
+Nothing in \f$\mathcal{H}_n\f$ stops at four: the cap is the library's. The component count
+doubles at each order and each operation touches all of them, so an order 5 would carry thirty-two
+coefficients through every addition, leading to impractical compile times and to register spills.
 
 # Component indexing {#flx_components}
 
@@ -90,10 +89,13 @@ one bit per unit: bit \f$i\f$ set means the component carries \f$\varepsilon_{i+
 holds the value, and the indices that are powers of two hold the coefficients of the single units.
 
 ```cpp
-flx::get<0>(z);   // the value
-flx::get<1>(z);   // the coefficient of e1
-flx::get<3>(z);   // the coefficient of e1 e2, bits 0 and 1 both set
+flx::get<0b00>(z);   // the value
+flx::get<0b01>(z);   // the coefficient of e1
+flx::get<0b11>(z);   // the coefficient of e1 e2, bits 0 and 1 both set
 ```
+
+The index is a plain integer and `flx::get<3>(z)` is the same call; the binary literal is written
+here because its bits are the units, which the decimal form hides.
 
 Streaming a value prints the same names, the value unnamed and the others suffixed:
 
@@ -111,6 +113,9 @@ from it.
 flx::hyperdual<double,2> k{2.5};              // 2.5, a constant
 flx::hyperdual<double,2> x{2.5, flx::var};    // 2.5 + e1 + e2, a variable
 ```
+
+Building a variable is seeding, and @ref flx_seeding gives the two forms that seed the arguments of
+a call.
 
 A hyperdual is filled exactly. The three forms above and a tuple of the exact size are the only ways
 to build one, a partial list being refused rather than completed:
@@ -142,16 +147,14 @@ components being those the algebra prescribes:
 auto s = x + y;         // added component by component
 auto p = x * y;         // the product above, unit by unit
 auto q = x / y;         // defined exactly when the value of y is not 0
-auto e = flx::exp(x);   // the value, and every derivative it carries, as soon as x is a variable
+auto e = flx::log(x);   // the value, and every derivative it carries, as soon as x is a variable
 ```
 
-# The order relation only considers the values {#flx_ordering}
+# Comparison {#flx_ordering}
 
-An ordered ring has no nilpotent element other than zero: as \f$\varepsilon\f$ is not 0
- and \f$\varepsilon > 0\f$, squaring would
-give \f$0 > 0\f$ (and same for  \f$\varepsilon < 0\f$).
-No total ordering of two hyperduals can therefore extend the comparison of the reals.
-The library defines ordering of hyperduals as ordering of the values:
+In an ordered ring \f$x \neq 0\f$ implies \f$x^2 > 0\f$, which \f$\varepsilon_i^2 = 0\f$
+contradicts unless \f$\varepsilon_i = 0\f$. No order on \f$\mathcal{H}_n\f$ extends the order of
+the reals, and the library compares the values alone:
 
 ```cpp
 x == y;   // compares the values alone
@@ -161,9 +164,12 @@ x < y;    // compares the values alone
 # Lower orders as prefixes {#flx_subalgebra}
 
 The units \f$\varepsilon_1, \dots, \varepsilon_k\f$ generate a subalgebra of \f$\mathcal{H}_n\f$ for
-\f$k \le n\f$. The binary layout of the indices places it first: the first \f$2^k\f$ components are
-exactly the subsets of the first \f$k\f$ units, so reading an order \f$k\f$ out of an order \f$n\f$
-is taking a prefix, component for component.
+\f$k \le n\f$, and the binary layout of the indices places it first:
+
+\f[ S \subseteq \{1,\dots,k\} \iff \mathrm{index}(\varepsilon_S) < 2^k. \f]
+
+Reading an order \f$k\f$ out of an order \f$n\f$ is therefore taking a prefix, component for
+component.
 
 ```cpp
 flx::hyperdual<double,4> z;

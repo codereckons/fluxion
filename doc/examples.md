@@ -1,9 +1,6 @@
 Examples  {#flx_examples}
 ==========================
 
-Each example is a complete program: the function, the call, and what it prints. They are ordered by
-what each one asks of the library.
-
 # First derivative {#flx_ex_first}
 
 For \f$f(x) = x^2\f$, \f$f'(x) = 2x\f$, so \f$f(3) = 9\f$ and \f$f'(3) = 6\f$.
@@ -53,20 +50,26 @@ Giving every unit of the order to one value returns the successive derivatives o
 \f$x = a + \varepsilon_1 + \varepsilon_2 + \varepsilon_3\f$, a component carrying \f$|S|\f$ units
 holds \f$f^{(|S|)}(a)\f$.
 
+For \f$f = \log\f$, the three derivatives are \f$1/x\f$, \f$-1/x^2\f$ and \f$2/x^3\f$, which at
+\f$x = 1\f$ take four distinct exact values:
+
 ```cpp
 #include <fluxion/fluxion.hpp>
 #include <iostream>
 
 int main()
 {
-  auto z = flx::exp(flx::variable<3>(1.0));
+  auto z = flx::log(flx::variable<3>(1.0));
 
-  std::cout << flx::get<0>(z) << "\n";    // exp(1)
-  std::cout << flx::get<1>(z) << "\n";    // exp(1), the first derivative
-  std::cout << flx::get<3>(z) << "\n";    // exp(1), the second
-  std::cout << flx::get<7>(z) << "\n";    // exp(1), the third
+  std::cout << flx::get<0>(z) << "\n";    // 0, the value
+  std::cout << flx::get<1>(z) << "\n";    // 1, the first derivative
+  std::cout << flx::get<3>(z) << "\n";    // -1, the second
+  std::cout << flx::get<7>(z) << "\n";    // 2, the third
 }
 ```
+
+The sign alternates and the magnitude grows with the factorial, so a component holding the value
+instead of the derivative asked of it is visible in the output.
 
 # Gradient and mixed derivative {#flx_ex_gradient}
 
