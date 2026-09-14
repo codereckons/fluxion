@@ -86,13 +86,13 @@ built around, and **FLUXION** calls it the **value**. The other \f$2^n - 1\f$ co
 **nilpotent part**.
 
 Each coefficient is a component of the stored value, and its index says which units it belongs to,
-one bit per unit: bit \f$i\f$ set means the component carries \f$\varepsilon_{i}\f$. Index zero
+one bit per unit: bit \f$i\f$ set means the component carries \f$\varepsilon_{i+1}\f$. Index zero
 holds the value, and the indices that are powers of two hold the coefficients of the single units.
 
 ```cpp
 flx::get<0>(z);   // the value
 flx::get<1>(z);   // the coefficient of e1
-flx::get<3>(z);   // the coefficient of e1 e2, bits 1 and 2 both set
+flx::get<3>(z);   // the coefficient of e1 e2, bits 0 and 1 both set
 ```
 
 Streaming a value prints the same names, the value unnamed and the others suffixed:
