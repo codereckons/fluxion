@@ -15,35 +15,35 @@
 
 //======================================================================================================================
 // A wide answers a logical rather than a bool, and prints through its own inserter, so it needs the
-// two customisation points TTS looks up in the type's namespace.
+// two traits TTS reads for a type it does not know.
 //======================================================================================================================
-namespace eve
+namespace tts
 {
-  template<typename T, typename N>
-  inline bool compare_equal(wide<T, N> const& l, wide<T, N> const& r)
+  template<typename T, typename N> struct comparison<eve::wide<T, N>, eve::wide<T, N>>
   {
-    return eve::all(l == r);
-  }
+    static bool equal(eve::wide<T, N> const& l, eve::wide<T, N> const& r)
+    {
+      return eve::all(l == r);
+    }
+  };
 
-  template<simd_value V> inline tts::text to_text(V const& v)
+  // The report only: equality of two hyperduals reads their value alone, which is the type's
+  // decision to make, not the tests'.
+  template<typename T>
+    requires(eve::simd_value<T> || flx::concepts::hyperdual<T>) // a wide of hyperduals is both
+  struct display<T>
   {
-    std::ostringstream os;
-    os << v;
-    return tts::text(os.str().c_str());
-  }
+    static text render(T const& v)
+    {
+      std::ostringstream os;
+      os << v;
+      return text(os.str().c_str());
+    }
+  };
 }
 
 namespace flx
 {
-  // The report only: equality of two hyperduals reads their value alone, which is the type's
-  // decision to make, not the tests'.
-  template<concepts::hyperdual T> inline tts::text to_text(T const& h)
-  {
-    std::ostringstream os;
-    os << h;
-    return tts::text(os.str().c_str());
-  }
-
   using scalar_real_types = tts::types<float, double>;
   using simd_real_types   = tts::types<eve::wide<float>, eve::wide<double>>;
   using real_types        = tts::concatenate<scalar_real_types, simd_real_types>;
