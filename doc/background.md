@@ -1,9 +1,8 @@
 Background  {#background}
 =========================
 
-What **FLUXION** computes are derivatives, and it computes them by arithmetic rather than by
-approximation. These pages follow that from the definition of a derivative to the code that returns
-one, in order:
+**FLUXION** computes derivatives by arithmetic, without approximation. These pages go from the
+definition of a derivative to the code that returns one, in order:
 
   + @subpage flx_derivation, the derivative of a function, then the recurrence that carries one
     through an execution;

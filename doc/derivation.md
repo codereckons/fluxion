@@ -1,13 +1,13 @@
 Differentiating a Program  {#flx_derivation}
 ============================================
 
-**FLUXION** returns the derivatives of a C++ computation: exact to the representation, up to order
+**FLUXION** returns the derivatives of a C++ computation without truncation, up to order
 four, mixed partial derivatives included, on scalar values as on SIMD registers.
 
 # Programs as compositions {#flx_program}
 
 Evaluating a program on an input performs a finite sequence of elementary operations, each of them
-an addition, a multiplication, a comparison, or a call to an elementary function. Write \f$v_0 = a\f$
+an addition, a multiplication, or a call to an elementary function. Write \f$v_0 = a\f$
 for the input, \f$N\f$ for the number of operations the evaluation performs, and \f$\varphi_i\f$
 for the one performed at step \f$i\f$. Each step reads the values already computed, and the last
 one is the result:
@@ -16,7 +16,7 @@ one is the result:
 
 A program is therefore a composition, and differentiating what it computes requires two things: the
 derivative of each elementary operation, and a rule giving the derivative of a composition from the
-derivatives of its parts. Nothing else enters.
+derivatives of its parts.
 
 # Derivative at a point {#flx_derivative}
 
@@ -33,13 +33,13 @@ on:
 A derivative is a number attached to a point, and a formula for \f$f'\f$ is one way of obtaining
 that number.
 
-For an elementary operation that formula is known in closed form. We know, for instance, that
+For an elementary operation that formula is known in closed form, for instance
 
 \f[ (x^n)' = n\,x^{n-1}, \qquad (\sin x)' = \cos x, \qquad (e^x)' = e^x, \qquad
-    (\log |x|)' = \frac{1}{x} \ \f]
+    (\log |x|)' = \frac{1}{x}. \f]
 
-and each of these is evaluated as cheaply as the function it comes from. Every \f$\varphi_i\f$ of a
-program has such a formula, which settles the first of the two requirements.
+Every differentiable \f$\varphi_i\f$ of a program has such a formula, which settles the first of the
+two requirements.
 
 # Rules of computation {#flx_rules}
 
@@ -52,8 +52,7 @@ Four rules give the derivative of a compound expression from the derivatives of 
 
 The last of them settles the second requirement. It gives \f$(f \circ g)'(a)\f$ from \f$g'(a)\f$ and
 from \f$f'\f$ taken at \f$g(a)\f$, two values of functions already known in closed form, at points
-that evaluating \f$f\big(g(a)\big)\f$ passes through anyway. No expression for
-\f$(f \circ g)'\f$ is formed.
+that evaluating \f$f\big(g(a)\big)\f$ passes through anyway.
 
 # Carrying a derivative {#flx_carry}
 
@@ -73,8 +72,8 @@ available when the program returns, and no expression for \f$f'\f$ is written an
 
 What is differentiated is the sequence this input went through. A branch on a comparison, a loop
 whose count depends on the data, a value read from a table: the execution selects one path, and what
-comes back is the derivative of that path. `abs` at zero returns \f$-1\f$ or \f$1\f$ according to
-the comparison it took, where the function itself has no derivative.
+comes back is the derivative of that path. `x < 1 ? x : 2 - x` returns \f$-1\f$ at \f$x = 1\f$,
+the derivative of the branch taken, where the function it computes has no derivative.
 
 # Higher orders, and several arguments {#flx_higher}
 
@@ -88,11 +87,10 @@ holding the other arguments fixed. Two objects are built from these:
     partials are continuous, since \f$\partial^2 f/\partial x\,\partial y\f$ and
     \f$\partial^2 f/\partial y\,\partial x\f$ agree there.
 
-A program takes several inputs, and one derivative rarely answers what is asked of it. Optimisation
-and the solution of nonlinear systems want the gradient at a point, a second-order method wants the
-Hessian as well, and an iteration wants them again at every step. Each of these is a set of numbers
-to be carried through the same evaluation, and how many there are fixes the size of the value the
-arithmetic works on.
+Optimisation and the solution of nonlinear systems want the gradient at a point, a second-order
+method wants the Hessian as well, and an iteration wants them again at every step. Each of these is
+a set of numbers to be carried through the same evaluation, and how many there are fixes the size of
+the value the arithmetic works on.
 
 **FLUXION** holds a value and the derivatives asked of it in one object, so the second sequence is
 computed by the arithmetic itself.

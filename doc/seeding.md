@@ -4,11 +4,11 @@ Seeding and Reading  {#flx_seeding}
 The algebra of @ref flx_algebra "the previous page" returns every derivative of an evaluation at
 once. Which argument each of them differentiates is decided when the arguments are seeded.
 
-Three entities seed:
+Three calls seed:
 
   + `flx::variables`, over the arguments of a call;
   + `flx::variable`, over a single value;
-  + the constructor `hyperdual<T, Ord>{v, flx::var}`, which the first two build on.
+  + the constructor `hyperdual<T, Ord>{v, flx::var}`, which builds what `flx::variable` returns.
 
 Everything else preserves what it is given: an operation on seeded values carries their units
 through, and a value built from a tuple takes the components written in it.
@@ -134,7 +134,7 @@ order at four.
 # Cost of an order {#flx_cost}
 
 An order \f$n\f$ carries \f$2^n\f$ components, so a single value of order 4 weighs sixteen `double`,
-and every operation of the arithmetic works on all of them. Two ways of spending that budget answer
+and every operation of the arithmetic works on all of them. Two ways of using an order answer
 different questions.
 
   + **One unit per argument.** Order \f$m\f$ over \f$m\f$ arguments returns the gradient and every
@@ -145,8 +145,12 @@ different questions.
     others.
 
 A full Hessian of \f$m\f$ arguments therefore comes out of one pass only when \f$2m \le 4\f$. Past
-two arguments it is a sweep of \f$m(m+1)/2\f$ evaluations at order 2, one per pair, which is the
-usual shape of a forward mode.
+two arguments it takes a sweep, of one of two kinds:
+
+  + at order 2, one evaluation per pair, \f$m(m+1)/2\f$ of them, the pairs \f$(i, i)\f$ giving the
+    square terms;
+  + at order 4, two units on each argument of a pair, \f$m(m-1)/2\f$ evaluations, each returning
+    both square terms and the mixed one.
 
 # Mixed orders {#flx_mixing}
 
@@ -156,8 +160,8 @@ present, and the extra components of the others are dropped. `flx::restrict_to<O
 descent explicitly, on the scalar form as on the wide one.
 
 Only a lone scalar adapts to what it is mixed with. Everything that carries a structure states its
-own element type, and two operands stating different ones have no common type at all, which is a
-refusal rather than an arbitration.
+own element type, and two operands stating different ones have no common type: their mix does not
+compile.
 
 # Several points at once {#flx_wide}
 

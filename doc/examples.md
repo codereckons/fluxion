@@ -24,8 +24,7 @@ because \f$\varepsilon_1^2 = 0\f$.
 
 # Composition {#flx_ex_composition}
 
-For \f$f(x) = \sin(x^2)\f$, the chain rule gives \f$f'(x) = 2x\cos(x^2)\f$. Nothing of that
-expression is written anywhere.
+For \f$f(x) = \sin(x^2)\f$, the chain rule gives \f$f'(x) = 2x\cos(x^2)\f$.
 
 ```cpp
 #include <fluxion/fluxion.hpp>
@@ -68,8 +67,7 @@ int main()
 }
 ```
 
-The sign alternates and the magnitude grows with the factorial, so a component holding the value
-instead of the derivative asked of it is visible in the output.
+The four values differ, so a component read at the wrong index shows in the output.
 
 # Gradient and mixed derivative {#flx_ex_gradient}
 
@@ -112,8 +110,8 @@ int main()
 }
 ```
 
-Four arguments would need eight units for the same result, which exceeds `flx::max_order`, so a
-Hessian of more than two arguments is a sweep of evaluations at order 2, one per pair.
+Three arguments would need six units for the same result, which exceeds `flx::max_order`, so a
+Hessian of more than two arguments takes the sweep @ref flx_cost describes.
 
 # Newton, then Halley {#flx_ex_newton}
 
@@ -123,6 +121,7 @@ order asked for is what differs.
 
 ```cpp
 #include <fluxion/fluxion.hpp>
+#include <iomanip>
 #include <iostream>
 
 template<typename F>
@@ -157,6 +156,7 @@ int main()
 {
   auto f = [](auto x) { return x * x - 2.0; };
 
+  std::cout << std::setprecision(12);
   std::cout << newton(f, 1.0) << "\n";    // 1.41421356237
   std::cout << halley(f, 1.0) << "\n";    // 1.41421356237
 }
@@ -164,9 +164,8 @@ int main()
 
 # Differentiating through a loop {#flx_ex_loop}
 
-Horner's rule evaluates a polynomial whose degree is known at run time. No expression for its
-derivative exists in the program, and the sequence of operations the loop performs is what gets
-differentiated.
+Horner's rule evaluates a polynomial whose degree is known at run time, and the sequence of
+operations the loop performs is what gets differentiated.
 
 ```cpp
 #include <fluxion/fluxion.hpp>

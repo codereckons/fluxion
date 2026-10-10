@@ -6,8 +6,8 @@ derivatives asked of it, and an arithmetic that updates both at every operation.
 numbers*, of 1873, carry one derivative. Fike and Alonso added a second unit in 2011 and named the
 result a *hyper-dual* number, the prefix marking the several units as it does for the hypercomplex
 numbers built on more than one imaginary unit. **FLUXION** takes \f$n\f$ units rather than two,
-which is what *generalized* names here. They form an algebra, and each of its properties has a name
-in the library.
+which is what *generalized* names here. They form an algebra, and the library names its parts: the
+order, the value, the nilpotent part.
 
 # Dual numbers {#flx_one_unit}
 
@@ -24,8 +24,8 @@ built from the arithmetic operations and the usual elementary functions,
 \f[ f(a + \varepsilon) = f(a) + f'(a)\,\varepsilon. \f]
 
 This is the complex step made algebraic, with \f$\varepsilon^2 = 0\f$ in place of
-\f$i^2 = -1\f$. No \f$h\f$ has to be chosen and nothing cancels, and the coefficient of
-\f$\varepsilon\f$ is the derivative to the last bit the representation holds. In the library such
+\f$i^2 = -1\f$. No \f$h\f$ has to be chosen and nothing cancels: the coefficient of
+\f$\varepsilon\f$ is the derivative, rounded as the value is. In the library such
 a number is a type carrying its order:
 
 ```cpp
@@ -41,7 +41,7 @@ component is where the second derivative lands. Let
 square to zero. The algebra they generate is
 
 \f[ \mathcal{H}_n = \mathbb{R}[\varepsilon_1,\dots,\varepsilon_n] \big/
-    \left(\varepsilon_i\varepsilon_j - \varepsilon_j\varepsilon_i,\ \varepsilon_i^2\right), \f]
+    \left(\varepsilon_1^2,\dots,\varepsilon_n^2\right), \f]
 
 a Weil algebra, the \f$n\f$-fold tensor power of \f$\mathbb{R}[\varepsilon]/(\varepsilon^2)\f$. A
 product of distinct units is not zero, and any product in which a unit appears twice is. The
@@ -130,13 +130,14 @@ about the function rather than a convention about storage.
 
 # Sum, product, and inverse {#flx_arithmetic}
 
-\f$\mathcal{H}_n\f$ is commutative and associative at every order, so an expression means what it is
-written to mean at order 4 as much as at order 1, and no parenthesis has to be watched. What grows
-is the size, doubling with each order, and every operation works on all of the components.
+\f$\mathcal{H}_n\f$ is commutative and associative at every order, so an expression has the same
+exact value whatever the order of its operations; in floating point, as on the reals, its rounding
+still depends on that order. What grows is the size, doubling with each order, and every operation
+works on all of the components.
 
 It is not a division algebra. Every element whose value is zero is nilpotent, hence a zero divisor.
 An element is invertible exactly when its value is, and the inverse is then a finite sum, the
-nilpotent part \f$N\f$ satisfying \f$N^{n+1} = 0\f$. Assuming \f$a\f$ is an non null value:
+nilpotent part \f$N\f$ satisfying \f$N^{n+1} = 0\f$. For a nonzero value \f$a\f$:
 
 \f[ \frac{1}{a + N} = \frac{1}{a}\sum_{k=0}^{n} \left(\frac{-N}{a}\right)^{k}. \f]
 
