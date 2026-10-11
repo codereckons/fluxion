@@ -1,52 +1,83 @@
 Seeding and Reading  {#flx_seeding}
 ===================================
 
-The algebra of @ref flx_algebra returns every derivative of an evaluation at once. Which argument
-each of them differentiates is decided when the arguments are seeded.
+An evaluation on hyperduals returns all the derivatives it carries at once, and the seeding of the
+arguments fixes the argument each of them is taken with respect to.
 
-# Assigning units to arguments {#flx_assignment}
+Three calls seed a value:
 
-Seeding a value is adding units to it. The argument a unit is given to is written in the call, and
-two forms write it. `flx::variable<Ord>` gives every unit of the order to a single value, and
-`flx::variables<Is...>` spreads the units of a call over its arguments:
+  + `flx::variables`, over the arguments of a call;
+  + `flx::variable`, over a single value;
+  + the constructor `hyperdual<T, Ord>{v, flx::var}`, which builds what `flx::variable` returns.
+
+No other operation seeds: an operation on seeded elements propagates their units, and an element
+built from a tuple takes the components written in it.
+
+# Differentiation list {#flx_assignment}
+
+`flx::variables<Is...>(xs...)` takes the list of the differentiations requested: one entry per
+differentiation, each naming the argument to differentiate with respect to, arguments being numbered
+from zero. `flx::variables<0, 0, 1>(x, y)` therefore requests two differentiations in `x` and one in
+`y`. `flx::variable<Ord>(v)` is the one-argument form, with `Ord` differentiations in `v`.
 
 ```cpp
-auto x        = flx::variable<2>(2.5);
-auto [ u, v ] = flx::variables<0, 1>(2.5, -1.0);
-auto [ p, q ] = flx::variables<0, 0, 1>(2.5, -1.0);
+auto x        = flx::variable<2>(2.5);              // twice in x
+auto [ u, v ] = flx::variables<0, 1>(2.5, -1.0);    // once in u, once in v
+auto [ p, q ] = flx::variables<0, 0, 1>(2.5, -1.0); // twice in p, once in q
 ```
 
-| Result | Type | Value it holds |
-|--------|------|----------------|
-| `x` | `flx::hyperdual<double,2>` | \f$2.5 + \varepsilon_1 + \varepsilon_2\f$ |
-| `u`, `v` | `flx::hyperdual<double,2>` | \f$2.5 + \varepsilon_1\f$ and \f$-1 + \varepsilon_2\f$ |
-| `p`, `q` | `flx::hyperdual<double,3>` | \f$2.5 + \varepsilon_1 + \varepsilon_2\f$ and \f$-1 + \varepsilon_3\f$ |
+The list holds at most `flx::max_order` entries, four, and each entry names an argument of the call:
+`flx::variables<0, 0, 1>(2.5)` names a second argument the call does not have, and does not compile.
 
-The template list `Is...` holds one entry per unit, in unit order: its \f$i\f$-th entry is the index
-of the argument \f$\varepsilon_i\f$ is given to, arguments being counted from zero and units from
-one. Its length is the order every seeded result comes back at. The third call above gives units 1
-and 2 to the first argument and unit 3 to the second, hence an order 3 on both.
+Seeding writes that list into the values. For `Is...` \f$= (i_0, \dots, i_{n-1})\f$, argument
+\f$j\f$ of value \f$a_j\f$ is seeded as
 
-An argument that is given no unit comes back unchanged, at its own type, so the result of a call to
-`flx::variables` feeds the function straight through `kumi::apply`.
+\f[ x_j = a_j + \sum_{k\,:\,i_k = j} \varepsilon_{k+1}, \f]
+
+each unit belonging to exactly one argument and every seeded result having order \f$n\f$:
+
+| Result | Type | Element | Components, in index order |
+|--------|------|----------------|----------------------------|
+| `x` | `hyperdual<double,2>` | \f$2.5 + \varepsilon_1 + \varepsilon_2\f$ | 2.5, 1, 1, 0 |
+| `u` | `hyperdual<double,2>` | \f$2.5 + \varepsilon_1\f$ | 2.5, 1, 0, 0 |
+| `v` | `hyperdual<double,2>` | \f$-1 + \varepsilon_2\f$ | -1, 0, 1, 0 |
+| `p` | `hyperdual<double,3>` | \f$2.5 + \varepsilon_1 + \varepsilon_2\f$ | 2.5, 1, 1, 0, 0, 0, 0, 0 |
+| `q` | `hyperdual<double,3>` | \f$-1 + \varepsilon_3\f$ | -1, 0, 0, 0, 1, 0, 0, 0 |
+
+Streaming one prints those components with their names, `std::cout << u` giving
+`2.5 + 1e1 + 0e2 + 0e12`.
+
+Units are numbered as @ref flx_components numbers them: \f$\varepsilon_u\f$ is stored at bit
+\f$u-1\f$.
+
+`flx::variables` returns a `kumi::tuple` with one entry per argument, in the order they were passed,
+and the entries need not share a type: an argument named in the list is returned as a
+`flx::hyperdual` seeded on its units; one never named is returned unchanged.
+
+```cpp
+flx::variables<0, 1>(2.5, -1.0);   // kumi::tuple<hyperdual<double,2>, hyperdual<double,2>>
+flx::variables<0>(2.5, -1.0);      // kumi::tuple<hyperdual<double,1>, double>
+```
+
+The tuple therefore stands for the argument list, and the call is made through `kumi::apply`:
+
+```cpp
+auto vars = flx::variables<0, 1>(2.5, -1.0);
+auto r    = kumi::apply(f, vars);                // f(2.5 + e1, -1 + e2)
+```
 
 # Taylor identity {#flx_taylor}
 
-Substituting a nilpotent into an analytic function turns its series into a sum with finitely many
-terms, since every monomial of degree \f$n+1\f$ in the units vanishes. That truncation is an
-identity, and no approximation.
+Once the arguments are seeded, the content of each component after the evaluation follows from one
+identity. Substituting a nilpotent into an analytic function turns its series into a sum with
+finitely many terms, since every monomial of degree \f$n+1\f$ or more in the units vanishes, and
+that truncation is an identity rather than an approximation.
 
-For a function \f$f\f$ of \f$m\f$ arguments, seed argument \f$j\f$ with the units of a set
-\f$U_j\f$, the sets \f$U_1, \dots, U_m\f$ partitioning \f$\{1,\dots,n\}\f$:
-
-\f[ x_j = a_j + \sum_{i \in U_j} \varepsilon_i. \f]
-
-Each unit then belongs to exactly one argument, and \f$k\f$ denotes the map reading that assignment
-back, \f$k(i) = j\f$ for the single \f$j\f$ with \f$i \in U_j\f$. It is the list `Is...` of the
-previous section. The evaluation gives
+Evaluating \f$f\f$ on the arguments seeded by that list, where unit \f$u\f$ belongs to argument
+\f$i_{u-1}\f$, gives
 
 \f[ f(x_1,\dots,x_m) = \sum_{S \subseteq \{1,\dots,n\}}
-    \left(\frac{\partial^{|S|} f}{\prod_{i \in S} \partial x_{k(i)}}(a_1,\dots,a_m)\right)
+    \left(\frac{\partial^{|S|} f}{\prod_{u \in S} \partial x_{i_{u-1}}}(a_1,\dots,a_m)\right)
     \varepsilon_S. \f]
 
 Every component of the result is a partial derivative of \f$f\f$ at the point, and it carries no
@@ -55,78 +86,89 @@ derivative itself.
 
 # Reading a result {#flx_landing}
 
-A component is indexed by the units it carries, as @ref flx_components states. With the seeding
-`flx::variables<0, 1>(x, y)` and \f$f\f$ evaluated on the pair, the four components hold
-
-| Component | Units | What it holds |
-|:---------:|-------|---------------|
-| `get<0>` | none | \f$f(x, y)\f$ |
-| `get<1>` | \f$\varepsilon_1\f$ | \f$\partial f/\partial x\f$ |
-| `get<2>` | \f$\varepsilon_2\f$ | \f$\partial f/\partial y\f$ |
-| `get<3>` | \f$\varepsilon_1\varepsilon_2\f$ | \f$\partial^2 f/\partial x\,\partial y\f$ |
-
-One evaluation returns the gradient and the mixed second derivative. Absent from it is
-\f$\partial^2 f/\partial x^2\f$: a second derivative in one argument needs two units on that
-argument, which `flx::variables<0, 0>` asks for.
-
-Two units per argument gives the square terms as well. Seeding two arguments that way costs order 4
-and returns, in a single evaluation, the value, both first derivatives and the whole Hessian:
+The Taylor identity attaches the derivative indexed by \f$S\f$ to \f$\varepsilon_S\f$, and
+\f$\varepsilon_S\f$ is stored at the component of index \f$\sum_{u \in S} 2^{u-1}\f$. Reading a
+derivative is therefore one `flx::get` at that index, and writing the index in binary shows the
+units it carries. For \f$f(x, y) = x^2 y\f$ at \f$(2.5, -1)\f$, with one differentiation in each
+argument:
 
 ```cpp
-auto [ x, y ] = flx::variables<0, 0, 1, 1>(2.5, -1.0);
+auto f    = [](auto a, auto b) { return a * a * b; };
+auto vars = flx::variables<0, 1>(2.5, -1.0);
+auto z    = kumi::apply(f, vars);
 ```
 
-| Component | Units | What it holds |
-|:---------:|-------|---------------|
-| `get<1>`  | \f$\varepsilon_1\f$ | \f$\partial f/\partial x\f$ |
-| `get<3>`  | \f$\varepsilon_1\varepsilon_2\f$ | \f$\partial^2 f/\partial x^2\f$ |
-| `get<5>`  | \f$\varepsilon_1\varepsilon_3\f$ | \f$\partial^2 f/\partial x\,\partial y\f$ |
-| `get<12>` | \f$\varepsilon_3\varepsilon_4\f$ | \f$\partial^2 f/\partial y^2\f$ |
+| Component | Units | What it holds | Value |
+|:---------:|-------|---------------|------:|
+| `flx::get<0b00>(z)` | none | \f$f(x, y)\f$ | -6.25 |
+| `flx::get<0b01>(z)` | \f$\varepsilon_1\f$ | \f$\partial f/\partial x = 2xy\f$ | -5 |
+| `flx::get<0b10>(z)` | \f$\varepsilon_2\f$ | \f$\partial f/\partial y = x^2\f$ | 6.25 |
+| `flx::get<0b11>(z)` | \f$\varepsilon_1\varepsilon_2\f$ | \f$\partial^2 f/\partial x\,\partial y = 2x\f$ | 5 |
 
-Several components hold the same derivative, \f$\varepsilon_2\varepsilon_3\f$ answering
-\f$\partial^2 f/\partial x\,\partial y\f$ as \f$\varepsilon_1\varepsilon_3\f$ does. A symmetric
-object stored as a full set of subsets repeats itself, and that repetition is what caps the useful
-order at four.
+One evaluation returns the gradient and the mixed second derivative. The result does not contain
+\f$\partial^2 f/\partial x^2\f$: a second derivative in one argument needs two units on that
+argument, which `flx::variables<0, 0>` provides.
+
+Two differentiations per argument give the square terms as well. For two arguments, this requires
+order 4 and returns, in a single evaluation, the value, both first derivatives, and the whole
+Hessian. On the same \f$f\f$ and the same point:
+
+```cpp
+auto vars = flx::variables<0, 0, 1, 1>(2.5, -1.0);
+auto z    = kumi::apply(f, vars);
+```
+
+| Component | Units | What it holds | Value |
+|:---------:|-------|---------------|------:|
+| `flx::get<0b0001>(z)` | \f$\varepsilon_1\f$ | \f$\partial f/\partial x = 2xy\f$ | -5 |
+| `flx::get<0b0011>(z)` | \f$\varepsilon_1\varepsilon_2\f$ | \f$\partial^2 f/\partial x^2 = 2y\f$ | -2 |
+| `flx::get<0b0101>(z)` | \f$\varepsilon_1\varepsilon_3\f$ | \f$\partial^2 f/\partial x\,\partial y = 2x\f$ | 5 |
+| `flx::get<0b1100>(z)` | \f$\varepsilon_3\varepsilon_4\f$ | \f$\partial^2 f/\partial y^2 = 0\f$ | 0 |
+
+Several components hold the same derivative: \f$\varepsilon_1\varepsilon_3\f$ and
+\f$\varepsilon_2\varepsilon_3\f$ both hold \f$\partial^2 f/\partial x\,\partial y\f$.
 
 # Cost of an order {#flx_cost}
 
-An order \f$n\f$ carries \f$2^n\f$ components, so a single value of order 4 weighs sixteen `double`,
-and every operation of the arithmetic works on all of them. Two ways of spending that budget answer
-different questions.
+An element of order \f$n\f$ has \f$2^n\f$ components, so a single element of order 4 occupies
+sixteen `double`s, and every operation of the arithmetic works on all of them. An order is used in
+one of two ways.
 
   + **One unit per argument.** Order \f$m\f$ over \f$m\f$ arguments returns the gradient and every
-    mixed partial up to the one of order \f$m\f$, in one evaluation, and never a repeated
-    derivative.
+      mixed partial up to the one of order \f$m\f$, in one evaluation, and no repeated derivative.
   + **Several units per argument.** Order \f$n\f$ over one argument returns
-    \f$f', f'', \dots, f^{(n)}\f$ of that argument in one evaluation, and says nothing of the
+    \f$f', f'', \dots, f^{(n)}\f$ of that argument in one evaluation, and no derivative in the
     others.
 
-A full Hessian of \f$m\f$ arguments therefore comes out of one pass only when \f$2m \le 4\f$. Past
-two arguments it is a sweep of \f$m(m+1)/2\f$ evaluations at order 2, one per pair, which is the
-usual shape of a forward mode.
+A full Hessian in \f$m\f$ arguments therefore takes a single pass only when \f$2m \le 4\f$. Past two
+arguments it takes a sweep of one of two kinds:
+
+  + at order 2, one evaluation per pair, \f$m(m+1)/2\f$ of them, the pairs \f$(i, i)\f$ giving the
+    square terms;
+  + at order 4, two units on each argument of a pair, \f$m(m-1)/2\f$ evaluations, each returning
+    both square terms and the mixed one.
 
 # Mixed orders {#flx_mixing}
 
-An operand of order 2 carries nothing of a third derivative, and filling it with zeros would state
-that the third derivative vanishes. A mixed expression therefore computes at the **smallest** order
-present, and the extra components of the others are dropped. `flx::restrict_to<Ord>` performs that
-descent explicitly, on the scalar form as on the wide one.
+An operand of order 2 carries no third derivative, and filling it with zeros would state that the
+third derivative vanishes. A mixed expression therefore computes at the **smallest** order present,
+and the extra components of the others are dropped. `flx::restrict_to<Ord>` performs that reduction
+explicitly, on the scalar form and on the wide one alike.
 
-Only a lone scalar adapts to what it is mixed with. Everything that carries a structure states its
-own element type, and two operands stating different ones have no common type at all, which is a
-refusal rather than an arbitration.
+Only a plain scalar converts to the type it is mixed with. A hyperdual or a wide fixes its element
+type, and two operands with different element types have no common type: mixing them does not
+compile.
 
-# Several points at once {#flx_wide}
+# Evaluation on SIMD registers {#flx_wide}
 
-A component may be a SIMD register rather than a scalar, and the construction goes through
-unchanged. `eve::wide<flx::hyperdual<double,2>>` is a structure of arrays holding as many hyperduals
-as the machine has lanes, and seeding a wide value seeds every lane, so one evaluation returns the
+A component may be a SIMD register rather than a scalar, and the construction is unchanged.
+`eve::wide<flx::hyperdual<double,2>>` is a structure of arrays holding as many hyperduals as the
+machine has lanes, and seeding a wide value seeds every lane, so one evaluation returns the
 derivatives at as many points as there are lanes.
 
-This is a different axis from the order. The order says how many derivatives one point carries, the
-cardinal how many points travel together, and each is read where it is written: the order from the
-element type, the cardinal from `eve::cardinal_v`. Two operands that are genuinely wide have to
-agree on their number of lanes.
+The cardinal is independent of the order: the order counts the derivatives carried at one point, the
+cardinal the points evaluated together. The order is read from the element type, the cardinal from
+`eve::cardinal_v`, and two wide operands must have the same number of lanes.
 
 <div class="section_buttons">
 

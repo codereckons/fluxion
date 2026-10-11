@@ -1,9 +1,6 @@
 Examples  {#flx_examples}
 ==========================
 
-Each example is a complete program: the function, the call, and what it prints. They are ordered by
-what each one asks of the library.
-
 # First derivative {#flx_ex_first}
 
 For \f$f(x) = x^2\f$, \f$f'(x) = 2x\f$, so \f$f(3) = 9\f$ and \f$f'(3) = 6\f$.
@@ -22,13 +19,12 @@ int main()
 }
 ```
 
-The seeded value carries \f$3 + \varepsilon_1\f$, and the square gives \f$9 + 6\varepsilon_1\f$
-because \f$\varepsilon_1^2 = 0\f$.
+The seeded element is \f$3 + \varepsilon_1\f$, and the square gives \f$9 + 6\varepsilon_1\f$ because
+\f$\varepsilon_1^2 = 0\f$.
 
 # Composition {#flx_ex_composition}
 
-For \f$f(x) = \sin(x^2)\f$, the chain rule gives \f$f'(x) = 2x\cos(x^2)\f$. Nothing of that
-expression is written anywhere.
+For \f$f(x) = \sin(x^2)\f$, the chain rule gives \f$f'(x) = 2x\cos(x^2)\f$.
 
 ```cpp
 #include <fluxion/fluxion.hpp>
@@ -44,14 +40,16 @@ int main()
 }
 ```
 
-Each operation applies its own rule to what it receives, and the composition is performed by the
-evaluation itself.
+Each operation applies its own derivative rule, and the evaluation performs the composition.
 
-# Three derivatives in one pass {#flx_ex_orders}
+# Successive derivatives {#flx_ex_orders}
 
-Giving every unit of the order to one value returns the successive derivatives of that value. With
-\f$x = a + \varepsilon_1 + \varepsilon_2 + \varepsilon_3\f$, a component carrying \f$|S|\f$ units
-holds \f$f^{(|S|)}(a)\f$.
+Seeding one value with every unit of the order yields the successive derivatives with respect to
+that argument. With \f$x = a + \varepsilon_1 + \varepsilon_2 + \varepsilon_3\f$, a component
+carrying \f$|S|\f$ units holds \f$f^{(|S|)}(a)\f$.
+
+For \f$f = \log\f$, the three derivatives are \f$1/x\f$, \f$-1/x^2\f$, and \f$2/x^3\f$, which at
+\f$x = 1\f$ take four distinct exact values:
 
 ```cpp
 #include <fluxion/fluxion.hpp>
@@ -59,14 +57,16 @@ holds \f$f^{(|S|)}(a)\f$.
 
 int main()
 {
-  auto z = flx::exp(flx::variable<3>(1.0));
+  auto z = flx::log(flx::variable<3>(1.0));
 
-  std::cout << flx::get<0>(z) << "\n";    // exp(1)
-  std::cout << flx::get<1>(z) << "\n";    // exp(1), the first derivative
-  std::cout << flx::get<3>(z) << "\n";    // exp(1), the second
-  std::cout << flx::get<7>(z) << "\n";    // exp(1), the third
+  std::cout << flx::get<0>(z) << "\n";    // 0, the value
+  std::cout << flx::get<1>(z) << "\n";    // 1, the first derivative
+  std::cout << flx::get<3>(z) << "\n";    // -1, the second
+  std::cout << flx::get<7>(z) << "\n";    // 2, the third
 }
 ```
+
+The four values differ, so a component read at the wrong index is visible in the output.
 
 # Gradient and mixed derivative {#flx_ex_gradient}
 
@@ -92,7 +92,7 @@ The square terms are absent, since neither argument was given two units.
 
 # Full Hessian {#flx_ex_hessian}
 
-Two units per argument brings them in, at order 4.
+Two units per argument add the square terms, at order 4.
 
 ```cpp
 #include <fluxion/fluxion.hpp>
@@ -109,17 +109,18 @@ int main()
 }
 ```
 
-Four arguments would need eight units for the same result, which exceeds `flx::max_order`, so a
-Hessian of more than two arguments is a sweep of evaluations at order 2, one per pair.
+Three arguments would need six units for the same result, which exceeds `flx::max_order`, so a
+Hessian in more than two arguments takes the sweep @ref flx_cost describes.
 
-# Newton, then Halley {#flx_ex_newton}
+# Newton and Halley iterations {#flx_ex_newton}
 
-Newton's method needs \f$f\f$ and \f$f'\f$ at the current point, and both come out of one call.
-Halley's method converges faster and needs \f$f''\f$ as well: the function is unchanged, and the
-order asked for is what differs.
+Newton's method needs \f$f\f$ and \f$f'\f$ at the current point, and one call returns both. Halley's
+method converges faster and needs \f$f''\f$ as well: the function is unchanged, and only the order
+differs.
 
 ```cpp
 #include <fluxion/fluxion.hpp>
+#include <iomanip>
 #include <iostream>
 
 template<typename F>
@@ -154,16 +155,16 @@ int main()
 {
   auto f = [](auto x) { return x * x - 2.0; };
 
+  std::cout << std::setprecision(12);
   std::cout << newton(f, 1.0) << "\n";    // 1.41421356237
   std::cout << halley(f, 1.0) << "\n";    // 1.41421356237
 }
 ```
 
-# Differentiating through a loop {#flx_ex_loop}
+# Derivative through a loop {#flx_ex_loop}
 
-Horner's rule evaluates a polynomial whose degree is known at run time. No expression for its
-derivative exists in the program, and the sequence of operations the loop performs is what gets
-differentiated.
+Horner's rule evaluates a polynomial whose degree is known only at run time, and the derivative is
+that of the operations the loop performs.
 
 ```cpp
 #include <fluxion/fluxion.hpp>
@@ -193,10 +194,10 @@ int main()
 }
 ```
 
-The coefficients enter as constants, carrying no nilpotent part, so nothing is differentiated
-against them.
+The coefficients enter as constants, carrying no nilpotent part, so nothing is differentiated with
+respect to them.
 
-# Several points at once {#flx_ex_wide}
+# SIMD derivatives {#flx_ex_wide}
 
 A hyperdual whose components are SIMD registers holds one point per lane, and one evaluation returns
 the derivative at each of them.
@@ -218,8 +219,8 @@ int main()
 }
 ```
 
-The order and the cardinal are independent: `flx::variable<2>` of the same wide gives second
-derivatives at every lane, at twice the storage.
+The order and the cardinal are independent: `flx::variable<2>` applied to the same wide gives second
+derivatives in every lane, with twice the storage.
 
 <div class="section_buttons">
 
