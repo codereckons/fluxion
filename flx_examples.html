@@ -136,7 +136,6 @@ $(function(){initNavTree('flx_examples.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__2____w_2fluxion_2fluxion_2doc_2examples"></a></p>
-<p>Each example is a complete program: the function, the call, and what it prints. They are ordered by what each one asks of the library.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_ex_first"></a>
 First derivative</h1>
 <p>For \(f(x) = x^2\), \(f&#39;(x) = 2x\), so \(f(3) = 9\) and \(f&#39;(3) = 6\).</p>
@@ -152,10 +151,10 @@ First derivative</h1>
 <div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 6</span></div>
 <div class="line">}</div>
 <div class="ttc" id="agroup__types_ga487d2e600f4745c7eae18474d9641300_html_ga487d2e600f4745c7eae18474d9641300"><div class="ttname"><a href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable</a></div><div class="ttdeci">constexpr as_hyperdual_n_t&lt; Ord, T &gt; variable(T v) noexcept</div><div class="ttdoc">Turn a value into a variable of the given order.</div><div class="ttdef"><b>Definition</b> variables.hpp:60</div></div>
-</div><!-- fragment --><p>The seeded value carries \(3 + \varepsilon_1\), and the square gives \(9 + 6\varepsilon_1\) because \(\varepsilon_1^2 = 0\).</p>
+</div><!-- fragment --><p>The seeded element is \(3 + \varepsilon_1\), and the square gives \(9 + 6\varepsilon_1\) because \(\varepsilon_1^2 = 0\).</p>
 <h1 class="doxsection"><a class="anchor" id="flx_ex_composition"></a>
 Composition</h1>
-<p>For \(f(x) = \sin(x^2)\), the chain rule gives \(f&#39;(x) = 2x\cos(x^2)\). Nothing of that expression is written anywhere.</p>
+<p>For \(f(x) = \sin(x^2)\), the chain rule gives \(f&#39;(x) = 2x\cos(x^2)\).</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"> </div>
@@ -167,23 +166,25 @@ Composition</h1>
 <div class="line">  std::cout &lt;&lt; flx::get&lt;0&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// sin(0.49)</span></div>
 <div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 1.4 * cos(0.49)</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Each operation applies its own rule to what it receives, and the composition is performed by the evaluation itself.</p>
+</div><!-- fragment --><p>Each operation applies its own derivative rule, and the evaluation performs the composition.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_ex_orders"></a>
-Three derivatives in one pass</h1>
-<p>Giving every unit of the order to one value returns the successive derivatives of that value. With \(x = a + \varepsilon_1 + \varepsilon_2 + \varepsilon_3\), a component carrying \(|S|\) units holds \(f^{(|S|)}(a)\).</p>
+Successive derivatives</h1>
+<p>Seeding one value with every unit of the order yields the successive derivatives with respect to that argument. With \(x = a + \varepsilon_1 + \varepsilon_2 + \varepsilon_3\), a component carrying \(|S|\) units holds \(f^{(|S|)}(a)\).</p>
+<p>For \(f = \log\), the three derivatives are \(1/x\), \(-1/x^2\), and \(2/x^3\), which at \(x = 1\) take four distinct exact values:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
-<div class="line">  <span class="keyword">auto</span> z = flx::exp(<a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;3&gt;</a>(1.0));</div>
+<div class="line">  <span class="keyword">auto</span> z = flx::log(<a class="code hl_function" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300">flx::variable&lt;3&gt;</a>(1.0));</div>
 <div class="line"> </div>
-<div class="line">  std::cout &lt;&lt; flx::get&lt;0&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// exp(1)</span></div>
-<div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// exp(1), the first derivative</span></div>
-<div class="line">  std::cout &lt;&lt; flx::get&lt;3&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// exp(1), the second</span></div>
-<div class="line">  std::cout &lt;&lt; flx::get&lt;7&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// exp(1), the third</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;0&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 0, the value</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 1, the first derivative</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;3&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// -1, the second</span></div>
+<div class="line">  std::cout &lt;&lt; flx::get&lt;7&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 2, the third</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="flx_ex_gradient"></a>
+</div><!-- fragment --><p>The four values differ, so a component read at the wrong index is visible in the output.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_ex_gradient"></a>
 Gradient and mixed derivative</h1>
 <p>For \(f(x,y) = x^2 y + \sin y\), the partial derivatives are \(2xy\) and \(x^2 + \cos y\), and the mixed second derivative is \(2x\). One unit per argument returns the three at once.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
@@ -202,7 +203,7 @@ Gradient and mixed derivative</h1>
 </div><!-- fragment --><p>The square terms are absent, since neither argument was given two units.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_ex_hessian"></a>
 Full Hessian</h1>
-<p>Two units per argument brings them in, at order 4.</p>
+<p>Two units per argument add the square terms, at order 4.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"> </div>
@@ -215,11 +216,12 @@ Full Hessian</h1>
 <div class="line">  std::cout &lt;&lt; flx::get&lt;5&gt;(z)  &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;   <span class="comment">// the mixed one</span></div>
 <div class="line">  std::cout &lt;&lt; flx::get&lt;12&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;   <span class="comment">// the second derivative in y</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Four arguments would need eight units for the same result, which exceeds <span class="tt"><a class="el" href="group__traits.html#gaed37f490e5110e8f701e14bc2ee3f960" title="Highest derivative order the library carries.">flx::max_order</a></span>, so a Hessian of more than two arguments is a sweep of evaluations at order 2, one per pair.</p>
+</div><!-- fragment --><p>Three arguments would need six units for the same result, which exceeds <span class="tt"><a class="el" href="group__traits.html#gaed37f490e5110e8f701e14bc2ee3f960" title="Highest derivative order the library carries.">flx::max_order</a></span>, so a Hessian in more than two arguments takes the sweep <a class="el" href="flx_seeding.html#flx_cost" title="Cost of an order">Cost of an order</a> describes.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_ex_newton"></a>
-Newton, then Halley</h1>
-<p>Newton's method needs \(f\) and \(f&#39;\) at the current point, and both come out of one call. Halley's method converges faster and needs \(f&#39;&#39;\) as well: the function is unchanged, and the order asked for is what differs.</p>
+Newton and Halley iterations</h1>
+<p>Newton's method needs \(f\) and \(f&#39;\) at the current point, and one call returns both. Halley's method converges faster and needs \(f&#39;&#39;\) as well: the function is unchanged, and only the order differs.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iomanip&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> F&gt;</div>
@@ -254,12 +256,13 @@ Newton, then Halley</h1>
 <div class="line">{</div>
 <div class="line">  <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x * x - 2.0; };</div>
 <div class="line"> </div>
+<div class="line">  std::cout &lt;&lt; std::setprecision(12);</div>
 <div class="line">  std::cout &lt;&lt; newton(f, 1.0) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 1.41421356237</span></div>
 <div class="line">  std::cout &lt;&lt; halley(f, 1.0) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// 1.41421356237</span></div>
 <div class="line">}</div>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="flx_ex_loop"></a>
-Differentiating through a loop</h1>
-<p>Horner's rule evaluates a polynomial whose degree is known at run time. No expression for its derivative exists in the program, and the sequence of operations the loop performs is what gets differentiated.</p>
+Derivative through a loop</h1>
+<p>Horner's rule evaluates a polynomial whose degree is known only at run time, and the derivative is that of the operations the loop performs.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;span&gt;</span></div>
@@ -285,9 +288,9 @@ Differentiating through a loop</h1>
 <div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// the first derivative</span></div>
 <div class="line">  std::cout &lt;&lt; flx::get&lt;3&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// the second</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><p>The coefficients enter as constants, carrying no nilpotent part, so nothing is differentiated against them.</p>
+</div><!-- fragment --><p>The coefficients enter as constants, carrying no nilpotent part, so nothing is differentiated with respect to them.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_ex_wide"></a>
-Several points at once</h1>
+SIMD derivatives</h1>
 <p>A hyperdual whose components are SIMD registers holds one point per lane, and one evaluation returns the derivative at each of them.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;fluxion/fluxion.hpp&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;eve/wide.hpp&gt;</span></div>
@@ -303,7 +306,7 @@ Several points at once</h1>
 <div class="line">  std::cout &lt;&lt; flx::get&lt;0&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// the values, one per lane</span></div>
 <div class="line">  std::cout &lt;&lt; flx::get&lt;1&gt;(z) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;    <span class="comment">// the derivatives, one per lane</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><p>The order and the cardinal are independent: <span class="tt"><a class="el" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300" title="Turn a value into a variable of the given order.">flx::variable</a>&lt;2&gt;</span> of the same wide gives second derivatives at every lane, at twice the storage.</p>
+</div><!-- fragment --><p>The order and the cardinal are independent: <span class="tt"><a class="el" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300" title="Turn a value into a variable of the given order.">flx::variable</a>&lt;2&gt;</span> applied to the same wide gives second derivatives in every lane, with twice the storage.</p>
 <div class="section_buttons"></div><div class="section_buttons"><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadLeft">Previous  </th></tr>

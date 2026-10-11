@@ -2,9 +2,7 @@
 \hypertarget{flx_examples}{}\label{flx_examples}\index{Examples@{Examples}}
 \label{flx_examples_md__2____w_2fluxion_2fluxion_2doc_2examples}%
 \Hypertarget{flx_examples_md__2____w_2fluxion_2fluxion_2doc_2examples}%
-
-
-Each example is a complete program:\+ the function, the call, and what it prints. They are ordered by what each one asks of the library.\hypertarget{flx_examples_flx_ex_first}{}\doxysubsubsection{\texorpdfstring{First derivative}{First derivative}}\label{flx_examples_flx_ex_first}
+\hypertarget{flx_examples_flx_ex_first}{}\doxysubsubsection{\texorpdfstring{First derivative}{First derivative}}\label{flx_examples_flx_ex_first}
 For $f(x) = x^2$, $f\textnormal{\textquotesingle}(x) = 2x$, so $f(3) = 9$ and $f\textnormal{\textquotesingle}(3) = 6$.
 
 
@@ -24,8 +22,8 @@ For $f(x) = x^2$, $f\textnormal{\textquotesingle}(x) = 2x$, so $f(3) = 9$ and $f
 \end{DoxyCode}
 
 
-The seeded value carries $3 + \varepsilon_1$, and the square gives $9 + 6\varepsilon_1$ because $\varepsilon_1^2 = 0$.\hypertarget{flx_examples_flx_ex_composition}{}\doxysubsubsection{\texorpdfstring{Composition}{Composition}}\label{flx_examples_flx_ex_composition}
-For $f(x) = \sin(x^2)$, the chain rule gives $f\textnormal{\textquotesingle}(x) = 2x\cos(x^2)$. Nothing of that expression is written anywhere.
+The seeded element is $3 + \varepsilon_1$, and the square gives $9 + 6\varepsilon_1$ because $\varepsilon_1^2 = 0$.\hypertarget{flx_examples_flx_ex_composition}{}\doxysubsubsection{\texorpdfstring{Composition}{Composition}}\label{flx_examples_flx_ex_composition}
+For $f(x) = \sin(x^2)$, the chain rule gives $f\textnormal{\textquotesingle}(x) = 2x\cos(x^2)$.
 
 
 \begin{DoxyCode}{0}
@@ -44,8 +42,10 @@ For $f(x) = \sin(x^2)$, the chain rule gives $f\textnormal{\textquotesingle}(x) 
 \end{DoxyCode}
 
 
-Each operation applies its own rule to what it receives, and the composition is performed by the evaluation itself.\hypertarget{flx_examples_flx_ex_orders}{}\doxysubsubsection{\texorpdfstring{Three derivatives in one pass}{Three derivatives in one pass}}\label{flx_examples_flx_ex_orders}
-Giving every unit of the order to one value returns the successive derivatives of that value. With $x = a + \varepsilon_1 + \varepsilon_2 + \varepsilon_3$, a component carrying $|S|$ units holds $f^{(|S|)}(a)$.
+Each operation applies its own derivative rule, and the evaluation performs the composition.\hypertarget{flx_examples_flx_ex_orders}{}\doxysubsubsection{\texorpdfstring{Successive derivatives}{Successive derivatives}}\label{flx_examples_flx_ex_orders}
+Seeding one value with every unit of the order yields the successive derivatives with respect to that argument. With $x = a + \varepsilon_1 + \varepsilon_2 + \varepsilon_3$, a component carrying $|S|$ units holds $f^{(|S|)}(a)$.
+
+For $f = \log$, the three derivatives are $1/x$, $-1/x^2$, and $2/x^3$, which at $x = 1$ take four distinct exact values:\+
 
 
 \begin{DoxyCode}{0}
@@ -54,16 +54,18 @@ Giving every unit of the order to one value returns the successive derivatives o
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{keywordtype}{int}\ main()}
 \DoxyCodeLine{\{}
-\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ z\ =\ flx::exp(\doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<3>}}(1.0));}
+\DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ z\ =\ flx::log(\doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<3>}}(1.0));}
 \DoxyCodeLine{}
-\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<0>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ exp(1)}}
-\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<1>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ exp(1),\ the\ first\ derivative}}
-\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<3>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ exp(1),\ the\ second}}
-\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<7>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ exp(1),\ the\ third}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<0>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 0,\ the\ value}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<1>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 1,\ the\ first\ derivative}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<3>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ -\/1,\ the\ second}}
+\DoxyCodeLine{\ \ std::cout\ <<\ flx::get<7>(z)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 2,\ the\ third}}
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
-\hypertarget{flx_examples_flx_ex_gradient}{}\doxysubsubsection{\texorpdfstring{Gradient and mixed derivative}{Gradient and mixed derivative}}\label{flx_examples_flx_ex_gradient}
+
+
+The four values differ, so a component read at the wrong index is visible in the output.\hypertarget{flx_examples_flx_ex_gradient}{}\doxysubsubsection{\texorpdfstring{Gradient and mixed derivative}{Gradient and mixed derivative}}\label{flx_examples_flx_ex_gradient}
 For $f(x,y) = x^2 y + \sin y$, the partial derivatives are $2xy$ and $x^2 + \cos y$, and the mixed second derivative is $2x$. One unit per argument returns the three at once.
 
 
@@ -85,7 +87,7 @@ For $f(x,y) = x^2 y + \sin y$, the partial derivatives are $2xy$ and $x^2 + \cos
 
 
 The square terms are absent, since neither argument was given two units.\hypertarget{flx_examples_flx_ex_hessian}{}\doxysubsubsection{\texorpdfstring{Full Hessian}{Full Hessian}}\label{flx_examples_flx_ex_hessian}
-Two units per argument brings them in, at order 4.
+Two units per argument add the square terms, at order 4.
 
 
 \begin{DoxyCode}{0}
@@ -105,12 +107,13 @@ Two units per argument brings them in, at order 4.
 \end{DoxyCode}
 
 
-Four arguments would need eight units for the same result, which exceeds {\ttfamily \doxylink{group__traits_gaed37f490e5110e8f701e14bc2ee3f960}{flx::\+max\+\_\+order}}, so a Hessian of more than two arguments is a sweep of evaluations at order 2, one per pair.\hypertarget{flx_examples_flx_ex_newton}{}\doxysubsubsection{\texorpdfstring{Newton, then Halley}{Newton, then Halley}}\label{flx_examples_flx_ex_newton}
-Newton\textquotesingle{}s method needs $f$ and $f\textnormal{\textquotesingle}$ at the current point, and both come out of one call. Halley\textquotesingle{}s method converges faster and needs $f\textnormal{\textquotesingle}\textnormal{\textquotesingle}$ as well:\+ the function is unchanged, and the order asked for is what differs.
+Three arguments would need six units for the same result, which exceeds {\ttfamily \doxylink{group__traits_gaed37f490e5110e8f701e14bc2ee3f960}{flx::\+max\+\_\+order}}, so a Hessian in more than two arguments takes the sweep \doxysectlink{flx_seeding_flx_cost}{Cost of an order}{1} describes.\hypertarget{flx_examples_flx_ex_newton}{}\doxysubsubsection{\texorpdfstring{Newton and Halley iterations}{Newton and Halley iterations}}\label{flx_examples_flx_ex_newton}
+Newton\textquotesingle{}s method needs $f$ and $f\textnormal{\textquotesingle}$ at the current point, and one call returns both. Halley\textquotesingle{}s method converges faster and needs $f\textnormal{\textquotesingle}\textnormal{\textquotesingle}$ as well:\+ the function is unchanged, and only the order differs.
 
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{preprocessor}{\#include\ <fluxion/fluxion.hpp>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iomanip>}}
 \DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ F>}
@@ -145,13 +148,14 @@ Newton\textquotesingle{}s method needs $f$ and $f\textnormal{\textquotesingle}$ 
 \DoxyCodeLine{\{}
 \DoxyCodeLine{\ \ \textcolor{keyword}{auto}\ f\ =\ [](\textcolor{keyword}{auto}\ x)\ \{\ \textcolor{keywordflow}{return}\ x\ *\ x\ -\/\ 2.0;\ \};}
 \DoxyCodeLine{}
+\DoxyCodeLine{\ \ std::cout\ <<\ std::setprecision(12);}
 \DoxyCodeLine{\ \ std::cout\ <<\ newton(f,\ 1.0)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 1.41421356237}}
 \DoxyCodeLine{\ \ std::cout\ <<\ halley(f,\ 1.0)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};\ \ \ \ \textcolor{comment}{//\ 1.41421356237}}
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
-\hypertarget{flx_examples_flx_ex_loop}{}\doxysubsubsection{\texorpdfstring{Differentiating through a loop}{Differentiating through a loop}}\label{flx_examples_flx_ex_loop}
-Horner\textquotesingle{}s rule evaluates a polynomial whose degree is known at run time. No expression for its derivative exists in the program, and the sequence of operations the loop performs is what gets differentiated.
+\hypertarget{flx_examples_flx_ex_loop}{}\doxysubsubsection{\texorpdfstring{Derivative through a loop}{Derivative through a loop}}\label{flx_examples_flx_ex_loop}
+Horner\textquotesingle{}s rule evaluates a polynomial whose degree is known only at run time, and the derivative is that of the operations the loop performs.
 
 
 \begin{DoxyCode}{0}
@@ -184,7 +188,7 @@ Horner\textquotesingle{}s rule evaluates a polynomial whose degree is known at r
 \end{DoxyCode}
 
 
-The coefficients enter as constants, carrying no nilpotent part, so nothing is differentiated against them.\hypertarget{flx_examples_flx_ex_wide}{}\doxysubsubsection{\texorpdfstring{Several points at once}{Several points at once}}\label{flx_examples_flx_ex_wide}
+The coefficients enter as constants, carrying no nilpotent part, so nothing is differentiated with respect to them.\hypertarget{flx_examples_flx_ex_wide}{}\doxysubsubsection{\texorpdfstring{SIMD derivatives}{SIMD derivatives}}\label{flx_examples_flx_ex_wide}
 A hyperdual whose components are SIMD registers holds one point per lane, and one evaluation returns the derivative at each of them.
 
 
@@ -207,7 +211,7 @@ A hyperdual whose components are SIMD registers holds one point per lane, and on
 \end{DoxyCode}
 
 
-The order and the cardinal are independent:\+ {\ttfamily \doxylink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::\+variable}\texorpdfstring{$<$}{<}2\texorpdfstring{$>$}{>}} of the same wide gives second derivatives at every lane, at twice the storage.
+The order and the cardinal are independent:\+ {\ttfamily \doxylink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::\+variable}\texorpdfstring{$<$}{<}2\texorpdfstring{$>$}{>}} applied to the same wide gives second derivatives in every lane, with twice the storage.
 
 
 

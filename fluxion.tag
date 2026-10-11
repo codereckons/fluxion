@@ -282,12 +282,12 @@
     <title>Hyperdual Algebra</title>
     <filename>flx_algebra.html</filename>
     <docanchor file="flx_algebra.html" title="/__w/fluxion/fluxion/doc/algebra.md">md__2____w_2fluxion_2fluxion_2doc_2algebra</docanchor>
-    <docanchor file="flx_algebra.html" title="One unit">flx_one_unit</docanchor>
-    <docanchor file="flx_algebra.html" title="Several units">flx_n_units</docanchor>
+    <docanchor file="flx_algebra.html" title="Dual numbers">flx_one_unit</docanchor>
+    <docanchor file="flx_algebra.html" title="Hyperdual numbers">flx_n_units</docanchor>
     <docanchor file="flx_algebra.html" title="Component indexing">flx_components</docanchor>
     <docanchor file="flx_algebra.html" title="Constants and variables">flx_constants</docanchor>
     <docanchor file="flx_algebra.html" title="Sum, product, and inverse">flx_arithmetic</docanchor>
-    <docanchor file="flx_algebra.html" title="No order relation">flx_order_relation</docanchor>
+    <docanchor file="flx_algebra.html" title="Comparison operators">flx_ordering</docanchor>
     <docanchor file="flx_algebra.html" title="Lower orders as prefixes">flx_subalgebra</docanchor>
     <docanchor file="flx_algebra.html" title="References">flx_algebra_refs</docanchor>
   </compound>
@@ -311,8 +311,8 @@
     <docanchor file="flx_derivation.html" title="Programs as compositions">flx_program</docanchor>
     <docanchor file="flx_derivation.html" title="Derivative at a point">flx_derivative</docanchor>
     <docanchor file="flx_derivation.html" title="Rules of computation">flx_rules</docanchor>
-    <docanchor file="flx_derivation.html" title="Carrying a derivative">flx_carry</docanchor>
-    <docanchor file="flx_derivation.html" title="Higher orders, and several arguments">flx_higher</docanchor>
+    <docanchor file="flx_derivation.html" title="Propagating derivatives">flx_carry</docanchor>
+    <docanchor file="flx_derivation.html" title="Higher orders and several arguments">flx_higher</docanchor>
   </compound>
   <compound kind="page">
     <name>flx_examples</name>
@@ -321,12 +321,12 @@
     <docanchor file="flx_examples.html" title="/__w/fluxion/fluxion/doc/examples.md">md__2____w_2fluxion_2fluxion_2doc_2examples</docanchor>
     <docanchor file="flx_examples.html" title="First derivative">flx_ex_first</docanchor>
     <docanchor file="flx_examples.html" title="Composition">flx_ex_composition</docanchor>
-    <docanchor file="flx_examples.html" title="Three derivatives in one pass">flx_ex_orders</docanchor>
+    <docanchor file="flx_examples.html" title="Successive derivatives">flx_ex_orders</docanchor>
     <docanchor file="flx_examples.html" title="Gradient and mixed derivative">flx_ex_gradient</docanchor>
     <docanchor file="flx_examples.html" title="Full Hessian">flx_ex_hessian</docanchor>
-    <docanchor file="flx_examples.html" title="Newton, then Halley">flx_ex_newton</docanchor>
-    <docanchor file="flx_examples.html" title="Differentiating through a loop">flx_ex_loop</docanchor>
-    <docanchor file="flx_examples.html" title="Several points at once">flx_ex_wide</docanchor>
+    <docanchor file="flx_examples.html" title="Newton and Halley iterations">flx_ex_newton</docanchor>
+    <docanchor file="flx_examples.html" title="Derivative through a loop">flx_ex_loop</docanchor>
+    <docanchor file="flx_examples.html" title="SIMD derivatives">flx_ex_wide</docanchor>
   </compound>
   <compound kind="page">
     <name>flx_glossary</name>
@@ -335,7 +335,7 @@
     <docanchor file="flx_glossary.html" title="/__w/fluxion/fluxion/doc/glossary.md">md__2____w_2fluxion_2fluxion_2doc_2glossary</docanchor>
     <docanchor file="flx_glossary.html" title="Floating-point arithmetic">flx_gl_float</docanchor>
     <docanchor file="flx_glossary.html" title="Algebra">flx_gl_algebra</docanchor>
-    <docanchor file="flx_glossary.html" title="Vector registers">flx_gl_simd</docanchor>
+    <docanchor file="flx_glossary.html" title="SIMD registers">flx_gl_simd</docanchor>
     <docanchor file="flx_glossary.html" title="Automatic differentiation">flx_gl_ad</docanchor>
   </compound>
   <compound kind="page">
@@ -345,9 +345,9 @@
     <docanchor file="flx_methods.html" title="/__w/fluxion/fluxion/doc/methods.md">md__2____w_2fluxion_2fluxion_2doc_2methods</docanchor>
     <docanchor file="flx_methods.html" title="Symbolic differentiation">flx_symbolic</docanchor>
     <docanchor file="flx_methods.html" title="Automatic differentiation">flx_automatic</docanchor>
-    <docanchor file="flx_methods.html" title="Complex step">flx_complex</docanchor>
     <docanchor file="flx_methods.html" title="Difference quotient">flx_quotient</docanchor>
-    <docanchor file="flx_methods.html" title="Comparison">flx_summary</docanchor>
+    <docanchor file="flx_methods.html" title="Complex step">flx_complex</docanchor>
+    <docanchor file="flx_methods.html" title="Comparison of methods">flx_summary</docanchor>
     <docanchor file="flx_methods.html" title="References">flx_methods_refs</docanchor>
   </compound>
   <compound kind="page">
@@ -355,12 +355,12 @@
     <title>Seeding and Reading</title>
     <filename>flx_seeding.html</filename>
     <docanchor file="flx_seeding.html" title="/__w/fluxion/fluxion/doc/seeding.md">md__2____w_2fluxion_2fluxion_2doc_2seeding</docanchor>
-    <docanchor file="flx_seeding.html" title="Assigning units to arguments">flx_assignment</docanchor>
+    <docanchor file="flx_seeding.html" title="Differentiation list">flx_assignment</docanchor>
     <docanchor file="flx_seeding.html" title="Taylor identity">flx_taylor</docanchor>
     <docanchor file="flx_seeding.html" title="Reading a result">flx_landing</docanchor>
     <docanchor file="flx_seeding.html" title="Cost of an order">flx_cost</docanchor>
     <docanchor file="flx_seeding.html" title="Mixed orders">flx_mixing</docanchor>
-    <docanchor file="flx_seeding.html" title="Several points at once">flx_wide</docanchor>
+    <docanchor file="flx_seeding.html" title="Evaluation on SIMD registers">flx_wide</docanchor>
   </compound>
   <compound kind="page">
     <name>index</name>

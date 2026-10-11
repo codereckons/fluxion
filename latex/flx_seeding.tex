@@ -4,92 +4,145 @@
 \Hypertarget{flx_seeding_md__2____w_2fluxion_2fluxion_2doc_2seeding}%
 
 
-The algebra of \doxylink{flx_algebra}{Hyperdual Algebra} returns every derivative of an evaluation at once. Which argument each of them differentiates is decided when the arguments are seeded.\hypertarget{flx_seeding_flx_assignment}{}\doxysubsubsection{\texorpdfstring{Assigning units to arguments}{Assigning units to arguments}}\label{flx_seeding_flx_assignment}
-Seeding a value is adding units to it. The argument a unit is given to is written in the call, and two forms write it. {\ttfamily \doxylink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::\+variable}\texorpdfstring{$<$}{<}Ord\texorpdfstring{$>$}{>}} gives every unit of the order to a single value, and {\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}\texorpdfstring{$<$}{<}Is...\texorpdfstring{$>$}{>}} spreads the units of a call over its arguments:\+
+An evaluation on hyperduals returns all the derivatives it carries at once, and the seeding of the arguments fixes the argument each of them is taken with respect to.
 
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{keyword}{auto}\ x\ \ \ \ \ \ \ \ =\ \doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<2>}}(2.5);}
-\DoxyCodeLine{\textcolor{keyword}{auto}\ [\ u,\ v\ ]\ =\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 1>}}(2.5,\ -\/1.0);}
-\DoxyCodeLine{\textcolor{keyword}{auto}\ [\ p,\ q\ ]\ =\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 0,\ 1>}}(2.5,\ -\/1.0);}
-
-\end{DoxyCode}
-
-
-
-\begin{DoxyTable}{3}{}{}{1}
-\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Result  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Type  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Value it holds  \\
-{\ttfamily x}  &{\ttfamily \doxylink{structflx_1_1hyperdual}{flx::\+hyperdual}\texorpdfstring{$<$}{<}double,2\texorpdfstring{$>$}{>}}  &$2.5 + \varepsilon_1 + \varepsilon_2$  \\
-{\ttfamily u}, {\ttfamily v}  &{\ttfamily \doxylink{structflx_1_1hyperdual}{flx::\+hyperdual}\texorpdfstring{$<$}{<}double,2\texorpdfstring{$>$}{>}}  &$2.5 + \varepsilon_1$ and $-1 + \varepsilon_2$  \\
-{\ttfamily p}, {\ttfamily q}  &{\ttfamily \doxylink{structflx_1_1hyperdual}{flx::\+hyperdual}\texorpdfstring{$<$}{<}double,3\texorpdfstring{$>$}{>}}  &$2.5 + \varepsilon_1 + \varepsilon_2$ and $-1 + \varepsilon_3$  \\
-\end{DoxyTable}
-
-
-The template list {\ttfamily Is...} holds one entry per unit, in unit order:\+ its $i$-\/th entry is the index of the argument $\varepsilon_i$ is given to, arguments being counted from zero and units from one. Its length is the order every seeded result comes back at. The third call above gives units 1 and 2 to the first argument and unit 3 to the second, hence an order 3 on both.
-
-An argument that is given no unit comes back unchanged, at its own type, so the result of a call to {\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}} feeds the function straight through {\ttfamily kumi::\+apply}.\hypertarget{flx_seeding_flx_taylor}{}\doxysubsubsection{\texorpdfstring{Taylor identity}{Taylor identity}}\label{flx_seeding_flx_taylor}
-Substituting a nilpotent into an analytic function turns its series into a sum with finitely many terms, since every monomial of degree $n+1$ in the units vanishes. That truncation is an identity, and no approximation.
-
-For a function $f$ of $m$ arguments, seed argument $j$ with the units of a set $U_j$, the sets $U_1, \dots, U_m$ partitioning $\{1,\dots,n\}$:\+
-
-\[ x_j = a_j + \sum_{i \in U_j} \varepsilon_i. \]
-
-Each unit then belongs to exactly one argument, and $k$ denotes the map reading that assignment back, $k(i) = j$ for the single $j$ with $i \in U_j$. It is the list {\ttfamily Is...} of the previous section. The evaluation gives
-
-\[ f(x_1,\dots,x_m) = \sum_{S \subseteq \{1,\dots,n\}}
-    \left(\frac{\partial^{|S|} f}{\prod_{i \in S} \partial x_{k(i)}}(a_1,\dots,a_m)\right)
-    \varepsilon_S. \]
-
-Every component of the result is a partial derivative of $f$ at the point, and it carries no factorial:\+ each unit appears to the first power, so the coefficient of $\varepsilon_S$ is the derivative itself.\hypertarget{flx_seeding_flx_landing}{}\doxysubsubsection{\texorpdfstring{Reading a result}{Reading a result}}\label{flx_seeding_flx_landing}
-A component is indexed by the units it carries, as \doxysectlink{flx_algebra_flx_components}{Component indexing}{1} states. With the seeding {\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}\texorpdfstring{$<$}{<}0, 1\texorpdfstring{$>$}{>}(x, y)} and $f$ evaluated on the pair, the four components hold
-
-
-\begin{DoxyTable}{3}{}{}{1}
-\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Component  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Units  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}What it holds  \\
-\SetCell{c}{\ttfamily get\texorpdfstring{$<$}{<}0\texorpdfstring{$>$}{>}}  &none  &$f(x, y)$  \\
-\SetCell{c}{\ttfamily get\texorpdfstring{$<$}{<}1\texorpdfstring{$>$}{>}}  &$\varepsilon_1$  &$\partial f/\partial x$  \\
-\SetCell{c}{\ttfamily get\texorpdfstring{$<$}{<}2\texorpdfstring{$>$}{>}}  &$\varepsilon_2$  &$\partial f/\partial y$  \\
-\SetCell{c}{\ttfamily get\texorpdfstring{$<$}{<}3\texorpdfstring{$>$}{>}}  &$\varepsilon_1\varepsilon_2$  &$\partial^2 f/\partial x\,\partial y$  \\
-\end{DoxyTable}
-
-
-One evaluation returns the gradient and the mixed second derivative. Absent from it is $\partial^2 f/\partial x^2$:\+ a second derivative in one argument needs two units on that argument, which {\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}\texorpdfstring{$<$}{<}0, 0\texorpdfstring{$>$}{>}} asks for.
-
-Two units per argument gives the square terms as well. Seeding two arguments that way costs order 4 and returns, in a single evaluation, the value, both first derivatives and the whole Hessian:\+
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{keyword}{auto}\ [\ x,\ y\ ]\ =\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 0,\ 1,\ 1>}}(2.5,\ -\/1.0);}
-
-\end{DoxyCode}
-
-
-
-\begin{DoxyTable}{3}{}{}{1}
-\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Component  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Units  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}What it holds  \\
-\SetCell{c}{\ttfamily get\texorpdfstring{$<$}{<}1\texorpdfstring{$>$}{>}}  &$\varepsilon_1$  &$\partial f/\partial x$  \\
-\SetCell{c}{\ttfamily get\texorpdfstring{$<$}{<}3\texorpdfstring{$>$}{>}}  &$\varepsilon_1\varepsilon_2$  &$\partial^2 f/\partial x^2$  \\
-\SetCell{c}{\ttfamily get\texorpdfstring{$<$}{<}5\texorpdfstring{$>$}{>}}  &$\varepsilon_1\varepsilon_3$  &$\partial^2 f/\partial x\,\partial y$  \\
-\SetCell{c}{\ttfamily get\texorpdfstring{$<$}{<}12\texorpdfstring{$>$}{>}}  &$\varepsilon_3\varepsilon_4$  &$\partial^2 f/\partial y^2$  \\
-\end{DoxyTable}
-
-
-Several components hold the same derivative, $\varepsilon_2\varepsilon_3$ answering $\partial^2 f/\partial x\,\partial y$ as $\varepsilon_1\varepsilon_3$ does. A symmetric object stored as a full set of subsets repeats itself, and that repetition is what caps the useful order at four.\hypertarget{flx_seeding_flx_cost}{}\doxysubsubsection{\texorpdfstring{Cost of an order}{Cost of an order}}\label{flx_seeding_flx_cost}
-An order $n$ carries $2^n$ components, so a single value of order 4 weighs sixteen {\ttfamily double}, and every operation of the arithmetic works on all of them. Two ways of spending that budget answer different questions.
+Three calls seed a value:\+
 
 
 \begin{DoxyItemize}
-\item {\bfseries{One unit per argument.}} Order $m$ over $m$ arguments returns the gradient and every mixed partial up to the one of order $m$, in one evaluation, and never a repeated derivative.
-\item {\bfseries{Several units per argument.}} Order $n$ over one argument returns $f\textnormal{\textquotesingle}, f\textnormal{\textquotesingle}\textnormal{\textquotesingle}, \dots, f^{(n)}$ of that argument in one evaluation, and says nothing of the others.
+\item {\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}}, over the arguments of a call;
+\item {\ttfamily \doxylink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::\+variable}}, over a single value;
+\item the constructor {\ttfamily hyperdual\texorpdfstring{$<$}{<}T, Ord\texorpdfstring{$>$}{>}\{v, \doxylink{group__types_ga02fcc261be278ce3a28010fe7f07b998}{flx::\+var}\}}, which builds what {\ttfamily \doxylink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::\+variable}} returns.
 \end{DoxyItemize}
 
-A full Hessian of $m$ arguments therefore comes out of one pass only when $2m \le 4$. Past two arguments it is a sweep of $m(m+1)/2$ evaluations at order 2, one per pair, which is the usual shape of a forward mode.\hypertarget{flx_seeding_flx_mixing}{}\doxysubsubsection{\texorpdfstring{Mixed orders}{Mixed orders}}\label{flx_seeding_flx_mixing}
-An operand of order 2 carries nothing of a third derivative, and filling it with zeros would state that the third derivative vanishes. A mixed expression therefore computes at the {\bfseries{smallest}} order present, and the extra components of the others are dropped. {\ttfamily flx::\+restrict\+\_\+to\texorpdfstring{$<$}{<}Ord\texorpdfstring{$>$}{>}} performs that descent explicitly, on the scalar form as on the wide one.
+No other operation seeds:\+ an operation on seeded elements propagates their units, and an element built from a tuple takes the components written in it.\hypertarget{flx_seeding_flx_assignment}{}\doxysubsubsection{\texorpdfstring{Differentiation list}{Differentiation list}}\label{flx_seeding_flx_assignment}
+{\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}\texorpdfstring{$<$}{<}Is...\texorpdfstring{$>$}{>}(xs...)} takes the list of the differentiations requested:\+ one entry per differentiation, each naming the argument to differentiate with respect to, arguments being numbered from zero. {\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}\texorpdfstring{$<$}{<}0, 0, 1\texorpdfstring{$>$}{>}(x, y)} therefore requests two differentiations in {\ttfamily x} and one in {\ttfamily y}. {\ttfamily \doxylink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::\+variable}\texorpdfstring{$<$}{<}Ord\texorpdfstring{$>$}{>}(v)} is the one-\/argument form, with {\ttfamily Ord} differentiations in {\ttfamily v}.
 
-Only a lone scalar adapts to what it is mixed with. Everything that carries a structure states its own element type, and two operands stating different ones have no common type at all, which is a refusal rather than an arbitration.\hypertarget{flx_seeding_flx_wide}{}\doxysubsubsection{\texorpdfstring{Several points at once}{Several points at once}}\label{flx_seeding_flx_wide}
-A component may be a SIMD register rather than a scalar, and the construction goes through unchanged. {\ttfamily eve::\+wide\texorpdfstring{$<$}{<}\doxylink{structflx_1_1hyperdual}{flx::\+hyperdual}\texorpdfstring{$<$}{<}double,2\texorpdfstring{$>$}{>}\texorpdfstring{$>$}{>}} is a structure of arrays holding as many hyperduals as the machine has lanes, and seeding a wide value seeds every lane, so one evaluation returns the derivatives at as many points as there are lanes.
 
-This is a different axis from the order. The order says how many derivatives one point carries, the cardinal how many points travel together, and each is read where it is written:\+ the order from the element type, the cardinal from {\ttfamily eve::\+cardinal\+\_\+v}. Two operands that are genuinely wide have to agree on their number of lanes.
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ x\ \ \ \ \ \ \ \ =\ \doxymbox{\hyperlink{group__types_ga487d2e600f4745c7eae18474d9641300_ga487d2e600f4745c7eae18474d9641300}{flx::variable<2>}}(2.5);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ twice\ in\ x}}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ [\ u,\ v\ ]\ =\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 1>}}(2.5,\ -\/1.0);\ \ \ \ \textcolor{comment}{//\ once\ in\ u,\ once\ in\ v}}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ [\ p,\ q\ ]\ =\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 0,\ 1>}}(2.5,\ -\/1.0);\ \textcolor{comment}{//\ twice\ in\ p,\ once\ in\ q}}
+
+\end{DoxyCode}
+
+
+The list holds at most {\ttfamily \doxylink{group__traits_gaed37f490e5110e8f701e14bc2ee3f960}{flx::\+max\+\_\+order}} entries, four, and each entry names an argument of the call:\+ {\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}\texorpdfstring{$<$}{<}0, 0, 1\texorpdfstring{$>$}{>}(2.\+5)} names a second argument the call does not have, and does not compile.
+
+Seeding writes that list into the values. For {\ttfamily Is...} $= (i_0, \dots, i_{n-1})$, argument $j$ of value $a_j$ is seeded as
+
+\[ x_j = a_j + \sum_{k\,:\,i_k = j} \varepsilon_{k+1}, \]
+
+each unit belonging to exactly one argument and every seeded result having order $n$:\+
+
+
+\begin{DoxyTable}{4}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Result  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Type  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Element  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Components, in index order  \\
+{\ttfamily x}  &{\ttfamily hyperdual\texorpdfstring{$<$}{<}double,2\texorpdfstring{$>$}{>}}  &$2.5 + \varepsilon_1 + \varepsilon_2$  &2.\+5, 1, 1, 0  \\
+{\ttfamily u}  &{\ttfamily hyperdual\texorpdfstring{$<$}{<}double,2\texorpdfstring{$>$}{>}}  &$2.5 + \varepsilon_1$  &2.\+5, 1, 0, 0  \\
+{\ttfamily v}  &{\ttfamily hyperdual\texorpdfstring{$<$}{<}double,2\texorpdfstring{$>$}{>}}  &$-1 + \varepsilon_2$  &-\/1, 0, 1, 0  \\
+{\ttfamily p}  &{\ttfamily hyperdual\texorpdfstring{$<$}{<}double,3\texorpdfstring{$>$}{>}}  &$2.5 + \varepsilon_1 + \varepsilon_2$  &2.\+5, 1, 1, 0, 0, 0, 0, 0  \\
+{\ttfamily q}  &{\ttfamily hyperdual\texorpdfstring{$<$}{<}double,3\texorpdfstring{$>$}{>}}  &$-1 + \varepsilon_3$  &-\/1, 0, 0, 0, 1, 0, 0, 0  \\
+\end{DoxyTable}
+
+
+Streaming one prints those components with their names, {\ttfamily std::\+cout \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} u} giving {\ttfamily 2.\+5 + 1e1 + 0e2 + 0e12}.
+
+Units are numbered as \doxysectlink{flx_algebra_flx_components}{Component indexing}{1} numbers them:\+ $\varepsilon_u$ is stored at bit $u-1$.
+
+{\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}} returns a {\ttfamily kumi::\+tuple} with one entry per argument, in the order they were passed, and the entries need not share a type:\+ an argument named in the list is returned as a {\ttfamily \doxylink{structflx_1_1hyperdual}{flx::\+hyperdual}} seeded on its units; one never named is returned unchanged.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 1>}}(2.5,\ -\/1.0);\ \ \ \textcolor{comment}{//\ kumi::tuple<hyperdual<double,2>,\ hyperdual<double,2>>}}
+\DoxyCodeLine{\doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0>}}(2.5,\ -\/1.0);\ \ \ \ \ \ \textcolor{comment}{//\ kumi::tuple<hyperdual<double,1>,\ double>}}
+
+\end{DoxyCode}
+
+
+The tuple therefore stands for the argument list, and the call is made through {\ttfamily kumi::\+apply}:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ vars\ =\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 1>}}(2.5,\ -\/1.0);}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ r\ \ \ \ =\ kumi::apply(f,\ vars);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ f(2.5\ +\ e1,\ -\/1\ +\ e2)}}
+
+\end{DoxyCode}
+\hypertarget{flx_seeding_flx_taylor}{}\doxysubsubsection{\texorpdfstring{Taylor identity}{Taylor identity}}\label{flx_seeding_flx_taylor}
+Once the arguments are seeded, the content of each component after the evaluation follows from one identity. Substituting a nilpotent into an analytic function turns its series into a sum with finitely many terms, since every monomial of degree $n+1$ or more in the units vanishes, and that truncation is an identity rather than an approximation.
+
+Evaluating $f$ on the arguments seeded by that list, where unit $u$ belongs to argument $i_{u-1}$, gives
+
+\[ f(x_1,\dots,x_m) = \sum_{S \subseteq \{1,\dots,n\}}
+    \left(\frac{\partial^{|S|} f}{\prod_{u \in S} \partial x_{i_{u-1}}}(a_1,\dots,a_m)\right)
+    \varepsilon_S. \]
+
+Every component of the result is a partial derivative of $f$ at the point, and it carries no factorial:\+ each unit appears to the first power, so the coefficient of $\varepsilon_S$ is the derivative itself.\hypertarget{flx_seeding_flx_landing}{}\doxysubsubsection{\texorpdfstring{Reading a result}{Reading a result}}\label{flx_seeding_flx_landing}
+The Taylor identity attaches the derivative indexed by $S$ to $\varepsilon_S$, and $\varepsilon_S$ is stored at the component of index $\sum_{u \in S} 2^{u-1}$. Reading a derivative is therefore one {\ttfamily flx::\+get} at that index, and writing the index in binary shows the units it carries. For $f(x, y) = x^2 y$ at $(2.5, -1)$, with one differentiation in each argument:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ f\ \ \ \ =\ [](\textcolor{keyword}{auto}\ a,\ \textcolor{keyword}{auto}\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ *\ a\ *\ b;\ \};}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ vars\ =\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 1>}}(2.5,\ -\/1.0);}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ z\ \ \ \ =\ kumi::apply(f,\ vars);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTable}{4}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Component  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Units  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}What it holds  &\SetCell{r,bg=\tableheadbgcolor,font=\bfseries}Value  \\
+\SetCell{c}{\ttfamily flx::\+get\texorpdfstring{$<$}{<}0b00\texorpdfstring{$>$}{>}(z)}  &none  &$f(x, y)$  &\SetCell{r}-\/6.\+25  \\
+\SetCell{c}{\ttfamily flx::\+get\texorpdfstring{$<$}{<}0b01\texorpdfstring{$>$}{>}(z)}  &$\varepsilon_1$  &$\partial f/\partial x = 2xy$  &\SetCell{r}-\/5  \\
+\SetCell{c}{\ttfamily flx::\+get\texorpdfstring{$<$}{<}0b10\texorpdfstring{$>$}{>}(z)}  &$\varepsilon_2$  &$\partial f/\partial y = x^2$  &\SetCell{r}6.\+25  \\
+\SetCell{c}{\ttfamily flx::\+get\texorpdfstring{$<$}{<}0b11\texorpdfstring{$>$}{>}(z)}  &$\varepsilon_1\varepsilon_2$  &$\partial^2 f/\partial x\,\partial y = 2x$  &\SetCell{r}5  \\
+\end{DoxyTable}
+
+
+One evaluation returns the gradient and the mixed second derivative. The result does not contain $\partial^2 f/\partial x^2$:\+ a second derivative in one argument needs two units on that argument, which {\ttfamily \doxylink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::\+variables}\texorpdfstring{$<$}{<}0, 0\texorpdfstring{$>$}{>}} provides.
+
+Two differentiations per argument give the square terms as well. For two arguments, this requires order 4 and returns, in a single evaluation, the value, both first derivatives, and the whole Hessian. On the same $f$ and the same point:\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ vars\ =\ \doxymbox{\hyperlink{group__types_gad882c0e62192532ad693d74ebdeb394d_gad882c0e62192532ad693d74ebdeb394d}{flx::variables<0,\ 0,\ 1,\ 1>}}(2.5,\ -\/1.0);}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ z\ \ \ \ =\ kumi::apply(f,\ vars);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTable}{4}{}{}{1}
+\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Component  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}Units  &\SetCell{c,bg=\tableheadbgcolor,font=\bfseries}What it holds  &\SetCell{r,bg=\tableheadbgcolor,font=\bfseries}Value  \\
+\SetCell{c}{\ttfamily flx::\+get\texorpdfstring{$<$}{<}0b0001\texorpdfstring{$>$}{>}(z)}  &$\varepsilon_1$  &$\partial f/\partial x = 2xy$  &\SetCell{r}-\/5  \\
+\SetCell{c}{\ttfamily flx::\+get\texorpdfstring{$<$}{<}0b0011\texorpdfstring{$>$}{>}(z)}  &$\varepsilon_1\varepsilon_2$  &$\partial^2 f/\partial x^2 = 2y$  &\SetCell{r}-\/2  \\
+\SetCell{c}{\ttfamily flx::\+get\texorpdfstring{$<$}{<}0b0101\texorpdfstring{$>$}{>}(z)}  &$\varepsilon_1\varepsilon_3$  &$\partial^2 f/\partial x\,\partial y = 2x$  &\SetCell{r}5  \\
+\SetCell{c}{\ttfamily flx::\+get\texorpdfstring{$<$}{<}0b1100\texorpdfstring{$>$}{>}(z)}  &$\varepsilon_3\varepsilon_4$  &$\partial^2 f/\partial y^2 = 0$  &\SetCell{r}0  \\
+\end{DoxyTable}
+
+
+Several components hold the same derivative:\+ $\varepsilon_1\varepsilon_3$ and $\varepsilon_2\varepsilon_3$ both hold $\partial^2 f/\partial x\,\partial y$.\hypertarget{flx_seeding_flx_cost}{}\doxysubsubsection{\texorpdfstring{Cost of an order}{Cost of an order}}\label{flx_seeding_flx_cost}
+An element of order $n$ has $2^n$ components, so a single element of order 4 occupies sixteen {\ttfamily double}s, and every operation of the arithmetic works on all of them. An order is used in one of two ways.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{One unit per argument.}} Order $m$ over $m$ arguments returns the gradient and every mixed partial up to the one of order $m$, in one evaluation, and no repeated derivative.
+\item {\bfseries{Several units per argument.}} Order $n$ over one argument returns $f\textnormal{\textquotesingle}, f\textnormal{\textquotesingle}\textnormal{\textquotesingle}, \dots, f^{(n)}$ of that argument in one evaluation, and no derivative in the others.
+\end{DoxyItemize}
+
+A full Hessian in $m$ arguments therefore takes a single pass only when $2m \le 4$. Past two arguments it takes a sweep of one of two kinds:\+
+
+
+\begin{DoxyItemize}
+\item at order 2, one evaluation per pair, $m(m+1)/2$ of them, the pairs $(i, i)$ giving the square terms;
+\item at order 4, two units on each argument of a pair, $m(m-1)/2$ evaluations, each returning both square terms and the mixed one.
+\end{DoxyItemize}\hypertarget{flx_seeding_flx_mixing}{}\doxysubsubsection{\texorpdfstring{Mixed orders}{Mixed orders}}\label{flx_seeding_flx_mixing}
+An operand of order 2 carries no third derivative, and filling it with zeros would state that the third derivative vanishes. A mixed expression therefore computes at the {\bfseries{smallest}} order present, and the extra components of the others are dropped. {\ttfamily flx::\+restrict\+\_\+to\texorpdfstring{$<$}{<}Ord\texorpdfstring{$>$}{>}} performs that reduction explicitly, on the scalar form and on the wide one alike.
+
+Only a plain scalar converts to the type it is mixed with. A hyperdual or a wide fixes its element type, and two operands with different element types have no common type:\+ mixing them does not compile.\hypertarget{flx_seeding_flx_wide}{}\doxysubsubsection{\texorpdfstring{Evaluation on SIMD registers}{Evaluation on SIMD registers}}\label{flx_seeding_flx_wide}
+A component may be a SIMD register rather than a scalar, and the construction is unchanged. {\ttfamily eve::\+wide\texorpdfstring{$<$}{<}\doxylink{structflx_1_1hyperdual}{flx::\+hyperdual}\texorpdfstring{$<$}{<}double,2\texorpdfstring{$>$}{>}\texorpdfstring{$>$}{>}} is a structure of arrays holding as many hyperduals as the machine has lanes, and seeding a wide value seeds every lane, so one evaluation returns the derivatives at as many points as there are lanes.
+
+The cardinal is independent of the order:\+ the order counts the derivatives carried at one point, the cardinal the points evaluated together. The order is read from the element type, the cardinal from {\ttfamily eve::\+cardinal\+\_\+v}, and two wide operands must have the same number of lanes.
 
 
 

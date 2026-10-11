@@ -1,9 +1,9 @@
 var searchData=
 [
   ['cancellation_0',['Cancellation',['../flx_glossary.html#autotoc_md1',1,'']]],
-  ['cardinal_1',['Cardinal',['../flx_glossary.html#autotoc_md5',1,'']]],
-  ['carrying_20a_20derivative_2',['Carrying a derivative',['../flx_derivation.html#flx_carry',1,'']]],
-  ['comparison_3',['Comparison',['../flx_methods.html#flx_summary',1,'']]],
+  ['cardinal_1',['Cardinal',['../flx_glossary.html#autotoc_md6',1,'']]],
+  ['comparison_20of_20methods_2',['Comparison of methods',['../flx_methods.html#flx_summary',1,'']]],
+  ['comparison_20operators_3',['Comparison operators',['../flx_algebra.html#flx_ordering',1,'']]],
   ['complex_20step_4',['Complex step',['../flx_methods.html#flx_complex',1,'']]],
   ['component_20indexing_5',['Component indexing',['../flx_algebra.html#flx_components',1,'']]],
   ['composition_6',['Composition',['../flx_examples.html#flx_ex_composition',1,'']]],

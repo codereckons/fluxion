@@ -136,62 +136,67 @@ $(function(){initNavTree('flx_methods.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__2____w_2fluxion_2fluxion_2doc_2methods"></a></p>
-<p>Four methods answer the question <a class="el" href="flx_derivation.html" title="Differentiating a Program">Differentiating a Program</a> ends on: by what means is a derivative carried through an execution. They differ in what they are exact about, what they cost, and what they demand of the code. They come below in order, from the one that differentiates a formula to the one that evaluates the function twice and subtracts.</p>
+<p>Five methods compute a derivative. They differ in their accuracy, their cost, and what they require of the code.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_symbolic"></a>
 Symbolic differentiation</h1>
-<p>Differentiating the formula gives an exact expression, and evaluating it gives an exact value. It requires a formula: a program with a loop, a branch or a call into a library is not one. It also forms the composed expression that <a class="el" href="flx_derivation.html#flx_rules" title="Rules of computation">Rules of computation</a> avoids, and repeated differentiation makes that expression grow, each order multiplying the number of terms.</p>
+<p>Differentiating a formula gives an exact expression, and evaluating it gives a value exact up to rounding. It requires a formula: a program with a loop, a branch, or a call into a library is not one. It also forms the composed expression that <a class="el" href="flx_derivation.html#flx_rules" title="Rules of computation">Rules of computation</a> avoids, and repeated differentiation makes that expression grow, each order multiplying the number of terms.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_automatic"></a>
 Automatic differentiation</h1>
-<p>Both modes apply the chain rule to the sequence of operations the program actually performed, so both are exact to the representation.</p>
+<p>Both modes apply the chain rule to the sequence of operations the program performed, so neither has a truncation error: a derivative is rounded as the value it accompanies is.</p>
 <ul>
-<li><b>Forward mode</b>, what <b>FLUXION</b> implements, carries the derivatives alongside the value. The cost of one evaluation is proportional to the number of components carried, and nothing is stored between evaluations. A gradient of \(m\) arguments costs a number of passes growing with \(m\).</li>
-<li><b>Reverse mode</b> records the operations of one evaluation, then walks the record backwards. A gradient of \(m\) arguments costs one forward pass and one backward pass whatever \(m\) is, and the record grows with the number of operations executed.</li>
+<li><b>Forward mode</b>, which <b>FLUXION</b> implements, carries the derivatives alongside the value. The cost of one evaluation grows with the number of components carried, and nothing is stored between evaluations. A gradient with respect to \(m\) arguments requires a number of passes that grows with \(m\).</li>
+<li><b>Reverse mode</b> records the operations of one evaluation, then traverses the record backward. A gradient with respect to \(m\) arguments requires one forward pass and one backward pass for any \(m\), and the record grows with the number of operations executed.</li>
 </ul>
-<p>Each answers a different shape of problem. Forward mode suits few arguments or high orders, reverse mode a single output differentiated against many parameters at once.</p>
-<h1 class="doxsection"><a class="anchor" id="flx_complex"></a>
-Complex step</h1>
-<p>Lyness and Moler noted in 1967, and Squire and Trapp made known in 1998, that \(\Im\big(f(a + ih)\big)/h\) approximates \(f&#39;(a)\) with no subtraction of nearby values. The cancellation disappears, \(h\) may be taken as small as the representation allows, and the first derivative comes back to full precision.</p>
-<p>Beyond the first derivative it gives nothing, and it asks a great deal of the code.</p>
-<ul>
-<li>The second derivative comes back entangled with the first.</li>
-<li>The function has to be analytic.</li>
-<li>Its implementation has to accept complex arguments and stay analytic through every branch it takes.</li>
-</ul>
+<p>Forward mode suits few inputs or high orders, reverse mode a single output differentiated with respect to many inputs.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_quotient"></a>
 Difference quotient</h1>
-<p>Evaluating \(\big(f(a+h) - f(a)\big)/h\) for a small \(h\) is wrong twice over. The quotient omits a term of order \(h\), and the subtraction of two nearby values loses digits in proportion to \(u/h\), with \(u\) the unit roundoff. The two errors move in opposite directions, so the best \(h\) is a compromise, around \(\sqrt{u}\) for a forward difference, which leaves about half of the available digits. A central difference improves the truncation and leaves the cancellation where it was, and a second derivative divides by \(h^2\) and keeps roughly a third of them.</p>
-<p>None of this is a defect of an implementation. The choice of \(h\) is itself the error, and no care recovers the digits the subtraction has already spent. This is also the only method that ignores the chain rule: it replays the whole program beside itself and reads the difference.</p>
+<p>For a small \(h\), the forward difference contains two error terms at once:</p>
+<p class="formulaDsp">
+\[ \frac{f(a+h) - f(a)}{h} = f&#39;(a) + \frac{h}{2}f&#39;&#39;(\xi)
+    + O\!\left(\frac{u\,|f(a)|}{h}\right), \]
+</p>
+<p>with \(u\) the unit roundoff. The truncation error grows with \(h\) and the cancellation with \(1/h\), so their sum is smallest near \(h = \sqrt{u}\), which leaves about half of the available digits. A central difference reduces the truncation error and leaves the cancellation unchanged. A second derivative divides by \(h^2\): its central difference keeps about half of the digits, its one-sided difference about a third.</p>
+<p>No choice of \(h\) removes both errors, and the digits the cancellation removes cannot be restored afterward.</p>
+<p>The difference quotient is also the only method that does not apply the chain rule: it evaluates the program twice and takes the difference.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_complex"></a>
+Complex step</h1>
+<p>Lyness and Moler (1967) and Squire and Trapp (1998) show that \(\Im\big(f(a + ih)\big)/h\) approximates \(f&#39;(a)\) with no subtraction of nearby values. The cancellation disappears, \(h\) may be taken as small as the representation allows, and the first derivative is obtained to full precision.</p>
+<p>It gives the first derivative only. The second appears in the real part, \(\Re\big(f(a + ih)\big) = f(a) - \frac{h^2}{2}f&#39;&#39;(a) + O(h^4)\), and recovering it subtracts \(f(a)\) and reintroduces the cancellation.</p>
+<p>The method also requires:</p>
+<ul>
+<li>a real analytic function;</li>
+<li>an implementation that accepts complex arguments and stays analytic through every branch it takes.</li>
+</ul>
 <h1 class="doxsection"><a class="anchor" id="flx_summary"></a>
-Comparison</h1>
+Comparison of methods</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Method  </th><th class="markdownTableHeadNone">Exactness  </th><th class="markdownTableHeadCenter">Orders  </th><th class="markdownTableHeadNone">What it needs  </th></tr>
+<th class="markdownTableHeadNone">Method  </th><th class="markdownTableHeadNone">Accuracy  </th><th class="markdownTableHeadCenter">Orders  </th><th class="markdownTableHeadNone">What it needs  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Symbolic  </td><td class="markdownTableBodyNone">full  </td><td class="markdownTableBodyCenter">any, with expression growth  </td><td class="markdownTableBodyNone">a formula  </td></tr>
+<td class="markdownTableBodyNone">Symbolic  </td><td class="markdownTableBodyNone">rounding only  </td><td class="markdownTableBodyCenter">any, with expression growth  </td><td class="markdownTableBodyNone">a formula  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Forward mode  </td><td class="markdownTableBodyNone">full  </td><td class="markdownTableBodyCenter">any, at \(2^n\) components  </td><td class="markdownTableBodyNone">the program, and a type it accepts  </td></tr>
+<td class="markdownTableBodyNone">Forward mode  </td><td class="markdownTableBodyNone">rounding only  </td><td class="markdownTableBodyCenter">any; \(2^n\) components with hyperduals  </td><td class="markdownTableBodyNone">the program and a type it accepts  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Reverse mode  </td><td class="markdownTableBodyNone">full  </td><td class="markdownTableBodyCenter">first, higher by nesting  </td><td class="markdownTableBodyNone">the program, and a record of its execution  </td></tr>
+<td class="markdownTableBodyNone">Reverse mode  </td><td class="markdownTableBodyNone">rounding only  </td><td class="markdownTableBodyCenter">first, higher by nesting  </td><td class="markdownTableBodyNone">the program and a record of its execution  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Complex step  </td><td class="markdownTableBodyNone">full  </td><td class="markdownTableBodyCenter">first only  </td><td class="markdownTableBodyNone">an analytic function, and complex arithmetic  </td></tr>
-<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Difference quotient  </td><td class="markdownTableBodyNone">half the digits, at best  </td><td class="markdownTableBodyCenter">any, degrading fast  </td><td class="markdownTableBodyNone">nothing  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Complex step  </td><td class="markdownTableBodyNone">rounding only  </td><td class="markdownTableBodyCenter">first only  </td><td class="markdownTableBodyNone">a real analytic function and complex arithmetic  </td></tr>
 </table>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Method  </th><th class="markdownTableHeadNone">In the library  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Symbolic differentiation  </td><td class="markdownTableBodyNone">Planned as a second layer: an expression carrying its own derivative as another expression, differentiated once and evaluated as often as wanted.  </td></tr>
+<td class="markdownTableBodyNone">Symbolic differentiation  </td><td class="markdownTableBodyNone">Planned as a second layer: an expression carrying its own derivative as another expression, differentiated once and evaluated any number of times.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Forward mode  </td><td class="markdownTableBodyNone">Yes, and it is the whole of the library: hyperduals up to order 4, on scalars as on SIMD registers.  </td></tr>
+<td class="markdownTableBodyNone">Forward mode  </td><td class="markdownTableBodyNone">Yes, and it is the whole of the library: hyperduals up to order 4, on scalars and on SIMD registers alike.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Reverse mode  </td><td class="markdownTableBodyNone">No. It answers the other shape of problem and is a design of its own.  </td></tr>
+<td class="markdownTableBodyNone">Reverse mode  </td><td class="markdownTableBodyNone">No. It serves many inputs and few outputs, and requires a separate design.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Complex step  </td><td class="markdownTableBodyNone">No. The nilpotent units remove the step at any order, where this removes it at the first.  </td></tr>
+<td class="markdownTableBodyNone">Complex step  </td><td class="markdownTableBodyNone">No. The nilpotent units remove the step at every order; the complex step removes it at the first only.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Difference quotient  </td><td class="markdownTableBodyNone">No. It approximates what an arithmetic carries exactly.  </td></tr>
+<td class="markdownTableBodyNone">Difference quotient  </td><td class="markdownTableBodyNone">No. It approximates what an arithmetic method computes exactly.  </td></tr>
 </table>
-<p>Forward mode is therefore the whole of the library, and <a class="el" href="flx_algebra.html" title="Hyperdual Algebra">Hyperdual Algebra</a> is the arithmetic it carries its derivatives in.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_methods_refs"></a>
 References</h1>
 <ul>

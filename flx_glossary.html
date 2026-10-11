@@ -136,7 +136,6 @@ $(function(){initNavTree('flx_glossary.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__2____w_2fluxion_2fluxion_2doc_2glossary"></a></p>
-<p>The terms these pages use.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_gl_float"></a>
 Floating-point arithmetic</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md0"></a>
@@ -144,37 +143,40 @@ Unit roundoff</h2>
 <p>The largest relative error a single correctly rounded floating-point operation can make, written \(u\). It is \(2^{-24}\) for <span class="tt">float</span> and \(2^{-53}\) for <span class="tt">double</span>, and it sets the number of digits any result can hold.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
 Cancellation</h2>
-<p>The loss of significant digits when two nearby values are subtracted. The difference is computed exactly, and the digits the two operands had in common are gone from it, so the error they already carried becomes the leading part of the result. It is what a difference quotient runs into as \(h\) shrinks.</p>
+<p>The loss of significant digits when two nearby values are subtracted. The difference is computed exactly, and the digits the two operands had in common disappear from it, so the error they already carried becomes the leading part of the result. It limits a difference quotient as \(h\) shrinks.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Truncation error</h2>
-<p>The part of a formula that is dropped. A forward difference omits a term of order \(h\), which is its truncation error, and it shrinks with \(h\) where the cancellation grows.</p>
+<p>The part of a formula that is dropped. A forward difference omits a term of order \(h\), which is its truncation error, and it shrinks with \(h\) while the cancellation grows.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_gl_algebra"></a>
 Algebra</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
-Nilpotent</h2>
-<p>An element whose power vanishes. The units of <a class="el" href="flx_algebra.html" title="Hyperdual Algebra">Hyperdual Algebra</a> satisfy \(\varepsilon_i^2 = 0\), and any element with no real part satisfies \(N^{n+1} = 0\) at order \(n\).</p>
+Unit</h2>
+<p>A symbol \(\varepsilon_i\) adjoined to the reals with \(\varepsilon_i \neq 0\) and \(\varepsilon_i^2 = 0\), called the dual unit in the literature, defined in <a class="el" href="flx_algebra.html#flx_one_unit" title="Dual numbers">Dual numbers</a>. An element of order \(n\) carries \(n\) of them, and each of its components is indexed by the set of units that component carries. The unit roundoff of <a class="el" href="#flx_gl_float" title="Floating-point arithmetic">Floating-point arithmetic</a> is an unrelated term.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
-Order</h2>
-<p>In <b>FLUXION</b>, the number of nilpotent units a value carries, written <span class="tt">Ord</span> in the types. A value of order \(n\) holds \(2^n\) components and answers derivatives up to the \(n\)-th.</p>
-<h1 class="doxsection"><a class="anchor" id="flx_gl_simd"></a>
-Vector registers</h1>
+Nilpotent</h2>
+<p>An element some power of which is zero. The units of <a class="el" href="flx_algebra.html" title="Hyperdual Algebra">Hyperdual Algebra</a> satisfy \(\varepsilon_i^2 = 0\), and any element with no real part satisfies \(N^{n+1} = 0\) at order \(n\).</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Cardinal</h2>
-<p>The number of lanes of a SIMD register, EVE's term, read by <span class="tt">eve::cardinal_v</span>. It counts the points evaluated together, where the order counts the derivatives one point carries.</p>
+Order</h2>
+<p>In <b>FLUXION</b>, the number of nilpotent units an element carries, written <span class="tt">Ord</span> in the types. An element of order \(n\) holds \(2^n\) components and derivatives up to the \(n\)-th.</p>
+<h1 class="doxsection"><a class="anchor" id="flx_gl_simd"></a>
+SIMD registers</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+Cardinal</h2>
+<p>EVE's term for the number of lanes of a SIMD register, read by <span class="tt">eve::cardinal_v</span>. It counts the points evaluated together, while the order counts the derivatives one point carries.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
 Structure of arrays</h2>
 <p>A layout storing one array per field rather than one record per element. <span class="tt">eve::wide</span> of a hyperdual holds one register per component, so an operation on a component is one SIMD instruction.</p>
 <h1 class="doxsection"><a class="anchor" id="flx_gl_ad"></a>
 Automatic differentiation</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
-Seeding</h2>
-<p>Giving a value the nilpotent units the derivatives against it will be indexed by. Griewank and Walther's term for the same operation in the forward mode.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
-Forward mode</h2>
-<p>Automatic differentiation carrying the derivatives alongside the value, in the order the program computes. One pass returns the value and the derivatives with respect to whatever was seeded.</p>
+Seeding</h2>
+<p>Assigning nilpotent units to an argument, so that the derivatives with respect to it are indexed by those units. Griewank and Walther's term for the same operation in forward mode. In <b>FLUXION</b> it is <span class="tt"><a class="el" href="group__types_ga487d2e600f4745c7eae18474d9641300.html#ga487d2e600f4745c7eae18474d9641300" title="Turn a value into a variable of the given order.">flx::variable</a></span>, <span class="tt"><a class="el" href="group__types_gad882c0e62192532ad693d74ebdeb394d.html#gad882c0e62192532ad693d74ebdeb394d" title="Turn the arguments of a call into variables, each along the units it is differentiated by.">flx::variables</a></span>, and the <span class="tt"><a class="el" href="group__types.html#ga02fcc261be278ce3a28010fe7f07b998" title="The tag instance, ready to pass.">flx::var</a></span> constructor (see <a class="el" href="flx_seeding.html#flx_assignment" title="Differentiation list">Differentiation list</a>).</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+Forward mode</h2>
+<p>Automatic differentiation carrying the derivatives alongside the value, in the sequence the program computes. One pass returns the value and the derivatives with respect to the seeded arguments.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Reverse mode</h2>
-<p>Automatic differentiation recording the operations of an evaluation, then walking the record backwards to accumulate derivatives. One forward pass and one backward pass return the gradient against every input, at the cost of storing the record.</p>
+<p>Automatic differentiation recording the operations of an evaluation, then traversing the record backward to accumulate derivatives. One forward pass, which stores the record, and one backward pass return the gradient with respect to every input.</p>
 <div class="section_buttons"></div><div class="section_buttons"><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadLeft">Previous  </th></tr>
