@@ -19,7 +19,7 @@
 //======================================================================================================================
 namespace tts
 {
-  template<typename T, typename N> struct comparison<eve::wide<T, N>, eve::wide<T, N>>
+  template<typename T, eve::width_type N> struct comparison<eve::wide<T, N>, eve::wide<T, N>>
   {
     static bool equal(eve::wide<T, N> const& l, eve::wide<T, N> const& r)
     {

@@ -247,7 +247,7 @@ namespace flx::_
   template<typename T, unsigned int Order>
   inline constexpr unsigned int rank<hyperdual<T, Order>> = 1 << Order;
 
-  template<typename T, unsigned int Order, typename L>
+  template<typename T, unsigned int Order, eve::width_type L>
   inline constexpr unsigned int rank<eve::wide<hyperdual<T, Order>, L>> = 1 << Order;
 }
 

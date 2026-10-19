@@ -166,9 +166,9 @@ A component may be a SIMD register rather than a scalar, and the construction is
 machine has lanes, and seeding a wide value seeds every lane, so one evaluation returns the
 derivatives at as many points as there are lanes.
 
-The cardinal is independent of the order: the order counts the derivatives carried at one point, the
-cardinal the points evaluated together. The order is read from the element type, the cardinal from
-`eve::cardinal_v`, and two wide operands must have the same number of lanes.
+The width is independent of the order: the order counts the derivatives carried at one point, the
+width the points evaluated together. The order is read from the element type, the width from
+`eve::width_v`, and two wide operands must have the same number of lanes.
 
 <div class="section_buttons">
 

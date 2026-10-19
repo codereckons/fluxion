@@ -219,7 +219,7 @@ int main()
 }
 ```
 
-The order and the cardinal are independent: `flx::variable<2>` applied to the same wide gives second
+The order and the width are independent: `flx::variable<2>` applied to the same wide gives second
 derivatives in every lane, with twice the storage.
 
 <div class="section_buttons">
