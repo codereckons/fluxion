@@ -22,7 +22,7 @@ namespace flx
     // single bit, and order_of reads which unit that is.
     template<std::size_t P, std::size_t... Is, typename T>
     [[nodiscard]]
-    FLX_FORCEINLINE constexpr auto seed_of(T v) noexcept
+    FLX_ABI constexpr auto seed_of(T v) noexcept
     {
       constexpr std::size_t owner[] = {Is...};
 
