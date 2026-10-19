@@ -55,7 +55,7 @@ var background =
         [ "Order", "flx_glossary.html#autotoc_md5", null ]
       ] ],
       [ "SIMD registers", "flx_glossary.html#flx_gl_simd", [
-        [ "Cardinal", "flx_glossary.html#autotoc_md6", null ],
+        [ "Width", "flx_glossary.html#autotoc_md6", null ],
         [ "Structure of arrays", "flx_glossary.html#autotoc_md7", null ]
       ] ],
       [ "Automatic differentiation", "flx_glossary.html#flx_gl_ad", [

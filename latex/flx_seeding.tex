@@ -142,7 +142,7 @@ An operand of order 2 carries no third derivative, and filling it with zeros wou
 Only a plain scalar converts to the type it is mixed with. A hyperdual or a wide fixes its element type, and two operands with different element types have no common type:\+ mixing them does not compile.\hypertarget{flx_seeding_flx_wide}{}\doxysubsubsection{\texorpdfstring{Evaluation on SIMD registers}{Evaluation on SIMD registers}}\label{flx_seeding_flx_wide}
 A component may be a SIMD register rather than a scalar, and the construction is unchanged. {\ttfamily eve::\+wide\texorpdfstring{$<$}{<}\doxylink{structflx_1_1hyperdual}{flx::\+hyperdual}\texorpdfstring{$<$}{<}double,2\texorpdfstring{$>$}{>}\texorpdfstring{$>$}{>}} is a structure of arrays holding as many hyperduals as the machine has lanes, and seeding a wide value seeds every lane, so one evaluation returns the derivatives at as many points as there are lanes.
 
-The cardinal is independent of the order:\+ the order counts the derivatives carried at one point, the cardinal the points evaluated together. The order is read from the element type, the cardinal from {\ttfamily eve::\+cardinal\+\_\+v}, and two wide operands must have the same number of lanes.
+The width is independent of the order:\+ the order counts the derivatives carried at one point, the width the points evaluated together. The order is read from the element type, the width from {\ttfamily eve::\+width\+\_\+v}, and two wide operands must have the same number of lanes.
 
 
 

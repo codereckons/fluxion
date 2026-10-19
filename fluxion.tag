@@ -62,31 +62,31 @@
       <arglist>(T0 v0, Ts... vs) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>FLX_FORCEINLINE auto &amp;</type>
+      <type>FLX_ABI auto &amp;</type>
       <name>operator++</name>
       <anchorfile>structflx_1_1hyperdual.html</anchorfile>
-      <anchor>ae440e03fa9946b379687514576b6eac5</anchor>
+      <anchor>aa028e63da206d36135109176167899a7</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
-      <type>FLX_FORCEINLINE auto</type>
+      <type>FLX_ABI auto</type>
       <name>operator++</name>
       <anchorfile>structflx_1_1hyperdual.html</anchorfile>
-      <anchor>ad5565db3360e425e19e1b81878c709d5</anchor>
+      <anchor>a0ec23a5dcfb9af3f33cbd7f5b86a9932</anchor>
       <arglist>(int) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>FLX_FORCEINLINE auto &amp;</type>
+      <type>FLX_ABI auto &amp;</type>
       <name>operator--</name>
       <anchorfile>structflx_1_1hyperdual.html</anchorfile>
-      <anchor>a21fd4a357d47c851e8110bf5e90fd625</anchor>
+      <anchor>a586e3b3f55b9d91e3af74a0f2875a182</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
-      <type>FLX_FORCEINLINE auto</type>
+      <type>FLX_ABI auto</type>
       <name>operator--</name>
       <anchorfile>structflx_1_1hyperdual.html</anchorfile>
-      <anchor>a032098eaaf46a3e73196de7ead4752d8</anchor>
+      <anchor>af63cc621c6a7a01f84f71c245c659d27</anchor>
       <arglist>(int) noexcept</arglist>
     </member>
     <member kind="function">

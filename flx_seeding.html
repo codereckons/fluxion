@@ -244,7 +244,7 @@ Mixed orders</h1>
 <h1 class="doxsection"><a class="anchor" id="flx_wide"></a>
 Evaluation on SIMD registers</h1>
 <p>A component may be a SIMD register rather than a scalar, and the construction is unchanged. <span class="tt">eve::wide&lt;<a class="el" href="structflx_1_1hyperdual.html" title="hyperdual numbers main abstraction It is built so that all operations can be done in a streamlined fa...">flx::hyperdual</a>&lt;double,2&gt;&gt;</span> is a structure of arrays holding as many hyperduals as the machine has lanes, and seeding a wide value seeds every lane, so one evaluation returns the derivatives at as many points as there are lanes.</p>
-<p>The cardinal is independent of the order: the order counts the derivatives carried at one point, the cardinal the points evaluated together. The order is read from the element type, the cardinal from <span class="tt">eve::cardinal_v</span>, and two wide operands must have the same number of lanes.</p>
+<p>The width is independent of the order: the order counts the derivatives carried at one point, the width the points evaluated together. The order is read from the element type, the width from <span class="tt">eve::width_v</span>, and two wide operands must have the same number of lanes.</p>
 <div class="section_buttons"></div><div class="section_buttons"><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadLeft">Previous  </th><th class="markdownTableHeadRight">Next  </th></tr>
