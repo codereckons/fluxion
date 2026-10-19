@@ -10,7 +10,7 @@
 #include <eve/detail/abi.hpp>
 
 // Faster than std::forward
-// Perfect forwarding and forced inlining, deferred to EVE so both libraries agree on what they
+// Perfect forwarding and function attributes, deferred to EVE so both libraries agree on what they
 // mean.
-#define FLX_FWD(...)    EVE_FWD(__VA_ARGS__)
-#define FLX_FORCEINLINE EVE_FORCEINLINE
+#define FLX_FWD(...) EVE_FWD(__VA_ARGS__)
+#define FLX_ABI      EVE_ABI

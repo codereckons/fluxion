@@ -26,7 +26,7 @@ namespace flx
     // and zero elsewhere.
     template<std::size_t Order, typename T>
     [[nodiscard]]
-    FLX_FORCEINLINE constexpr auto powersof2() noexcept
+    FLX_ABI constexpr auto powersof2() noexcept
     {
       T z(0);
       T o(1);
@@ -129,21 +129,21 @@ namespace flx
     //==================================================================================================================
 
     //! Pre-incrementation operator
-    FLX_FORCEINLINE auto& operator++() noexcept
+    FLX_ABI auto& operator++() noexcept
     {
       kumi::get<0>(contents)++;
       return *this;
     }
 
     //! Pre-decrementation operator
-    FLX_FORCEINLINE auto& operator--() noexcept
+    FLX_ABI auto& operator--() noexcept
     {
       kumi::get<0>(contents)--;
       return *this;
     }
 
     //! Post-incrementation operator
-    FLX_FORCEINLINE auto operator++(int) noexcept
+    FLX_ABI auto operator++(int) noexcept
     {
       auto that(*this);
       this->operator++();
@@ -151,7 +151,7 @@ namespace flx
     }
 
     //! Post-decrementation operator
-    FLX_FORCEINLINE auto operator--(int) noexcept
+    FLX_ABI auto operator--(int) noexcept
     {
       auto that(*this);
       this->operator--();
@@ -213,7 +213,7 @@ namespace flx
   template<unsigned int Ord, concepts::hyperdual T>
     requires(Ord >= 1 && Ord <= order_v<T>)
   [[nodiscard]]
-  FLX_FORCEINLINE constexpr auto restrict_to(T const& x) noexcept
+  FLX_ABI constexpr auto restrict_to(T const& x) noexcept
   {
     using r_t = as_hyperdual_n_t<Ord, T>;
 
