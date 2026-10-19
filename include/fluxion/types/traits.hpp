@@ -23,8 +23,8 @@ namespace flx
 namespace flx::_
 {
   // The arithmetic semantics of a type: the scalar its components are made of, whatever wraps them.
-  // Lanes are none of its business, widen puts them back below from the cardinal each type really
-  // has. Reading them here through a wide of the element's native cardinal, as this used to,
+  // Lanes are none of its business, widen puts them back below from the width each type really
+  // has. Reading them here through a wide of the element's native width, as this used to,
   // invents a lane count that then acts as a constraint, and refuses a pack whose real lanes agree.
   template<typename T> using sema_t = eve::underlying_type_t<T>;
 
@@ -56,7 +56,7 @@ namespace flx::_
   // with, a wide of floats being no more convertible to an algebra of doubles than to a wide of
   // them.
   template<typename T>
-  inline constexpr bool adapts = !concepts::hyperdual<T> && eve::cardinal_v<T> == 1;
+  inline constexpr bool adapts = !concepts::hyperdual<T> && eve::width_v<T> == 1;
 
   template<typename... Ts> struct declared_element
   {
@@ -98,10 +98,9 @@ namespace flx::_
 
   // Convert a Base type to a potential wide if any appear in T...
   template<typename Base, typename... T>
-  using widen =
-      std::conditional_t<std::max({eve::cardinal_v<T>...}) != 1ULL,
-                         eve::as_wide_t<Base, eve::fixed<std::max({eve::cardinal_v<T>...})>>,
-                         eve::element_type_t<Base>>;
+  using widen = std::conditional_t<std::max({eve::width_v<T>...}) != 1ULL,
+                                   eve::as_wide_t<Base, std::max({eve::width_v<T>...})>,
+                                   eve::element_type_t<Base>>;
 }
 
 namespace flx
@@ -160,7 +159,7 @@ namespace flx
   {
     using type = T;
   };
-  template<typename T, typename N> struct as_base_type<eve::wide<T, N>>
+  template<typename T, eve::width_type N> struct as_base_type<eve::wide<T, N>>
   {
     using type = eve::wide<typename as_base_type<T>::type, N>;
   };
@@ -194,9 +193,9 @@ namespace flx
     requires(Ord > 0)
   struct as_hyperdual_n<Ord, T>
   {
-    static constexpr auto card = eve::cardinal_v<T>;
+    static constexpr auto card = eve::width_v<T>;
     using cd_t = hyperdual<eve::as_floating_point_t<eve::underlying_type_t<T>>, Ord>;
-    using type = std::conditional_t<card != 1ULL, eve::wide<cd_t, eve::fixed<card>>, cd_t>;
+    using type = std::conditional_t<card != 1ULL, eve::wide<cd_t, card>, cd_t>;
   };
 #endif
 

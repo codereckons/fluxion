@@ -42,9 +42,9 @@ element of order \f$n\f$ holds \f$2^n\f$ components and derivatives up to the \f
 
 # SIMD registers {#flx_gl_simd}
 
-## Cardinal
+## Width
 
-EVE's term for the number of lanes of a SIMD register, read by `eve::cardinal_v`. It counts the
+EVE's term for the number of lanes of a SIMD register, read by `eve::width_v`. It counts the
 points evaluated together, while the order counts the derivatives one point carries.
 
 ## Structure of arrays

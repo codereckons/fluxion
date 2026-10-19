@@ -7,10 +7,9 @@
 //======================================================================================================================
 #include <test.hpp>
 
-template<typename T> using wide_of = eve::wide<T>;
+template<typename T> using wide_of             = eve::wide<T>;
 
-template<typename B, typename H>
-using widened = eve::wide<H, eve::fixed<eve::cardinal_v<wide_of<B>>>>;
+template<typename B, typename H> using widened = eve::wide<H, eve::width_v<wide_of<B>>>;
 
 // Through a variable template, so that a pack with no common type is a false and not an error.
 template<typename... Ts>
@@ -42,7 +41,7 @@ TTS_CASE_TPL("A base value joins the algebra it meets", orders)
   TTS_CONSTEXPR_EXPECT_NOT((mixes<wide_of<float>, hd>));
   TTS_CONSTEXPR_EXPECT_NOT((mixes<wide_of<double>, hf>));
 
-  TTS_CONSTEXPR_EQUAL(eve::cardinal_v<hd>, 1);
+  TTS_CONSTEXPR_EQUAL(eve::width_v<hd>, 1);
 };
 
 // The smallest order wins: an operand of order two carries no third derivative, and filling one
@@ -99,7 +98,7 @@ template<typename A, typename B> void follows_eve()
 
     TTS_TYPE_IS((eve::as_floating_point_t<eve::underlying_type_t<from_eve>>),
                 (eve::underlying_type_t<ours>));
-    TTS_EXPECT(eve::cardinal_v<from_eve> == eve::cardinal_v<ours>);
+    TTS_EXPECT(eve::width_v<from_eve> == eve::width_v<ours>);
   }
 }
 
@@ -113,9 +112,9 @@ TTS_CASE("Every pair of base values answers what EVE answers")
          int,
          wide_of<double>,
          wide_of<float>,
-         eve::wide<double, eve::fixed<1>>,
-         eve::wide<double, eve::fixed<4>>,
-         eve::wide<float, eve::fixed<2>>>();
+         eve::wide<double, 1>,
+         eve::wide<double, 4>,
+         eve::wide<float, 2>>();
 };
 
 TTS_CASE("The rule fluxion does not follow")
