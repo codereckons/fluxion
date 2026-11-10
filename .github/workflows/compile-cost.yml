@@ -27,6 +27,6 @@ jobs:
     uses: jfalcou/copacabana/.github/workflows/compile-cost.yml@main
     with:
       project: fluxion
-      image: ghcr.io/jfalcou/compilers:v10
+      image: ghcr.io/jfalcou/compilers:v11
       series: true
       exclude: '^doc\.'
