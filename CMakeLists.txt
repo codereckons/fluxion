@@ -26,7 +26,11 @@ endif()
 ##======================================================================================================================
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake ${COPACABANA_SOURCE_DIR}/copacabana/cmake)
 include(${COPACABANA_SOURCE_DIR}/copacabana/cmake/copacabana.cmake)
-copa_project_version(MAJOR 0 MINOR 1 PATCH 0 REPOSITORY https://github.com/codereckons/fluxion)
+copa_project_version(
+  MAJOR 0
+  MINOR 1
+  PATCH 0
+  REPOSITORY https://github.com/codereckons/fluxion)
 
 ##======================================================================================================================
 ## Summary Display

@@ -5,7 +5,7 @@
 ##======================================================================================================================
 ## Read by copacabana's matrix.yml: the rows below are the linux jobs, one per row and configuration.
 runs-on: ubuntu-latest
-image: v10
+image: v11
 memcheck: true
 rows:
   - { name: "gcc"   , preset: "gcc"   }
