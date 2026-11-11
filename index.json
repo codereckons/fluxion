@@ -1,0 +1,20 @@
+[
+ {
+  "branch": "main",
+  "cpu_us": 6188476,
+  "date": "2026-11-11T16:18:16Z",
+  "link_cpu_us": 105260,
+  "link_peak_kib": 76588,
+  "links": 4,
+  "modules": {
+   "unit": {
+    "cpu_us": 6188476,
+    "peak_kib": 343292,
+    "units": 4
+   }
+  },
+  "peak_kib": 343292,
+  "sha": "2bc4d9f131d0e1a9313779988f95b3646ed250f2",
+  "units": 4
+ }
+]
