@@ -20,9 +20,9 @@
             "branch_percent": 77.8,
             "branch_total": 9,
             "filename": "include/fluxion/types/io.hpp",
-            "function_covered": 6,
+            "function_covered": 7,
             "function_percent": 100.0,
-            "function_total": 6,
+            "function_total": 7,
             "line_covered": 7,
             "line_percent": 87.5,
             "line_total": 8
@@ -40,9 +40,9 @@
             "line_total": 3
         }
     ],
-    "function_covered": 44,
+    "function_covered": 45,
     "function_percent": 100.0,
-    "function_total": 44,
+    "function_total": 45,
     "gcovr/summary_format_version": "0.6",
     "line_covered": 32,
     "line_percent": 97.0,
