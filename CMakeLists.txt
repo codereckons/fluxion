@@ -17,7 +17,7 @@ option(FLUXION_COMPILE_COST "Measure what every test unit costs to compile" OFF)
 include(${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake)
 
 if(FLUXION_BUILD_TEST)
-  CPMGetPackage(TTS)
+  fluxion_get_package(TTS)
   include(${PROJECT_SOURCE_DIR}/cmake/compiler.cmake)
 endif()
 
@@ -43,6 +43,8 @@ if(NOT FLUXION_QUIET)
   message(STATUS "[${PROJECT_NAME}] - Doxygen    : ${FLUXION_BUILD_DOCUMENTATION} (via FLUXION_BUILD_DOCUMENTATION)")
   message(STATUS "[${PROJECT_NAME}] - Sanitizers : ${FLUXION_ENABLE_SANITIZERS} (via FLUXION_ENABLE_SANITIZERS)")
   message(STATUS "[${PROJECT_NAME}] - Coverage   : ${FLUXION_ENABLE_COVERAGE} (via FLUXION_ENABLE_COVERAGE)")
+  message(
+    STATUS "[${PROJECT_NAME}] - Externals  : ${FLUXION_EXTERNAL_DEPENDENCIES} (via FLUXION_EXTERNAL_DEPENDENCIES)")
   set(QUIET_OPTION "")
 else()
   set(QUIET_OPTION "QUIET")
