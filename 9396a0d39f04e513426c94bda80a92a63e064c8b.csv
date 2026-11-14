@@ -1,0 +1,8 @@
+"clang","test/CMakeFiles/unit.truncation.exe.dir/Debug/unit/truncation.cpp.o",3518721,3298676,305244
+"clang","test/CMakeFiles/unit.traits.exe.dir/Debug/unit/traits.cpp.o",3982464,3741497,346184
+"clang","test/CMakeFiles/unit.types.exe.dir/Debug/unit/types.cpp.o",3428857,3230866,298140
+"ld","unit/Debug/unit.traits.exe",54788,30405,77128
+"ld","unit/Debug/unit.truncation.exe",57575,28877,76140
+"ld","unit/Debug/unit.types.exe",56447,34779,77152
+"clang","test/CMakeFiles/unit.variables.exe.dir/Debug/unit/variables.cpp.o",3387671,3153763,297044
+"ld","unit/Debug/unit.variables.exe",52925,34377,75912
